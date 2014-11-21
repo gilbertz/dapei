@@ -106,9 +106,9 @@ class User < ActiveRecord::Base
     t.add :dapei_likes_count
     t.add lambda { |user| user.get_level.to_s }, :as => :level
     #t.add lambda{|user| user.dapei_score.to_s}, :as => :dapei_score
-    t.add lambda { |user| user.get_experience }, :as => :experience
-    t.add lambda { |user| user.get_active_honour }, :as => :honour
-    t.add lambda { |user| user.get_honour_images }, :as => :honour_images
+    #t.add lambda { |user| user.get_experience }, :as => :experience
+    #t.add lambda { |user| user.get_active_honour }, :as => :honour
+    #t.add lambda { |user| user.get_honour_images }, :as => :honour_images
     t.add :checked
     t.add :check_times
     t.add :level_bg_img
@@ -138,7 +138,7 @@ class User < ActiveRecord::Base
     t.add lambda { |user| user.dapei_count.to_s }, :as => :dapei_count
     t.add lambda { |user| user.followers_count.to_s }, :as => :followers_count
     t.add lambda { |user| user.get_level.to_s }, :as => :level
-    t.add lambda { |user| user.show_fashion_level.to_s }, :as => :fashion_level
+    #t.add lambda { |user| user.show_fashion_level.to_s }, :as => :fashion_level
   end
 
 
