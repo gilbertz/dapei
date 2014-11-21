@@ -1,0 +1,44 @@
+-#%h1 Notifications#index
+-#%p Find me in app/views/notifications/index.html.haml
+
+-#%h1
+  %p 
+    Notification Number:
+    =@mailbox.notifications.not_trashed.unread.count.to_s
+    = link_to "标记已读", update_all_notifications_path(:page => params[:page]), :method => :put
+  = paginate @notifications
+/ 完善资料
+.recom-p.clearfix.my_news
+  .hd
+    %strong
+      消息中心
+    %a.mark_up{:href => "#"}
+  .clearfix.bd
+    -#.left
+      -#%ul
+        -#%li.whole
+          %a{:href => "#"} 所有消息
+          / (#{@mailbox.notifications.not_trashed.unread.count.to_s})
+        -#%li
+          %a{:href => "#"}
+            店铺消息
+        -#%li
+          %a{:href => "#"}
+            好友动态
+            / (
+            / %em> 10
+            / )
+        -#%li
+          %a{:href => "#"}
+            系统通知
+    .right
+      -if @notifications.length<1
+        %p 您还没有任何消息.
+      %ul.message_bd
+        - @group_days.each do |day, notes|
+          %li
+            %h2 #{day}
+            -notes.each do |note|
+              - read_class = note.is_unread?(@current_user) ? 'unread' : ''
+              = render :partial => 'notification', :object=>note, :locals => {:read_class => read_class}
+      = paginate @notifications

@@ -1,0 +1,58 @@
+%li{:id=>"#{dis_class}", :class=>"infli"}
+  %a{:href => "#{dapei_view_path(dapei)}", :target=>"_blank"}
+    /%img{:alt => "", :src => "/assets/img.jpg"}/
+    %img{:alt=>"#{dapei_photo_alt(dapei)}",:title =>"#{dapei_photo_title(dapei)}", :src => "#{dapei.img_url(:scaled_medium)}"}/
+  .dapei-title
+    .text #{dapei.title}搭配
+    .shop-tool.pull-right.dapei_lover_icon
+      -if user_signed_in?
+        %a{:href=>"javascript:void(0)", :title=>"点击进行收藏", :likes_count=>"#{dapei.likes_count}", :liked_type=>"Item", :liked_id=>"#{dapei.url}" }
+          %span.shoucang.black-b
+            %img{:src => "/assets/newweb/shoucang.png"}
+          %span.like_num
+            +#{dapei.likes_count}人喜欢
+      -else
+        %a{:href => "#{layer_sign_in_path}", :title=>"点击进行收藏", :rel => "facebox[.about]"}
+          %span.shoucang.black-b
+            %img{:src => "/assets/newweb/shoucang.png"}
+          %span.like_num
+            +#{dapei.likes_count}人喜欢
+  .dapei-user
+    %span
+      by 
+    %span
+      %a{:href=>"#{user_path(dapei.get_user)}"} #{dapei.get_user.name}
+    %span 
+      - if current_user and current_user.id == dapei.user_id
+        - if dapei.level.to_i >= 2
+          (被推荐到首页)
+        - else
+          (发布成功)
+    .shop-tool.pull-right
+      %a{:href => "#{dapei_view_path(dapei)}", :target=>"_blank"}
+        %span.comments.black-b
+          %img{:src => "/assets/newweb/comments.png"}
+        #{dapei.comments_count}人评论
+    %span
+      - if current_user
+        - like = Like.find_by_user_id_and_target_id_and_target_type(current_user.id, dapei.id, "Item")
+        - if like
+          .recommend_dapei
+            = link_to "取消搜藏" , "/social/likes/#{like.id}", :class=>"delete", :title=>"删除",:method=>"delete", :confirm=>"确定删除吗?"
+        - elsif current_user.id == dapei.user_id
+          .recommend_dapei
+            = link_to "删除" ,dapei_path(dapei), :class=>"delete", :title=>"删除",:method=>"delete", :confirm=>"确定删除吗?"
+  .dapei-edit
+    - if current_user 
+      - if current_user.can_be_admin
+        .recommend_dapei
+          = dapei.created_at.localtime.strftime("%F %H:%M")
+          %a{:href=>"#{recommend_item_path(dapei)}", :data => { :confirm => "Are you sure?" }}推荐
+          %a{:href=>"#{like_dapei_path(dapei)}", :data => { :confirm => "Are you sure?" }}刷赞
+          %a{:href=>"#{follow_dapei_author_path(dapei)}", :data => { :confirm => "Are you sure?" }}刷粉
+          - if dapei.get_user.is_robot 
+            (假)
+
+          = link_to "weixin" ,weixin_dapei_path(dapei), :class=>"editor",  :title=>"weixin"
+          = link_to "edit(#{dapei.level})" , "/manage/dapeis/#{dapei.url}/edit", :class=>"editor",  :title=>"编辑"
+          = link_to "delete" ,dapei_path(dapei), :class=>"delete", :title=>"删除",:method=>"delete", :confirm=>"确定删除吗?"

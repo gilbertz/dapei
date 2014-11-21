@@ -1,0 +1,40 @@
+/ 完善资料
+.recom-p.clearfix.perfect_info
+  =render "left_bar"
+  .right_content
+    %h1 展示中的宝贝信息
+    .master_c
+      .hd
+        -#%ul
+          %li.selected
+            %a{:href => "#"} 宝贝评论
+          %li
+            %a{:href => "#"} 店铺评论
+      .bd
+        .comment_bd
+          %table.comment_tab{:width => "100%"}
+            %colgroup
+              %col{:width => ""}/
+              %col{:width => "140"}/
+              %col{:width => "120"}/
+              %col{:width => "120"}/
+              %col{:width => "120"}/
+              %col{:width => "150"}/
+              %col{:width => "160"}/
+            %thead
+              %tr
+                %th{:scope => "col"} 宝贝图片
+                %th{:scope => "col"} 是否删除
+                %th{:scope => "col"} level
+                %th{:scope => "col"} 宝贝名称
+                %th{:scope => "col"} 价格
+                %th{:scope => "col"} 类别
+                %th{:scope => "col"} 操作
+            %tbody
+              - i=0
+              - @skus.each do |sku|
+                - i=i+1
+                - color_class = i%2==1 ?  'Back_color' : ''
+                =render :partial=>"sku", :locals=>{:sku=>sku, :color_class=>color_class }
+          
+          = paginate @skus

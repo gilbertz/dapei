@@ -1,0 +1,73 @@
+<div class="row">
+  <div class="col-lg-12">
+
+    <div class="page-header">
+      <h2>
+        发送消息
+      </h2>
+    </div>
+
+    <div>
+        <%= form_for [:manage, @user, @message] do |f| %>
+
+            <div class="form-group">
+              <%= label_tag "接受消息用户"  %>
+              <p class="help-block">
+                <%= @user.display_name %>
+              </p>
+            </div>
+
+            <%= f.hidden_field :accept_id %>
+
+            <div class="form-group">
+              <%= label_tag "消息内容" %>
+              <%= f.text_area :content, class: "form-control", style: "height: 50px" %>
+            </div>
+
+            <div class="form-group">
+              <%= label_tag "发送人"  %>
+              <%= f.select :sender_id, @users_for_sender_selected, {}, class: "form-control" %>
+            </div>
+
+            <div class="form-group">
+              <%= label_tag "链接地址" %>
+              <%= f.text_field :link_url, class: "form-control" %>
+            </div>
+
+            <div class="form-group">
+              <%= f.submit "确定发送" %>
+            </div>
+        <% end %>
+    </div>
+
+
+    <div>
+      <div class="page-header">
+        <h2>历史消息</h2>
+      </div>
+
+      <% unless @history_messages.blank? %>
+        <table class="table table-bordered">
+
+        <% @history_messages.each do |m| %>
+
+          <tr>
+            <td>
+              <%= m.content %>
+            </td>
+            <td>
+              <%= m.link_url %>
+            </td>
+            <td>
+              <%= link_to "删除", manage_user_message_path(@user, m), :method => :delete, confirm: "确定删除这条消息?" %>
+            </td>
+          </tr>
+
+        <% end %>
+        </table>
+      <% end %>
+
+    </div>
+
+  </div>
+</div>

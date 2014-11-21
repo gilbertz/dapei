@@ -1,0 +1,21 @@
+<div class="bs-sidebar hidden-print affix-top" role="complementary">
+  <ul class="nav bs-sidenav">
+    <li class="active">
+      <%= link_to '品牌管理', '#download' %>
+      <ul class="nav">
+        <li class="<%= ac_active(:brands,:new) %>"> 
+          <%= link_to '开牌', [:new,:manage,:brand] %> 
+        </li>
+        <li class="<%= ac_active(:brands,:index) %>"> 
+          <%= link_to '品牌列表', [:manage, :brands] %> 
+        </li>
+        <li class="<%= ac_active(:brand_tags,:index) %>"> 
+          <%= link_to '品牌类别', [:manage, :brand_tags] %> 
+        </li>
+        <li class="<%= ac_active(:spiders, :index) %>"> 
+          <%= link_to '爬虫列表', [:manage, :spiders] %> 
+        </li>
+      </ul>
+    </li>
+  </ul>
+</div>

@@ -1,0 +1,62 @@
+@charset "utf-8";
+/*------------------------------------*\
+	MAIN
+\*------------------------------------*/
+html{font-family: 微软雅黑;color: #888;}
+
+#footer {border-radius: none; background-color:#CCC; color: #fff; padding: 5px 0;}
+#footer p {margin: 0; padding: 10px 0;}
+
+#like {border-radius: none; background-color: /*#f861b0*/#777; color: #fff; padding: 5px 0;}
+#like p {margin: 0; padding: 10px 0;}
+/*------------------------------------*\
+	TYPE
+\*------------------------------------*/
+/* @font-face kit by Fonts2u (http://www.fonts2u.com/oswald.schriftart) */
+/* Font Oswald, SIL-licenced, author Vernon Adams */  
+
+/*--- HEADINGS ---*/
+h4, {
+	font-family: 微软雅黑;
+	font-style: normal;
+	font-weight: 500;
+	color: #000;
+}
+h4{font-size:1.5em;	margin-bottom:0em; line-height:auto; text-shadow: none; font-weight:bold;}
+
+/*------------------------------------*\
+	CLASSES
+\*------------------------------------*/
+/*
+Some not-too-pretty and insemantic classes to do odd jobs.
+*/
+.left	{ float:left!important; }
+.right	{ float:right!important; }
+
+
+
+/*-------------------------------------------*\
+	No borders and background for form-tables
+\*-------------------------------------------*/
+.form th, .form td {border:none; background:none; padding: 0em 0;}
+.form tbody tr:nth-of-type(odd){background:none;}
+
+/******************************************************************************************************
+TABS by Sohtanaka, CSS tweaked by SiGa
+*******************************************************************************************************/
+
+/*
+ background: #EFEFEF; border: none; border-bottom: 0px solid #EFEFEF;*/
+
+.tab_container {
+ background: #EFEFEF;
+ overflow: hidden;
+ clear: both;
+float: left; width: 100%; margin-bottom: 0px;
+}
+.tab_content {
+ padding: 5px 5px 5px;
+ font-size: inherit;
+}
+.tab_content p {margin-bottom: 0em;}
+

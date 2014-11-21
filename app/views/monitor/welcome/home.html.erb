@@ -1,0 +1,400 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+  <title>数据统计</title>
+  <link href="http://cdn.bootcss.com/bootstrap/3.1.1/css/bootstrap.css" rel="stylesheet">
+  <script src="/echarts/esl.js"></script>
+</head>
+<body>
+
+<div class="container featurette">
+
+  <div class="row">
+    <div class="col-md-12">
+      <div class="well">
+        <div style="text-align: center">
+          总量数据统计
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="row">
+    <div id="graphic" class="col-md-12">
+      <div id="main" style="height:400px;width:100%"></div>
+    </div><!--/span-->
+  </div><!--/row-->
+
+
+  <div class="row">
+    <div id="main4" style="height:400px;width:100%"></div>
+  </div>
+
+  <div class="row">
+    <div id="main2" style="height:400px;width:100%"></div>
+  </div>
+
+
+  <div class="row">
+    <div id="main3" style="height:400px;width:100%"></div>
+  </div>
+
+  <div class="row">
+    <div id="main5" style="height:400px;width:100%"></div>
+  </div>
+
+  <div class="row">
+    <div id="main6" style="height:400px;width:100%"></div>
+  </div>
+
+  <div class="row">
+    <div id="main7" style="height:400px;width:100%"></div>
+  </div>
+
+  <div class="row">
+    <div id="main8" style="height:400px;width:100%"></div>
+  </div>
+
+  <div class="row">
+    <div class="col-md-12">
+      <div class="well">
+        <div style="text-align: center">
+          <a class="btn btn-success" href="/monitor/welcome/home?limit=90">90天</a>
+
+          <a class="btn btn-success" href="/monitor/welcome/home?limit=30">30天</a>
+
+          <a class="btn btn-success" href="/monitor/welcome/home?limit=15">15天</a>
+
+          <a class="btn btn-success" href="/monitor/welcome/home?limit=7">7天</a>
+        </div>
+      </div>
+    </div>
+  </div>
+
+</div><!--/.fluid-container-->
+
+<script src="http://cdn.bootcss.com/jquery/1.10.2/jquery.js"></script>
+<script src="http://cdn.bootcss.com/bootstrap/3.1.1/js/bootstrap.js"></script>
+
+<script>
+    require.config({
+        packages: [
+            {
+                name: 'echarts',
+                location: '/echarts/src',
+                main: 'echarts'
+            },
+            {
+                name: 'zrender',
+                location: '/zrender/src', // zrender与echarts在同一级目录
+                main: 'zrender'
+            }
+        ]
+    });
+
+    option = {
+        tooltip : {
+            trigger: 'axis'
+        },
+        legend: {
+            data: <%= raw @show_names %>
+        },
+        toolbox: {
+            show : false,
+            feature : {
+                mark : {show: true},
+                dataView : {show: true, readOnly: false},
+                magicType : {show: true, type: ['line', 'bar', 'stack', 'tiled']},
+                restore : {show: true},
+                saveAsImage : {show: true}
+            }
+        },
+        calculable : true,
+        xAxis : [
+            {
+                type : 'category',
+                boundaryGap : false,
+                data : <%= raw @limit_days %>
+            }
+        ],
+        yAxis : [
+            {
+                type : 'value'
+            }
+        ],
+        series : <%= raw @series.to_json %>
+    };
+
+    option2 = {
+        tooltip : {
+            trigger: 'axis'
+        },
+        legend: {
+            data: <%= raw @show_names2 %>
+        },
+        toolbox: {
+            show : false,
+            feature : {
+                mark : {show: true},
+                dataView : {show: true, readOnly: false},
+                magicType : {show: true, type: ['line', 'bar', 'stack', 'tiled']},
+                restore : {show: true},
+                saveAsImage : {show: true}
+            }
+        },
+        calculable : true,
+        xAxis : [
+            {
+                type : 'category',
+                boundaryGap : false,
+                data : <%= raw @limit_days %>
+            }
+        ],
+        yAxis : [
+            {
+                type : 'value'
+            }
+        ],
+        series : <%= raw @series2.to_json %>
+    };
+
+    option3 = {
+        tooltip : {
+            trigger: 'axis'
+        },
+        legend: {
+            data: <%= raw @show_names3 %>
+        },
+        toolbox: {
+            show : false,
+            feature : {
+                mark : {show: true},
+                dataView : {show: true, readOnly: false},
+                magicType : {show: true, type: ['line', 'bar', 'stack', 'tiled']},
+                restore : {show: true},
+                saveAsImage : {show: true}
+            }
+        },
+        calculable : true,
+        xAxis : [
+            {
+                type : 'category',
+                boundaryGap : false,
+                data : <%= raw @limit_days %>
+            }
+        ],
+        yAxis : [
+            {
+                type : 'value'
+            }
+        ],
+        series : <%= raw @series3.to_json %>
+    };
+
+    option4 = {
+        tooltip : {
+            trigger: 'axis'
+        },
+        legend: {
+            data: <%= raw @show_names4 %>
+        },
+        toolbox: {
+            show : false,
+            feature : {
+                mark : {show: true},
+                dataView : {show: true, readOnly: false},
+                magicType : {show: true, type: ['line', 'bar', 'stack', 'tiled']},
+                restore : {show: true},
+                saveAsImage : {show: true}
+            }
+        },
+        calculable : true,
+        xAxis : [
+            {
+                type : 'category',
+                boundaryGap : false,
+                data : <%= raw @limit_days %>
+            }
+        ],
+        yAxis : [
+            {
+                type : 'value'
+            }
+        ],
+        series : <%= raw @series4.to_json %>
+    };
+
+    option5 = {
+        tooltip : {
+            trigger: 'axis'
+        },
+        legend: {
+            data: <%= raw @show_names5 %>
+        },
+        toolbox: {
+            show : false,
+            feature : {
+                mark : {show: true},
+                dataView : {show: true, readOnly: false},
+                magicType : {show: true, type: ['line', 'bar', 'stack', 'tiled']},
+                restore : {show: true},
+                saveAsImage : {show: true}
+            }
+        },
+        calculable : true,
+        xAxis : [
+            {
+                type : 'category',
+                boundaryGap : false,
+                data : <%= raw @limit_days %>
+            }
+        ],
+        yAxis : [
+            {
+                type : 'value'
+            }
+        ],
+        series : <%= raw @series4.to_json %>
+    };
+
+    option6 = {
+        tooltip : {
+            trigger: 'axis'
+        },
+        legend: {
+            data: <%= raw @show_names6 %>
+        },
+        toolbox: {
+            show : false,
+            feature : {
+                mark : {show: true},
+                dataView : {show: true, readOnly: false},
+                magicType : {show: true, type: ['line', 'bar', 'stack', 'tiled']},
+                restore : {show: true},
+                saveAsImage : {show: true}
+            }
+        },
+        calculable : true,
+        xAxis : [
+            {
+                type : 'category',
+                boundaryGap : false,
+                data : <%= raw @limit_days %>
+            }
+        ],
+        yAxis : [
+            {
+                type : 'value'
+            }
+        ],
+        series : <%= raw @series6.to_json %>
+    };
+
+
+    option7 = {
+        tooltip : {
+            trigger: 'axis'
+        },
+        legend: {
+            data: <%= raw @show_names7 %>
+        },
+        toolbox: {
+            show : false,
+            feature : {
+                mark : {show: true},
+                dataView : {show: true, readOnly: false},
+                magicType : {show: true, type: ['line', 'bar', 'stack', 'tiled']},
+                restore : {show: true},
+                saveAsImage : {show: true}
+            }
+        },
+        calculable : true,
+        xAxis : [
+            {
+                type : 'category',
+                boundaryGap : false,
+                data : <%= raw @limit_days %>
+            }
+        ],
+        yAxis : [
+            {
+                type : 'value'
+            }
+        ],
+        series : <%= raw @series7.to_json %>
+    };
+
+
+    option8 = {
+        tooltip : {
+            trigger: 'axis'
+        },
+        legend: {
+            data: <%= raw @show_names8 %>
+        },
+        toolbox: {
+            show : false,
+            feature : {
+                mark : {show: true},
+                dataView : {show: true, readOnly: false},
+                magicType : {show: true, type: ['line', 'bar', 'stack', 'tiled']},
+                restore : {show: true},
+                saveAsImage : {show: true}
+            }
+        },
+        calculable : true,
+        xAxis : [
+            {
+                type : 'category',
+                boundaryGap : false,
+                data : <%= raw @limit_days %>
+            }
+        ],
+        yAxis : [
+            {
+                type : 'value'
+            }
+        ],
+        series : <%= raw @series8.to_json %>
+    };
+
+
+    require(
+            [
+                'echarts',
+                'echarts/chart/line',
+                'echarts/chart/bar'
+            ],
+            function (ec) {
+                var myChart = ec.init(document.getElementById('main'));
+                myChart.setOption(option);
+
+                var myChart4 = ec.init(document.getElementById('main4'));
+                myChart4.setOption(option4);
+
+                var myChart2 = ec.init(document.getElementById('main2'));
+                myChart2.setOption(option2);
+
+                var myChart3 = ec.init(document.getElementById('main3'));
+                myChart3.setOption(option3);
+
+                var myChart5 = ec.init(document.getElementById('main5'));
+                myChart5.setOption(option5);
+
+                var myChart6 = ec.init(document.getElementById('main6'));
+                myChart6.setOption(option6);
+
+                var myChart7 = ec.init(document.getElementById('main7'));
+                myChart7.setOption(option7);
+
+                var myChart8 = ec.init(document.getElementById('main8'));
+                myChart8.setOption(option8);
+
+            }
+    )
+
+</script>
+
+</body>
+</html>

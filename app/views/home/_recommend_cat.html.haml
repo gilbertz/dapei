@@ -1,0 +1,27 @@
+%li
+  %ul.nav.nav-float.chunk-one-ul
+    -unless items.blank?
+      -i=1
+      -items.each do |item|
+        -break if i>4
+        %li
+          %a{:href => "#{brand_baobei_path(item.brand,item)}", :target=>"_blank"}
+            %img{:height => "370px", :alt=>"#{photo_alt(item)}", :title=> "#{photo_title(item)}", :src => "#{item.img_url(:normal_medium)}", :width => "275px"}
+          .opacity-big
+            .item-brand
+              %span #{item.brand_name.capitalize}
+              -#%span
+                -if item.shop_street
+                  (#{item.shop_street+"店"})
+            -#.item-title
+              #{item.get_display_title}
+            -unless item.price.blank?
+              .item-price
+                %span.price-two #{item.get_currency}
+                %span.price #{item.get_num_price}
+                -#%span.price-two 起
+            -#.item-address
+              - if item.shop_street
+                #{item.shop_street+"店"}
+        -i=i+1
+  .clearfix

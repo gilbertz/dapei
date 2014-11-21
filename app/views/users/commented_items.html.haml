@@ -1,0 +1,25 @@
+=render :partial=>"/users/top_bar", :locals=>{:user=>@user, :nav_class=>"commented"}
+/ 菜单
+.menu01
+  .bd
+    %ul
+      %li
+        %a{:href => "#{commented_shops_path(@user)}"} 店铺
+      %li.vertical
+      %li.Current
+        %a{:href => "#{commented_items_path(@user)}"} 宝贝
+-if @items.blank? 
+  .clearfix.gjb_friends
+    .friends_bd
+      %h2 还没有进行任何评论，赶快行动起来吧
+.clearfix.gjb_faxian
+  .gjb_faxian_bd.stream{:style=>"width:1010px;"}
+    %ul{:style=>"width:1010px;"}
+      -#- for i in 1..4 do
+        =render :partial=>"/users/baobei_comment_item", :locals=>{:item=>nil, :shop=>nil}
+      -@items.each do |item|
+        =render :partial=>"/users/baobei_comment_item", :locals=>{:item=>item, :shop=>item.shop}
+  #page_nav
+    = paginate @items
+
+

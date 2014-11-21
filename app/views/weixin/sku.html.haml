@@ -1,0 +1,33 @@
+.head_wrapper_sku
+  .title
+    .name
+      .list_title
+        =@sku.brand_name
+      .list_name
+        来自: #{@sku.buy_domain}
+    .like    
+      %font{:face => "icon", :size => "2"} 1
+      %font{:face => "微软雅黑"} #{@sku.likes_count.blank?  ? 0 : @sku.likes_count}
+  .photos
+    %a{:href => "#"}
+      - @sku.photos.each do |photo|
+        %img{:src => "#{photo.url(nil)}", :alt=>"#{@sku.title}"}/     
+    -#%p{:style=>"padding-top:5px; margin-top:10px;"} 
+      = @sku.desc
+
+-#= render 'brand_shops'
+  
+/ end of wrapper
+-#.wrapper.nav_footer
+  #footer
+    .grids
+      .grid-16.grid.text-center
+        %p{:style => "font-size:14px;"}
+          %a{:href => "#{@brand_path}", :style => "color:#FFF"} 进入品牌页
+    / end of grids
+  / end of footer
+/ end of wrapper
+
+
+
+=render :partial=>"/shared/report", :locals=>{:type=>"sku", :id=>@sku.id }

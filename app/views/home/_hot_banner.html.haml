@@ -1,0 +1,152 @@
+#banner.row
+  .wrapper#wrapper_two
+    %ul.nav.nav-float
+      %li#wrapper_two_left
+        #banner-left
+          .nav-b-top
+            =render :partial=>"/shared/nav_header"
+          .nav-b-bottom
+            #indicator
+              %ul.nav.b-bottom-ul
+                %li.active-banner{:data_no => 1}
+                  %a{:href => "/home/app"} 上街吧, 帮你穿好看
+                  #nav-arrows
+                %li{:data_no => 2}
+                  %a{:href => "/brands/info/219"} FOSSIL Make Your Mark
+                  #nav-arrows
+                %li{:data_no => 3}
+                  %a{:href => "/brands/info/104"} Mango 2013秋装新品上市
+                  #nav-arrows
+                %li{:data_no => 4}
+                  %a{:href => "/brands/info/273"} Ochirly 逢周三新品上市
+                  #nav-arrows
+                %li{:data_no => 5}
+                  %a{:href => "/brands/info/59"} Only 前卫奢华 潮流穿搭
+                  #nav-arrows
+                %li{:data_no => 6}
+                  %a{:href => "#"} Tory burch 2013 秋季系列
+                  #nav-arrows
+      %li#wrapper_two_center
+        #banner-center
+          .flexslider
+            %ul.slides
+              %li{:bgc => "d5dbe1"}
+                %a{:href => "/home/app"}
+                  %img{:src => "/assets/banner/appdownload3.png"}/
+              %li{:bgc => "eef3f6"}
+                %a{:href => "/brands/info/219"}
+                  %img{:src => "/assets/banner/fossil.jpg"}/
+              %li{:bgc => "f3e7d9"}
+                %a{:href => "/brands/info/104"}
+                  %img{:src => "/assets/banner/mango.jpg"}/
+              %li{:bgc => "f3da98"}
+                %a{:href => "/brands/info/273"}
+                  %img{:src => "/assets/banner/ochirly.jpg"}/
+              %li{:bgc => "a7bccf"}
+                %a{:href => "/brands/info/59"}
+                  %img{:src => "/assets/banner/only.jpg"}/
+              %li{:bgc => "eeeae1"}
+                %a{:href => "#{}"}
+                  %img{:src => "/assets/banner/tory burch.jpg"}/
+              / items mirrored twice, total of 12
+      %li#wrapper_two_right
+        #banner-right
+          %ul.nav
+            %li
+              %a{:href => "/sh005768/zhong-hao-shou-ti-jian-bei-liang-yong-yang-pi-shou-dai-da-pei-giant-liu-ding-36096-5.htm"}
+                %img{:src => "/assets/br/1.jpg"}
+                  .opacity-big
+                    巴黎世家 肩背两用羊皮手袋
+            %li
+              %a{:href => "/sh003458/hu-die-jie-shi-ji-pi-ba-lei-xie-32504-49.htm"}
+                %img{:src => "/assets/br/2.jpg"}
+                  .opacity-big
+                    ZARA 蝴蝶结饰麂皮芭蕾鞋
+            %li
+              %a{:href => "/sh000133/xie-la-lian-ding-zhu-pupi-wai-tao-39572-66.htm"}
+                %img{:src => "/assets/br/3.jpg"}
+                  .opacity-big
+                    艾格 斜拉链钉珠Pu皮外套
+    .clearfix
+
+/ 1F
+-#.recom-p.clearfix.gjb_1
+  .left
+    /.pic_1
+    #first_page.flexslider
+      %ul.slides
+        %li{"data-thumb" => "/assets/new_ban1.jpg"}
+          %img{ :src => "/assets/new_ban1.jpg", :height=>"270", :width=>"710"}/ 
+          -#.flex-caption
+            %h3
+              上街，为了美丽
+            .poem
+              %p沿街,
+              %p寻找心目中的漂亮衣服,
+              %p每天憧憬一次,
+              %p穿上它的美丽。
+        %li{"data-thumb" => "/assets/new_ban2.jpg"}
+          %img{:src => "/assets/new_ban2.jpg", :height=>"270", :width=>"710"}/
+          -#.flex-caption
+            %h3
+              上街, 为了闺蜜
+            .poem
+              %p找个可以边谈边逛的朋友,
+              %p一起消磨难得的，
+              %p限量时光。
+        %li{"data-thumb" => "/assets/new_ban3.jpg"}
+          %img{:src => "/assets/new_ban3.jpg", :height=>"270", :width=>"710"}/
+          -#.flex-caption
+            %h3
+              上街, 为了衣橱
+            .poem
+              %p下一个季节的气息,
+              %p放在衣橱里,
+              %p有了它，
+              %p我的衣橱才是完整的。
+        %li{"data-thumb" => "/assets/new_ban4.jpg"}
+          %img{:src => "/assets/new_ban4.jpg", :height=>"270", :width=>"710"}/
+          -#.flex-caption
+            %h3
+              上街, 为了时尚
+            .poem
+              %p女人的勤奋
+              %p应该放在让自己更好上,
+              %p更有学识,
+              %p更时尚、更美。
+        %li{"data-thumb" => "/assets/new_ban5.jpg"}
+          %img{:src => "/assets/new_ban5.jpg", :height=>"270", :width=>"710"}/
+          -#.flex-caption
+            %h3
+              上街, 为了心情
+            .poem
+              %p女人的心情，
+              %p三分天注定,
+              %p七分靠SHOPPING!
+
+  .right
+    .hd
+      %h2
+        最火爆的服装街
+        %b
+    .bd
+      %ul
+        - if session[:city_id] == "1"
+          - i=0
+          - num=6
+          - @recommended_streets.each do |recommend|
+            -break unless i<num
+            - if i<2
+              =render :partial=>"/home/recommend_street_item", :locals=>{:street_recommend => recommend, :type=>"special"}
+            - else
+              =render :partial=>"/home/recommend_street_item", :locals=>{:street_recommend => recommend, :type=>"common"}
+            -i=i+1
+          
+      .s-w
+        %a.sina_wb{:href => "http://weibo.com/shangjieba", :rel=>"nofollow"}
+          %img{:height => "44", :src => "/assets/sina-weibo.png", :width => "109"}/
+        %a.weixin{:href => "/about/about_me" , :rel => "facebox[.about]"}
+          %img{:height => "44", :src => "/assets/weixin.png", :width => "109"}/
+      -#%p 在这些地方关注我们
+
+

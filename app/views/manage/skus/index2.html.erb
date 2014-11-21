@@ -1,0 +1,484 @@
+<%= search_form_for @q, url: "/manage/skus", html: {class: 'form-inline',role: 'form',style: 'margin-top:30px;'} do |f| %>
+    <div class="form-group" style="width:15%;">
+      <label class="sr-only">SkuId</label>
+      <%= f.text_field :id_eq, class: 'form-control', placeholder: 'SKU ID' %>
+    </div>
+    <div class="form-group" style="width:15%;">
+      <label class="sr-only">SkuTitle</label>
+      <%= f.text_field :title_cont, class: 'form-control', placeholder: 'SKU标题' %>
+    </div>
+
+    <div class="form-group" style="width:15%;">
+      <label class="sr-only">SkuBrandName</label>
+      <%= text_field_tag :brand_name_cont, @brand_name, class: 'form-control', placeholder: '品牌名' %>
+    </div>
+
+    <div class="form-group" style="width: 15%">
+      <label class="sr-only">Category</label>
+      <%= select_tag :cid, options_for_select([["选择分类", nil]] + @active_categories_for_select, @selected_category) %>
+    </div>
+
+    <div class="form-group" style="width:15%;">
+      <label class="sr-only">tag</label>
+      <%#= text_field_tag :tag, "#{@tag}", class: 'form-control', placeholder: '标签' %>
+      <%= text_field_tag :tag, @tag, class: "tags", "data-provide" => "typeahead", placeholder: "标签" %>
+    </div>
+
+    <%= f.submit '搜索', class: 'btn btn-primary'%>
+    <%= total_span @skus %>
+<% end %>
+
+<div class="well">
+  <button class="btn btn-primary" id="add_tag_rake">添加标签</button>
+
+  <button class="btn btn-primary" id="sub_category_rake">二级分类</button>
+
+  <button class="btn btn-primary" id="select_all">全部选择</button>
+
+  <button class="btn btn-primary" id="delete_all">全部取消</button>
+
+  <button class="btn btn-primary" id="opposite_all">反选</button>
+</div>
+
+<div id="skus-list">
+
+  <% unless @skus.blank? %>
+
+      <% @skus.each do |sku| %>
+          <% unless sku.photos.blank? %>
+              <div class="col-sm-7 col-md-4 recommend" data-id="<%= sku.id %>">
+                <div class="thumbnail">
+
+                  <div>
+                    <ul class="imageGallery">
+                      <% unless sku.photos.blank? %>
+                        <% sku.photos.each do |p| %>
+                              <li data-thumb="<%= p.url(:thumb_medium) %>">
+                                <img src="<%= p.url(:thumb_medium) %>" />
+                                <% if p.is_send == true %>
+                                    <span class="recommended_matter">已推荐</span>
+                                <% else %>
+                                    <span data-id="<%= p.id %>" sku-id="<%= sku.id %>" class="recommend_matter">推荐素材</span>
+                                <% end %>
+
+                                <span class="deleted_photo" data-id="<%= p.id %>">
+                                    删除
+                                </span>
+                              </li>
+                        <% end %>
+                      <% end %>
+                    </ul>
+                  </div>
+
+                  <div class="caption">
+                    <p style="height: 50px; overflow: hidden">
+                      <%= link_to "#{sku.get_show_price} | #{sku.try(:brand_name)} | #{sku.try(:title)}", sku.buy_url, target: true %>
+                    </p>
+
+                    <div>
+                      <p class="alert-info text-center" style="">
+                        一级分类
+
+                        <%= select_tag :first_category, options_for_select([["选择分类", 0]] + @first_categories_for_select, sku.category_id), class: "first_category", style: "width: 150px", "data-id" => sku.id %>
+                      </p>
+
+                      <p class="alert-danger text-center" style="">
+                        二级分类
+
+                        <% @second_categories_for_select = Category.get_all_active_sub_categories(sku.category_id).collect{|c| [c.name, c.id] } %>
+                        <%= select_tag :second_category, options_for_select([["选择分类", 0]] + @second_categories_for_select, sku.sub_category_id), class: "second_category", style: "width: 150px", "data-id" => sku.id %>
+                      </p>
+                       
+                      <p class="alert-info text-center" style="">
+                        加入选集
+
+                        <%= select_tag :collection_id, options_for_select([["选择选集", nil]]  +  @collections.collect {|p| [ p.title, p.id ] }, sku.collection_id), class: "collection", style: "width: 150px", "data-id" => sku.id %>
+                      </p>
+                               
+
+                    </div>
+
+                    <div>
+                      <p class="alert-danger text-center">
+                        SKU Level
+                        <%= select_tag :sku_level, options_for_select(@levels_for_select, sku.try(:level).to_i), class: "sku_level", "data-id" => sku.id %>
+                      </p>
+
+                      <p style="height: 98px; overflow-y: scroll">
+                        <%= text_field_tag :tags, sku.tag_list.join(","), class: "tags", "data-id" => sku.id, "data-provide" => "typeahead" %>
+                      <p>
+
+                    </div>
+                    
+                    <div> 
+                      <p class="alert-danger text-center">
+                        <%= to_local sku.created_at %>
+                      </p>
+                    </div>
+
+                    <div>
+                      <%= link_to "编辑", edit_manage_sku_path(sku) %> |
+                      <%= link_to '编辑品牌', [:edit,:manage, sku.brand] unless sku.brand.blank? %> |
+                      <% unless sku.deleted %>
+                        <%= link_to '删除', [:manage,sku], method: :delete, class: 'ajaxd', remote: true, confirm: 'Are you sure' %>
+                      <% else %>
+                        已删除
+                      <% end %>
+
+                      |
+                      <%= link_to '显图', "#inline_content#{sku.id}", class: 'sku_images' %> |
+
+
+                      <% unless recom = Recommend.find_by_recommended_type_and_recommended_id("Sku", sku.id) %>
+                          <%= link_to '推荐单品', "/manage/skus/recommend_sku/#{sku.id}", method: :post, remote: true, class: 'add-recommend' %>
+                      <% else %>
+                          <%= link_to '删除推荐', recom, method: :delete, class: 'ajaxd', remote: true, confirm: 'Are you sure' %>
+                      <% end %>
+
+                    </div>
+
+                  </div>
+                </div>
+              </div>
+          <% end %>
+      <% end %>
+
+  <% end %>
+
+</div>
+
+
+<%= paginate @skus %>
+
+
+<link rel="stylesheet" type="text/css" href="http://1251008728.cdn.myqcloud.com/1251008728/assets/css/select2.css"/>
+<link rel="stylesheet" type="text/css" href="http://1251008728.cdn.myqcloud.com/1251008728/assets/css/jquery.jgrowl.min.css"/>
+
+<link rel="stylesheet" href="http://1251008728.cdn.myqcloud.com/1251008728/2014/08/22/lightSlider.css"/>
+
+<script type="text/javascript" src="http://1251008728.cdn.myqcloud.com/1251008728/2014/08/22/jquery.lightSlider.min.js"></script>
+<script type="text/javascript" src="http://1251008728.cdn.myqcloud.com/1251008728/assets/javascripts/jquery.jgrowl.min.js"></script>
+<script type="text/javascript" src="http://1251008728.cdn.myqcloud.com/1251008728/assets/javascripts/select2.min.js"></script>
+<script type="text/javascript" src="http://1251008728.cdn.myqcloud.com/1251008728/2014/08/11/typeahead.bundle.js"></script>
+<script type="text/javascript" src="http://1251008728.cdn.myqcloud.com/1251008728/2014/08/11/bootstrap3-typeahead.min.js"></script>
+
+
+<style>
+  .imageGallery{
+      height: 220px;
+      overflow: hidden;
+      padding: 0;
+  }
+  .imageGallery li{
+      text-align: center;
+  }
+  .imageGallery li span.recommend_matter, .imageGallery li span.recommended_matter{
+      position: absolute;
+      margin-top: 30px;
+      margin-left: -40px;
+      display: inline-block;
+      background: #cb5ef9;
+      border: 1px solid #e0e0e0;
+      border-radius: 5px;
+      color: #fff;
+      cursor: pointer;
+  }
+
+  .imageGallery li span.deleted_photo{
+      position: absolute;
+      margin-top: 30px;
+      margin-left: -70px;
+      display: inline-block;
+      background: #cb5ef9;
+      border: 1px solid #e0e0e0;
+      border-radius: 5px;
+      color: #fff;
+      cursor: pointer;
+  }
+
+</style>
+
+<script type="text/javascript">
+
+    var all_tags = <%= raw @all_tags.collect{|tag| tag.name}.to_json %>;
+
+    $(function(){
+
+        $(".first_category").select2();
+        $(".second_category").select2();
+
+        $(".first_category").change(function(){
+            var pid = $(this).val();
+            var sku_id = $(this).attr("data-id");
+            var second = $(this).parent().parent().parent().find("#second_category");
+
+            $.get("/manage/categories/ajax_select_change", {pid: pid}, function(data){
+
+                $(second).html(data);
+                $(second).select2();
+
+            });
+
+            var ids = [];
+            $("#skus-list .recommendSelected").each(function(index){
+                var id = $(this).attr("data-id");
+                ids.push(id);
+            });
+
+            if(ids.indexOf(sku_id) < 0){
+                ids.push(sku_id)
+            }
+
+            $.get("/manage/skus/ajax_update_edit", {sku_id: ids, first_category_id: pid}, function(data){
+                $.jGrowl(data.result, {
+                    closer: true
+                });
+            });
+        });
+
+        $(".second_category").change(function(){
+            var pid = $(this).val();
+            var sku_id = $(this).attr("data-id");
+
+
+            var ids = [];
+            $("#skus-list .recommendSelected").each(function(index){
+                var id = $(this).attr("data-id");
+                ids.push(id);
+            });
+
+            if(ids.indexOf(sku_id) < 0){
+                ids.push(sku_id)
+            }
+
+            $.get("/manage/skus/ajax_update_edit", {sku_id: ids, sub_category_id: pid}, function(data){
+                $.jGrowl(data.result, {
+                    closer: true
+                });
+            });
+        });
+
+
+        $(".collection").change(function(){
+            var pid = $(this).val();
+            var sku_id = $(this).attr("data-id");
+
+
+            var ids = [];
+            $("#skus-list .recommendSelected").each(function(index){
+                var id = $(this).attr("data-id");
+                ids.push(id);
+            });
+
+            if(ids.indexOf(sku_id) < 0){
+                ids.push(sku_id)
+            }
+
+            $.get("/manage/skus/ajax_update_edit", {sku_id: ids, collection_id: pid}, function(data){
+                $.jGrowl(data.result, {
+                    closer: true
+                });
+            });
+        });
+
+
+
+
+        $(".brand_level").change(function(){
+            var sku_id = $(this).attr("data-id");
+
+            var brand_level = $(this).val();
+
+            console.log("sku_id is "+ sku_id + "----brand_level is"+brand_level);
+
+            var ids = [];
+            $("#skus-list .recommendSelected").each(function(index){
+                var id = $(this).attr("data-id");
+                ids.push(id);
+            });
+
+            if(ids.indexOf(sku_id) < 0){
+                ids.push(sku_id)
+            }
+
+            $.get("/manage/skus/ajax_update_edit", {sku_id: ids, brand_level: brand_level}, function(data){
+                $.jGrowl(data.result, {
+                    closer: true
+                });
+            });
+        });
+
+        $(".sku_level").change(function(){
+
+            var sku_id = $(this).attr("data-id");
+
+            var sku_level = $(this).val();
+
+            console.log("sku_id is "+ sku_id + "----sku_level is"+brand_level);
+
+            var ids = [];
+            $("#skus-list .recommendSelected").each(function(index){
+                var id = $(this).attr("data-id");
+                ids.push(id);
+            });
+
+            if(ids.indexOf(sku_id) < 0){
+                ids.push(sku_id)
+            }
+
+
+            $.get("/manage/skus/ajax_update_edit", {sku_id: ids, sku_level: sku_level}, function(data){
+                $.jGrowl(data.result, {
+                    closer: true
+                });
+            });
+
+        });
+
+        $(".tags").tagsinput({
+            typeahead: {
+                source: all_tags
+            }
+        });
+
+        $(".tags").change(function(){
+
+            var sku_id = $(this).attr("data-id");
+            var tag_list = $(this).val();
+
+            $.get("/manage/skus/ajax_update_edit", {sku_id: sku_id, tag_list: tag_list}, function(data){
+                $.jGrowl(data.result, {
+                    closer: true
+                });
+            });
+        });
+
+
+        $("#add_tag_rake").click(function(){
+
+            var ids = [];
+
+            $("#skus-list .recommendSelected").each(function(index){
+                var id = $(this).attr("data-id");
+                ids.push(id);
+            });
+
+            console.log(ids);
+
+            $.get("/manage/skus/add_tags_rake", {sku_id: ids}, function(){
+
+            })
+
+        });
+
+
+        $("#sub_category_rake").click(function(){
+
+            var ids = [];
+
+            $("#skus-list .recommendSelected").each(function(index){
+                var id = $(this).attr("data-id");
+                ids.push(id);
+            });
+
+            console.log(ids);
+
+            $.get("/manage/skus/add_categories_rake", {sku_id: ids}, function(){
+
+            })
+
+        });
+
+        $(".recommend").click(function(){
+            $(this).toggleClass("recommendSelected");
+        });
+
+
+        $("#select_all").click(function(){
+            $("#skus-list .recommend").each(function(index){
+                if(!$(this).hasClass("recommendSelected")){
+                    $(this).addClass("recommendSelected");
+                }
+            });
+        });
+
+        $("#delete_all").click(function(){
+            $("#skus-list .recommend").each(function(index){
+                if($(this).hasClass("recommendSelected")){
+                    $(this).removeClass("recommendSelected");
+                }
+            });
+        });
+
+        $("#opposite_all").click(function(){
+            $("#skus-list .recommend").each(function(index){
+                $(this).toggleClass("recommendSelected");
+            });
+        });
+
+        $('.imageGallery').lightSlider({
+            gallery:true,
+            minSlide:1,
+            maxSlide:1,
+            currentPagerPosition:'left'
+        });
+
+        $(".imageGallery").each(function(){
+            $(this).css("width", (parseInt($(this).css("width")) + 275) + "px")
+        });
+
+        $(".recommend_matter").click(function(){
+            var pid = $(this).attr("data-id");
+            var sid = $(this).attr("sku-id");
+
+            $.post("/manage/matters/recommended", {pid: pid, sid: sid}, function(data){
+                $.jGrowl(data.result, {
+                    closer: true
+                });
+                $("span.recommend_matter[data-id="+pid+"]").text("已推荐");
+            });
+        });
+
+
+        $(".deleted_photo").click(function(){
+            var pid = $(this).attr("data-id");
+
+            $.ajax({
+                url: "/manage/photos/"+pid,
+                type: "delete",
+                success: function(){
+                    $.jGrowl("删除成功", {
+                        closer: true
+                    });
+                    $("span.deleted_photo[data-id="+pid+"]").text("已删除");
+                }
+            });
+        });
+
+
+        $(".sku_level").click(function(){
+            event.stopPropagation();
+        });
+
+        $(".bootstrap-tagsinput").on("click", function(){
+            event.stopPropagation();
+        });
+
+    });
+
+</script>
+
+<style>
+    .bootstrap-tagsinput{
+        margin-bottom: 0px;
+    }
+    .bootstrap-tagsinput span.tag:after{
+        content: "";
+        clear: both;
+        margin-top: 20px;
+        display: inline-block;
+    }
+    .recommendSelected .thumbnail{
+        border: 1px solid red;
+    }
+</style>

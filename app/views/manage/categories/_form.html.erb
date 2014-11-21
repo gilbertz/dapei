@@ -1,0 +1,116 @@
+<h3 style='margin-top:0px;'><%= action_name.in?(['new','create']) ? '新建' : '编辑' %>@分类</h3>
+<hr/ style='margin-top:0px;'>
+<%= form_for [:manage,@category], html: {class: 'form-horizontal', role: 'form', :multipart => true} do |f| %>
+  <div class="form-group" style='margin-left:0px; margin-right:0px;'>
+    <label for="inputEmail3" class="col-sm-3 control-label">名 称</label>
+    <div class="col-sm-9">
+      <%= f.text_field :name, class: "form-control" %>
+    </div>
+  </div>
+  <div class="form-group" style='margin-left:0px; margin-right:0px;'>
+    <label for="inputEmail3" class="col-sm-3 control-label">Parent</label>
+    <div class="col-sm-9">
+      <%= f.select :parent_id, @categories_for_select,{}, class: "form-control" %>
+    </div>
+  </div>
+  <div class="form-group" style='margin-left:0px; margin-right:0px;'>
+    <label for="inputEmail3" class="col-sm-3 control-label">权 重</label>
+    <div class="col-sm-4">
+      <%= f.select :weight,(0..10),{}, class: "form-control" %>
+    </div>
+  </div>
+  <div class="form-group" style='margin-left:0px; margin-right:0px;'>
+    <label for="inputEmail3" class="col-sm-3 control-label">最小价格</label>
+    <div class="col-sm-4">
+      <%= f.text_field :min_price, class: "form-control" %>
+    </div>
+  </div>
+  <div class="form-group" style='margin-left:0px; margin-right:0px;'>
+    <label for="inputEmail3" class="col-sm-3 control-label">最大价格</label>
+    <div class="col-sm-4">
+      <%= f.text_field :max_price, class: "form-control" %>
+    </div>
+  </div>
+  <div class="form-group" style='margin-left:0px; margin-right:0px;'>
+    <label for="inputEmail3" class="col-sm-3 control-label">is active</label>
+    <div class="col-sm-4">
+      <%= f.select :is_active,[['否', false],['是', true]],{}, class: "form-control" %>
+    </div>
+  </div>
+  <div class="form-group" style='margin-left:0px; margin-right:0px;'>
+    <label for="inputEmail3" class="col-sm-3 control-label">Thing Img</label>
+    <div class="col-sm-9">
+      <%= text_field_tag :image_thing, @category.image_thing, class: "form-control" %>
+    </div>
+  </div>
+    <div class="form-group" style='margin-left:0px; margin-right:0px;'>
+      <label for="inputEmail3" class="col-sm-3 control-label">thumb url(分类列表封面)</label>
+      <div class="col-sm-9">
+        <%= file_field_tag :thumb, class: "form-control" %>
+      </div>
+    </div>
+
+    <div class="form-group">
+      <label for="" class="col-sm-3"> </label>
+      <div class="col-sm-9">
+        <img src="<%= @category.img_url %>" alt=""/>
+      </div>
+    </div>
+
+  <div class="form-group" style='margin-left:0px; margin-right:0px;'>
+    <label for="inputEmail3" class="col-sm-3 control-label">Synonym</label>
+    <div class="col-sm-9">
+      <%= f.text_field :synonym, class: "form-control" %>
+    </div>
+  </div>
+    <div class="form-group" style='margin-left:0px; margin-right:0px;'>
+      <label for="inputEmail3" class="col-sm-3 control-label">App icon image url</label>
+      <div class="col-sm-9">
+        <%#= f.text_field :app_icon_image, class: "form-control" %>
+
+        <input id="fileupload" type="file" name="file" multiple="">
+
+      </div>
+      <div class="app-icon-image">
+        <% unless @category.app_icon_image.blank? %>
+            <img src="<%= @category.app_icon_image %>" alt=""/>
+        <% end %>
+      </div>
+    </div>
+
+    <div class="form-group">
+      <%= f.label :is_active_for_app, class: "col-sm-3 control-label" %>
+      <%= f.select :is_active_for_app,[["不显示", 0], ["显示", 1]], class: "form-control col-sm-9" %>
+    </div>
+
+    <div class="form-group" style='margin-left:0px; margin-right:0px;'>
+      <label for="inputEmail3" class="col-sm-3 control-label">desc</label>
+      <div class="col-sm-9">
+        <%= f.text_area :desc, class: "form-control", style: "height: 50px" %>
+      </div>
+    </div>
+
+  <div class="form-group" style='margin-left:0px; margin-right:0px;'>
+    <div class="col-sm-offset-3 col-sm-9">
+      <%= f.submit '提交', class: 'btn btn-primary' %>
+    </div>
+  </div>
+<% end %>
+
+<script type="text/javascript">
+  $(function(){
+      $('#fileupload').fileupload({
+          dataType: 'json',
+          url: "/manage/categories/set_app_photo?category_id=<%= @category.id %>",
+          done: function(e, data){
+
+            i = data.result.image_url;
+
+            console.log(i);
+
+            $(".app-icon-image img").attr("src", i);
+
+          }
+      });
+  })
+</script>

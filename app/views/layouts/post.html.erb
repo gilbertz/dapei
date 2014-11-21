@@ -1,0 +1,92 @@
+<!doctype html>
+<html>
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <script type="text/javascript" src="http://1251008728.cdn.myqcloud.com/1251008728/assets/javascripts/jquery-2.0.3.min.js"></script>
+  <title><%= @title || "美格时尚-上街吧" %></title>
+
+  <script type="text/javascript">
+      var dataForWeixin = {
+          appId: "wx78f81724e6590b1d",
+          TLImg: "<%= @post.image_thumb_url  %>",
+          url: "<%= @post.link_url %>?is_weixin=1",
+          title: "<%= @post.title %> " ,
+          desc: "<%= @post.desc %>"
+      };
+
+      var onBridgeReady = function(){
+          WeixinJSBridge.on('menu:share:appmessage', function(argv){
+              WeixinJSBridge.invoke('sendAppMessage', {
+                  "appid": dataForWeixin.appId,
+                  "img_url": dataForWeixin.TLImg,
+                  "img_width": "120",
+                  "img_height": "120",
+                  "link": dataForWeixin.url,
+                  "title": dataForWeixin.title,
+                  "desc": dataForWeixin.desc
+              });
+          });
+          WeixinJSBridge.on('menu:share:timeline', function(argv){
+              WeixinJSBridge.invoke('shareTimeline', {
+                  "appid": dataForWeixin.appId,
+                  "img_url":dataForWeixin.TLImg,
+                  "img_width": "120",
+                  "img_height": "120",
+                  "link": dataForWeixin.url,
+                  "title": dataForWeixin.title,
+                  "desc": dataForWeixin.desc
+              });
+          });
+      };
+      if(document.addEventListener){
+          document.addEventListener('WeixinJSBridgeReady', onBridgeReady, false);
+      }else if(document.attachEvent){
+          document.attachEvent('WeixinJSBridgeReady', onBridgeReady);
+          document.attachEvent('onWeixinJSBridgeReady', onBridgeReady);
+      }
+  </script>
+
+  <style type="text/css">
+    body{
+        padding: 0;
+        margin: 0 auto;
+        font-family: "微软雅黑";
+    }
+    img{
+        width: 100%;
+        height: auto;
+        max-width: 640px;
+    }
+    .container{
+        padding: 10px 10px;
+    }
+    img#ad{
+        max-width: 100%;
+    }
+  </style>
+</head>
+<body>
+
+<div class="container">
+  <div class="row">
+    <% unless params[:is_weixin].blank? %>
+        <a href="http://mp.weixin.qq.com/s?__biz=MzA3OTk2MTUwMQ==&mid=200588395&idx=1&sn=2c2d97ecc7681850d88738d27c905b96#rd">
+        <img id="ad" src="http://1251008728.cdn.myqcloud.com/1251008728/2014/08/11/follow_wx.png" alt=""/>
+        </a>
+
+    <% else %>
+        <img id="ad" src="http://1251008728.cdn.myqcloud.com/1251008728/2014/08/15/follow.png" alt=""/>
+    <% end %>
+  </div>
+
+  <%= yield %>
+</div>
+
+<%= render :partial => "shared/share_data" %>
+
+<div id='analysis' style="display: none">
+  <%= render 'layouts/analysis' %>
+</div>
+</body>
+</html>

@@ -1,0 +1,51 @@
+=render :partial=>"/users/top_bar", :locals=>{:user=>@user, :nav_class=>"likes"}
+
+.wrapper
+  %ul.nav.nav-float.second-nav
+    %li.active
+      %a{:href => "javascript:void(0)"} 收藏的店铺
+    %li
+      %a{:href => "#{favorite_items_path(@user)}"} 收藏的宝贝
+    -#%li
+      %a{:href => "javascript:void(0)"} 收藏的优惠
+    %li
+      %a{:href => "#{favorite_dapeis_path(@user)}"} 收藏的搭配
+
+.wrapper
+  -if @shops.blank?
+    .resort
+      %h2 还没有进行任何喜欢和收藏，赶快行动起来吧
+  %ul.nav.nav-float.shop-list.stream
+    -i=1
+    - @shops.each do |shop|
+      - if shop and shop.level and shop.level > -1
+        -if i%2 == 0
+          =render :partial=>"/shops/shop_list_item", :locals=>{:shop=>shop, :dis_class=>"ul-last-li"}
+        -else
+          =render :partial=>"/shops/shop_list_item", :locals=>{:shop=>shop, :dis_class=>"holder"}
+        -i=i+1
+  #page_nav
+    = paginate @shops
+
+
+/ 菜单
+-#.menu01
+  .bd
+    %ul
+      %li.Current
+        %a{:href => "javascript:void(0)"} 店铺
+      %li.vertical
+      %li
+        %a{:href => "#{favorite_items_path(@user)}"} 宝贝
+-#-if @shops.blank?
+  .clearfix.gjb_friends
+    .friends_bd
+      %h2 还没有进行任何喜欢，赶快行动起来吧
+-#.clearfix.gjb_shop
+  .gjb_shop_bd.stream{:style=>"width:1010px;"}
+    %ul{:style=>"width:1010px;"}
+      - @shops.each do |shop|
+        =render :partial=>"/users/favorite_shop_item", :locals=>{:shop=>shop}
+    #page_nav
+      = paginate @shops
+

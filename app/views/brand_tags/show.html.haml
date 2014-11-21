@@ -1,0 +1,18 @@
+%p#notice= notice
+
+%p
+  %b Name:
+  = @brand_tag.name
+%p
+  %b Thing image:
+  = @brand_tag.thing_image_id
+%p
+  %b Type:
+  = @brand_tag.type_id
+%p
+  %b On:
+  = @brand_tag.on
+
+= link_to 'Edit', edit_brand_tag_path(@brand_tag)
+\|
+= link_to 'Back', brand_tags_path

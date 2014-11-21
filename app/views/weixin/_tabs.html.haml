@@ -1,0 +1,11 @@
+- @options.each do |k, v|
+  &nbsp;
+  %a{:href => "?index=#{v}&#{@lbs_params}"}
+    = k
+&nbsp;
+%a{:href => weixin_brands_path  }
+  品牌
+
+&nbsp; &nbsp; &nbsp;
+%a{:href => weixin_cities_path  }
+  = @city +"[切换]"

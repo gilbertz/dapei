@@ -1,0 +1,13 @@
+.Small_module
+  .hd
+    %h3 推荐单品
+  .bd
+    %ul.img4
+      -num=12
+      -i=0
+      -@items.each do |item|
+        -break unless i<num
+        -i=i+1
+        %li
+          %a{:href => "#{shop_item_path(item.shop, item)}"}
+            %img{:height => "80", :src => "#{item.img_url(:thumb_medium)}", :width => "80"}/

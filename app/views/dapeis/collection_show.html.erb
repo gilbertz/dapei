@@ -1,0 +1,356 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="target-densitydpi=320,width=640,user-scalable=no">
+  <title><%= @collection.title %></title>
+  <style>
+    body{
+        margin: 0 auto;
+        padding: 0;
+        background: #f5f5f5;
+        font-family: "Helvetica Neue",Helvetica,"Hiragino Sans GB","Segoe UI","Microsoft Yahei",Tahoma,Arial,STHeiti,sans-serif;
+        font-size: 14px;
+        line-height: 1.428571429;
+        color: #333;
+    }
+    #container{
+        width: 640px;
+        margin: 0 auto;
+        padding: 0;
+    }
+    #header{
+        background: #fff;
+        padding: 42px 28px 16px 28px;
+    }
+
+    #userinfo span{
+        display: inline-block;
+    }
+    #userinfo .avatar{
+        float: left;
+    }
+    #userinfo .avatar img{
+        height: 78px;
+        width: 78px;
+
+        border-radius: 5px;
+    }
+    .user{
+        padding-left: 20px;
+        display: inline-block;
+    }
+    .user .username{
+        height: 46px;
+        font-size: 26px;
+        line-height: 46px;
+    }
+    .user .user-level img{
+        height: 26px;
+        width: 26px;
+    }
+    .user .user-level{
+        color: #e5a93f;
+    }
+    .clearfixed{
+        clear: both;
+    }
+    .info{
+        font-size: 22px;
+        color: #535353;
+    }
+    .like-me{
+        width: 136px;
+        height: 44px;
+        border-radius: 5px;
+        background: #eb6766;
+        color: #fff;
+        line-height: 44px;
+        text-align: center;
+        float: right;
+        margin-top: 16px;
+    }
+    .content{
+        font-size: 24px;
+        margin-top: 35px;
+    }
+    .content-info{
+        margin-top: 26px;
+        font-size: 20px;
+        color: #787878;
+    }
+    .like-users{
+        margin-top: 26px;
+    }
+    .like-users ul{
+        padding: 0;
+        overflow: hidden;
+        height: 68px;
+        margin: 0 auto;
+    }
+    .like-users ul li{
+        list-style-type: none;
+        float: left;
+        margin-right: 18px;
+    }
+    .like-users ul li img{
+        width: 68px;
+        height: 68px;
+        border-radius: 5px;
+    }
+    #main{
+        background: #f5f5f5;
+        margin: 20px 28px;
+    }
+    #main .item{
+        width: 284px;
+        background: #fff;
+        text-align: center;
+        box-shadow: 0 1px 2px 1px #cacaca;
+    }
+    #main .item .thumb{
+        width: 264px;
+        padding: 10px 10px;
+    }
+    #main .item .thumb img{
+        width: 100%;
+        margin: 0 auto;
+        height: auto;
+    }
+    #main .item .item-info{
+        width: 100%;
+        border-top: 1px solid #c9c9c9;
+        height: 62px;
+        font-size: 24px;
+        color: #000;
+        line-height: 62px;
+    }
+    .item-info:after{
+        content: "";
+        clear: both;
+    }
+    .brand-name{
+        color: #787878;
+        text-align: right;
+    }
+    .item-price{
+        text-align: left;
+    }
+    .wrapper{
+        padding: 0 10px;
+    }
+    .wrapper span{
+        display: inline-block;
+        width: 50%;
+        float: left;
+        text-overflow: ellipsis;
+        white-space: nowrap;
+        overflow: hidden;
+    }
+    .like-icon{
+        background: url(http://1251008728.cdn.myqcloud.com/1251008728/assets/images/like.png) no-repeat;
+        padding-left: 30px;
+    }
+    .view-icon{
+        background: url(http://1251008728.cdn.myqcloud.com/1251008728/assets/images/view1.png) no-repeat;
+        padding-left: 40px;
+    }
+  </style>
+</head>
+<body>
+
+<div id="container">
+
+  <div id="header">
+
+    <div id="userinfo">
+        <span class="avatar">
+          <img src="<%= @collection.get_user.display_img_small %>" alt=""/>
+        </span>
+        
+        <div class="user">
+          <span class="username">
+            <%= @collection.user_name %>
+            <span class="user-level">
+                LV<%= @collection.get_user.get_level %>
+            </span>
+          </span>
+
+
+          <div class="info">
+            <span>粉丝 <%= @collection.get_user.followers_count %> 人</span> <span>搭配 <%= @collection.get_user.dapei_count %> 件</span>
+          </div>
+        </div>
+
+        <!--<span class="like-me">-->
+          <!--喜欢它-->
+        <!--</span>-->
+        <div class="clearfixed"></div>
+    </div>
+
+    <div class="content">
+      <%= @collection.desc %>
+    </div>
+
+    <div class="content-info">
+        <span class="like-icon"><%= @collection.likes_count %> 人喜欢</span> <span class="view-icon"><%= @collection.get_dispose_count %> 人浏览</span>
+    </div>
+
+    <div class="like-users">
+      <ul>
+        <% unless @like_users.blank? %>
+            <% i = 0 %>
+            <% @like_users.each do |user| %>
+                <% if i <= 5 %>
+                    <li>
+                      <img src="<%= user.display_img_small %>" alt=""/>
+                    </li>
+                <% elsif i == 6 %>
+                    <li>
+                      <img src="http://1251008728.cdn.myqcloud.com/1251008728/2014/07/30/more.png" alt=""/>
+                    </li>
+                <% end %>
+
+                <% i = i + 1 %>
+            <% end %>
+        <% end %>
+      </ul>
+    </div>
+
+  </div>
+
+  <div id="main">
+
+  </div>
+
+</div>
+
+
+<div id="shangjieba_share">
+  <input type="hidden" name="wanhuir_page_title" id="wanhuir_page_title" value="<%= @collection.share_title %>"/>
+  <input type="hidden" name="wanhuir_page_url" id="wanhuir_page_url" value="<%= @collection.share_url %>"/>
+  <input type="hidden" name="wanhuir_page_result" id="wanhuir_page_result" value="make 美格时尚"/>
+  <input type="hidden" name="wanhuir_page_desc" id="wanhuir_page_desc" value="<%= @collection.share_desc %>"/>
+  <input type="hidden" name="wanhuir_page_image" id="wanhuir_page_image" value="<%= @collection.share_img %>"/>
+  <input type="hidden" name="wanhuir_material_id" id="wanhuir_material_id" value="90"/>
+</div>
+
+<script type="text/javascript">
+    var get_wanhuir_share_info = function(){
+        wanhuir_page_title = $("#wanhuir_page_title").val();
+        wanhuir_page_url = $("#wanhuir_page_url").val();
+        wanhuir_page_result = $("#wanhuir_page_result").val();
+        wanhuir_page_desc = $("#wanhuir_page_desc").val();
+        wanhuir_page_image = $("#wanhuir_page_image").val();
+        wanhuir_material_id = $("#wanhuir_material_id").val();
+    }
+
+    var get_wanhuir_share_info_for_app = function(){
+        var result;
+
+        var wanhuir_page_title = "";
+        var wanhuir_page_url = "";
+        var wanhuir_page_result = "";
+        var wanhuir_page_desc = "";
+        var wanhuir_page_image = "";
+
+        wanhuir_page_title = $("#wanhuir_page_title").val();
+        wanhuir_page_url = $("#wanhuir_page_url").val();
+        wanhuir_page_result = $("#wanhuir_page_result").val();
+        wanhuir_page_desc = $("#wanhuir_page_desc").val();
+        wanhuir_page_image = $("#wanhuir_page_image").val();
+
+        result = '{"wanhuir_page_title": "'+wanhuir_page_title+'","wanhuir_page_url": "'+wanhuir_page_url+'","wanhuir_page_result": "'+wanhuir_page_result+'","wanhuir_page_desc": "'+wanhuir_page_desc+'","wanhuir_page_image": "'+wanhuir_page_image+'"}';
+        return result;
+    }
+</script>
+
+<script>
+    var dataForWeixin = {
+        appId: "wx78f81724e6590b1d",
+        TLImg: "<%= @collection.share_img %>",
+        url: "<%= @collection.share_url %>",
+        title: "<%= @collection.share_title %>",
+        desc: "<%= @collection.share_desc %>"
+    };
+
+    var onBridgeReady = function(){
+        WeixinJSBridge.on('menu:share:appmessage', function(argv){
+
+            WeixinJSBridge.invoke('sendAppMessage', {
+                "appid": dataForWeixin.appId,
+                "img_url": dataForWeixin.TLImg,
+                "img_width": "120",
+                "img_height": "120",
+                "link": dataForWeixin.url,
+                "title": dataForWeixin.title,
+                "desc": dataForWeixin.desc
+            });
+        });
+        WeixinJSBridge.on('menu:share:timeline', function(argv){
+            WeixinJSBridge.invoke('shareTimeline', {
+                "appid": dataForWeixin.appId,
+                "img_url":dataForWeixin.TLImg,
+                "img_width": "120",
+                "img_height": "120",
+                "link": dataForWeixin.url,
+                "title": dataForWeixin.title,
+                "desc": dataForWeixin.desc
+            });
+        });
+    };
+    if(document.addEventListener){
+        document.addEventListener('WeixinJSBridgeReady', onBridgeReady, false);
+    }else if(document.attachEvent){
+        document.attachEvent('WeixinJSBridgeReady', onBridgeReady);
+        document.attachEvent('onWeixinJSBridgeReady', onBridgeReady);
+    }
+</script>
+
+<script type="text/x-handlebars-template" id="waterfall-tpl">
+  {{#result}}
+  <div class="item">
+    <div class="thumb">
+      <img src="{{image}}"/>
+    </div>
+
+    <div class="item-info">
+
+      <div class="wrapper">
+        <span class="item-price">
+            {{price}}
+        </span>
+        <span class="brand-name">
+            {{brand_name}}
+        </span>
+      </div>
+
+    </div>
+  </div>
+  {{/result}}
+</script>
+<script src="http://1251008728.cdn.myqcloud.com/1251008728/assets/javascripts/jquery-2.0.3.min.js"></script>
+<script src="http://1251008728.cdn.myqcloud.com/1251008728/assets/javascripts/zepto.min.js"></script>
+<script src="http://1251008728.cdn.myqcloud.com/1251008728/assets/javascripts/handlebars.js"></script>
+<script src="http://1251008728.cdn.myqcloud.com/1251008728/assets/javascripts/waterfall.js"></script>
+
+<script>
+    jQuery(function($){
+        $("#main").waterfall({
+            itemCls: 'item',
+            colWidth: 284,
+            gutterWidth: 16,
+            gutterHeight: 16,
+            checkImagesLoaded: true,
+            maxPage: <%= @total_page %>,
+            path: function(page) {
+                return '/dapeis/<%= params[:id] %>/collection_items.json?page=' + page;
+            }
+        });
+    });
+</script>
+
+<%= render :partial => "layouts/m_download" %>
+
+</body>
+</html>

@@ -1,0 +1,10 @@
+= simple_form_for(@dapei_response) do |f|
+  = f.error_notification
+  .form-inputs
+    = f.input :request_id
+    = f.select :user_id, @users_for_select
+    = f.input :response_text
+    = f.input :dapei_id
+
+  .form-actions
+    = f.button :submit

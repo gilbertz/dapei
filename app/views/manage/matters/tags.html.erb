@@ -1,0 +1,21 @@
+<div style="padding:5px;">
+  <table class="table table-condensed table-bordered">
+    <thead>
+      <tr><th colspan=15>标签表</th></tr>
+    </thead>
+    <tbody>
+      <% @tags.in_groups_of(12) do |group| %>
+        <tr>
+          <% group.each do |tag| %>
+            <td>
+              <a href="#" onclick="javascript:$('#cboxClose').click();$('#tagid').val(<%= tag.try(:id) %>);$('#c').val('<%= tag.try(:name) %>')"><%= tag.try(:name) %></a>
+            </td>
+          <% end %>
+        </tr>
+      <% end %>
+    </tbody>
+  </table>
+  <div id="paginate">
+    <%#= paginate @brands, remote: true %>
+  </div>
+</div>

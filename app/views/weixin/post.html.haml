@@ -1,0 +1,14 @@
+- content_for :title do
+  = @post.title
+
+.wrapper
+  %p
+    %h4
+      #{@post.title}
+  %p
+    - if @post.photos and @post.photos.length>1
+      - @post.photos.each do |p|
+        %li
+          %img{:src => "#{p.url(nil)}"}/
+  %p
+    = raw @post.content

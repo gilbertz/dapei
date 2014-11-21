@@ -1,0 +1,446 @@
+<%= form_for [:manage,@spider], html: {class: 'form-horizontal', role: 'form'} do |f| %>
+  <%= f.hidden_field :brand_id %>
+  <div class="form-group" style='margin-left:0px; margin-right:0px;'>
+    <label for="inputEmail3" class="col-sm-2 control-label">状态</label>
+    <div class="col-sm-9">
+      <div class="checkbox">
+        <%= f.check_box :stop %> 是否停止 ?
+      </div>
+    </div>
+  </div>
+  <div class="form-group" style='margin-left:0px; margin-right:0px;'>
+    <label for="inputEmail3" class="col-sm-2 control-label">尺码类型</label>
+    <div class="col-sm-9">
+      <div class="checkbox">
+      <%for size_type in @size_types%>
+        <% bool_checked = @size_types_str.nil? ? false : @size_types_str.include?(size_type.id.to_s)%>
+        <%= f.check_box :size_types, {:multiple => true,  :checked => bool_checked}, "#{size_type.id}", "" %> <%= size_type.name %> <br/>
+      <%end%>
+      </div>
+    </div>
+  </div>
+  <div class="form-group" style='margin-left:0px; margin-right:0px;'>
+    <label for="inputEmail3" class="col-sm-2 control-label">代购</label>
+    <div class="col-sm-9">
+      <div class="checkbox">
+        <%= f.check_box :is_agent %> 是否代购 ?
+      </div>
+    </div>
+  </div>
+  <div class="form-group" style='margin-left:0px; margin-right:0px;'>
+    <label for="inputEmail3" class="col-sm-2 control-label">显示运费</label>
+    <div class="col-sm-9">
+      <div class="checkbox">
+        <%= f.check_box :is_show_freight %> 是否显示运费 ?
+      </div>
+    </div>
+  </div>
+  <div class="form-group" style='margin-left:0px; margin-right:0px;'>
+    <label for="inputEmail3" class="col-sm-2 control-label">代购运费</label>
+    <div class="col-sm-3">
+      <%= f.text_field :freight, class: 'form-control' %>
+    </div>
+  </div>
+  <div class="form-group" style='margin-left:0px; margin-right:0px;'>
+    <label for="inputEmail3" class="col-sm-2 control-label">导购</label>
+    <div class="col-sm-9">
+      <div class="checkbox">
+        <%= f.check_box :is_guide %> 是否导购到官网 ?
+      </div>
+    </div>
+  </div>
+  <div class="form-group" style='margin-left:0px; margin-right:0px;'>
+    <label for="inputEmail3" class="col-sm-2 control-label">衣服最大价格</label>
+    <div class="col-sm-3">
+      <%= f.text_field :max_clothes_price, class: 'form-control' %>
+    </div>
+  </div>
+  <div class="form-group" style='margin-left:0px; margin-right:0px;'>
+    <label for="inputEmail3" class="col-sm-2 control-label">鞋子最大价格</label>
+    <div class="col-sm-3">
+      <%= f.text_field :max_shoes_price, class: 'form-control' %>
+    </div>
+  </div>
+  <div class="form-group" style='margin-left:0px; margin-right:0px;'>
+    <label for="inputEmail3" class="col-sm-2 control-label">包包最大价格</label>
+    <div class="col-sm-3">
+      <%= f.text_field :max_bags_price, class: 'form-control' %>
+    </div>
+  </div>
+  <div class="form-group" style='margin-left:0px; margin-right:0px;'>
+    <label for="inputEmail3" class="col-sm-2 control-label">模板选择</label>
+    <div class="col-sm-3">
+      <%= f.select :template_id, @templates, {include_blank: '无模板'}, class: 'form-control input-sm' %>
+    </div>
+  </div>
+  <div class="form-group" style='margin-left:0px; margin-right:0px;'>
+    <label for="inputEmail3" class="col-sm-2 control-label">模板</label>
+    <div class="col-sm-9">
+      <div class="checkbox">
+        <%= f.check_box :is_template %> 是否有 ?
+      </div>
+    </div>
+  </div>
+
+  <div class="form-group" style='margin-left:0px; margin-right:0px;'>
+    <label for="inputEmail3" class="col-sm-2 control-label">裁剪参数</label>
+    <div class="col-sm-3">
+      <%= f.text_area :crop, class: 'form-control input-sm', rows: 2 %>
+    </div>
+  </div>
+
+  <div class="form-group" style='margin-left:0px; margin-right:0px;'>
+    <label for="inputEmail3" class="col-sm-2 control-label">更新周期</label>
+    <div class="col-sm-3">
+      <%= f.number_field :update_period, class: 'form-control input-sm' %>
+    </div>
+  </div>
+  <div class="form-group" style='margin-left:0px; margin-right:0px;'>
+    <label for="inputEmail3" class="col-sm-2 control-label">显示图片索引</label>
+    <div class="col-sm-3">
+      <%= f.number_field :show_pic_index, class: 'form-control input-sm' %>
+    </div>
+  </div>
+  <div class="form-group" style='margin-left:0px; margin-right:0px;'>
+    <label for="inputEmail3" class="col-sm-2 control-label">图片索引</label>
+    <div class="col-sm-3">
+      <%= f.number_field :pic_index, class: 'form-control input-sm' %>
+    </div>
+  </div>
+  <div class="form-group" style='margin-left:0px; margin-right:0px;'>
+    <label for="inputEmail3" class="col-sm-2 control-label">鞋图片索引</label>
+    <div class="col-sm-3">
+      <%= f.number_field :shoe_pic_index, class: 'form-control input-sm' %>
+    </div>
+  </div>
+  <div class="form-group" style='margin-left:0px; margin-right:0px;'>
+    <label for="inputEmail3" class="col-sm-2 control-label">包图片索引</label>
+    <div class="col-sm-3">
+      <%= f.number_field :bag_pic_index, class: 'form-control input-sm' %>
+    </div>
+  </div>
+  <div class="form-group" style='margin-left:0px; margin-right:0px;'>
+    <label for="inputEmail3" class="col-sm-2 control-label">配饰图片索引</label>
+    <div class="col-sm-3">
+      <%= f.number_field :peishi_pic_index, class: 'form-control input-sm' %>
+    </div>
+  </div>
+  <div class="form-group" style='margin-left:0px; margin-right:0px;'>
+    <label for="inputEmail3" class="col-sm-2 control-label">起始页</label>
+    <div class="col-sm-10">
+      <%= f.text_area :start_page, class: 'form-control', rows: 2 %>
+    </div>
+  </div>
+  <div class="form-group" style='margin-left:0px; margin-right:0px;'>
+    <label for="inputEmail3" class="col-sm-2 control-label">鞋子起始页</label>
+    <div class="col-sm-9">
+      <%= select_tag "shoes_sub_catid", options_for_select(@shoes_sub_cats), class: 'form-control input-sm' %><br/>
+      <%= f.text_area :start_page_4, class: 'form-control', rows: 9 %>
+    </div>
+  </div>
+  <div class="form-group" style='margin-left:0px; margin-right:0px;'>
+    <label for="inputEmail3" class="col-sm-2 control-label">包包起始页</label>
+    <div class="col-sm-9">
+      <%= select_tag "bags_sub_catid", options_for_select(@bags_sub_cats), class: 'form-control input-sm' %><br/>
+      <%= f.text_area :start_page_5, class: 'form-control', rows: 9 %>
+    </div>
+  </div>
+  <div class="form-group" style='margin-left:0px; margin-right:0px;'>
+    <label for="inputEmail3" class="col-sm-2 control-label">配饰起始页</label>
+    <div class="col-sm-9">
+      <%= select_tag "accs_sub_catid", options_for_select(@accs_sub_cats), class: 'form-control input-sm' %><br/>
+      <%= f.text_area :start_page_6, class: 'form-control', rows: 9 %>
+    </div>
+  </div>
+  <div class="form-group" style='margin-left:0px; margin-right:0px;'>
+    <label for="inputEmail3" class="col-sm-2 control-label">男装起始页</label>
+    <div class="col-sm-10">
+      <%= f.text_area :start_page_7, class: 'form-control', rows: 2 %>
+    </div>
+  </div>
+  <div class="form-group" style='margin-left:0px; margin-right:0px;'>
+    <label for="inputEmail3" class="col-sm-2 control-label">童装起始页</label>
+    <div class="col-sm-10">
+      <%= f.text_area :start_page_8, class: 'form-control', rows: 2 %>
+    </div>
+  </div>
+  <div class="form-group" style='margin-left:0px; margin-right:0px;'>
+    <label for="inputEmail3" class="col-sm-2 control-label">化妆品起始页</label>
+    <div class="col-sm-9">
+      <%= select_tag "cosmetic_sub_catid", options_for_select(@cosmetic_sub_cats), class: 'form-control input-sm' %><br/>
+      <%= f.text_area :start_page_9, class: 'form-control', rows: 6 %>
+    </div>
+  </div>
+  <div class="form-group" style='margin-left:0px; margin-right:0px;'>
+    <label for="inputEmail3" class="col-sm-2 control-label">家居起始页</label>
+    <div class="col-sm-9">
+      <%= select_tag "house_sub_catid", options_for_select(@house_sub_cats), class: 'form-control input-sm' %><br/>
+      <%= f.text_area :start_page_10, class: 'form-control', rows: 9 %>
+    </div>
+  </div>
+  <div class="form-group" style='margin-left:0px; margin-right:0px;'>
+    <label for="inputEmail3" class="col-sm-2 control-label">上装起始页</label>
+    <div class="col-sm-9">
+      <%= select_tag "tops_sub_catid", options_for_select(@tops_sub_cats), class: 'form-control input-sm' %><br/>
+      <%= f.text_area :start_page_11, class: 'form-control', rows: 9 %>
+    </div>
+  </div>
+  <div class="form-group" style='margin-left:0px; margin-right:0px;'>
+    <label for="inputEmail3" class="col-sm-2 control-label">裤装起始页</label>
+    <div class="col-sm-9">
+      <%= select_tag "pants_sub_catid", options_for_select(@pants_sub_cats), class: 'form-control input-sm' %><br/>
+      <%= f.text_area :start_page_12, class: 'form-control', rows: 9 %>
+    </div>
+  </div>
+  <div class="form-group" style='margin-left:0px; margin-right:0px;'>
+    <label for="inputEmail3" class="col-sm-2 control-label">裙装起始页</label>
+    <div class="col-sm-9">
+      <%= select_tag "skirts_sub_catid", options_for_select(@skirts_sub_cats), class: 'form-control input-sm' %><br/>
+      <%= f.text_area :start_page_13, class: 'form-control', rows: 9 %>
+    </div>
+  </div>
+  <div class="form-group" style='margin-left:0px; margin-right:0px;'>
+    <label for="inputEmail3" class="col-sm-2 control-label">内衣起始页</label>
+    <div class="col-sm-10">
+      <%= f.text_area :start_page_14, class: 'form-control', rows: 2 %>
+    </div>
+  </div>
+  <div class="form-group" style='margin-left:0px; margin-right:0px;'>
+    <label for="inputEmail3" class="col-sm-2 control-label">产品起始页</label>
+    <div class="col-sm-10">
+      <%= f.text_area :product_page, class: 'form-control', rows: 2 %>
+    </div>
+  </div>
+  <div class="form-group" style='margin-left:0px; margin-right:0px;'>
+    <label for="inputEmail3" class="col-sm-2 control-label">下一页</label>
+    <div class="col-sm-10">
+      <%= f.text_area :next_page, class: 'form-control', rows: 2 %>
+    </div>
+  </div>
+  <div class="form-group" style='margin-left:0px; margin-right:0px;'>
+    <label for="inputEmail3" class="col-sm-2 control-label">P Title</label>
+    <div class="col-sm-10">
+      <%= f.text_field :ptitle, class: 'form-control' %>
+    </div>
+  </div>
+  <div class="form-group" style='margin-left:0px; margin-right:0px;'>
+    <label for="inputEmail3" class="col-sm-2 control-label">P Price</label>
+    <div class="col-sm-10">
+      <%= f.text_field :pprice, class: 'form-control' %>
+    </div>
+  </div>
+  <div class="form-group" style='margin-left:0px; margin-right:0px;'>
+    <label for="inputEmail3" class="col-sm-2 control-label">P Origin Price</label>
+    <div class="col-sm-10">
+      <%= f.text_field :porigin_price, class: 'form-control' %>
+    </div>
+  </div>
+  <div class="form-group" style='margin-left:0px; margin-right:0px;'>
+    <label for="inputEmail3" class="col-sm-2 control-label">Now Price</label>
+    <div class="col-sm-10">
+      <%= f.text_field :now_price, class: 'form-control' %>
+    </div>
+  </div>
+  <div class="form-group" style='margin-left:0px; margin-right:0px;'>
+    <label for="inputEmail3" class="col-sm-2 control-label">P Desc</label>
+    <div class="col-sm-10">
+      <%= f.text_field :pdesc, class: 'form-control' %>
+    </div>
+  </div>
+  <div class="form-group" style='margin-left:0px; margin-right:0px;'>
+    <label for="inputEmail3" class="col-sm-2 control-label">P Code</label>
+    <div class="col-sm-10">
+      <%= f.text_field :pcode, class: 'form-control' %>
+    </div>
+  </div>
+  <div class="form-group" style='margin-left:0px; margin-right:0px;'>
+    <label for="inputEmail3" class="col-sm-2 control-label">P Hot</label>
+    <div class="col-sm-10">
+      <%= f.text_field :phot, class: 'form-control' %>
+    </div>
+  </div>
+  <div class="form-group" style='margin-left:0px; margin-right:0px;'>
+    <label for="inputEmail3" class="col-sm-2 control-label">P Imgs</label>
+    <div class="col-sm-10">
+      <%= f.text_field :pimgs, class: 'form-control' %>
+    </div>
+  </div>
+ 
+  <div class="form-group" style='margin-left:0px; margin-right:0px;'>
+    <label for="inputEmail3" class="col-sm-2 control-label">P DP Imgs</label>
+    <div class="col-sm-10">
+      <%= f.text_field :dp_img, class: 'form-control' %>
+    </div>
+  </div>
+  <div class="form-group" style='margin-left:0px; margin-right:0px;'>
+    <label for="inputEmail3" class="col-sm-2 control-label">P Imgs Attr</label>
+    <div class="col-sm-10">
+      <%= f.text_field :pimg_attr, class: 'form-control' %>
+    </div>
+  </div>
+  <div class="form-group" style='margin-left:0px; margin-right:0px;'>
+    <label for="inputEmail3" class="col-sm-2 control-label">P Dp Imgs Attr</label>
+    <div class="col-sm-10">
+      <%= f.text_field :dp_img_attr, class: 'form-control' %>
+    </div>
+  </div>
+  <div class="form-group" style='margin-left:0px; margin-right:0px;'>
+    <label for="inputEmail3" class="col-sm-2 control-label">Img Rule</label>
+    <div class="col-sm-10">
+      <%= f.text_field :img_rule, class: 'form-control' %>
+    </div>
+  </div>
+  <div class="form-group" style='margin-left:0px; margin-right:0px;'>
+    <label for="inputEmail3" class="col-sm-2 control-label">Dp Img Rule</label>
+    <div class="col-sm-10">
+      <%= f.text_field :dp_img_rule, class: 'form-control' %>
+    </div>
+  </div>
+  <div class="form-group" style='margin-left:0px; margin-right:0px;'>
+    <label for="inputEmail3" class="col-sm-2 control-label">P Color</label>
+    <div class="col-sm-10">
+      <%= f.text_field :pcolor, class: 'form-control' %>
+    </div>
+  </div>
+  <div class="form-group" style='margin-left:0px; margin-right:0px;'>
+    <label for="inputEmail3" class="col-sm-2 control-label">P Size</label>
+    <div class="col-sm-10">
+      <%= f.text_field :psize, class: 'form-control' %>
+    </div>
+  </div>
+  <div class="form-group" style='margin-left:0px; margin-right:0px;'>
+    <label for="inputEmail3" class="col-sm-2 control-label">P Show Img</label>
+    <div class="col-sm-10">
+      <%= f.text_field :pshow_img, class: 'form-control' %>
+    </div>
+  </div>
+  <div class="form-group" style='margin-left:0px; margin-right:0px;'>
+    <label for="inputEmail3" class="col-sm-2 control-label">P Store Count</label>
+    <div class="col-sm-10">
+      <%= f.text_field :pstore_count, class: 'form-control' %>
+    </div>
+  </div>
+  <div class="form-group" style='margin-left:0px; margin-right:0px;'>
+    <label for="inputEmail3" class="col-sm-2 control-label">P Rate Score</label>
+    <div class="col-sm-10">
+      <%= f.text_field :prate, class: 'form-control' %>
+    </div>
+  </div>
+  <div class="form-group" style='margin-left:0px; margin-right:0px;'>
+    <label for="inputEmail3" class="col-sm-2 control-label">P Sold Count</label>
+    <div class="col-sm-10">
+      <%= f.text_field :psold_count, class: 'form-control' %>
+    </div>
+  </div> 
+  <div class="form-group" style='margin-left:0px; margin-right:0px;'>
+    <label for="inputEmail3" class="col-sm-2 control-label">P Sold Out</label>
+    <div class="col-sm-10">
+      <%= f.text_field :sold_out, class: 'form-control' %>
+    </div>
+  </div>
+  <div class="form-group" style='margin-left:0px; margin-right:0px;'>
+    <label for="inputEmail3" class="col-sm-2 control-label">Others</label>
+    <div class="col-sm-10">
+      <%= f.text_field :others, class: 'form-control' %>
+    </div>
+  </div>
+  <div class="form-group" style='margin-left:0px; margin-right:0px;'>
+    <div class="col-sm-offset-2 col-sm-10">
+      <%= f.submit '提交爬虫', class: 'btn btn-primary' %>
+    </div>
+  </div>
+<% end %>
+<script type="text/javascript">
+  $(function(){
+    $("#tops_sub_catid").change(function(){
+      var sub_catid = $(this).val();
+      var link_val = $("#spider_start_page_11").val();
+     if (sub_catid > 0){
+      if (!$.trim(link_val)) {
+        $("#spider_start_page_11").val(sub_catid+",");
+      }else{        
+        $("#spider_start_page_11").val(link_val+"|"+sub_catid+",");
+      }
+     }
+    });
+    $("#shoes_sub_catid").change(function(){
+      var sub_catid = $(this).val();
+      var link_val = $("#spider_start_page_4").val();
+     if (sub_catid > 0){
+      if (!$.trim(link_val)) {
+        $("#spider_start_page_4").val(sub_catid+",");
+      }else{        
+        $("#spider_start_page_4").val(link_val+"|"+sub_catid+",");
+      }
+     }
+    });
+    $("#pants_sub_catid").change(function(){
+      var sub_catid = $(this).val();
+      var link_val = $("#spider_start_page_12").val();
+     if (sub_catid > 0){
+      if (!$.trim(link_val)) {
+        $("#spider_start_page_12").val(sub_catid+",");
+      }else{        
+        $("#spider_start_page_12").val(link_val+"|"+sub_catid+",");
+      }
+     }
+    });
+    $("#skirts_sub_catid").change(function(){
+      var sub_catid = $(this).val();
+      var link_val = $("#spider_start_page_13").val();
+     if (sub_catid > 0){
+      if (!$.trim(link_val)) {
+        $("#spider_start_page_13").val(sub_catid+",");
+      }else{        
+        $("#spider_start_page_13").val(link_val+"|"+sub_catid+",");
+      }
+     }
+    });
+    $("#accs_sub_catid").change(function(){
+      var sub_catid = $(this).val();
+      var link_val = $("#spider_start_page_6").val();
+     if (sub_catid > 0){
+      if (!$.trim(link_val)) {
+        $("#spider_start_page_6").val(sub_catid+",");
+      }else{        
+        $("#spider_start_page_6").val(link_val+"|"+sub_catid+",");
+      }
+     }
+    });
+    $("#bags_sub_catid").change(function(){
+      var sub_catid = $(this).val();
+      var link_val = $("#spider_start_page_5").val();
+     if (sub_catid > 0){
+      if (!$.trim(link_val)) {
+        $("#spider_start_page_5").val(sub_catid+",");
+      }else{        
+        $("#spider_start_page_5").val(link_val+"|"+sub_catid+",");
+      }
+     }
+    });
+
+    $("#cosmetic_sub_catid").change(function(){
+      var sub_catid = $(this).val();
+      var link_val = $("#spider_start_page_9").val();
+     if (sub_catid > 0){
+      if (!$.trim(link_val)) {
+        $("#spider_start_page_9").val(sub_catid+",");
+      }else{        
+        $("#spider_start_page_9").val(link_val+"|"+sub_catid+",");
+      }
+     }
+    });
+
+    $("#house_sub_catid").change(function(){
+      var sub_catid = $(this).val();
+      var link_val = $("#spider_start_page_10").val();
+     if (sub_catid > 0){
+      if (!$.trim(link_val)) {
+        $("#spider_start_page_10").val(sub_catid+",");
+      }else{        
+        $("#spider_start_page_10").val(link_val+"|"+sub_catid+",");
+      }
+     }
+    });
+  })
+</script>

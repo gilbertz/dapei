@@ -1,0 +1,43 @@
+.infli
+  %li{:style=>"list-style:none;", :class=>"shopli"}
+    -if shop and item
+      %a.pic{:href => "#{shop_item_path(shop,item)}", :target=>"_blank"}
+        -if item and item.display_photos and item.display_photos.length>0
+          -item_photo=item.display_photos.last
+          -scale=item_photo.height.to_f/item_photo.width.to_f
+          -height=218*scale
+          %img{:alt=>"#{item.name} #{item.url} #{item.shop_name}", :height => "218", :src => "#{item_photo.url(:scaled_medium)}", :width => "218", :height=>"#{height}"}/
+        -else
+          %img{:height => "218", :src => "/assets/img.jpg", :width => "218"}/
+      -if(user_signed_in? and current_user==@user)
+        .x
+          =link_to "", "/social/likes/#{item.like_id}", :method=>:delete, :data => { :confirm => "确定取消喜欢吗?" }
+    -else
+      %a.pic{:href => "#"}
+        %img{:height => "218", :src => "/assets/img.jpg", :width => "218"}/
+    -if shop and item
+      %h4
+        %a{:href => "#{shop_item_path(shop,item)}",  :target=>"_blank"} #{item.title}
+      %h5
+        %a{:href => "#{shop_path(shop)}"} #{shop.name} 
+    -else
+      %h4
+        %a{:href => "#"} ############
+      %h5
+        %a{:href => "#"} ###### ##
+    .shop_properties
+      .lover_icon
+        -if shop and item
+          %a{:href=>"javascript:void(0)", :title=>"点击进行收藏", :likes_count=>"#{item.likes_count}", :liked_type=>"Item", :liked_id=>"#{item.url}" }#{item.likes_count}人喜欢
+          %b{:href=>"javascript:void(0)", :title=>"点击进行收藏"}
+        -else
+          %a{:href=>"#", :title=>"点击进行收藏"}xx人喜欢
+          %b{:href=>"#", :title=>"点击进行收藏"}
+      .commentary
+        -if shop and item
+          %a{:href=>"#{shop_item_path(shop, item)}", :target=>"_blank", :title=>"点击进行评论"}#{item.comments_count}评论
+          %b{:href=>"#{shop_item_path(shop, item)}", :target=>"_blank", :title=>"点击进行评论"}
+        -else
+          %a{:href=>"#", :title=>"点击进行评论"}xx评论
+          %b{:href=>"#", :title=>"点击进行评论"}
+  -#.promotions-label 限量五折！

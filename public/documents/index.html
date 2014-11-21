@@ -1,0 +1,307 @@
+<!doctype html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <link rel="stylesheet" type="text/css" href="http://1251008728.cdn.myqcloud.com/1251008728/assets/css/github.css"/>
+    <script type="text/javascript" src="http://1251008728.cdn.myqcloud.com/1251008728/assets/javascripts/highlight.pack.js"></script>
+    <script type="text/javascript">hljs.initHighlightingOnLoad();</script>
+    <title></title>
+</head>
+<body>
+
+<div>
+  <pre>
+    <code>
+    </code>
+  </pre>
+</div>
+
+<ul>
+<li>
+    <h3>订单</h3>
+
+    <div>
+      <pre>
+        <code>
+            添加收货地址 POST /ship_addresses
+            params:
+            {ship_address: {name: "", area: "", address: "", phone: ""}}
+
+            return
+            success:
+            {
+            "result": 0,
+            :id, :user_id, :name, :area, :address, :phone, :postcode, :is_default, :created_at
+            }
+        </code>
+      </pre>
+    </div>
+
+    <div>
+      <pre>
+        <code>
+            收货地址列表 GET /ship_addresses
+
+            带参数获取默认收货地址:
+            params:{is_default: 1}
+
+        </code>
+      </pre>
+    </div>
+
+
+    <div>
+      <pre>
+        <code>
+            修改收货地址 PUT /ship_addresses/1
+            params:
+            同添加
+        </code>
+      </pre>
+
+    </div>
+
+    <div>
+      <pre>
+        <code>
+            删除收货地址 DELETE /ship_addresses/1
+            success:
+            {result: 0}
+        </code>
+      </pre>
+    </div>
+
+    <div>
+      <pre>
+        <code>
+            添加购物车 POST /carts/add_to_cart
+
+            #添加到购物车
+            # params: {
+            #     sku_id: 1,
+            #     quantity: 1,
+            #     properties: [{:property_id => 1, :property_value_id => 2}, {:property_id => 2, :property_value_id => 3}]
+            # }
+        </code>
+      </pre>
+    </div>
+
+    <div>
+      <pre>
+        <code>
+            立即购买 POST /carts/buy_now_show
+
+            #立即购买
+            # params: {
+            #     sku_id: 1,
+            #     quantity: 1,
+            #     properties: [{:property_id => 1, :property_value_id => 2}, {:property_id => 2, :property_value_id => 3}]
+            # }
+        </code>
+      </pre>
+    </div>
+
+
+
+    <div>
+      <pre>
+        <code>
+            我的购物车 GET /carts
+
+        </code>
+      </pre>
+    </div>
+
+    <div>
+      <pre>
+        <code>
+            生成订单 POST /orders
+
+            params:
+            {
+              ids: [1,23,4], # line_item_id
+              marks: [{:brand_id => 1, mark =>""}, {:brand_id => 2, mark=> "qwq"}],
+              ship_address_id: 2,
+              payment_method_id: 1,
+              shipping_method_id: 2
+            }
+
+        </code>
+      </pre>
+    </div>
+
+    <div>
+      <pre>
+        <code>
+            我的订单 GET /orders 无请求参数获取已付款订单
+
+            //带下面参数 获取未付款订单列表
+            params:
+            {
+              status: "waiting"
+            }
+
+        </code>
+      </pre>
+    </div>
+
+
+    <div>
+      <pre>
+        <code>
+            取消订单 DELETE /orders/1
+
+            success
+            return:
+            {
+            result: 0
+            }
+
+        </code>
+      </pre>
+    </div>
+
+    <div>
+      <pre>
+        <code>
+            修改订单 PUT /orders/1
+
+            params:
+            {
+                payment_method_id: 1
+            }
+
+            success
+            return:
+            {
+            result: 0
+            }
+
+        </code>
+      </pre>
+    </div>
+
+
+    <div>
+      <pre>
+        <code>
+            订单资费 HTML WEBVIEW /orders/1/help
+            1 为sku的id
+        </code>
+      </pre>
+    </div>
+
+    <div>
+      <pre>
+        <code>
+            单品介绍 HTML WEBVIEW /skus/1/info
+        </code>
+      </pre>
+    </div>
+
+    <div>
+      <pre>
+        <code>
+            单品资费说明 HTML WEBVIEW /skus/1/help
+        </code>
+      </pre>
+    </div>
+
+
+    <div>
+      <pre>
+        <code>
+            设置默认收货地址 POST /ship_addresses/1/set_default
+
+            success:
+            {result: 0}
+        </code>
+      </pre>
+    </div>
+
+    <div>
+      <pre>
+        <code>
+
+            一键关注
+
+            POST /follows/create_many  params: ids=[1,2,3]
+            POST /follows/destroy_many  params: ids=[1,2,3]
+        </code>
+      </pre>
+    </div>
+
+
+    <div>
+      <pre>
+        <code>
+
+            发送验证吗
+
+            POST /users/send_code
+            params:
+            {
+                mobile: 13012345678
+            }
+
+            return:
+            {
+                result: 0
+                message: "Success"
+                time: "2014-08-18T11:07:40+08:00"
+            }
+        </code>
+      </pre>
+    </div>
+
+    <div>
+      <pre>
+        <code>
+
+            手机登陆
+
+            POST /users/login_with_mobile
+            params:
+            {
+              mobile: 13012345678,
+              code: 1234
+            }
+
+            return:
+            {
+            error: "验证码错误"
+            }
+
+            or
+
+            {
+            error: 0
+                user: {
+                    mobile: "13012345678"
+                    name: "sjb3q5pqxzg8Kx8fCqG8Zic"
+                    age: ""
+                    birthday: ""
+                    city: ""
+                    is_girl: "1"
+                    user_id: "sjb3q5pqxzg8kx8fcqg8zic"
+                    level: 0
+                    bg_img: "http:\/\/www.shangjieba.com\/assets\/tou_bg.png"
+                    avatar_img_medium: "http:\/\/www.shangjieba.com\/assets\/tou.png"
+                    display_name: "sjb3q5pqxzg8Kx8fCqG8Zic"
+                    token: "d6wrm8JsHKQLjQ9WbAFZ"
+                }
+            }
+
+
+        </code>
+      </pre>
+    </div>
+
+</li>
+
+
+</ul>
+
+
+</body>
+</html>

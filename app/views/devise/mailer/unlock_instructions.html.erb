@@ -1,0 +1,16 @@
+<p>您好！ <%= @resource.email %>!</p>
+
+
+<p>
+您的账户由于尝试登录次数过多，被锁住了。
+</p>
+<p> 
+请点击下面的链接来解锁您的账户:
+</p>
+
+<p><%= link_to '解锁账户', unlock_url(@resource, :unlock_token => @resource.unlock_token) %></p>
+
+
+<p>
+shangjieba(上街吧)团队
+</p>

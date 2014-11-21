@@ -1,0 +1,85 @@
+<script type="text/javascript" src="http://1251008728.cdn.myqcloud.com/1251008728/assets/javascripts/select2.min.js"></script>
+<link rel="stylesheet" type="text/css" href="http://1251008728.cdn.myqcloud.com/1251008728/assets/css/select2.css"/>
+
+<%= form_for [:manage, @tag] do |f| %>
+
+    <div class="form-group">
+      <%= f.label :name %>
+      <%= f.text_field :name, class: "form-control" %>
+    </div>
+
+    <div class="form-group" style='margin-left:0px; margin-right:0px;'>
+      <label for="inputEmail3" class="control-label">类别</label>
+        <%= f.select :type_id, [["默认", 0], ["搭配", 1], ["搭配问问", 2], ["选集", 3] ],{}, class: "form-control" %>
+    </div>
+
+
+    <!--
+    <div class="form-group">
+      <%= label_tag "一级分类" %>
+      <%= select_tag :category, options_for_select(@categories_for_select), style: "width: 100%" %>
+    </div>
+    <div>
+      <p></p>
+    </div>
+    <div class="form-group">
+      <%= label_tag "二级分类" %>
+      <%= select_tag :category_id, options_for_select(@sub_categories_for_select), style: "width: 100%" %>
+    </div>
+    -->
+
+    <div class="form-group" style='margin-left:0px; margin-right:0px;'>
+      <label for="inputEmail3" class="control-label">权 重</label>
+        <%= f.select :weight,(0..10),{}, class: "form-control" %>
+    </div>
+
+    <div class="form-group">
+        <%= label_tag "描述" %>
+        <%= text_area_tag :desc, "", class: "form-control", :style => "height: 55px" %>
+    </div>
+
+    <div class="form-group">
+      <%= label_tag "全局显示" %>
+      <%= f.select :is_show, [["不显示", 0], ["显示", 1]], {}, class: "form-control" %>
+    </div>
+
+    <div class="form-group">
+      <%= label_tag "分类显示" %>
+      <%= select_tag :is_show, options_for_select([["不显示", 0], ["显示", 1]], 1), class: "form-control" %>
+    </div>
+
+    <label></label>
+    <%= f.submit %>
+<% end %>
+
+<script type="text/javascript">
+  $(function(){
+      $("#category_id").change(function(){
+          var category_id = $(this).val();
+          $.getJSON("/manage/tags/<%= @tag.id %>/get_desc?category_id="+category_id, function(data){
+            console.log(data["desc"]);
+            $("#desc").val(data["desc"]);
+
+            if(data["is_show"] == 0){
+                $("#is_show").val(0);
+            }else{
+                $("#is_show").val(1);
+            }
+
+          });
+      });
+
+      $("#category").change(function(){
+          var sub_cate = $("#category_id");
+          var first_category_id = $(this).val();
+
+          $.get("/manage/skus/get_sub_categories", {first_category_id: first_category_id}, function(data){
+              $(sub_cate).html(data);
+              $(sub_cate).select2();
+          });
+      });
+
+      $("#category_id").select2();
+      $("#category").select2();
+  })
+</script>

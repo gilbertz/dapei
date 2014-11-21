@@ -1,0 +1,181 @@
+.wrapper
+  %table.dapeiji-table
+    %tr
+      %td
+        .dapeiji-left
+          .dapei-image
+            %img{:alt=>"#{@dapei.title} #{@dapei.url}", :src => "#{@dapei.img_url(nil)}"}/
+          .dapeiji-title
+            #{@dapei.title}
+          .dapeiji-xiaobian
+          .dapeiji-tag
+            -#%span.xiaobian> 搭配标签：
+            -#简单 又轻松 的搭配
+            #{@dapei.desc}
+          .item-comment.dapeiji-comment
+            %div
+              %span.comment-num 评论(#{@dapei.comments_count})
+              =render :partial => 'comments/form', :locals => {:commentable => @item}
+              -#%form{:action => ""}
+                %textarea#comment-textarea{:cols => "30", :name => "comment", :rows => "5"}
+                %input.submit-b{:name => "submit", :type => "submit", :value => "submit"}/
+            .item-comment-list
+              %ul.nav
+                -@comments.each do |comment|
+                  = render :partial=>"/comments/comment", :locals=>{:comment=>comment}
+                = paginate @comments
+                -#%li
+                  %ul.nav.nav-float
+                    %li.item-comment-list-avatar
+                      %img{:alt => "", :src => ""}/
+                    %li.item-comment-list-content
+                      .username hello laday
+                      .post-time 2分钟前
+                      .comment-content
+                        这家店很不错!
+      %td
+        .dapeiji-right
+          .single-item.single-item-dapei
+            .single-item-head 单品
+            %ul.nav.nav-float
+              %li
+                %img{:alt => "", :src => ""}/
+                .dapeiji-item-title
+                  军绿高腰靴子
+                  %span.price.pull-right ￥60
+              %li#ul-last-li
+                %img{:alt => "", :src => ""}/
+                .dapeiji-item-title
+                  军绿高腰靴子
+                  %span.price.pull-right ￥60
+              %li
+                %img{:alt => "", :src => ""}/
+                .dapeiji-item-title
+                  军绿高腰靴子
+                  %span.price.pull-right ￥60
+              %li#ul-last-li
+                %img{:alt => "", :src => ""}/
+                .dapeiji-item-title
+                  军绿高腰靴子
+                  %span.price.pull-right ￥60
+              %li
+                %img{:alt => "", :src => ""}/
+                .dapeiji-item-title
+                  军绿高腰靴子
+                  %span.price.pull-right ￥60
+          -#.single-item.posted-dapei-by-user
+            .single-item-head XX的搭配
+            %ul.nav.nav-float
+              %li
+                %img{:alt => "", :src => ""}/
+                .dapeiji-item-title
+                  军绿高腰靴子
+                  %span.price.pull-right ￥60
+              %li#ul-last-li
+                %img{:alt => "", :src => ""}/
+                .dapeiji-item-title
+                  军绿高腰靴子
+              %li
+                %img{:alt => "", :src => ""}/
+                .dapeiji-item-title
+                  军绿高腰靴子
+              %li#ul-last-li
+                %img{:alt => "", :src => ""}/
+                .dapeiji-item-title
+                  军绿高腰靴子
+              %li
+                %img{:alt => "", :src => ""}/
+                .dapeiji-item-title
+                  军绿高腰靴子
+          .single-item.same-style-dapei.posted-dapei-by-user
+            .single-item-head 相同风格的搭配
+            %ul.nav.nav-float
+              %li
+                %img{:alt => "", :src => ""}/
+                .dapeiji-item-title
+                  军绿高腰靴子
+                  %span.price.pull-right ￥60
+              %li#ul-last-li
+                %img{:alt => "", :src => ""}/
+                .dapeiji-item-title
+                  军绿高腰靴子
+              %li
+                %img{:alt => "", :src => ""}/
+                .dapeiji-item-title
+                  军绿高腰靴子
+              %li#ul-last-li
+                %img{:alt => "", :src => ""}/
+                .dapeiji-item-title
+                  军绿高腰靴子
+              %li
+                %img{:alt => "", :src => ""}/
+                .dapeiji-item-title
+                  军绿高腰靴子
+
+
+
+
+/ 日志
+-#.clearfix.log_det
+  .log_det_bd
+    .left
+      .bb-hd
+        -if @dapei and  @dapei.price and @dapei.price!=""
+          %em.price
+            %span>
+            #{@dapei.price}
+        %h1 #{@dapei.title}
+        - if false and @dapei.buy_url != ""
+          %a{:href=>"#{@dapei.buy_url}", :rel=>"nofollow", :target=>"blank"}
+            %b 去购买!
+      .lover_bd
+        %a.lover_btn{:href => "javascript:void(0)",  :title=>"点击进行收藏", :likes_count=>"#{@dapei.likes_count}", :liked_type=>"Item", :liked_id=>"#{@dapei.url}"} 喜欢
+        %span.lover_icon
+          (#{@dapei.likes_count})
+      - if current_user and current_user.can_be_admin
+        =link_to "delete" ,dapei_path(@dapei), :class=>"delete", :title=>"删除",:method=>"delete", :confirm=>"确定删除吗?"
+      .article{:style=>"margin-bottom:20px; border-bottom:1px solid #eee;"}
+        .pic
+          -if @dapei.photos and @dapei.photos.length>0
+            %ul.slides
+              -@dapei.photos.each do |photo|
+                %li
+                  %img{:src => "#{photo.url(:scaled_full)}", :width => "#{photo.width>600?600:photo.width}", :alt=>"#{@dapei.title}"}/ 
+          -else
+            %img{ :src => "/assets/img.jpg", :width => "600", :height=>"400"}/
+        -#.from
+          = @dapei.upload_date
+        %br
+        -if @dapei.desc != ""
+          .desc
+            = @dapei.desc
+          %br
+      %ul
+        - unless @dp_items.blank? 
+          - @dp_items.each do |item|
+            = render :partial=>"/shops/baobei_list_item", :locals=>{:item=>item, :shop=>item.shop}
+      .text_editor
+        .hd
+          %h3 我要评论
+        .input_con
+          =render :partial => 'comments/form', :locals => {:commentable => @item}
+      .comment_bd
+        .hd
+          %h3 全部评论(#{@dapei.comments.length})
+        %ul.comment_c
+          -@comments.each do |comment|
+            = render :partial=>"/comments/comment", :locals=>{:comment=>comment}
+        = paginate @comments
+
+    .right
+      =render :partial=>"/posts/items_module"
+      =render :partial=>"/posts/shop_module"
+      =render :partial=>"/posts/people_module"
+
+-#.clearfix.gjb_product
+  .gjb_product_bd.stream
+    .gjb_product_bd
+      %ul{:style => "width:1010px;"}
+      - @dp_items.each do |item|
+        = render :partial=>"/shops/baobei_list_item", :locals=>{:item=>item, :shop=>item.shop}
+

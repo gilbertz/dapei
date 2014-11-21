@@ -1,0 +1,39 @@
+<p>
+  <br/>
+</p>
+<form action="/manage/flowers/home">
+  <input type="text" name="name" placeholder="用户名"/>
+  <input type="text" name="is_lucky" placeholder="中奖等级"/>
+  <input type="submit" value="搜索"/>
+</form>
+
+<div class="row">
+  <div class="col-lg-12">
+
+    <% unless @flowers.blank? %>
+    <table class="table">
+      <tr>
+        <th>ID</th>
+        <th>username</th>
+        <th>email</th>
+        <th>is lucky</th>
+        <th>Created at</th>
+      </tr>
+      <% @flowers.each do |flower| %>
+      <tr>
+        <td><%= flower.id %></td>
+        <td><%= flower.user.name %></td>
+        <td><%= flower.user.email %></td>
+        <td><%= flower.is_lucky.to_i + 1 %></td>
+        <td><%= flower.created_at %></td>
+      </tr>
+      <% end %>
+    </table>
+    <% end %>
+
+    <div>
+      总数: <%= @flowers.total_entries %>
+    </div>
+    <%= paginate @flowers %>
+  </div>
+</div>

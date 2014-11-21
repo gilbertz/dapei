@@ -1,0 +1,7 @@
+%p#notice= notice
+
+%p
+  %b 你的抽奖号，请注意保存
+  = @user_ext.cj_num_1
+
+= link_to 'Destroy', @user_ext, :method => :delete, :data => { :confirm => 'Are you sure?' }

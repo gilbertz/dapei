@@ -1,0 +1,64 @@
+= link_to 'New Brand', new_brand_path
+%br
+= link_to 'level >= 5', "/brand_admin/brands/info/check?level=5&skip="
+%br
+= link_to 'level >= 3', "/brand_admin/brands/info/check?level=3&skip="
+
+
+%table
+  - @brands.each do |brand|
+    - if not @skip and brand.spiders.length == 0
+      %tr
+        %td
+          = brand.sync_shops_count
+        - if brand.spiders and brand.spiders.length > 0
+          - spider =  brand.spiders.last
+          %td= link_to "edit spider #{spider.id}", edit_spider_path(spider)
+        - else
+          %td= link_to 'New spider', "/brand_admin/spiders/new?brand_id=#{brand.id}"
+        %td
+          = brand.level.to_s + "__"
+        %td
+          %a{:href=>"#{edit_brand_path(brand)}" }
+            = brand.new_skus_count.to_s + "新品"
+        %td
+          %a{:href=>"#{edit_brand_path(brand)}" } 
+            = brand.display_name
+        -#%td
+          - num = 0
+          - brand.skus.where("skus.category_id < 100").order("created_at desc").each do |sku|
+            - if not sku.deleted and sku.photos.length > 0
+              - num += 1
+              - break if num > 3
+              %a{:href => "#{brand.get_spider_path}" }
+                %img{:src => "#{sku.photos.first.url(:scaled_medium)}"}
+        %td
+          = brand.img_quality
+        %td 
+          = brand.get_tags
+        %td
+          = brand.e_name
+        %td
+          = brand.c_name
+        %td
+          = brand.domain
+        %td
+          = brand.currency
+        -#%td
+          = brand.brand_intro
+        %td 
+          %img{:src => "#{brand.avatar_url}", :width=>"90px", :height =>"45px"}
+        %td
+          %img{:src => "#{brand.wide_avatar_url}", :width=>"90px", :height => "45px" }
+        %td
+          %img{:src => "#{brand.white_avatar_url}", :width=>"90px", :height => "45px" }
+        %td
+          %img{:src => "#{brand.black_avatar_url}", :width=>"90px", :height => "45px"} 
+        %td
+          %img{:src => "#{brand.wide_banner_url}", :width=>"90px", :height => "45px" }
+        %td
+          %img{:src => "#{brand.shop_photo_url}", :width=>"180px", :height => "90px"}
+        %td
+          - brand.wide_campaign_imgs(:wide_small).first(1).each do |iurl|
+            %img{:src => "#{iurl}"} 
+%br

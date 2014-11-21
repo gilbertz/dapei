@@ -1,0 +1,12 @@
+%a{:href => "#{shop_item_path(item.shop, item)}" }
+  -if item.display_photos and item.display_photos.length>0
+    %img{:src => "#{item.display_photos.first.url(size)}", :alt=>"#{item.name} #{item.category.name} #{@city}" }/
+  -else
+    %img{:src => "/assets/img.jpg", :alt=>"#{@city} #{item.name}" }/
+  %span
+    #{item.recommend_title if item}
+    - if user_signed_in? and current_user.can_be_admin
+      .right_del
+        = link_to "删除", recommend_path(item.get_recommend), :class=>"delete", :title=>"删除",:method=>"delete", :confirm=>"确定删除吗?"
+  %b
+

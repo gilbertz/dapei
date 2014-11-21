@@ -1,0 +1,16 @@
+= simple_form_for([:manage, @lottery]) do |f|
+  = f.error_notification
+
+  .form-inputs
+    = f.input :title
+    = f.input :desc
+    = f.input :link
+    = f.input :img_url
+    = f.input :start_date
+    = f.input :end_date
+    = f.input :award
+    = f.input :type_id
+    = f.input :wait
+    = f.input :on
+  .form-actions
+    = f.button :submit

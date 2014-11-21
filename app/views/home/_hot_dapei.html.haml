@@ -1,0 +1,19 @@
+.wrapper
+  .big-sale.chunk.chunk-four
+    .chunk-head
+      .head-img
+        %img{:src => "/assets/newweb/hot_dapei.png", :alt => "热门搭配", :title => "热门品牌"}
+    .chunk-four-body
+      %ul.nav.nav-float.chunk-four-ul
+        - @dapei.each do |dp|
+          %li
+            %a{:href => "#{dapei_view_path(dp)}"}
+              %img{:src => "#{dp.dapei_img_url()}", :alt=>"#{dapei_photo_alt(dp)}", :title => "#{dapei_photo_title(dp)}"}
+                .opacity-dapei
+                  .item-brand
+                    #{dp.title}搭配
+                  .item-title
+                    /By holder
+                    By #{dp.get_user_name}
+                  .item-date
+                    #{dp.upload_date1}

@@ -1,0 +1,11 @@
+= simple_form_for(@user_ext) do |f|
+  = f.error_notification
+
+  .form-inputs
+    = f.input :user_id
+    = f.input :wx_gz_id
+    = f.input :baidu_push_id
+    = f.input :cj_num_1
+
+  .form-actions
+    = f.button :submit

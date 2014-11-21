@@ -1,0 +1,12 @@
+%tr{:class=>"#{color_class}"}
+  %td #{discount.docid}
+  %td #{discount.deleted}
+  %td #{discount.title}
+  %td #{discount.reason}
+  %td #{discount.id}
+  %td #{discount.start_date}
+  %td #{discount.end_date}
+  %td
+    -#%a.editor{:href => "#{[@shop, item]}", :title => "编辑"}
+    =link_to "edit" ,edit_brand_discount_path(@brand, discount), :class=>"editor",  :title=>"编辑"
+    =link_to "delete" ,brand_discount_path(@brand, discount), :class=>"delete", :title=>"删除",:method=>"delete", :confirm=>"确定删除吗?"   

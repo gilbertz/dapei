@@ -1,0 +1,12 @@
+- unless followable == current_user
+  - if user_signed_in?
+    - if current_user.following?(followable)
+      -if followable.instance_of? Shop
+        = link_to("取消关注", url_for([followable, current_user.get_follow(followable)]), :method => :delete)
+      -elsif followable.instance_of? User
+        = link_to("取消关注", url_for([followable, current_user.get_follow(followable)]), :class=>"cancel_attention", :method => :delete)
+    - else
+      -if followable.instance_of? Shop
+        = link_to("+关注", shop_follows_path(followable), :method=>:post)
+      -elsif followable.instance_of? User
+        = link_to("+关注", user_follows_path(followable), :method => :post,  :class=>"attention_icon")

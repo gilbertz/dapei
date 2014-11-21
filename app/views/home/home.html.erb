@@ -1,0 +1,205 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+  <meta name="keywords" content="美格时尚-上街吧,时尚,打折,优惠,搭配,搭配工具,女装,包包,鞋子,配饰,服饰,热店,品牌,女装,女包,女鞋,男装,童装,化妆品,app">
+  <meta name="description" content="美格时尚-上街吧,帮助爱美女性发现时尚，创建自己的时尚范儿。是女性用户首选的时装购物平台,方便快捷获取最新款时尚女装、包包、鞋子、配饰及其周边热门品牌新品、打折、优惠信息，轻松制作搭配，分享搭配心得和美丽经验。">
+  <title>美格时尚-上街吧-时尚品牌穿衣助手,美丽搭配DIY.</title>
+  <%= stylesheet_link_tag "home_2014" %>
+</head>
+<body>
+
+<div class="mk-row">
+
+  <div id="top-banner">
+    
+    <div class="top-logo">
+      <img src="http://1251008728.cdn.myqcloud.com/1251008728/2014/08/20/logo.png" alt=""/>
+    </div>
+
+    <div class="top-nav">
+      <ul>
+        <li>
+          <a href="/">首页</a>
+        </li>
+        <li>
+          <a href="<%=app_about_path%>">关于我们</a>
+        </li>
+        <%- if user_signed_in? %>
+            <li><a href = "<%=user_path(current_user)%>">
+              已登录, <%= current_user.display_name%>
+            </a><span>|</span></li>
+        <%- else %>
+            <li>
+              <a href="<%=new_user_session_path%>" target="_blank">登录</a>
+            </li>
+        <%- end %>
+        <%- if user_signed_in? %>
+            <li><a href = "/dapeis/index_all" target="_blank"> +发布搭配</a></li>
+        <%-else%>
+            <li><a href = "<%=search_path('dapei')%>" target="_blank"> +发布搭配</a></li>
+        <%- end%>
+        <div class="clearfixed"></div>
+      </ul>
+    </div>
+    
+  </div>
+
+  <div id="top-content">
+
+    <div class="top-cell float-left">
+
+      <div>
+        <img src="http://1251008728.cdn.myqcloud.com/1251008728/2014/08/20/left-top.png" alt=""/>
+      </div>
+
+      <div>
+
+        <div class="float-left" id="mk-download">
+
+          <a href="https://itunes.apple.com/us/app/shang-jie-ba/id657031277?ls=1&mt=8">
+            <img src="http://1251008728.cdn.myqcloud.com/1251008728/2014/08/20/iphone-down.png" alt=""/>
+          </a>
+
+          <a href="<%= @apk_url %>">
+            <img src="http://1251008728.cdn.myqcloud.com/1251008728/2014/08/20/android-down.png" alt=""/>
+          </a>
+
+        </div>
+        
+        <div class="float-left" id="weixin-code">
+          <img src="http://1251008728.cdn.myqcloud.com/1251008728/2014/08/20/code.png" alt=""/>
+        </div>
+
+        <div class="clearfixed"></div>
+      </div>
+
+      <div id="follow-us">
+        你最爱的关注:
+
+        <p>
+          新浪微博：<a href="#">@MAKE美格时尚</a>
+        </p>
+
+        <p>
+          微信订阅号：上街吧 MAKE美格时尚 玩会儿
+        </p>
+      </div>
+
+    </div>
+
+    <div class="top-cell float-left">
+
+      <div id="mk-slides">
+        <div id="slides_images">
+          <ul id="imageGallery">
+            <li data-thumb="http://1251008728.cdn.myqcloud.com/1251008728/2014/08/23/1.png">
+              <img src="http://1251008728.cdn.myqcloud.com/1251008728/2014/08/23/1.png" />
+            </li>
+            <!--
+            <li data-thumb="http://1251008728.cdn.myqcloud.com/1251008728/2014/08/23/2.png">
+              <img src="http://1251008728.cdn.myqcloud.com/1251008728/2014/08/23/2.png" />
+            </li>
+            <li data-thumb="http://1251008728.cdn.myqcloud.com/1251008728/2014/08/23/4.png">
+              <img src="http://1251008728.cdn.myqcloud.com/1251008728/2014/08/23/4.png" />
+            </li>
+            -->
+          </ul>
+        </div>
+
+      </div>
+
+    </div>
+
+    <div class="clearfixed"></div>
+
+  </div>
+
+</div>
+
+<div class="mk-container">
+
+  <div class="content-title">
+
+    <img src="http://1251008728.cdn.myqcloud.com/1251008728/2014/08/20/continue.png" alt=""/>
+    
+  </div>
+
+
+  <div class="dapeis-list">
+    <ul>
+      <% @dapeis.each do |dp|%>
+        <li>
+          <div class="dp-item">
+            <div class="top-part">
+              <%= link_to dapei_view_path(dp) do %>
+                <img alt="<%=dapei_photo_alt(dp)%>" title ="<%=dapei_photo_title(dp)%>" src ="<%=dp.img_url(:scaled_medium)%>">
+              <% end %>
+
+              <!--<div class="title">-->
+                <!--<%#= dp.title %>-->
+              <!--</div>-->
+            </div>
+            <div class="foot-part">
+              <span class="avatar">
+                <img src="<%= dp.get_user.display_img_small %>" alt=""/>
+              </span>
+              <span>
+                <%=dp.get_user.name%>
+              </span>
+
+              <span class="data-count">
+                <span class="comment-icon">
+                    <img src="http://1251008728.cdn.myqcloud.com/1251008728/2014/08/20/comment.png" alt=""/>
+                </span>
+                <span>
+                  <%= dp.comments_count %>
+                </span>
+              </span>
+
+              <span class="data-count">
+                <span class="like-icon">
+                    <img src="http://1251008728.cdn.myqcloud.com/1251008728/2014/08/20/like.png" alt=""/>
+                </span>
+                <span>
+                  <%= dp.likes_count %>
+                </span>
+              </span>
+
+            </div>
+          </div>
+        </li>
+      <% end %>
+      <div class="clearfixed"></div>
+    </ul>
+
+    <div class="content-title">
+      <img src="http://1251008728.cdn.myqcloud.com/1251008728/2014/08/20/more.png" alt=""/>
+    </div>
+
+    <div class="content-title">
+      <a href="http://a.app.qq.com/o/simple.jsp?pkgname=com.shangjieba.client.android&g_f=991653">
+        <img src="http://1251008728.cdn.myqcloud.com/1251008728/2014/08/20/download.png" alt=""/>
+      </a>
+    </div>
+  </div>
+
+</div>
+
+<link rel="stylesheet" href="http://1251008728.cdn.myqcloud.com/1251008728/2014/08/22/lightSlider.css"/>
+<script src="http://libs.baidu.com/jquery/2.0.0/jquery.min.js"></script>
+<%= javascript_include_tag "home_2014" %>
+<script type="text/javascript" src="http://1251008728.cdn.myqcloud.com/1251008728/2014/08/22/jquery.lightSlider.min.js"></script>
+
+<script>
+    $(document).ready(function() {
+        $('#imageGallery').lightSlider({
+            minSlide:1,
+            maxSlide:1,
+            auto: true
+        });
+    });
+</script>
+
+</body>
+</html>

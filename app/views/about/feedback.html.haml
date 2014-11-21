@@ -1,0 +1,35 @@
+.layer_box
+  -#{:style => "left:200px; top:200px; width:760px; height:460px;"}
+  -#.layer_bd
+  .hd
+    %h2 意见反馈
+    %a.close{:href => "#"}
+  .bd
+    .about_bd#feedback_div
+      = form_tag "/feedbacks", :method => :post, :remote => true do
+        %br
+        = label_tag :content, "反馈意见内容"
+        = text_area_tag :content, "", rows: 4, style: "width: 450px"
+        = label_tag :qq, "你的QQ号码"
+        = text_field_tag :qq
+        = label_tag :email, "输入你的电子邮箱"
+        = text_field_tag :email
+        = label_tag :telephone, "你的手机号码"
+        = text_field_tag :telephone
+        %label
+        = submit_tag "submit"
+      %br
+      .title
+        .col
+          %p
+            %a{:href => "http://weibo.com/u/3985893887", :rel=>"nofollow"}关注我们的新浪微博
+          %p
+            %a{:href => "http://weibo.com/u/3985893887", :rel=>"nofollow"}  
+              %img{:height => "44", :src => "/assets/sina-weibo.png", :width => "109"}/ 
+        .col
+          %p 微信号
+          %p shangjiezhushou
+          %p 扫描二维码添加
+        .col
+          %img{:src => "http://t2.qpic.cn/mblogpic/73149a6d847e3dfa9c02/460", :alt=>"上街吧微信"}
+    

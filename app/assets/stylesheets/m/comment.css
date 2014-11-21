@@ -1,0 +1,39 @@
+.comment-item {
+  padding: 0.1rem 0;
+}
+
+.more-comment-page .comment-item {
+  border-bottom: solid 1px #ccc;
+}
+
+.comment-avatar {
+  width: 0.64rem;
+  height: 0.64rem;
+  margin: 0 0.05rem;
+}
+
+.comment-text-info {
+  font-size: 0.22rem;
+  line-height: 1.4;
+  float: right;
+  width: 82%;
+}
+.comment-user-name {
+  float: left;
+  color: #000;
+  width: 50%;
+}
+
+.comment-date {
+  float: right;
+  font-size: 0.2rem;
+  width: 30%;
+  color: rgb(150, 150, 150);
+  text-align: right;
+}
+
+.comment-content {
+  float: left;
+  color: rgb(150, 150, 150);
+  width: 100%;
+}

@@ -1,0 +1,108 @@
+-#%h2 Sign up
+-#= simple_form_for(resource, :as => resource_name, :url => registration_path(resource_name), :html => {:class => 'form-vertical' }) do |f|
+  = f.error_notification
+  = f.input :name, :autofocus => true
+  = f.input :email, :required => true
+  = f.input :password, :required => true
+  = f.input :password_confirmation, :required => true
+  = f.button :submit, 'Sign up', :class => 'btn-primary'
+-#= render "devise/shared/links"
+
+
+.login
+  .wrapper.login-wrapper
+    %h2.login-h1 注册上街吧
+    .login-main
+      .login-main-center
+        %ul.nav.nav-float
+          %li
+            %ul.nav.login-with
+              %li.login-type 推荐合作网站一键登录
+              %li
+                %a{:href=>"/accounts/info/auth/qq_connect"}
+                  .login-with-qq.login-with-other
+                    %span.icon-qq
+                      %img{:alt => "", :src => "/assets/newweb/qq.png"}/
+                    %b QQ账号登录
+              %li
+                %a{:href=>"/accounts/info/auth/weibo"}
+                  .login-with-weibo.login-with-other
+                    %span.icon-weibo
+                      %img{:alt => "", :src => "/assets/newweb/weibo-sina.png"}/
+                    %b 微博账号登录
+          %li#border-y
+          %li
+            = simple_form_for(resource, :as => resource_name, :validate=>true, :url => registration_path(resource_name)) do |f|
+              %ul.nav.login-sjb
+                %li.login-type 新建上街吧账号
+                %li
+                  =f.input :email, :label=>"邮箱：",  :input_html=>{:class=>"login-email"}
+                %li
+                  =f.input :password, :label=>"密码：",  :input_html=>{:class=>"login-password"}
+                %li
+                  = f.input :password_confirmation, :label=>"确认密码：", :input_html=>{:class=>"login-password"}
+                -#%li.login-tool
+                  = f.input :remember_me, :label=>false, :input_html=>{:class=>"login-auto-box"}, :as => :boolean if devise_mapping.rememberable?
+                  自动登录
+                  %span.forget-password
+                    %a{:href => "#{new_password_path(resource_name)}"} 忘记密码？
+                %li
+                  = f.button :submit, "注册", :class=>"login-submit"
+                  -#%span.no-account
+                    没有账号？
+                    %a{:href => "#{new_user_registration_path}"} 赶快注册
+
+
+
+-#.clearfix.recom-p.LoginRegister
+  .hd
+    %h2 注册
+  .bd
+    .left{:style=>"margin-top:60px;"}
+      %h3
+        推荐合作网站一键登录
+        %span 无需繁琐注册，快捷又方便
+      .clearfix.cooperation_login_bd
+        %ul
+          %li
+            %a{:href => "/accounts/info/auth/qq_connect"}
+              %img{:height => "24", :src => "/assets//qq-login.jpg", :width => "120"}/
+          %li
+            %a{:href => "/accounts/info/auth/weibo"}
+              %img{:height => "24", :src => "/assets//sina-login.jpg", :width => "120"}/
+          -#:wq%li
+            %a{:href => "#"}
+              %img{:height => "24", :src => "/assets//tb-login.jpg", :width => "120"}/
+          -#%li
+            %a{:href => "#"}
+              %img{:height => "24", :src => "/assets//alipay_login.jpg", :width => "120"}/
+          -#%li
+            %a{:href => "#"}
+              %img{:height => "24", :src => "/assets//tt_login.jpg", :width => "120"}/
+          -#%li
+            %a{:href => "#"}
+              %img{:height => "24", :src => "/assets//renren_login.jpg", :width => "120"}/
+    .right{:style => "margin-top:20px;"}
+      .directions
+        -if flash
+          - flash.each do |name, msg|
+            - if msg.is_a?(String)
+              %p
+                =msg
+                %a.close{"data-dismiss" => "alert"} ×
+
+      %h3 新建上街吧账号
+      .clearfix.login_w_bd
+        = simple_form_for(resource, :as => resource_name, :validate=>true, :url => registration_path(resource_name)) do |f|
+          -#- if f.error :base
+            = f.error :base
+          %ul
+            %li
+              =f.input :email, :label=>"邮箱：",   :label_html=>{:style=>"width:90px; left: -36px;"}, :input_html=>{:class=>"txt", :style=>"width:200px;"}, :placeholder=>"请输入您的常用邮箱"
+            %li
+              =f.input :password, :label=>"密码：",  :label_html=>{:style=>"width:90px; left: -36px;"},  :input_html=>{:class=>"txt", :style=>"width:200px;"}, :placeholder=>"至少6个字符"
+            %li
+              = f.input :password_confirmation, :label=>"确认密码：", :label_html=>{:style=>"width:90px; left: -36px;"},  :input_html=>{:class=>"txt", :style=>"width:200px;"}
+            %li.submit
+              = f.button :submit, "注册", :class=>"submit_btn"
+

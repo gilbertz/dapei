@@ -1,0 +1,12 @@
+<%= form_for [:manage, @property] do |f| %>
+
+    <div class="form-group">
+      <label>属性名称</label>
+      <%= f.text_field :name %>
+    </div>
+
+    <div class="form-group">
+      <%= f.submit %>
+    </div>
+
+<% end %>

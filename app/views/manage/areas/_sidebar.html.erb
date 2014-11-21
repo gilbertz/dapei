@@ -1,0 +1,57 @@
+<div class="bs-sidebar hidden-print affix-top" role="complementary">
+  <ul class="nav bs-sidenav">
+    <li class="active">
+      <%= link_to '其它管理', '#download', style: 'border-right:1px solid #f7f5fa;' %>
+      <ul class="nav">
+        <li class="<%= ac_active('categories','index') %>">
+          <%= link_to '分类管理', [:manage,:categories] %>
+        </li>
+        <li class="<%= ac_active('tags','index') %>">
+          <%= link_to '标签管理', [:manage,:tags] %>
+        </li>
+        <li>
+          <%= link_to '标签库管理', [:manage, :all_tags] %>
+        </li>
+        <li class="<%= ac_active('meta_tags','index') %>">
+          <%= link_to '元标签管理', [:manage,:meta_tags] %>
+        </li>
+        <li class="<%= ac_active('matter_tags','index') %>">
+          <%= link_to '素材标签', [:manage,:matter_tags] %>
+        </li>
+        <li class="<%= ac_active('dapei_tags','index') %>">
+          <%= link_to '搭配标签', [:manage,:dapei_tags] %>
+        </li>
+         
+        <li class="<%= ac_active('user_behaviours', 'xml_index') %>"> 
+          <%= link_to '用户行为', [:manage,:user_behaviours] %> 
+        </li>
+        <li class="<%= ac_active('users', 'index') %>"> 
+          <%= link_to '用户列表', [:manage,:users] %> 
+        </li>
+        
+       <li class="<%= ac_active('flinks', 'index') %>"> 
+          <%= link_to '友链列表', [:manage, :flinks] %> 
+        </li>
+        
+        <li class="<%= '' %>">
+          <%= link_to '活动管理', [:manage, :lotteries] %>
+        </li>
+        <li class="<%= '' %>">
+          <%= link_to '用户反馈', [:manage, :feedbacks] %>
+        </li>
+        
+        <li>
+          <%= link_to "友情App", [:manage, :friend_apps] %>
+        </li>
+      </ul>
+    </li>
+    <li class="active">
+      <%= link_to '配置管理', '#download', style: 'border-right:1px solid #f7f5fa;' %>
+      <ul class="nav">
+        <li class="<%= ac_active('apps', 'index') %>"> 
+          <%= link_to '相关信息', [:manage,:apps] %> 
+        </li>
+      </ul>
+    </li>
+  </ul>
+</div>

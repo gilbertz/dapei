@@ -1,0 +1,20 @@
+.wrapper
+  %h3
+    微信游戏 
+
+.wrapper
+  - ::Game::Material.order("created_at desc").each do |c|
+    .wrapper
+      %a{:href => "/game/materials/#{c.id}?fr=wg" }
+        = c.name 
+  .wrapper
+    %a{:href => "/games/info/marry_phone?fr=wg" }
+      测试你会嫁给谁？
+  .wrapper
+    %a{:href => "/games/info/wish_r?txt=新年快乐&fr=wg" }
+      春节愿望刮刮卡！【火爆】
+  .wrapper
+    %a{:href => "/games/info/test_love?fr=wg"}
+      失恋时，你会找谁疗伤?
+
+= render 'footer'

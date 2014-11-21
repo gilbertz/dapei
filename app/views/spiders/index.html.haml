@@ -1,0 +1,47 @@
+%h1 Listing spiders
+
+%table
+  %tr
+    %th updated_at
+    %th stop
+    %th level
+    %th Bid
+    %th Brand
+    %th Start page
+    %th Product page
+    %th Next page
+    %th Ptitle
+    %th Pprice
+    %th Pdesc
+    %th Pimgs
+    %th Others
+    %th
+    %th
+    %th
+
+  - @spiders.each do |spider|
+    %tr
+      %td= spider.updated_at
+      %td= spider.template_id
+      %td= spider.stop
+      -if spider.brand
+        %td= link_to spider.brand.level, edit_brand_path(spider.brand)
+        %td= link_to spider.brand.id, edit_spider_path(spider)
+        %td= link_to spider.brand.name, edit_spider_path(spider)
+      - if spider.brand and spider.brand.crawler_templates.length > 0 
+        - crawler_template =  spider.brand.crawler_templates.first
+        %td= link_to crawler_template.source, edit_crawler_template_path(crawler_template)
+      - elsif spider.brand
+        %td= link_to 'New  weibo Crawler template', "/brand_admin/crawler_templates/new?brand_id=#{spider.brand.id}"       
+      %td= spider.brand.spiders_count if spider.brand
+      - @categories.each do |cat|
+        %td= spider.get_crawled_status(cat.id) 
+      %td= spider.last_updated
+ 
+      %td= link_to 'Show', spider
+      %td= link_to 'Edit', edit_spider_path(spider)
+      %td= link_to 'Destroy', spider, method: :delete, data: { confirm: 'Are you sure?' }
+
+%br
+
+= link_to 'New Spider', new_spider_path

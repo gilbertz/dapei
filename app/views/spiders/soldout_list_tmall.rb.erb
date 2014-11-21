@@ -1,0 +1,19 @@
+# encoding: utf-8
+#!/usr/bin/env ruby
+
+require "rubygems"
+
+<% num = 1%>
+
+<% @spiders.each do |s| %>
+    <% next if s.brand.nil? %>
+    begin
+      <% id = s.brand.id %>
+      p "<%=num %>"
+      <% num += 1%> 
+      `wget http://203.195.186.54:3008/spiders/soldout/<%=id %>.rb -O so_<%=id %>.rb`
+     `ruby so_<%=id %>.rb`
+    rescue =>e
+      p e.to_s
+    end
+<% end %>

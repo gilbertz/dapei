@@ -1,0 +1,11 @@
+[
+<% unless @brands.blank? %>
+<% @brands.each do |brand| %>
+    <% unless brand == @brands.last %>
+    {"id": <%= brand[1] %>, "name": "<%= brand[0] %>"},
+    <% else %>
+    {"id": <%= brand[1] %>, "name": "<%= brand[0] %>"}
+    <% end %>
+<% end %>
+<% end %>
+]

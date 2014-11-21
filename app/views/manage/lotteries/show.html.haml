@@ -1,0 +1,26 @@
+%p#notice= notice
+
+%p
+  %b Title:
+  = @lottery.title
+%p
+  %b Desc:
+  = @lottery.desc
+%p
+  %b Start date:
+  = @lottery.start_date
+%p
+  %b End date:
+  = @lottery.end_date
+%p
+  %b Award:
+  = @lottery.award
+%p
+  %b Type:
+  = @lottery.type_id
+%p
+  %b Wait:
+  = @lottery.wait
+= link_to 'Edit', edit_manage_lottery_path(@lottery)
+\|
+= link_to 'Back', manage_lotteries_path

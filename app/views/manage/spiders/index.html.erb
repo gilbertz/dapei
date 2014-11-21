@@ -1,0 +1,62 @@
+<%= search_form_for [:manage, @q], html: {class: 'form-inline',role: 'form',style: 'margin-top:30px;'} do |f| %>
+  <div class="form-group">
+    <label class="sr-only">ShopName</label>
+    <%= f.text_field :brand_name_cont, class: 'form-control', placeholder: '品牌名' %>
+  </div>
+  <%= f.submit '搜索', class: 'btn btn-primary'%> 
+  <%= total_span @spiders %>
+<% end %>
+<table class="table table-bordered table-hover">
+  <thead>
+    <tr class="success">
+      <th width="6%">ID</th>
+      <th>品牌名</th>
+      <th>品牌级别</th>
+      <th>模板</th>
+      <th width="10%">停止</th>
+      <th width="17%"><%= sort_link @q, :created_at, '创建时间' %></th> 
+      <th width="17%"><%= sort_link @q, :last_updated, '最后爬取日期' %></th>
+      <th width="17%">最近一周数据</th>
+      <th width="12%">操作</th>
+    </tr>
+  </thead>
+  <tbody>
+    <% @spiders.each do |spider| %>
+      <% next unless spider.brand %>
+      <tr>
+        <td>
+          <span class="badge">
+            <%= spider.id %>
+          </span>
+        </td>
+        <td><%= link_to spider.brand.try(:name), "/manage/spiders?bid=#{spider.brand.id}" %></td>
+        <td><%= spider.brand.level %></td>
+        <td>
+          <% if spider.template_spider %>
+            <%= link_to spider.template_spider.brand.try(:name), "/manage/spiders?tid=#{spider.template_spider.id}" %>
+          <% end %>
+        </td>
+        <td>
+          <%= link_to [:update_state,:manage, spider] do %>
+            <span class='badge'><%= spider.stop_status %></span>
+          <% end %>        
+        </td>    
+        <td><%= to_local spider.created_at unless spider.created_at.nil?%></td>
+        <td><%= to_local spider.last_updated unless spider.last_updated.nil?%></td>
+        <td><% category_counts = spider.brand.count_skus_by_category
+             category_counts.keys.each do |category_count|%>
+              <%=category_count%> : <%=category_counts[category_count]%><br/>
+            <% end %>
+        </td>
+        <td>
+          <%= link_to '编辑', [:edit,:manage,spider] %> |
+          <%= link_to '删除', [:manage,spider], method: :delete, class: 'ajaxd', 
+          remote: true, confirm: 'Are you sure' %> |
+          <%= link_to '立即启动爬取', [:start_crawl,:manage,spider],  remote: true, confirm: '确定吗立即启动爬取？' %> |
+          <%= link_to '立即下架处理', [:start_soldout,:manage,spider],  remote: true, confirm: '确定吗立即下架处理？' %> 
+        </td>
+      </tr>
+    <% end %>
+  </tbody>
+</table>
+<%= paginate @spiders %>  

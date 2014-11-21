@@ -1,0 +1,18 @@
+%p#notice= notice
+
+%p
+  %b User:
+  = @user_activity.user_id
+%p
+  %b Action:
+  = @user_activity.action
+%p
+  %b Object type:
+  = @user_activity.object_type
+%p
+  %b Object:
+  = @user_activity.object
+
+= link_to 'Edit', edit_user_activity_path(@user_activity)
+\|
+= link_to 'Back', user_activities_path

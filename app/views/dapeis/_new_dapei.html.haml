@@ -1,0 +1,39 @@
+/ 完善资料
+.recom-p.clearfix.perfect_info
+  .right_content
+    %h1 发布搭配
+    #warning
+      提交失败，缺乏必要信息， 请参考下面提示补齐信息！
+    .process
+      .add_info
+        填写宝贝信息
+        %b
+    .master_c
+      .bd
+        .direction
+          %p
+        .info_bd
+          = simple_form_for(@dapei, :validate=>true, :url=>"/brand_admin/dapeis",  :html => { :method => :post, :id=>"create_item_form", :multipart => true }) do |f|
+            %ul
+              %li
+                = f.input :level, :label=>"评级：".html_safe,  :input_html=>{:class=>"txt", :style=>"width:250px;height:30px;"}, :collection=> -2..6
+              %li
+                = f.input :title, :label=>"<s>*</s>宝贝名称：".html_safe,  :input_html=>{:class=>"txt", :style=>"width:250px;"}
+              %li
+                = f.text_area :desc, :label=>"<s>*</s>宝贝描述：".html_safe,  :input_html=>{:class=>"txt", :style=>"width:250px;"}
+              %li
+                = f.input :category_id, :as=>:hidden, :input_html=>{:value=>"1000"}
+              %li
+                %label
+                  %s> *
+                  照片：
+                #photozone
+                .img.img_holder
+                  %a{:href => "javascript:void(0)"}
+                    %img{:height => "100", :src => "/assets/img.jpg", :width => "100"}/
+                .upload
+                  %a{:href => "javascript:void(0)", :id=>"file-upload", :class=>"img_holder"} 上传图片
+                  = render 'photos/new_photo'
+              %li
+                = f.button :submit, '发布宝贝', :class => 'submit_btn_01'
+                                                                                

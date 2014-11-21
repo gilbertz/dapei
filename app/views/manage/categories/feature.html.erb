@@ -1,0 +1,17 @@
+<h2>特色图像</h2>
+
+<%= form_tag "/manage/categories/#{params[:id]}/feature_create", method: :post do %>
+
+  <% unless @main_colors.blank? %>
+      <% @main_colors.each do |c| %>
+      <div style="margin-top: 10px; width: 800px">
+        <span class="main-color" style="width: 30px; height: 30px ;background: <%= c.color_value %>; display: inline-block;"></span>
+        <input type="hidden" name="feature[][main_color_id]" value="<%= c.id %>"/>
+        <input type="text" name="feature[][feature_image]" value="<%= AppCategoryFeatureImage.get_fi(params[:id], c.id).feature_image %>"/>
+      </div>
+      <% end %>
+  <% end %>
+
+  <input type="submit" name="确定"/>
+
+<% end %>

@@ -1,0 +1,16 @@
+.wrapper
+  %h3
+    城市列表 
+
+.wrapper
+  - ('A'..'Z').each do |ch|
+    &nbsp;
+    = link_to "#{ch}",  "?prefix=#{ch}"
+
+.wrapper
+  - @objs.each do |b|
+    &nbsp; &nbsp;
+    %a{:href => "/weixin/search?city_id=#{b.city_id}&lng=#{@lng}&lat=#{@lat}" }
+      = b.city
+
+= render 'footer'

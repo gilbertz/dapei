@@ -1,0 +1,121 @@
+<p>
+  <br/>
+</p>
+
+<%= link_to new_manage_typeset_path, class: "btn btn-default" do %>
+    新建Cells主题
+<% end %>
+
+<%= link_to manage_typesets_path(:list => 1), class: "btn btn-default" do %>
+    全部Cells主题
+<% end %>
+
+<%= link_to new_manage_typeset_type_path, class: "btn btn-default" do %>
+    新建类型
+<% end %>
+
+<%= link_to manage_typeset_types_path, class: "btn btn-default" do %>
+    全部类型
+<% end %>
+
+<%= link_to new_manage_cell_type_path, class: "btn btn-default" do %>
+    添加Cell类型
+<% end %>
+
+<%= link_to manage_cell_types_path, class: "btn btn-default" do %>
+    查看Cell类型
+<% end %>
+
+
+<% unless @typesets.blank? %>
+
+    <% @typesets.each do |ts| %>
+
+        <div class="container-wrapper">
+
+          <div>
+            <h2>
+              <%= ts.name %>
+            </h2>
+          </div>
+
+          <% unless ts.typeset_type.cell_types.blank? %>
+           <div id="gridster1" class="gridster">
+
+              <ul class="cells">
+                 <% ts.typeset_type.cell_types.each do |ct| %>
+
+                    <li data-row="<%= ct.data_row %>" data-col="<%= ct.data_col %>" data-sizex="<%= ct.data_sizex %>" data-sizey="<%= ct.data_sizey %>" href="/manage/set_cells/new?typeset_id=<%= ts.id  %>&cell_type_id=<%= ct.id %>" class="cell-<%= ct.id %>">
+
+                      <% sc = SetCell.where(:cell_type_id => ct.id, :typeset_id => ts.id).order("id desc").first %>
+                      <% if sc.present? and sc.image.present? %>
+
+                          <img src="<%= sc.image %>" style="width: <%= ct.width %>px; height: <%= ct.height %>px" alt=""/>
+
+                          <div class="tag-info" style="margin-top: -<%= ct.height %>px">
+                            <%= sc.tag.name %>
+                          </div>
+
+                      <% end %>
+                      <div class="cell-info">
+                      <span>
+                        <h2>
+                          <%= ct.type_num %>
+                        </h2>
+                      </span>
+
+                      <span>
+                        <%= ct.width %> X <%= ct.height %>
+                      </span>
+                      </div>
+                    </li>
+
+                 <% end %>
+              </ul>
+           </div>
+          <% end %>
+
+        </div>
+
+    <% end %>
+
+<% end %>
+
+<style>
+  .container-wrapper{
+      width: 640px;
+  }
+
+  .cells li{
+      list-style-type: none;
+      background: #ee5f5b;
+  }
+
+  .cell-info{
+      position: absolute;
+  }
+  /*.tag-info{*/
+      /*position: absolute;*/
+  /*}*/
+</style>
+
+<style>
+
+</style>
+
+
+<script>
+  $(function(){
+      $(".cells li").click(function(){
+
+          var href = $(this).attr("href");
+
+          window.location.href = href;
+      });
+
+      $(".gridster ul").gridster({
+          widget_margins: [<%= CellType::Base_margin %>, <%= CellType::Base_margin %>],
+          widget_base_dimensions: [<%= CellType::Base_width %>, <%= CellType::Base_height %>]
+      });
+  })
+</script>

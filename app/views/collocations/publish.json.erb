@@ -1,0 +1,32 @@
+{
+    "redirect": "",
+    "status": {
+        "ok": 1
+    },
+    "redirect_to_set": 1,
+    "result": {
+        "url": "<%= @dapei.url %>",
+        "user_type": "consumer",
+        "visibility": "public",
+        "createdon": "<%= @dpi.created_at %>",
+        "age": 0,
+        "buddyicon": "",
+        "state": "active",
+        "spec_uuid": "<%= @dpi.spec_uuid %>",
+        "groups": [],
+        "category": "interior",
+        "id": "<%= @dpi.id %>",
+        "status_msg": "",
+        "pageview": 0,
+        "penalty_score": 0,
+        "createdon_ts": "",
+        "description": "<%= @dpi.description %>",
+        "tags": [],
+        "user_name": "<%= current_user.blank? ? "" : current_user.display_name %>",
+        "user_age": "",
+        "user_state": "active",
+        "title": "<%= @dpi.title %>",
+        "cid": "<%= @dpi.dapei_id %>",
+        "user_id": "<%= current_user.blank? ? 0 : current_user.id  %>"
+    }
+}

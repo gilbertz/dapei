@@ -1,0 +1,41 @@
+=render :partial=>"/shared/admin_bar"
+
+%h1 Listing crawler_templates
+
+%table
+  %tr
+    %th Brand name
+    %th Brand
+    %th Mall name
+    %th mall
+    %th Template
+    %th Pattern
+    %th type
+    %th Skus count
+    %th Status
+    %th Last skus count
+    %th Source
+    %th
+    %th
+    %th
+
+  - @crawler_templates.each do |crawler_template|
+    %tr
+      %td= link_to crawler_template.get_brand_name, edit_crawler_template_path(crawler_template)
+      %td= crawler_template.brand_id
+      %td= crawler_template.get_mall_name
+      %td= crawler_template.mall_id
+      %td= crawler_template.template
+      %td= crawler_template.pattern
+      %td= crawler_template.t
+      %td= crawler_template.skus_count
+      %td= crawler_template.status
+      %td= crawler_template.last_skus_count
+      %td= crawler_template.source
+      %td= link_to 'Show', crawler_template
+      %td= link_to 'Edit', edit_crawler_template_path(crawler_template)
+      %td= link_to 'Destroy', crawler_template, method: :delete, data: { confirm: 'Are you sure?' }
+
+%br
+
+= link_to 'New Crawler template', new_crawler_template_path

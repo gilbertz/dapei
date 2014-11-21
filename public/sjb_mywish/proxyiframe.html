@@ -1,0 +1,38 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html>
+<head>
+<meta http-equiv="Access-Control-Allow-Origin" content="*">
+  <meta content="text/html" charset="utf-8" http-equiv="Content-Type">
+  <script text="text/javascript">
+  var ilikeFrame = null;
+ 
+  window.onresize = function() {
+    sendMessage(document.location.hash);
+  }
+  
+
+  function getShowIframe() {
+    for (var i = 0, iframe; iframe = window.parent.frames[i]; i++) {
+      try {    
+        if (iframe.window.location.host && (iframe !== self)) {
+          return iframe;
+        }
+      }
+      catch (e) {
+      //nothing to do
+      }
+    }
+    
+    return null;
+  }
+  
+  function sendMessage(message) {
+    ilikeFrame || (ilikeFrame = getShowIframe());
+    ilikeFrame && ilikeFrame.window.sap.capture(message);
+  }
+  
+  </script>
+<head>
+<body>
+</body>
+</html>

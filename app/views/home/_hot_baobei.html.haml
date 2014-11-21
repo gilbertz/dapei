@@ -1,0 +1,72 @@
+.wrapper
+  .new-arrival.chunk.chunk-one
+    .chunk-head
+      .head-img
+        %img{:src => "/assets/newweb/hot_baobei.png", :alt=>"#{@city}女装", :title =>"#{@city}女装"}
+    .chunk-one-body
+      %ul.nav.nav-float
+        %li
+          %ul.nav.chunk-one-left-nav
+            %li.active{"data-to" => "0"}
+              %a{:href => "#{cat_path('11')}"} 上装
+            %li{"data-to" => "1"}
+              %a{:href => "#{cat_path('12')}"} 裤装
+            %li{"data-to" => "2"}
+              %a{:href => "#{cat_path('13')}"} 裙装
+            %li{"data-to" => "3"}
+              %a{:href => "#{cat_path('14')}"} 内衣
+            %li{"data-to" => "4"}
+              %a{:href => "#{cat_path('4')}"} 鞋子
+            %li{"data-to" => "5"}
+              %a{:href => "#{cat_path('5')}"} 包包
+            %li{"data-to" => "6"}
+              %a{:href => "#{cat_path('6')}"} 配饰
+            %li{"data-to" => "7"}
+              %a{:href => "#{cat_path('7')}"} 男装
+            %li{"data-to" => "8"}
+              %a{:href => "#{cat_path('8')}"} 童装
+        %li#chunk-one-main
+          %ul#nav_flexslider.nav.flexslider
+            =render :partial=>"/home/recommend_cat", :locals=>{:items=>@shangzhuang}
+            =render :partial=>"/home/recommend_cat", :locals=>{:items=>@kuzhuang}
+            =render :partial=>"/home/recommend_cat", :locals=>{:items=>@qunzhuang}
+            =render :partial=>"/home/recommend_cat", :locals=>{:items=>@neiyi}
+            =render :partial=>"/home/recommend_cat", :locals=>{:items=>@xiezi}
+            =render :partial=>"/home/recommend_cat", :locals=>{:items=>@baobao}
+            =render :partial=>"/home/recommend_cat", :locals=>{:items=>@peishi}
+            =render :partial=>"/home/recommend_cat", :locals=>{:items=>@nanzhuang}
+            =render :partial=>"/home/recommend_cat", :locals=>{:items=>@tongzhuang}
+
+/ 3F
+-#.recom-p.clearfix.gjb_3
+  .hd
+    %h2 热门衣服
+    .link
+      %a{:href => "#"}> #{@city}衣服
+    %a.more{:href => "#{cat_path('3')}"} more
+  =render :partial=>"/home/hot_baobei_common", :locals=>{:items=>@items, :template=>1}
+
+-#.recom-p.clearfix.gjb_3
+  .hd
+    %h2 热卖发现
+    .link
+      %a{:href => "#{cat_path('4')}"}> #{@city}鞋子
+    %a.more{:href => "#{cat_path('4')}"} more
+  =render :partial=>"/home/hot_baobei_common", :locals=>{:items=>@xiezis, :template=>1}
+
+-#.recom-p.clearfix.gjb_3
+  .hd
+    %h2 热卖发现
+    .link
+      %a{:href => "#{cat_path('5')}"}> #{@city}包包
+    %a.more{:href => "#{cat_path('5')}"} more
+  =render :partial=>"/home/hot_baobei_common", :locals=>{:items=>@baobaos, :template=>1}
+
+-#.recom-p.clearfix.gjb_3
+  .hd
+    %h2 热卖发现
+    .link
+      %a{:href => "#{cat_path('6')}"}> #{@city}配饰
+    %a.more{:href => "#{cat_path('6')}"} more
+  =render :partial=>"/home/hot_baobei_common", :locals=>{:items=>@peishis, :template=>1}
+

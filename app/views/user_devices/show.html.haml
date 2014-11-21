@@ -1,0 +1,24 @@
+%p#notice= notice
+
+%p
+  %b Appid:
+  = @user_device.appid
+%p
+  %b User:
+  = @user_device.user_id
+%p
+  %b Baidu uid:
+  = @user_device.baidu_uid
+%p
+  %b Channel:
+  = @user_device.channel_id
+%p
+  %b Device type:
+  = @user_device.device_type
+%p
+  %b Token:
+  = @user_device.token
+
+= link_to 'Edit', edit_user_device_path(@user_device)
+\|
+= link_to 'Back', user_devices_path

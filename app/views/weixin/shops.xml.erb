@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="utf-8"?>
+<xml>    
+    <ToUserName><![CDATA[<%= params[:xml][:FromUserName] if params[:xml] %>]]></ToUserName>
+    <FromUserName><![CDATA[<%= params[:xml][:ToUserName] if params[:xml] %>]]></FromUserName>
+    <CreateTime><%= Time.now.to_i %></CreateTime>
+    <MsgType><![CDATA[news]]></MsgType>
+    <Content><![CDATA[]]></Content>
+    <ArticleCount><%= get_count %></ArticleCount>
+    <Articles>
+    <% size = @res['shops'].length %>
+    <% for i in (0..size) do %>
+    <% shop = @res['shops'][i] %>
+    <%if shop %>
+    <item>
+    <Title><![CDATA[ <%= get_name(shop) %> ]]></Title> 
+    <Description><![CDATA[ <%= get_content(shop) %> ]]></Description>
+    <PicUrl><![CDATA[  <%= get_img(shop, i==0) %>   ]]></PicUrl>
+    <Url><![CDATA[ <%= get_url(shop) %> ]]></Url>
+    </item>
+    <% end %>
+    <% end %>
+    </Articles>
+    <FuncFlag>1</FuncFlag>
+</xml>

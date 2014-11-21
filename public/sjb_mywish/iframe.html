@@ -1,0 +1,149 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta content="text/html" charset="utf-8" http-equiv="Content-Type" />
+    <link type="text/css" rel="stylesheet" href="./css/iframe.css" />
+    <script type="text/javascript" src="./js/jquery.js"></script>
+  </head>
+  <body>
+    <div class="background-wrapper"></div>
+    <div class="content-wrapper">
+        <div id="sys-message-box">
+            <span class="message"></span>
+        </div>
+        <div id="close-btn" class="hidden close-btn-default"></div>
+        <div id="loading">
+            <span class="loading-icon" iLikeLang="loadingTip"></span>
+        </div>
+        
+        <div id="login" class="hidden">
+            <div class="login-tips">
+                <p class="login-step-1" iLikeLang="loginStep1"></p>
+                <p class="login-step-2" iLikeLang="loginStep2"></p>
+            </div>
+            <div class="login-title">MyWish</div>
+            <div id="sns-login">
+                <p id="wb_connect_btn">新浪微博账号登录</p>
+                <p id="qqLoginBtn">腾讯QQ账号登录</p>
+            </div>
+            <div id="native-login" class="clearfix">
+                <span class="error-msg"></span>
+                <div class="native-title"><hr /><p iLikeLang="loginNote"></p><hr class="right-hr"/></div>
+                <div id="e-mail" class="box-style">
+                    <label for="username" iLikeLang="username"></label>
+                    <input type="text" id="username" class="hidden"/>
+                </div>
+                <div class="box-style">
+                    <label for="password" iLikeLang="password"></label>
+                    <input type="password" id="password" class="hidden"/>
+                </div>
+                <div class="footer-button">
+                    <a id="signin" iLikeLang="signin"></a>
+                </div>
+            </div>
+        </div>
+        <div id="capture-result" class="hidden">
+            <!-- <div id="logo">
+              iLike
+            </div> -->
+            <!-- <div id="checkbox">
+                <input type="checkbox" class="show-selected" />
+                <label for="show-selected" iLikeLang="selected"></label>
+            </div> -->
+            <div id="container" class="clearfix">
+                <div class="left-content info-content">
+                    <div id="origin-info">
+                        <span id="brand"></span>
+                        <ul>
+                            <li id="title" class="title-edit">
+                                <span class="title"></span>
+                                <i class="edit-icon"></i>
+                                <input class="title" type="text" iLikeLang="productNameTip"/>
+                            </li>
+                            <li id="refNo" class="hidden">
+                                <span class="refNo"></span>
+                                <span class="refLabel" iLikeLang="idTip"></span>
+                            </li>
+                            <li id="price-row">
+                                <!-- <div class="label">
+                                  <p ilikelang="price"></p>
+                                </div> -->
+                                <div id="price">
+                                  <span id="oriPrice"></span>
+                                  <span id="promotionPrice"></span>
+                                </div>
+                            </li>
+                        </ul>
+                    </div>
+                    <span class="upload-tip" iLikeLang="chooseImg"></span>
+                    <div id="image-list" class="clearfix">
+                        <div class="image-list">
+                            <div class="node-list clearfix"></div>
+                        </div>
+                        <div class="scrollbar">
+                            <div class="bar"></div>
+                        </div>
+                    </div>
+                </div>
+                <div class="right-content info-content">
+                    <div id="promotion-info">
+                        <ul>
+                            <li id="category">
+                                <span iLikeLang="categoryTip"></span><i class="star">*</i>
+                                <div id="category_view">
+                                    <ul class="cate-menu clearfix">
+                                        <li class="category-bag" pid="BAG" ></li>
+                                        <li class="category-top" pid="TOP" ></li>
+                                        <li class="category-skirt" pid="SKIRT" ></li>
+                                        <li class="category-pants" pid="PANTS" ></li>
+                                        <li class="category-shoe" pid="SHOE" ></li>
+                                        <li class="category-accessory" pid="ACCESSORY" ></li>
+                                    </ul>
+                                    <div class="cate-content clearfix"></div>
+                                </div>
+                            </li>
+                            <li id="style">
+                                <ul class="styles">
+                                    <span class="style-tip" iLikeLang="styleSelect"></span>
+                                </ul>
+                                <i class="tag-bar-down"></i>
+                            </li>
+                            <!-- <li style="display: none;"><p class="label">尺寸</p><span id="size"></span></li> -->
+                            <li id="comment" >
+                                <textarea iLikeLang="mycomment"></textarea>
+                            </li>
+                            <li id="share" class="">
+                                <i class="checkbox-icon"></i><span  iLikeLang="shareTo"></span><i class="share-icon"></i>
+                            </li>
+                        </ul>
+                    </div>
+                    <div id="operator">
+                        <a id="submit_picture" iLikeLang="submit"></a>
+                        <a id="cancel_picture" iLikeLang="cancel"></a>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div id="submit-result" class="hidden">
+            <p class="result-message" iLikeLang="resultMessage"></p>
+            <div class="app-tip">
+                <img class="app-logo" src="images/UploadPic/UploadSuccess_app_icon_52x52.png" alt="" />
+                <p class="tip-words" iLikeLang="resultWords"></p>
+            </div>
+            <div class="download-block">
+                <div class="download-tip">
+                    <span class="download-words" iLikeLang="toDownload"></span>
+                </div>
+                <a class="download-iPhone" iLikeLang="iPhoneDownload" href="http://itunes.apple.com/cn/app/my-runway-wo-det-tai/id542915023?mt=8"></a>
+                <a class="download-android" iLikeLang="androidDownload" href="http://www.wandoujia.com/apps/com.sap.myrunway"></a>
+            </div>
+        </div>
+    </div>
+    
+    <script type="text/javascript" src="./js/common.js"></script>
+    <script type="text/javascript" src="./js/login.js"></script>
+    <script type="text/javascript" src="./js/language.js"></script>
+    <script type="text/javascript" src="./js/iframe.js"></script>
+    <script type="text/javascript" src="./js/iLikeCategory.js"></script>
+  </body>
+</html>

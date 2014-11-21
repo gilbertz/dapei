@@ -1,0 +1,523 @@
+﻿@charset "UTF-8";
+/*------------------------------------*\
+	INUIT.CSS
+\*------------------------------------*/
+
+html,body,div,span,applet,object,iframe,
+h4,h5,h6,p,blockquote,pre,hr,
+a,abbr,address,cite,code,
+del,dfn,em,img,ins,kbd,q,s,samp,
+small,strong,sub,sup,tt,var,
+b,u,i,
+dl,dt,dd,ol,ul,li,
+fieldset,form,label,legend,
+table,caption,tbody,tfoot,thead,tr,th,td,
+article,aside,canvas,details,figcaption,figure,
+footer,header,hgroup,menu,nav,section,summary,
+time,mark,audio,video{
+	margin:0;
+	padding:0;
+}
+article,aside,details,figcaption,figure,footer,
+header,hgroup,menu,nav,section{
+	display:block;
+}
+h4,h5,h6{
+	font-size:1em;
+}
+table{
+	border-collapse:collapse;
+	border-spacing:0;
+}
+strong,b,mark{
+	
+	font-style:微软雅黑;
+}
+em,i,cite,q,address,dfn,var{
+	font-style:italic;
+	font-weight:inherit;
+}
+abbr[title],dfn[title]{
+	cursor:help;
+	border-bottom:0px dotted;
+}
+ins{
+	border-bottom:0px solid;
+}
+a,u,ins{
+	text-decoration:none;
+}
+del,s{
+	text-decoration:line-through;
+}
+pre,code,samp,kbd{
+	font-family:微软雅黑;
+}
+small{
+	font-size:0.75em;
+}
+img{
+	border:none;
+	font-style:微软雅黑;
+}
+input,
+select,option,optgroup,
+textarea{
+	font:inherit;
+}
+
+/*------------------------------------*\
+	$SHARED
+\*------------------------------------*/
+/*
+Rather than repeating declarations over and over, let’s make a shared section.
+*/
+h1,h2,h3,h4,h5,h6,
+ul,ol,dl,p,address,figure,pre,fieldset,table,hr,
+.nav,.island,.media{
+	margin-bottom:0px;
+	margin-bottom:0.5rem;
+}
+figcaption,small{
+	font-size:12px;
+	font-size:0.75rem;
+}
+ul,ol,dd{
+	margin-left:3em;
+}
+small,code{
+	line-height:1;
+}
+pre,code,
+input,textarea{
+	font:inherit;
+}
+
+/*------------------------------------*\
+	$MAIN
+\*------------------------------------*/
+html{
+	overflow-y:scroll; /* Force scrollbars 100% of the time */
+	font-size:100%; /* Use 16px as per informationarchitects.jp/en/100e2r/ and wilsonminer.com/posts/2008/oct/20/relative-readability/ */
+	line-height:1; /* A safe default for type of any size. */
+	/* You should always specify a colour and background, override these in your own stylesheet if desired. */
+	background-color:#fff;
+        /*background:url(/assets/bg.png) repeat;*/
+	color:#000;
+}
+body{
+	min-height:80%;
+        /*background:url(/assets/bg.png) repeat;*/
+}
+
+
+.wx_head{float:left;}
+.wx_logo img{width:50px; height:25px;}
+.wx_title{font-size:20px; line-height:20px;}
+
+/*------------------------------------*\
+	$CLEARFIX
+\*------------------------------------*/
+/*
+Fix clearing issues as per: nicolasgallagher.com/micro-clearfix-hack/
+*/
+.cf,
+.grids,
+.media{
+	zoom:1;
+}
+.cf:before,
+.grids:before,
+.media:before,
+
+.cf:after,
+.grids:after,
+.media:after{
+	content:"";
+	display:table;
+}
+.cf:after,
+.grids:after,
+.media:after{
+	clear:both;
+}
+
+
+/*------------------------------------*\
+	$ISLAND
+\*------------------------------------*/
+/*
+Use a class of .island whenever you want to box off an area of content as per: csswizardry.com/2011/10/the-island-object/
+Extend with classes like .promo to apply different colours etc to draw attention.
+*/
+.island{
+	padding:1em;
+}
+	.island > :last-child{
+		margin-bottom:0;
+	}
+
+
+/*------------------------------------*\
+	$TYPE
+\*------------------------------------*/
+/*--- HEADINGS ---*/
+
+h4,.delta{
+	font-size:1.125em;		/* 18px */
+	line-height:1.333;		/* 24px */
+}
+h5,.epsilon{
+	font-weight:bold;
+}
+h5,.epsilon,
+h6,.zeta{
+	font-size:1em;			/* 16px */
+	line-height:1.5;		/* 24px */
+}
+
+
+/*--- FIGURES ---*/
+figure img{
+	display:block;
+	margin-bottom:0;
+}
+
+
+
+/*
+Mark up the source of a quote with .source:
+<blockquote>
+	<p>Lorem ipsum dolor sit amet. <b class=source>Joe Bloggs</b></p>
+</blockquote>
+*/
+.source{
+	display:block;
+	text-indent:0;
+	margin-top:-10px;
+	margin-top:-1.5rem;
+}
+	.source:before{
+		content:"—";
+	}
+
+/*--- GENERAL ---*/
+mark{
+	background-color:#ffc;
+	color:#000;
+}
+
+/*--- CODE ---*/
+pre,
+code{
+	font-family:"Inconsolata", "Monaco", "Consolas", "Courier New", Courier, monospace;
+}
+pre{
+	overflow:auto;
+	line-height:24px; /* Having to define explicit pixel values :( */
+}
+
+/*------------------------------------*\
+	$IMAGES
+\*------------------------------------*/
+img{
+	max-width:100%;
+	height:auto;
+	/* Give it some text styles to offset alt text */
+	color:#c00;
+}
+img.left	{ margin:0 1.5em 0 0; }
+img.right	{ margin:0 0 0 1.5em; }
+
+
+
+
+/*------------------------------------*\
+	$TABLES
+\*------------------------------------*/
+
+table{
+	width:100%;
+	max-width:100%;
+}
+thead tr:last-of-type th{
+	/* Thicker border on the table-headers of the last row in the table head. */
+	border-bottom-width:2px;
+}
+tbody th{
+	/* Thicker right border on table-headers in the table body. */
+	border-right-width:2px;
+}
+th:empty{
+	/* Hide the borders on any empty table-headers. */
+	border:none;
+}
+th,td{
+	vertical-align:top;
+	padding:0.75em;
+	border:1px solid #ccc;
+}
+th{
+	font-weight:bold;
+	text-align:center
+}
+table [colspan]{
+	text-align:center;
+}
+table [rowspan]{
+	vertical-align:middle;
+}
+/*
+Assuming IE has an 'implied' colspan of one on cells without an explicit colspan attribute, fix/undo it.
+See jsfiddle.net/csswizardry/UJJay/
+*/
+[colspan="1"]{
+    text-align:left;
+}
+[rowspan="1"]{
+    vertical-align:top;
+}
+tbody tr:nth-of-type(odd){
+	background:rgba(0,0,0,0.05);
+}
+tfoot{
+	text-align:center;
+}
+tfoot td{
+	border-top-width:0px;
+}
+
+
+
+/*------------------------------------*\
+	$CLASSES
+\*------------------------------------*/
+/*
+Some not-too-pretty and insemantic classes to do odd jobs.
+*/
+.left	{ float:left; }
+.right	{ float:right; }
+.clear	{ clear:both; float:none; }
+
+.text-left		{ text-align:left; }
+.text-right		{ text-align:right; }
+.text-center,
+.text-centre	{ text-align:center; }
+
+
+/*------------------------------------*\
+	$MOBILE
+\*------------------------------------*/
+/*
+CSS for mobile devices.
+Linearise it!
+*/
+/*------------------------------------*\
+	MAIN
+\*------------------------------------*/
+
+html{
+	font-size:12px; /* Make text slightly larger for smaller devices to improve readability. */
+}
+body{
+	-webkit-text-size-adjust:none;
+}
+.wrapper{
+	width:90%;
+        background-image:none;
+        background-color:#fff;
+        border:1px solid #ccc;
+        text-align:center;
+        margin:15px auto;
+}
+.nav_footer{
+  margin-top:10px;
+}
+.wrapper .title{
+  clear:both;
+  height:31px;
+  line-height:31px;
+  background:#f5f5f5;
+  padding-left:3px;
+}
+.wrapper .title .avatar{
+  float:left;
+  width:25px; 
+}
+.wrapper .title img{
+  margin-top:3px;
+  width:25px;
+  height:25px;
+}
+.wrapper .title .name{
+  font-size:14px;
+  float:left;
+  margin-left:5px;
+}
+
+.wrapper .title .like{
+  float:right;
+  width:50px;
+  margin-top:-2px;
+}
+
+.wrapper p{color:#777; padding-top:3px; padding-bottom:5px;}
+.wrapper .grid p{padding-left:1px;margin-bottom:0px; padding-bottom:5px; color:#777;}
+
+/*---------------------------*/
+.head_wrapper{
+        width:100%;
+        background-image:none;
+        background-color:#fff;
+        text-align:center;
+}
+
+.head_wrapper .title{
+  clear:both;
+  height:31px;
+  padding-left:10px;
+  border-bottom:1px solid #ddd;
+  margin-bottom:10px;
+  padding-bottom:5px;
+  margin-top:3px;
+}
+.head_wrapper .title .avatar{
+  float:left;
+  width:40px;
+}
+.head_wrapper .title img{
+  margin-top:3px;
+  width:25px;
+  height:25px;
+}
+
+.head_wrapper .title .name{
+  font-size:14px;
+  float:left;
+  text-align:left;
+  margin-top:2px;
+}
+
+.head_wrapper .title .name .list_name{
+  color:#666;
+}
+
+.head_wrapper .title .name .list_title{
+  clear:both;
+}
+
+.head_wrapper .title .like{
+  float:right;
+  width:80px;
+  line-height:31px;
+  margin-top:-2px;
+}
+
+/*---------------------------*/
+.head_wrapper_sku{
+        width:100%;
+        background-image:none;
+        background-color:#fff;
+        text-align:center;
+}
+
+.head_wrapper_sku .title{
+  clear:both;
+  height:51px;
+  padding-left:10px;
+  border-bottom:1px solid #ddd;
+  margin-bottom:10px;
+  padding-bottom:5px;
+  margin-top:10px;
+}
+.head_wrapper_sku .title .avatar{
+  float:left;
+  width:60px;
+}
+.head_wrapper_sku .title img{
+  margin-top:3px;
+  width:70px;
+  height:35px;
+}
+
+.head_wrapper_sku .title .name{
+  font-size:16px;
+  float:left;
+  text-align:left;
+  margin-top:2px;
+}
+
+.head_wrapper_sku .title .name .list_name{
+  color:#666;
+}
+
+.head_wrapper_sku .title .name .list_title{
+  clear:both;
+}
+
+.head_wrapper_sku .title .like{
+  float:right;
+  width:80px;
+  line-height:31px;
+  margin-top:-2px;
+}
+
+
+/*---------------------------*/
+.items_list{
+  width:100%;
+  text-align:center;
+}
+.item_wrapper{
+   width:45%;
+   background-color:#fff;
+   border:solid 1px #f1f1f1;
+   float:left;
+   margin: 5px;
+   /*margin-left:8px;*/
+}
+
+.item_wrapper img{
+  width:100%;
+  float:left;
+}
+
+.item_wrapper .title{
+  width:95%;
+  color:#666;
+  float:left;
+  height:31px;
+  line-height:31px;
+  background-color:#fcfcfc;
+  margin-left:2px;
+}
+
+.item_wrapper .title .brand_name{
+  font-size:12px;
+  float:left;
+}
+
+.item_wrapper .title .price{
+  float:right;
+}
+
+
+/*---------------------------*/
+
+.grids{
+	margin:0 auto;
+}
+[class^="grid-"],
+.grids [class^="grid-"]{
+	width:80%;
+	float:none;
+	margin:0 auto;
+}
+
+/*------------------------------------*\
+	IMAGES
+\*------------------------------------*/
+img.left,
+img.right	{ max-width:50%; height:auto; }
+/*--- END MOBILE ---*/
+

@@ -1,0 +1,109 @@
+-#%h2 Sign in
+-#= simple_form_for(resource, :as => resource_name, :url => session_path(resource_name), :html => {:class => 'form-vertical' }) do |f|
+  = f.input :email, :autofocus => true
+  = f.input :password
+  = f.input :remember_me, :as => :boolean if devise_mapping.rememberable?
+  = f.button :submit, "Sign in", :class => 'btn-primary'
+-#= render "devise/shared/links"
+
+
+.login
+  .wrapper.login-wrapper.layer-wrapper
+    %h2.login-h1.layer-h1 登录上街吧
+    .login-main
+      .login-main-center.layer-center
+        %ul.nav.nav-float
+          %li
+            %ul.nav.login-with
+              %li.login-type 推荐合作网站一键登录
+              %li
+                %a{:href=>"/accounts/info/auth/qq_connect"}
+                  .login-with-qq.login-with-other
+                    %span.icon-qq
+                      %img{:alt => "", :src => "/assets/newweb/qq.png"}/
+                    %b QQ账号登录
+              %li
+                %a{:href=>"/accounts/info/auth/weibo"}
+                  .login-with-weibo.login-with-other
+                    %span.icon-weibo
+                      %img{:alt => "", :src => "/assets/newweb/weibo-sina.png"}/
+                    %b 微博账号登录
+          %li#border-y
+          %li
+            = simple_form_for(resource, :as => resource_name, :validate=>false, :url => session_path(resource_name)) do |f|
+              %ul.nav.login-sjb
+                %li.login-type 使用上街吧账号登录
+                %li
+                  =f.input :email, :label=>"邮箱：",  :input_html=>{:class=>"login-email"}
+                %li
+                  =f.input :password, :label=>"密码：",  :input_html=>{:class=>"login-password"}
+                %li.login-tool
+                  = f.input :remember_me, :label=>false, :input_html=>{:class=>"login-auto-box"}, :as => :boolean if devise_mapping.rememberable?
+                  自动登录
+                  %span.forget-password
+                    %a{:href => "#{new_password_path(resource_name)}"} 忘记密码？
+                %li
+                  = f.button :submit, "登录", :class=>"login-submit"
+                  %span.no-account
+                    没有账号？
+                    %a{:href => "#{new_user_registration_path}"} 去注册
+
+
+
+/ 登录
+-#.clearfix.layer_box.LayerRegister
+  .hd
+    %h2 登录
+  .bd
+    .left{:style=>"margin-top:60px;"}
+      %h3
+        推荐合作网站一键登录
+      .clearfix.cooperation_login_bd
+        %ul
+          %li
+            %a{:href => "/accounts/info/auth/qq_connect"}
+              %img{:height => "24", :src => "/assets/qq-login.jpg", :width => "120"}/
+          %li
+            %a{:href => "/accounts/info/auth/weibo"}
+              %img{:height => "24", :src => "/assets/sina-login.jpg", :width => "120"}/
+          -#%li
+            %a{:href => "#"}
+              %img{:height => "24", :src => "/assets//tb-login.jpg", :width => "120"}/
+          -#%li
+            %a{:href => "#"}
+              %img{:height => "24", :src => "/assets//alipay_login.jpg", :width => "120"}/
+          -#%li
+            %a{:href => "#"}
+              %img{:height => "24", :src => "/assets//tt_login.jpg", :width => "120"}/
+          -#%li
+            %a{:href => "#"}
+              %img{:height => "24", :src => "/assets//renren_login.jpg", :width => "120"}/
+    .right{:style => "margin-top:40px;"}
+      .directions
+        -if flash
+          - flash.each do |name, msg|
+            - if msg.is_a?(String)
+              %p
+                =msg
+                %a.close{"data-dismiss" => "alert"} ×
+
+      %h3 使用上街吧账号登录
+      .clearfix.login_w_bd
+        = simple_form_for(resource, :as => resource_name, :validate=>true, :url => session_path(resource_name)) do |f|
+          -#- if f.error :base
+            = f.error :base
+          %ul
+            %li
+              =f.input :email, :label=>"邮箱：",  :input_html=>{:class=>"txt", :style=>"width:200px;"}
+            %li
+              =f.input :password, :label=>"密码：",  :input_html=>{:class=>"txt", :style=>"width:200px;"}
+            %li.clause
+              = f.input :remember_me, :label=>false, :as => :boolean if devise_mapping.rememberable?
+              下次自动登录 
+            %li.submit
+              = f.button :submit, "登录", :class=>"submit_btn"
+        .No_account
+          = link_to "忘记密码?  ", new_password_path(resource_name),  :rel=>"facebox", :style=>"margin-left:-20px;"
+          &nbsp &nbsp没有帐号？
+          %a{:href => "/accounts/sign_up"} 赶快注册
+                                               

@@ -1,0 +1,33 @@
+%p#notice= notice
+
+%p
+  %b T:
+  = @crawler_template.t
+%p
+  %b Brand name:
+  = @crawler_template.brand_name
+%p
+  %b Brand:
+  = @crawler_template.brand_id
+%p
+  %b Template:
+  = @crawler_template.template
+%p
+  %b Pattern:
+  = @crawler_template.pattern
+%p
+  %b Skus count:
+  = @crawler_template.skus_count
+%p
+  %b Status:
+  = @crawler_template.status
+%p
+  %b Last skus count:
+  = @crawler_template.last_skus_count
+%p
+  %b Source:
+  = @crawler_template.source
+
+= link_to 'Edit', edit_crawler_template_path(@crawler_template)
+\|
+= link_to 'Back', crawler_templates_path

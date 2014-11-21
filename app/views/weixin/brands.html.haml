@@ -1,0 +1,16 @@
+.wrapper
+  %h3
+    品牌列表 
+
+.wrapper
+  - ('A'..'Z').each do |ch|
+    &nbsp;
+    = link_to "#{ch}",  weixin_brands_path(ch)
+
+.wrapper
+  - @objs.each do |b|
+    &nbsp; &nbsp;
+    %a{:href => "#{weixin_brand_path(b.id)}" }
+      %img{:src=> "#{b.wide_avatar_url}"}
+
+= render 'footer'

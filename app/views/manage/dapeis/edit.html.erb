@@ -1,0 +1,162 @@
+<h3 style='margin-top:0px;'>编辑@搭配</h3>
+<hr/ style='margin-top:0px;'>
+<%= form_for [:manage,@dapei], html: {class: 'form-horizontal', role: 'form'} do |f| %>
+  <div class="form-group" style='margin-left:0px; margin-right:0px;'>
+    <label for="inputEmail3" class="col-sm-3 control-label">标题</label>
+    <div class="col-sm-9">
+      <%= f.text_field :title, class: "form-control" %>
+    </div>
+  </div>
+
+  <div class="form-group" style='margin-left:0px; margin-right:0px;'>
+    <label for="inputEmail3" class="col-sm-3 control-label">描述</label>
+    <div class="col-sm-9">
+      <%= f.text_field :desc, class: "form-control" %>
+    </div>
+  </div>
+ 
+
+  <div class="form-group" style='margin-left:0px; margin-right:0px;'>
+    <label for="inputEmail3" class="col-sm-3 control-label">评级</label>
+    <div class="col-sm-9">
+      <%= f.select :level,(-2..6),{include_blank: '无'}, class: "form-control" %>
+    </div>
+  </div>
+
+ 
+  <div class="form-group" style='margin-left:0px; margin-right:0px;'>
+    <label for="inputEmail3" class="col-sm-3 control-label">马上审核</label>
+    <div class="col-sm-9">
+      <div class="checkbox">
+        <input name="once" type="hidden" value="0">
+        <input id="once" name="once" type="checkbox" value="1"> 马上审核？
+      </div>
+    </div>
+  </div>
+
+
+  <label for="inputEmail3" class="col-sm-3 control-label">修改用户</label>
+    <div class="col-sm-9">
+      <%= f.select :user_id, @users_for_select, class: "form-control" %>
+    </div>
+  </div>
+
+
+  <div class="form-group" style='margin-left:0px; margin-right:0px;'>
+    <label for="inputEmail3" class="col-sm-3 control-label">设为搭配|collection</label>
+    <div class="col-sm-9">
+      <%= f.select :category_id, [1002, 1001, 1000], class: "form-control" %>
+    </div>
+  </div>
+
+  <%if @dapei_info %>
+
+
+  <div class="form-group" style='margin-left:0px; margin-right:0px;'>
+    <label for="inputEmail3" class="col-sm-3 control-label">开始时间</label>
+    <div class="col-sm-9">
+      <select name="dapei_info[start_date(1i)]">
+        <option></option>
+        <% (2009..2019).each do |y| %>
+          <option value="<%= y %>" <%= "selected" if @dapei_info.start_date.try(:year) == y %>> 
+            <%= y %> 
+          </option>
+        <% end %>
+      </select>
+      <select name="dapei_info[start_date(2i)]">
+        <option></option>
+        <% (1..12).each do |m| %>
+          <option value="<%= m %>" <%= 'selected' if @dapei_info.start_date.try(:month) == m %>> 
+            <%= m %>月 
+          </option>
+        <% end %>
+      </select>
+      <select name="dapei_info[start_date(3i)]">
+        <option></option>
+        <% (1..31).each do |d| %>
+          <option value="<%= d %>" <%= 'selected' if @dapei_info.start_date.try(:day) == d %>> 
+            <%= d %> 
+          </option>
+        <% end %>
+      </select>
+      <select name="dapei_info[start_date_hour]">
+        <option></option>
+        <% (1..24).each do |d| %>
+          <option value="<%= d %>" <%= 'selected' if @dapei_info.start_date_hour == d %>>
+            <%= d %>
+          </option>
+        <% end %>
+      </select>
+    </div>
+  </div>
+  
+  <div class="form-group" style='margin-left:0px; margin-right:0px;'>
+    <label for="inputEmail3" class="col-sm-3 control-label">主题</label>
+    <div class="col-sm-9">
+      <select id="theme" name="dapei_tags_id" class="form-control">
+        <option value="0" <%= "selected" if @dapei_info.dapei_tags_id == 0 %>> 
+          无 
+        </option>
+        <% @themes.each do |t| %>
+          <% if @dapei.dapei_info.dapei_tags_id == t.id %>
+            <option value = "<%= t.id %>" selected = "selected" > <%= t.name %> </option>
+          <% else %>
+            <option value = "<%= t.id %>"> <%= t.name %> </option> 
+          <% end %>
+        <% end %>      
+      </select>
+    </div>
+  </div>
+
+  <div class="form-group" style='margin-left:0px; margin-right:0px;'>
+    <label for="inputEmail3" class="col-sm-3 control-label">编辑点评</label>
+    <div class="col-sm-9">
+      <input id="comment" name="dapei_info[comment]" value="<%= @dapei.dapei_info.comment %>" class="form-control">
+    </div>
+  </div>
+
+
+  
+  <div class="form-group" style='margin-left:0px; margin-right:0px;'>
+    <label for="inputEmail3" class="col-sm-3 control-label">标签</label>
+    <div class="col-sm-9">
+      <select id="tags" name="tags" class="form-control">
+        <option value="0">
+          无
+        </option>
+        <% @dapei_tags.each do |name| %>
+          <% if @dapei.dapei_info.tag_list.include?(name) %>
+            <option value = "<%= name %>" selected = "selected" > <%= name %> </option>
+          <% else %>
+            <option value = "<%= name %>"> <%= name %> </option>
+          <% end %>
+        <% end %>
+      </select>
+    </div>
+  </div>
+
+ <% end %>
+ <div class="form-group" style='margin-left:0px; margin-right:0px;'>
+    <label for="inputEmail3" class="col-sm-3 control-label">元标签</label>
+    <div class="col-sm-9">
+      <select id="meta_tags" name="meta_tags" class="form-control">
+        <option value="0">
+          无
+        </option>
+        <% @meta_tags.each do |name| %>
+          <% if @dapei.meta_tag_id==name.id %>
+            <option value = "<%= name.id %>" selected = "selected" > <%= name.tag %> </option>
+          <% else %>
+            <option value = "<%= name.id %>"> <%= name.tag %> </option>
+          <% end %>
+        <% end %>
+      </select>
+    </div>
+  </div>
+
+  <div class="form-group" style='margin-left:0px; margin-right:0px;'>
+    <div class="col-sm-offset-3 col-sm-9">
+      <%= f.submit '提交', class: 'btn btn-primary' %>
+    </div>
+  </div>
+<% end %>

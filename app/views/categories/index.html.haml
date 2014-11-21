@@ -1,0 +1,11 @@
+%h1 Categories#index
+%p Find me in app/views/categories/index.html.haml
+
+%br
+%p
+  The Categories:
+  #categories
+    - @categories.each do |cat|
+      %p
+        %span Category: #{cat.name}
+        %span Parent: #{Category.find_by_id(cat.parent_id).name}

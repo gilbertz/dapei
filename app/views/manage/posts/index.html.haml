@@ -1,0 +1,32 @@
+.hello
+  %h3
+    %br
+.clearfix.gjb_faxian
+  .gjb_faxian_bd.stream{:style => "width:1010px;"}
+    %table.table
+      %tr
+        %th ID
+        %th 标题
+        %th 链接
+        %th 描述
+        %th 封面
+        %th 是否发布
+        %th Operate
+      -@posts.each  do |i|
+        %tr
+          %td
+            = i.id
+          %td
+            = i.title
+          %td
+            = link_to i.link_url, i.link_url, target: true
+          %td
+            = i.desc
+          %td
+            %img{:src => i.qiniu_thumb_url, :width => "200px", :height => "auto"}
+          %td
+            = ["草稿", "发布"].fetch(i.is_show)
+          %td
+            = link_to "编辑", edit_manage_post_path(i)
+      #page_nav
+        =paginate @posts

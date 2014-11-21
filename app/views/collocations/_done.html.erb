@@ -1,0 +1,84 @@
+<a href="#doneModal" role="button" class="btn" data-toggle="modal">Done</a>
+<div id="done-image">
+
+</div>
+
+
+<div id="doneModal" class="modal hide fade" tabindex="-1" role="dialog" aria-labelledby="doneModalLabel" aria-hidden="true">
+  <div class="modal-header">
+    <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
+    <h3 id="doneModalLabel">发布新搭配</h3>
+  </div>
+  <div class="modal-body">
+
+        <%= label_tag "title" %>
+        <%= text_field_tag "title" %>
+
+        <%= label_tag "tag" %>
+        <%= text_field_tag "tag" %>
+
+        <%= label_tag "description" %>
+        <%= text_area_tag "description" %>
+
+  </div>
+  <div class="modal-footer">
+    <button class="btn" data-dismiss="modal" aria-hidden="true">Close</button>
+    <button id="done" class="btn btn-primary">Save changes</button>
+  </div>
+
+</div>
+
+<script type="text/javascript">
+    $(document).ready(function(){
+
+        $("#done").live("click", function(){
+            var lists = $("#image-content").find("li.draggable");
+            var ic = $("#image-content");
+            var dataAll = []
+			var bgdiv = $("#image-content");
+            var title = $("input[id=title]").val();
+            var tag = $("input[id=tag]").val();
+            var description = $("textarea[id=description]").val();
+			var bg = {}
+            ic_top = ic.offset().top;
+            ic_left = ic.offset().left;
+
+			bg = {
+				"top": bgdiv.css("top"),
+				"left": bgdiv.css("left"),
+				"width": bgdiv.css("width"),
+				"height": bgdiv.css("height")
+			}
+            $.each(lists, function(key, value){
+				var i = $(value).find("img");
+				var nn = {
+                    "photo-id": i.attr("photo-id"),
+                    "name": i.attr("data-name"),
+					"url": i.attr("src"),
+					"width": $(value).css("width"),
+					"height": $(value).css("height"),
+					"top": $(value).css("top"),
+					"left": $(value).css("left"),
+					"z-index": $(value).css("z-index")
+				}
+				dataAll.push(nn);	
+            });
+
+             $.ajax({
+                 url: "/collocations",
+                 data: {
+                     "title": title,
+                     "tag": tag,
+                     "description": description,
+                     "items": dataAll,
+                     "background": bg
+                 },
+			     success: function(data){
+//                     $("#done-image").html("<img src='/assets/test/"+data+"'/>");
+                 },
+                 type: "POST"
+             });
+
+        });
+    });
+</script>

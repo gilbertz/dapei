@@ -1,0 +1,27 @@
+{"xsrf": "ODQzNjU2MiwxMzgyOTI2NTM3", "status": {
+    "ok": 1
+}, "result": {
+    "page": 1,
+    "more_pages": 0,
+    "items": [
+    <% unless @mask_specs.blank? %>
+        <% @mask_specs.each do |ms| %>
+        {
+            "object_class": "mask_spec",
+            "p": "183",
+            "spec": [
+                <% mask_spec = ms.mask_spec.split(" ") %>
+                <% mask_spec.in_groups_of(2, false).each do |m| %>
+                {
+                    "y": "<%= m[0] %>",
+                    "x": "<%= m[1] %>"
+                },
+                <% end %>
+            ],
+            "object_id": "<%= ms.matter.image_name %>",
+            "id": "<%= ms.matter.image_name %>"
+        },
+        <% end %>
+    <% end %>
+    ]
+}}

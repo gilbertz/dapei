@@ -1,0 +1,42 @@
+<br/>
+
+<p>
+  <a href="/manage/friend_apps/new" class="btn btn-default">添加App</a>
+   ---
+  <a href="/welcome/friend_apps" class="btn btn-default" target="_blank">预览</a>
+</p>
+
+<% unless @friend_apps.blank? %>
+<table class="table">
+
+  <tr>
+    <th>ID</th>
+    <th>Click Count</th>
+    <th>name</th>
+    <th>Order No</th>
+    <th>ICON(60X60)</th>
+    <th>download url</th>
+    <th>operate</th>
+  </tr>
+
+  <% @friend_apps.each do |fa| %>
+  <tr>
+    <td><%= fa.id %></td>
+    <td><%= fa.click_count %></td>
+    <td><%= fa.app_name %></td>
+    <td><%= fa.order_no %></td>
+    <td>
+      <img src="<%= fa.icon_url %>" alt="" style="width: 60px; height: 60px"/>
+    </td>
+    <td>
+      <a href="<%= fa.download_url %>" target="_blank">下载链接</a>
+    </td>
+    <td>
+      <%= link_to "编辑", edit_manage_friend_app_path(fa) %>
+         -
+      <%= link_to "删除", manage_friend_app_path(fa), method: :delete, confirm: "确定要删除吗" %>
+    </td>
+  </tr>
+  <% end %>
+</table>
+<% end %>

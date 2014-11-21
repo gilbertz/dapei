@@ -1,0 +1,110 @@
+= tinymce_assets
+
+= tinymce :language => "zh_CN" ,  plugins: "code"
+
+-#=render :partial=>"/users/top_bar",  :locals=>{:user=>@user}
+/ 写日志
+
+.written_log
+  .hd
+    %h2 发表日志
+    #warning
+      提交失败，缺乏必要信息， 请参考下面提示补齐信息！
+  .bd
+    = simple_form_for([current_user, @post], :html => { :method => meth, :id=>"create_post_form" }) do |f|
+      = f.error_notification
+
+      .title
+        = f.input :title, :label=>"<s>*</s>标题：".html_safe, :input_html=>{:class=>"tit_input"}
+      .link
+        = f.input :link, :label=>"<s>*</s>链接：".html_safe, :input_html=>{:class=>"tit_input"}
+      .category
+        = f.association :category, :label=>"宝贝类别：", :input_html=>{:class=>"txt", :style=>"width:258px; height:30px;"}
+      .intr
+        =# f.input :content, :as=>"text", :label=>"介绍：", :input_html=>{:class=>"txt_input"}
+        = f.text_area :content,  :class => "tinymce", :rows => 40, :cols => 120
+      
+      -#.intr
+        %label
+          %s> *
+          图片：
+        .insert_pic
+          %a.add_pic{:href => "#"}
+            添加图片
+            %b
+          %span.thumbnail
+            %img{:height => "30", :src => "images/img.jpg", :width => "30"}/
+          %span.thumbnail
+            %img{:height => "30", :src => "images/img.jpg", :width => "30"}/
+      .intr
+        %label
+          标签
+        .tabdiv
+          1.
+          %input{name:"tabname1",placeholder:"标签名称"}
+          %input{name:"tablink1",placeholder:"标签链接"}
+          %br
+          2.
+          %input{name:"tabname2",placeholder:"标签名称"}
+          %input{name:"tablink2",placeholder:"标签链接"}
+          %br
+          3.
+          %input{name:"tabname3",placeholder:"标签名称"}
+          %input{name:"tablink3",placeholder:"标签链接"}
+          %br
+          4.
+          %input{name:"tabname4",placeholder:"标签名称"}
+          %input{name:"tablink4",placeholder:"标签链接"}
+      .intr.logo_pic
+        %label
+          %s> *
+          照片：
+        #photozone
+        .img.img_holder
+          %a{:href => "javascript:void(0)"}
+            %img{:height => "100", :src => "/assets/img.jpg", :width => "100"}/
+        .upload
+          %a{:href => "javascript:void(0)", :id=>"file-upload", :class=>"img_holder"} 上传图片
+          -#%span.warning  必须要上传宝贝照片！
+          = render 'photos/new_photo'
+      -#.area
+        = f.input :area, :label=>"地点：", :input_html=>{:class=>"tit_input"}, :placeholder=>"请填写日志描述地点"
+      -#.area
+        %label
+          %s> *
+          区域：
+        %select{:name => "", :style => "margin-top:12px; width:188px;"}
+          %option 选择分类
+        %p{:style => "margin-top:5px; color:#999;"} 请选择日志所描述的区域
+      #create_post_button.submit
+        = f.button :submit, '发表', :class => 'submit_btn'
+        = f.button :submit, '插入标签', :class => 'submit_btn'
+
+  -#.bd
+    .title
+      %label
+        %s> *
+        标题：
+      %input.tit_input{:name => "", :type => "text"}/
+    .intr
+      %label
+        %s> *
+        介绍：
+      %textarea.txt_input{:name => ""}
+      .insert_pic
+        %a.add_pic{:href => "#"}
+          添加图片
+          %b
+        %span.thumbnail
+          %img{:height => "30", :src => "images/img.jpg", :width => "30"}/
+        %span.thumbnail
+          %img{:height => "30", :src => "images/img.jpg", :width => "30"}/
+    .area
+      %label
+        %s> *
+        区域：
+      %select{:name => "", :style => "margin-top:12px; width:188px;"}
+        %option 选择分类
+      %p{:style => "margin-top:5px; color:#999;"} 请选择日志所描述的区域
+    .submit
+      %input.submit_btn{:name => "", :type => "submit", :value => "发表日志"}/

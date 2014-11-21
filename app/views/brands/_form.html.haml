@@ -1,0 +1,10 @@
+= simple_form_for(@brand) do |f|
+  = f.error_notification
+
+  .form-inputs
+    = f.input :name
+    = f.input :e_name
+    = f.input :des
+
+  .form-actions
+    = f.button :submit

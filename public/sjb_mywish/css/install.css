@@ -1,0 +1,124 @@
+html, body {
+    margin: 0;
+    font-family: Helvetica, 微软雅黑, 黑体;
+}
+p {
+    margin: 0 0 10px;
+}
+h2 {
+    font-size: 30px;
+    font-weight: normal;
+    margin: 32px 0;
+}
+
+.page-content {
+    margin: 0 auto;
+    width: 960px;
+    text-align: center;
+    padding-top: 1px;
+    position: relative;
+}
+.italic {
+    font-style: italic;
+}
+.hidden {
+    display: none;
+}
+.decoration {
+    text-decoration: underline;
+}
+.notes {
+    font-style: italic;
+    font-size: 14px;
+}
+.clear {
+    clear: both;
+}
+
+#install_guide {
+    background: url(../images/install/Install_background.png) no-repeat;
+    padding-top: 30px;
+    height: 420px;
+    color: #FFF;
+    font-size: 16px;
+    text-shadow: 0px 1px 1px #000;
+}
+#install_guide .mywish {
+    font-size: 30px;
+}
+#install_guide .installation {
+    display: none;
+}
+#install_description {
+    margin-top: 30px;
+    height: 180px;
+    padding-top: 1px;
+}
+#notes {
+    margin-top: 20px
+}
+#install_image {
+    height: 170px;
+    width: 960px;
+}
+#install_guide .mywish-btn {
+    background: url(../images/install/Install_Install_btn.png) 0 0 no-repeat;
+    width: 126px;
+    height: 46px;
+    display: inline-block;
+    font-size: 20px;
+    color: #FFF;
+    text-shadow: 0px -1px rgba(0, 0, 0, 0.5);
+    text-decoration: none;
+    line-height: 42px;
+    vertical-align: middle;
+    text-indent: -10000px;
+}
+
+#content-wrapper .mywish-btn:hover {
+    background-position: 0 -46px;
+}
+#content-wrapper .arrow {
+    position: absolute;
+    left: 525px;
+    top: -60px;
+}
+#click_install {
+    position: relative;
+}
+#install_guide .guide-pic {
+    position: absolute;
+    top: 35px;
+    left: 625px;
+}
+#install_guide .decoration:hover {
+    cursor: pointer;
+}
+#install_guide .decoration:hover + .guide-pic {
+    display: block;
+}
+
+#use_guide {
+    background: url(../images/install/Install_background_ptn2.png);
+    color: #808080;
+    font-size: 16px;
+}
+#use_guide h4 {
+    font-weight: normal;
+    font-size: 24px;
+    color: #808080;
+    margin: 38px 0 0;
+    text-align: left;
+}
+#use_guide p {
+    width: 260px;
+    margin-left: 70px;
+    text-align: left;
+    float: left;
+}
+#use_guide p.first {
+    margin-left: 30px;
+}
+#instructions {
+    margin: 32px 0 20px;
+}

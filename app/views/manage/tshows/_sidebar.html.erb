@@ -1,0 +1,48 @@
+<div class="bs-sidebar hidden-print affix-top" role="complementary">
+  <ul class="nav bs-sidenav">
+    <li class="active">
+    <a href="#download" style="border-right:1px solid #f7f5fa;">SKU管理</a>
+      <ul class="nav">
+        <li class="<%= ac_active('skus','recommends') %>"> 
+          <%= link_to '推荐sku', "/manage/skus/recommends" %>
+        </li>
+        <li class="<%= ac_active('skus','index') %>"> 
+          <%= link_to '全部sku', "/manage/skus" %> 
+        </li>
+        <li class="<%= ac_active('skus','index') %>"> 
+          <%= link_to '全部Tshow', "/manage/tshows" %> 
+        </li>
+        <li class="<%= ac_active('skus','index') %>"> 
+          <%= link_to '最近一周有爬到数据品牌', "/manage/skus/with_or_without_data_brands/withdata" %> 
+        </li>
+        <li class="<%= ac_active('skus','index') %>"> 
+          <%= link_to '最近一周未爬到数据品牌', "/manage/skus/with_or_without_data_brands/withoutdata" %> 
+        </li>
+        <li class="<%= ac_active('skus','check') %>">
+          <%= link_to '分类检查', "/manage/skus/check" %>
+        </li>
+        <li class="<%= ac_active('skus','sub_category') %>">
+          <%= link_to '分类修改', "/manage/skus/sub_category" %>
+        </li>
+
+        <li class="<%= ac_active('skus','sub_category') %>">
+          <%= link_to '分类修改theoutnet', "/manage/skus/sub_category?theoutnet=1" %>
+        </li>
+
+        <li class="<%= ac_active('skus','sub_category') %>">
+          <%= link_to '分类修改net-a-porter', "/manage/skus/sub_category?np=1" %>
+        </li>
+
+        <li class="<%= ac_active('skus','sub_category_date') %>">
+          <%= link_to '分类修改', "/manage/skus/sub_category_date" %>
+        </li>
+        <li>
+          <%= link_to '正在显示', "/manage/skus/showing" %>
+        </li>
+        <li>
+          <%= link_to '推荐队列', "/manage/skus/showing?w=1" %>
+        </li>
+      </ul>
+    </li>
+  </ul>
+</div>

@@ -1,0 +1,9 @@
+/ 4F
+.recom-p.clearfix.gjb_4
+  .hd
+    %h2 时尚达人
+    / %a.more{:href => "#"} more
+  .bd
+    %ul
+      -@users.each do |user|
+        =render :partial=>"/home/recommend_daren_item", :locals=>{:user=>user}

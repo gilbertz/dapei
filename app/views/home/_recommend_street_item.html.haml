@@ -1,0 +1,8 @@
+%li
+  .intro  
+    %a{:href => "#{search_path("", "", "", "", "", street_recommend.name)}" }
+      #{street_recommend.reason}
+      / %b.hot
+  %div{:class=>"name #{type}"}
+    %a{:href => "#{search_path("", "", "", "", "", street_recommend.name)}" }
+      #{street_recommend.name}

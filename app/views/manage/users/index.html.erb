@@ -1,0 +1,77 @@
+<%= search_form_for [:manage, @q], html: {class: 'form-inline',role: 'form',style: 'margin-top:30px;'} do |f| %>
+  <div class="form-group">
+    <label class="sr-only">UserName</label>
+    <%= f.text_field :name_cont, class: 'form-control', placeholder: '用户名' %>
+  </div>
+  <%= f.submit '搜索', class: 'btn btn-primary'%> 
+  <%= total_span @users %>
+<% end %>
+<table class="table table-bordered table-hover">
+  <thead>
+    <tr class="success">
+      <th>名称</th>
+      <th>邮箱</th>
+      <th>
+        <%= link_to "搭配数", "/manage/users?order=dc" %>
+      </th>
+      <th>上街搭配数</th>
+      <th>上次搭配时间</th>
+      <th>经验等级</th> 
+      <th>
+        <%= link_to "达人", "/manage/users?order=level" %>
+      </th>
+      <th style="text-align:center;width:8%;">
+        <%= link_to "登陆",  "/manage/users?order=sa" %>
+      </th>
+      <th style="text-align:center;width:8%;">Like</th>
+      <th style="text-align:center;width:8%;">评论</th>
+      <th width="12%">最后登陆</th>
+      <th width="12%"><%= link_to '注册时间', "/manage/users?order=ca" %></th>
+      <th width="6%">操作</th>
+      <th>拉黑</th>
+      <th>加V</th>
+      <th>消息</th>
+      <th>浏览历史</th>
+    </tr>
+  </thead>
+  <tbody>
+    <% @users.each do |u| %>
+      <tr>
+        <td><a href="/users/<%= u.url %>"><%= u.name %><%= "(假)" if u.is_robot %></a> </td>
+        <td><%= u.email %></td>
+        <td><%= u.dapei_count %></td>
+        <td><%= u.v_dapei_count %></td>       
+        <td><%= to_local u.last_dapei_time %></td> 
+        <td><%= u.get_fashion_level %></td> 
+        <td><%= u.get_daren_status %></td>
+        <td style="text-align:center;"><%= u.likes_count %>|<%= u.like_spec %></td>
+        <td style="text-align:center;"><%= u.sign_in_count %></td>
+        <td style="text-align:center;"><%= u.comments_count %></td>
+        <td><%= to_local u.last_sign_in_at %></td>
+        <td><%= to_local u.created_at %></td>
+        <td> 
+          <%= link_to '详情', '#' %>
+        </td>
+        <td>
+          <% if u.level == -1 %>
+            <%= link_to "已黑", set_black_manage_user_path(u.id), confirm: "确定要取消拉黑?" %>
+          <% else %>
+            <%= link_to "开黑", set_black_manage_user_path(u.id), confirm: "确定要拉黑此用户?(设置用户level为-1 评论不显示 发广告的)" %>
+          <% end %>
+        </td>
+
+        <td>
+          <%= link_to "加V/取消V", set_v_manage_user_path(u.id), confirm: "确定要加V?" %>
+        </td>
+
+        <td>
+          <%= link_to "发消息", new_manage_user_message_path(u.id) %>
+        </td>
+        <td>
+          <%= link_to "历史记录", "/manage/user_behaviours/#{u.id}" %>
+        </td>
+      </tr>
+    <% end %>
+  </body>
+</table>
+<%= paginate @users %>  

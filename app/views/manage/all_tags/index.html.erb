@@ -1,0 +1,60 @@
+<div class="row">
+  <div class="col-lg-12">
+
+    <div class="row">
+      <p>
+        <br>
+      </p>
+      <%= search_form_for [:manage, @q] do |f| %>
+          <%= f.label :name %>
+          <%= f.search_field :name %>
+          <%= f.label :similar %>
+          <%= f.search_field :similar %>
+          <%= f.submit %>
+      <% end %>
+    </div>
+
+    <h5>
+      <a href="/manage/all_tags/new">
+        新增加标签
+      </a>
+    </h5>
+
+    <% unless @all_tags.blank? %>
+
+        <table class="table">
+          <tr>
+            <th>ID</th>
+            <th>标签名</th>
+            <th>权重</th>
+            <th>同义词</th>
+            <th>操作</th>
+          </tr>
+
+        <% @all_tags.each do |t| %>
+
+          <tr>
+            <td>
+              <%= t.id %>
+            </td>
+            <td>
+              <%= t.name %>
+            </td>
+            <td>
+              <%= t.weight %>
+            </td>
+            <td>
+              <%= t.similar %>
+            </td>
+            <td>
+              <%= link_to "编辑", edit_manage_all_tag_path(t) %>
+              | <%= link_to "删除", manage_all_tag_path(t), :method => :delete, confirm: "确定删除此内容?" %>
+            </td>
+          </tr>
+
+        <% end %>
+        </table>
+    <% end %>
+
+  </div>
+</div>

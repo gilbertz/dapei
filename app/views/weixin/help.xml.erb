@@ -1,0 +1,16 @@
+<xml>
+    <ToUserName><![CDATA[<%= params[:xml][:FromUserName] if params[:xml] %>]]></ToUserName>
+    <FromUserName><![CDATA[<%= params[:xml][:ToUserName] if params[:xml] %>]]></FromUserName>
+    <CreateTime><%= Time.now.to_i %></CreateTime>
+    <MsgType><![CDATA[news]]></MsgType>
+    <ArticleCount>1</ArticleCount>
+    <Articles>
+      <item>
+        <Title><![CDATA[ <%= @help['title'] %> ]]></Title> 
+        <Description><![CDATA[ <%= @help['desc'] %> ]]></Description>
+        <PicUrl><![CDATA[ <%= @help['img'] %> ]]></PicUrl>
+        <Url><![CDATA[ <%= @help['url'] %> ]]></Url>
+      </item>
+    </Articles>
+    <FuncFlag>1</FuncFlag>
+</xml>

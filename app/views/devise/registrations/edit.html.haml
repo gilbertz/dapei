@@ -1,0 +1,26 @@
+-#%h2
+  Edit #{resource_name.to_s.humanize}
+-#= simple_form_for(resource, :as => resource_name, :url => registration_path(resource_name, :by=>:pwd), :html => { :method => :put, :multipart => true, :class => 'form-vertical' }) do |f|
+  = f.error_notification
+  = f.input :name, :autofocus => true
+  = f.input :email, :required => true
+  = f.input :password, :autocomplete => "off", :hint => "leave it blank if you don't want to change it", :required => false
+  = f.input :password_confirmation, :required => false
+  = f.input :current_password, :hint => "we need your current password to confirm your changes", :required => true
+  = f.file_field :avatar
+  = f.hidden_field :avatar_cache
+  = f.button :submit, 'Update', :class => 'btn-primary'
+-#%h3 Cancel my account
+-#%p
+  Unhappy? #{link_to "Cancel my account", registration_path(resource_name), :data => { :confirm => "Are you sure?" }, :method => :delete}.
+-#= link_to "Back", :back
+
+
+/ 完善资料
+.recom-p.clearfix.change_data
+  .hd
+    %strong
+      上街吧帐户设置      
+    %a.mark_up{:href => "javascript:void(0)"}
+  .clearfix.bd
+    = render :partial=>"shared/edit_profile", :locals=>{:start=>0}

@@ -1,0 +1,76 @@
+<% cache("#{request.url}?fragment", :expires_in => 2.hour) do %>
+{
+   "status":{"ok":1},
+   "result":{ 
+        "categories": [
+            {
+              "type": "fashion",
+              "name": "服饰",
+              "data": [
+                <% unless @rule_categories.blank? %>
+                    <% first = true %>
+                    <% @rule_categories.each do |c| %>
+                        <% unless [121, 123].include?(c.id) %>
+                        <%if not first %>
+                        ,
+                        <% end %>
+                        <% first = false  %>
+                        {
+                            "group_name": "服饰",
+                            "thing_id": "<%= c.image_thing %>",
+                            "filters": [{"value": "<%= c.id %>", "name": "category_id"}],
+                            "type": "thing",
+                            "label": "<%= c.name %>"
+                        }
+                        <% end %>
+                    <% end %>
+                <% end %>
+             ]
+            },
+
+            <% if @home_categories.length > 0 %>
+            {  "type": "filler",
+               "name": "家居",
+               "data": [
+                <% first = true %>
+                <% @home_categories .each do |c|%>
+                   <%if not first %>
+                     ,
+                   <% end %>
+                   <% first = false  %>
+                   {"group_name": "家居", "thing_id": "<%= c.image_thing %>", "weight": "<%= c.weight%>", "filters": [{"value": "<%= c.id %>", "name": "category_id"}], "type": "thing", "label": "<%= c.name%>"}
+                <% end %>
+              ]
+            },
+
+            <% end %>
+            
+            {
+               "type": "others",
+               "name": "个性定制",
+               "data": [
+                {"group_name": "个性定制", "thing_id": "1391925399486", "weight": "1", "type": "text", "label": "自定义文字"},
+                {"group_name": "个性定制", "thing_id": "1397617159152", "weight": "1", "type": "camera", "label": "上传照片"}
+               ]
+            },
+            
+            
+            {  "type": "filler",
+               "name": "素材",
+               "data": [
+                <% first = true %>
+                <% @sucai_categories .each do |c|%>
+                   <%if not first %>
+                     ,
+                   <% end %>
+                   <% first = false  %>
+                   {"group_name": "素材", "thing_id": "<%= c.image_thing %>", "weight": "<%= c.weight%>", "filters": [{"value": "<%= c.id %>", "name": "category_id"}], "type": "thing", "label": "<%= c.name%>"}
+                <% end %>
+              ]
+            }
+
+        ] 
+
+   }
+}
+<% end %>

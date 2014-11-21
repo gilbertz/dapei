@@ -1,0 +1,37 @@
+- cache 'city select' do 
+  #area-for-select
+    .area-for-select-head
+      选择想要逛的城市
+    .area-for-select-nav
+      %ul.nav.nav-float
+        %li.active{:data_to => "hotarea"}
+          热门
+        %li{:data_to => "abcde"}
+          ABCDE
+        %li{:data_to => "fghj"}
+          FGHJ
+        %li{:data_to => "klmnp"}
+          KLMNP
+        %li{:data_to => "qrstw"}
+          QRSTW
+        %li{:data_to => "xyz"}
+          XYZ
+    .area-for-select-conetnt
+      %ul.nav.nav-float#hotarea.active-area
+        - @recommended_cities.each do |city|
+          %li
+            %a{:href => "#{city_path(city.pinyin)}"} #{city.name}
+      - ["ABCDE", "FGHJ", "KLMNP", "QRSTW", "XYZ"].each do |tags|
+        %ul.nav.nav-float{:id => "#{tags.downcase}" }
+          %li
+            %ul.nav.nav-float
+              - tags.split(//).each do |pre|
+                %li.area-index
+                  #{pre}
+                %li.area-index-content
+                  %ul.nav.nav-float
+                    - Area.city_prefix(pre).each do |city|
+                      %li
+                        %a{:href => "#{city_path(city.pinyin)}"} #{city.name}
+      .clearfix
+    .clearfix

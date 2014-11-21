@@ -1,0 +1,14 @@
+= link_to 'open shop', "/brand_admin/brands/#{@brand.id}/open_shop"
+
+%p
+  = @shops.count
+/ 日志
+.clearfix.log_det
+  .shops
+    %p
+      - @shops.each do |s|
+        .shop
+          %br
+            = link_to "#{s.city_id} #{s.shop_city} #{s.address}  #{s.name}  评论数:#{s.comments_count}", shop_path(s)
+            = link_to 'edit', "/shops/#{s.url}/edit" 
+            = link_to 'Destroy', "/shops/#{s.url}", method: :delete, data: { confirm: 'Are you sure?' }

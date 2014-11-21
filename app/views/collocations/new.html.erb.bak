@@ -1,0 +1,90 @@
+<div id="collocation">
+  <div class="">
+    <div class="span7">
+      <div class="outer">
+        <div id="image-content">
+          <div class="span12">
+            <%= render :partial => "done" %>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="span5" id="collocation-right">
+      <div id="collocation-head">
+        <ul class="nav nav-pills">
+          <li class="active"><a href="#">选宝贝</a></li>
+          <li><a href="#">my baobei</a></li>
+          <li><a href="#">my dapei</a></li>
+          <li><a href="#">huodong</a></li>
+          <li><%= link_to_remote "upload image", "/collocations/upload" %></li>
+        </ul>
+      </div>
+      <div id="coll-content">
+        <div id="cc-select-item">
+
+          <div class="search-item">
+            <label>搜索</label>
+            <div class="input-append">
+              <input type="text" name="search">
+              <button class="btn" type="button">Go!</button>
+            </div>
+            <div>
+              <label class="checkbox inline">
+                <input type="checkbox" id="inlineCheckbox1" value="option1"> 上装
+              </label>
+              <label class="checkbox inline">
+                <input type="checkbox" id="inlineCheckbox2" value="option2"> 下装
+              </label>
+              <label class="checkbox inline">
+                <input type="checkbox" id="inlineCheckbox3" value="option3"> 配饰
+              </label>
+              <label class="checkbox inline">
+                <input type="checkbox" id="inlineCheckbox3" value="option3"> 鞋
+              </label>
+              <label class="checkbox inline">
+                <input type="checkbox" id="inlineCheckbox3" value="option3"> 包
+              </label>
+            </div>
+          </div>
+
+          <h5>搭配</h5>
+          <ul class="image-list-ul" id="user-upload-image">
+            <% unless @hot_recommend.blank? %>
+                <% @hot_recommend.each do |hr| %>
+                    <li class="draggable"><img data-w="200px" data-h="200px" src="<%= hr.remote_photo_path + hr.remote_photo_name %>" data-name="<%= hr.remote_photo_name %>" photo-id="<%= hr.sjb_photo_id %>"></li>
+                <% end %>
+            <% end %>
+            <div class="clearfix"></div>
+          </ul>
+
+          <h5>上装</h5>
+          <ul class="image-list-ul" id="user-upload-image">
+            <% unless @shangzhuang.blank? %>
+                <% @shangzhuang.each do |sz| %>
+                    <li class="draggable"><img data-w="200px" data-h="200px" src="<%= sz.remote_photo_path + sz.remote_photo_name %>" data-name="<%= sz.remote_photo_name %>" photo-id="<%= sz.sjb_photo_id %>"></li>
+                <% end %>
+            <% end %>
+            <div class="clearfix"></div>
+          </ul>
+
+
+          <h5>下装</h5>
+          <ul class="image-list-ul" id="user-upload-image">
+            <% unless @xiazhuang.blank? %>
+                <% @xiazhuang.each do |sz| %>
+                    <li class="draggable"><img data-w="200px" data-h="200px" src="<%= sz.remote_photo_path + sz.remote_photo_name %>" data-name="<%= sz.remote_photo_name %>" photo-id="<%= sz.sjb_photo_id %>"></li>
+                <% end %>
+            <% end %>
+            <div class="clearfix"></div>
+          </ul>
+        </div>
+      </div>
+
+    </div>
+
+    <div class="clearfix"></div>
+
+  </div>
+</div>
+
+<script type="text/javascript" src="/assets/jQueryRotate.js"></script>

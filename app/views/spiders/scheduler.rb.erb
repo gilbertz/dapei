@@ -1,0 +1,116 @@
+<%="#encoding:utf-8"%>
+require 'headless'
+require 'rubygems'
+require 'selenium-webdriver'
+require 'yaml'
+require 'json'
+require 'redis'
+
+headless = Headless.new(:reuse => false)
+headless.start
+
+$redis =  Redis.new(:host => '114.80.100.12', :port => 6379)
+driver = Selenium::WebDriver.for :chrome
+#driver.manage.timeouts.implicit_wait = 30
+driver.manage.timeouts.script_timeout = 10
+driver.manage.timeouts.page_load = 20
+
+ 
+links = []
+docs = []
+next_link = ""
+npage = 0
+
+def make_url(url)
+  case url 
+  when /tmall.com|tmall.hk/
+    url = url.gsub(/\?(.*)(id=\d+)(.*)/, '?\2')
+  when /swarovski.com.cn/
+    url = url.split(";").first
+  when /jumei.com/
+    url = url.split("?").first
+  when /yintai.com/
+    url = url.split("?").first
+    url = "#{url}?source=shangjie"
+  else
+  end
+  url
+end
+
+def parse_links(driver, links, docs, cat_id, sub_cat_id)
+  links.reverse.uniq.each do |link|
+    next if link.nil?
+    link = make_url(link)
+    p link 
+    pkey = "brand_<%= @brand_id%>_spider_<%= @spider_id%>_product_pages_#{cat_id}"
+    p "key=" + pkey
+    lks = $redis.lrange(pkey, 0, -1)
+    p lks.length
+    if cat_id == 9 || cat_id == 10
+      link = "#{sub_cat_id},#{link}"
+    end
+    if !lks.include?(link)
+       $redis.lpush(pkey, link)
+    end
+  end
+end
+
+<% @categories.each do |cat| %>
+  pkey = "brand_<%= @brand_id%>_spider_<%= @spider_id%>_product_pages_<%= cat.id %>"
+  p "process " + pkey
+  $redis.del pkey
+  lks = $redis.lrange(pkey, 0, -1)
+  <% next if (@ospider.get_start_page(cat.id) || "").strip.empty? %>
+
+"<%=raw @ospider.get_start_page(cat.id).gsub(/\\/, '|') %>".split("|").each do |page|
+  p page
+  sub_cat_id = "0"
+  <%if [9, 10, 11].include?(cat.id)%>
+    page_sub_cat_id = page.split(",")
+    if page_sub_cat_id.length == 2
+      page = page_sub_cat_id.last
+      sub_cat_id = page_sub_cat_id.first
+    else
+      page = page_sub_cat_id.first
+      sub_cat_id = "0"
+    end
+  <%end%>
+
+  next if page == ""
+  begin
+    driver.navigate.to page
+  rescue => e
+    p e.to_s
+  end
+  for i in (1..5) do
+    <% if @spider.product_page and @spider.product_page !=""  %>
+      elements = driver.find_elements(:xpath, "<%=raw @spider.product_page %>")
+      elements.each do |e|
+        links << e.attribute("href")
+      end
+    <% else %>
+      break
+    <% end %>
+    <% if @spider.next_page and  @spider.next_page != "" %>
+    begin
+      next_page = driver.find_element(:xpath, "<%=raw @spider.next_page %>").attribute("href")
+      driver.get(next_page)
+    rescue=>e
+      p e.to_s
+      break
+    end
+    <% else %>
+      break
+    <% end %>
+  end
+  parse_links(driver, links, docs, <%= cat.id %> , sub_cat_id)
+  links = []
+ end
+<% end %>
+driver.quit
+
+<% unless params[:debug] %>
+#`ps -ef | grep chromium-browser | grep -v grep | awk '{print $2}' | xargs kill -9`
+<% end %>
+
+headless.destroy

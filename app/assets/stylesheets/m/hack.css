@@ -1,0 +1,255 @@
+html {
+    font-size: 62.5%;/*10 ÷ 16 × 100% = 62.5%*/
+}
+body {
+    font-size: 1.4rem;/*1.4 × 10px = 14px */
+}
+h1 {
+    font-size: 2.4rem;/*2.4 × 10px = 24px*/
+}
+
+.app-page, .app-content{
+    background: #ffffff;
+}
+
+.arrange-item{
+    margin: 0 auto;
+    background: rgb(242,242,242);
+}
+
+.app-topbar{
+    height: 4.4rem;
+}
+
+.app-ios-7 .app-topbar .app-title{
+    font-size: 1.7rem;
+}
+
+.list{
+    width: 60rem;
+    padding: 2rem 2rem;
+}
+
+.list .arrange-item{
+    width: 59.8rem;
+    border: 0.1rem solid rgb(224, 224, 224);
+    margin-bottom: 2rem;
+}
+
+.arrange-item-info > div {
+    height: 4.5rem;
+    line-height: 4.5rem;
+    font-size: 1.6rem;
+}
+
+.arrange-item-avatar{
+    width: 4rem;
+    border-radius: 2rem;
+    overflow: hidden;
+    float: left;
+    margin-left: 0.5rem;
+}
+
+.arrange-item-avatar, .arrange-item-name{
+    float: left;
+}
+
+.arrange-item-like-count, .arrange-item-like-heart {
+    float: right;
+}
+
+.arrange-item-like-heart img{
+    width: 4rem;
+    height: 4rem;
+}
+
+.arrange-item-like-count{
+    width: 4rem;
+    height: 4rem;
+}
+
+
+.arrange-detail .main-img {
+    margin: 2rem 2rem 0 2rem;
+    height: 60rem;
+    width: 60rem;
+}
+
+.main-img-info {
+    margin: 1rem 0;
+}
+
+.a-d-avatar {
+    width: 4.8rem;
+    height: 4.8rem;
+    margin: 0 1rem;
+    display: inline-block;
+}
+
+.main-img-info .a-d-avatar{
+    float: left;
+}
+
+.avatar img{
+    border-radius: 2.4rem;
+}
+
+.a-d-m-sometext {
+    float: left;
+    margin-top: 0.05rem;
+}
+
+.a-d-m-sometext>.username {
+    font-size: 1.8rem;
+}
+
+.a-d-m-sometext>.desc {
+    font-size: 1.6rem;
+    color: rgb(88,88,88);
+    width: 30rem;
+}
+
+.attention {
+    background: rgb(252, 92, 91);
+    line-height: 4rem;
+    height: 4rem;
+    width: 10rem;
+    float: right;
+    margin-right: 2rem;
+    text-align: center;
+    color: #fff;
+    margin-top: 0.5rem;
+    font-size: 1.8rem;
+}
+
+.hr {
+    height: 1px;
+    width: 100%;
+    background: #ddd;
+    margin: 0 auto;
+}
+
+.item-img{
+    width: 150px;
+    height: 150px;
+    margin: 0 auto;
+    margin-top: 20px;
+}
+
+.item-brand{
+    text-align: center;
+    font-size: 18px;
+    height: 30px;
+    line-height: 30px;
+}
+
+.arrange-zone table{
+    width: 600px;
+    margin: 0 auto;
+    margin-top: 4rem;
+    margin-bottom: 4rem;
+}
+
+.arrange-zone table tr td{
+    float: left;
+    text-align: center;
+}
+
+.arrange-detail .comments-head {
+    position: relative;
+    top: -0.29rem;
+    width: 30%;
+    margin: 0 auto;
+    background: #fff;
+    text-align: center;
+}
+
+.comments-head span {
+    font-size: 1.4rem;
+    position: relative;
+    display: inline-block;
+    height: 1.8rem;
+    padding: 0 0.5rem;
+
+}
+
+.comments-head img {
+    position: relative;
+    top: 0.08rem;
+    height: 1.8rem;
+}
+
+.placeholder1 {
+    width: 0.0rem;
+    display: inline-block;
+}
+
+.more-like-btn {
+    margin-left: 0.05rem;
+    display: none;
+    width: 4.8rem;
+    height: 4.8rem;
+    border-radius: 2.4rem;
+    background: #aaa;
+    color: #fff;
+    text-align: center;
+    line-height: 4.8rem;
+    overflow: hidden;
+    float: left;
+    letter-spacing: -0.2rem;
+}
+
+.more-like-dot {
+    margin-left: 0.5rem;
+}
+
+.likes-user {
+    margin-bottom: 0.25rem;
+    padding-left: 6rem;
+}
+
+.likes-user :first-child {
+    margin-left: 0;
+}
+
+.likes-user :last-child {
+    margin-right: 0;
+}
+
+.likes-user .avatar{
+    float: left;
+}
+
+
+
+.bottom-bar {
+    position: fixed;
+    bottom: 0;
+    left: 0;
+    width: 100%;
+    background: rgba(250, 250, 250, 0.6);
+    padding: 0.1rem 0;
+}
+
+.bottom-bar div {
+    float: left;
+    width: 50%;
+    text-align: center;
+}
+
+.bottom-bar img {
+    height: 5rem;
+}
+
+#bottom-bar.app-topbar .app-button{
+    position: static;
+    padding: 0;
+}
+
+#bottom-bar{
+    background: #fff;
+}
+
+.arrange-detail{
+    margin-bottom: 5rem;
+}

@@ -1,0 +1,54 @@
+.left_nav
+  -if not @brand.id
+    %dl
+      %dt 品牌管理
+      %dd
+        =link_to "开通品牌", new_brand_path
+      -#%dd
+        = link_to "认领品牌" , claim_shop_path(@@user.shop) 
+  -else
+    %dl
+      %dt 品牌管理
+      %dd
+        =link_to "修改资料", edit_brand_path(@brand)
+      -#%dd
+        = link_to "认领品牌" , claim_shop_path(@@user.shop) 
+    %dl
+      %dt 宝贝管理
+      %dd
+        =link_to "发布宝贝", new_brand_sku_path(@brand)
+      %dd
+        =link_to "发布多个宝贝", new_brand_sku_multi_path(@brand)
+      %dd
+        %a{:href => "#{manage_skus_path(@brand)}"} 管理宝贝
+    %dl
+      %dt 优惠管理
+      %dd
+        =link_to "发布优惠", new_brand_discount_path(@brand)
+      %dd
+        %a{:href => "#{manage_brand_discounts_path(@brand)}"} 管理优惠
+   
+    %dl
+      %dt 店铺管理
+      %dd
+        =link_to "店铺列表", "/brand_admin/brands/#{@brand.id}/shops"
+
+    %dl
+      %dt 爬虫模板
+      - if @brand.crawler_templates and @brand.crawler_templates.length > 0
+        - @brand.crawler_templates.each do |ct|
+          %dd
+            %a{:href => "#{ edit_crawler_template_path( ct ) }"} 编辑模板
+      %dt
+        - if @brand.spiders and @brand.spiders.length > 0
+          - spider =  @brand.spiders.last
+          %dd= link_to "edit spider #{spider.id}", edit_spider_path(spider)
+        - else
+          %dd= link_to 'New spider', "/brand_admin/spiders/new?brand_id=#{@brand.id}"
+
+    -#%dl
+      %dt 评论管理
+      %dd
+        %a{:href => "#"} 品牌评论
+      %dd
+        %a{:href => "#"} 宝贝评论

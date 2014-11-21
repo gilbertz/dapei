@@ -1,0 +1,11 @@
+= simple_form_for(@brand_tag) do |f|
+  = f.error_notification
+
+  .form-inputs
+    = f.input :name
+    = f.input :thing_image_id
+    = f.input :type_id
+    = f.input :on
+
+  .form-actions
+    = f.button :submit

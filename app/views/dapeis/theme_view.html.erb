@@ -1,0 +1,229 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="target-densitydpi=320,width=640,user-scalable=no">
+  <title><%= @dapei_tag.name %></title>
+  <style>
+    body{
+        margin: 0 auto;
+        padding: 0;
+        background: #fff;
+    }
+    #container{
+        margin: 0 auto;
+        padding: 0;
+        width: 640px;
+    }
+    .top-banner{
+        width: 640px;
+        height: auto;
+    }
+    .top-banner img{
+        width: 640px;
+        height: auto;
+    }
+    #header{
+        padding: 42px 20px 16px 20px;
+        border-bottom: 1px solid #dcdcdc;
+    }
+
+    #userinfo span{
+        display: inline-block;
+    }
+    #userinfo .avatar{
+        float: left;
+    }
+    #userinfo .avatar img{
+        height: 78px;
+        width: 78px;
+
+        border-radius: 5px;
+    }
+    .user{
+        padding-left: 20px;
+        display: inline-block;
+    }
+    .user .username{
+        height: 46px;
+        font-size: 26px;
+        line-height: 46px;
+    }
+    .user .user-level img{
+        height: 26px;
+        width: 26px;
+    }
+    .user .user-level{
+        color: #e5a93f;
+    }
+    .clearfixed{
+        clear: both;
+    }
+    .info{
+        font-size: 22px;
+        color: #535353;
+    }
+    #main{
+        margin: 20px 20px;
+    }
+    .dapei-thumb{
+        margin-bottom: 56px;
+    }
+    .dapei-thumb .title{
+        font-size: 24px;
+        color: #333333;
+        margin-top: 22px;
+        text-align: center;
+        border-bottom: 1px solid #dcdcdc;
+        padding-bottom: 30px;
+    }
+    #footer{
+        text-align: center;
+        margin: 10px 0 20px 0;
+    }
+  </style>
+</head>
+<body>
+
+<div id="container">
+
+    <div class="top-banner">
+      <img src="<%= @dapei_tag.get_img_url %>" alt=""/>
+    </div>
+
+    <div id="header">
+      <div id="userinfo">
+        <span class="avatar">
+          <img src="<%= @dapei_tag.get_user.display_img_small %>" alt=""/>
+        </span>
+
+        <div class="user">
+          <span class="username">
+            <%= @dapei_tag.get_user.name %>
+          </span>
+
+          <div class="info">
+            <span><%= @dapei_tag.get_user.desc %></span>
+          </div>
+        </div>
+
+        <div class="clearfixed"></div>
+      </div>
+    </div>
+
+    <div id="main">
+
+      <% unless @dapeis.blank? %>
+          <% @dapeis.each do |dapei| %>
+
+              <div class="dapei-thumb">
+                <img src="<%= dapei.img_url %>" alt=""/>
+
+                <div class="title">
+                  <%= dapei.dapei_info.comment %>
+                </div>
+              </div>
+
+          <% end %>
+      <% end %>
+
+    </div>
+
+    <div id="footer">
+      <img src="http://1251008728.cdn.myqcloud.com/1251008728/2014/07/31/share.png" alt=""/>
+    </div>
+
+
+  <div class="top-banner">
+    <img src="<%= @dapei_tag.img_url %>" alt=""/>
+  </div>
+</div>
+
+
+
+
+<div id="shangjieba_share">
+  <input type="hidden" name="wanhuir_page_title" id="wanhuir_page_title" value="<%= @dapei_tag.share_dict[:title] %>"/>
+  <input type="hidden" name="wanhuir_page_url" id="wanhuir_page_url" value="<%= @dapei_tag.share_dict[:url] %>"/>
+  <input type="hidden" name="wanhuir_page_result" id="wanhuir_page_result" value="make 美格时尚"/>
+  <input type="hidden" name="wanhuir_page_desc" id="wanhuir_page_desc" value="<%= @dapei_tag.share_dict[:desc] %>"/>
+  <input type="hidden" name="wanhuir_page_image" id="wanhuir_page_image" value="<%= @dapei_tag.share_dict[:img] %>"/>
+  <input type="hidden" name="wanhuir_material_id" id="wanhuir_material_id" value="90"/>
+</div>
+
+<script type="text/javascript">
+    var get_wanhuir_share_info = function(){
+        wanhuir_page_title = $("#wanhuir_page_title").val();
+        wanhuir_page_url = $("#wanhuir_page_url").val();
+        wanhuir_page_result = $("#wanhuir_page_result").val();
+        wanhuir_page_desc = $("#wanhuir_page_desc").val();
+        wanhuir_page_image = $("#wanhuir_page_image").val();
+        wanhuir_material_id = $("#wanhuir_material_id").val();
+    }
+
+    var get_wanhuir_share_info_for_app = function(){
+        var result;
+
+        var wanhuir_page_title = "";
+        var wanhuir_page_url = "";
+        var wanhuir_page_result = "";
+        var wanhuir_page_desc = "";
+        var wanhuir_page_image = "";
+
+        wanhuir_page_title = $("#wanhuir_page_title").val();
+        wanhuir_page_url = $("#wanhuir_page_url").val();
+        wanhuir_page_result = $("#wanhuir_page_result").val();
+        wanhuir_page_desc = $("#wanhuir_page_desc").val();
+        wanhuir_page_image = $("#wanhuir_page_image").val();
+
+        result = '{"wanhuir_page_title": "'+wanhuir_page_title+'","wanhuir_page_url": "'+wanhuir_page_url+'","wanhuir_page_result": "'+wanhuir_page_result+'","wanhuir_page_desc": "'+wanhuir_page_desc+'","wanhuir_page_image": "'+wanhuir_page_image+'"}';
+        return result;
+    }
+</script>
+
+<script>
+    var dataForWeixin = {
+        appId: "wx78f81724e6590b1d",
+        TLImg: "<%= @dapei_tag.share_dict[:img] %>",
+        url: "<%= @dapei_tag.share_dict[:url] %>",
+        title: "<%= @dapei_tag.share_dict[:title] %>",
+        desc: "<%= @dapei_tag.share_dict[:desc] %>"
+    };
+
+    var onBridgeReady = function(){
+        WeixinJSBridge.on('menu:share:appmessage', function(argv){
+
+            WeixinJSBridge.invoke('sendAppMessage', {
+                "appid": dataForWeixin.appId,
+                "img_url": dataForWeixin.TLImg,
+                "img_width": "120",
+                "img_height": "120",
+                "link": dataForWeixin.url,
+                "title": dataForWeixin.title,
+                "desc": dataForWeixin.desc
+            });
+        });
+        WeixinJSBridge.on('menu:share:timeline', function(argv){
+            WeixinJSBridge.invoke('shareTimeline', {
+                "appid": dataForWeixin.appId,
+                "img_url":dataForWeixin.TLImg,
+                "img_width": "120",
+                "img_height": "120",
+                "link": dataForWeixin.url,
+                "title": dataForWeixin.title,
+                "desc": dataForWeixin.desc
+            });
+        });
+    };
+    if(document.addEventListener){
+        document.addEventListener('WeixinJSBridgeReady', onBridgeReady, false);
+    }else if(document.attachEvent){
+        document.attachEvent('WeixinJSBridgeReady', onBridgeReady);
+        document.attachEvent('onWeixinJSBridgeReady', onBridgeReady);
+    }
+</script>
+
+
+<%= render :partial => "layouts/m_download" %>
+</body>
+</html>

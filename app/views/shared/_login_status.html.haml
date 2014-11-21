@@ -1,0 +1,59 @@
+.pull-right
+  %ul#top-login.nav.nav-float-r
+    - if user_signed_in? and current_user.can_be_admin
+      %li
+        = link_to '后台', '/manage'
+    -if user_signed_in?
+      %li.divider-y
+      %li#my-home-li
+        %a{:href => "#{user_path(current_user)}"}
+          我的主页
+          %b.caret-w
+          .child-nav{:style => 'display: none'}
+            %ul.nav
+              %li.my_setting
+                = link_to '帐号设置',  edit_user_registration_path
+              %li.logout
+                = link_to '退出登录', destroy_user_session_path, :method=>'delete'
+      %li.divider-y
+      %li.signed_name
+        %span
+          已登录,
+        = current_user.display_name if current_user
+      %li.divider-y
+      %li
+        %a{:href => "/"} 首页
+    - else
+      %li.divider-y
+      %li#my-home-li
+        %a{:href => "#{new_user_session_path}"}
+          我的主页
+          %b.caret-w
+          .child-nav{:style => 'display: none'}
+            %ul.nav
+              %li.my_setting
+                = link_to '登录',  new_user_session_path
+              %li.logout
+                = link_to '注册',  new_user_registration_path
+      %li.divider-y
+      %li
+        %span
+          %a{:href => "/accounts/info/auth/qq_connect"}
+            %img{:alt => "", :src => "/assets/newweb/qq.png"}/
+        %a{:href => "/accounts/info/auth/qq_connect"} QQ登录
+      %li.divider-y
+      %li
+        %span
+          %a{:href => "/accounts/info/auth/weibo"}
+            %img{:alt => "", :src => "/assets/newweb/weibo-sina.png"}/
+        %a{:href => "/accounts/info/auth/weibo"} 微博登录
+      %li.divider-y
+      %li
+        %a{:href => "#{new_user_session_path}"} 登录
+      %li.divider-y
+      %li
+        %a{:href => "#{new_user_registration_path}"} 注册会员
+      %li.divider-y
+      %li
+        %a{:href => "/"} 首页
+.clearfix

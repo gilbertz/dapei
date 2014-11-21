@@ -1,0 +1,44 @@
+<header class="navbar navbar-inverse navbar-fixed-top bs-docs-nav" role="banner">
+  <div class="container">
+    <div class="navbar-header">
+      <button class="navbar-toggle" type="button" data-toggle="collapse" data-target=".bs-navbar-collapse">
+        <span class="sr-only">Toggle navigation</span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+      </button>
+      <%= link_to '管理后台', [:manage, :root], class: 'navbar-brand' %>
+    </div>
+    <nav class="collapse navbar-collapse bs-navbar-collapse" role="navigation">
+      <ul class="nav navbar-nav">
+        <li class="<%= c_active('brands', 'spiders', 'brand_tags', 'crawler_templates') %>">
+          <%= link_to '品牌管理', [:manage,:brands] %> 
+        </li>
+        <li class="<%= c_active('matters','matter_tags', 'dapei_tags', 'dapeis', 'categories') %>">
+          <%= link_to '搭配管理', [:manage,:dapeis] %> 
+        </li>
+        <li class="<%= c_active('skus') %>">
+          <%= link_to '素材管理', "/manage/matters" %> 
+        </li>
+        <li class="<%= c_active('posts') %>">
+          <%= link_to '搭配教室', "/manage/posts" %>
+        </li>
+        <li class="<%= c_active('users') %>">
+          <%= link_to '用户管理', "/manage/users" %>
+        </li>
+        <li class="<%= c_active('users', 'streets', 'areas', 'malls', 'flinks') %>">
+          <%= link_to '类别管理', [:manage,:categories] %>
+        </li>
+
+        <li>
+           <%= link_to '项目工具', '#' %>
+        </li>
+      </ul>
+      <ul class="nav navbar-nav navbar-right">
+        <li>
+          <a href="#">管理员</a>
+        </li>
+      </ul>
+    </nav>
+  </div>
+</header>

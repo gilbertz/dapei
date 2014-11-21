@@ -1,0 +1,51 @@
+<%="#encoding:utf-8"%>
+require 'headless'
+require 'rubygems'
+require 'selenium-webdriver'
+require 'yaml'
+require 'json'
+require 'redis'
+
+headless = Headless.new(:reuse => false)
+headless.start
+
+$redis =  Redis.new(:host => '114.80.100.12', :port => 6379)
+ 
+driver = Selenium::WebDriver.for :chrome
+#driver.manage.timeouts.implicit_wait = 30
+driver.manage.timeouts.script_timeout = 120
+driver.manage.timeouts.page_load = 60
+
+
+
+<%=raw @links%>.each do |link|
+ doc = {}
+ puts link[0]
+ doc[:docid]=link[1]
+ doc[:price]=""
+ doc[:now_price]=""
+  begin
+    driver.get link[0]
+    doc[:price] = driver.find_element(:xpath, "<%=raw @spider.pprice %>").text.strip
+    doc[:now_price] = driver.find_element(:xpath, "<%=raw @spider.now_price %>").text.strip
+  rescue => e  
+    puts e.to_s
+  end
+  
+  puts "price is #{doc[:price]}"
+  puts "now price is #{doc[:now_price]}"
+
+  if !(doc[:price].empty? && doc[:now_price].empty?)
+    if !doc[:now_price].empty? && doc[:price] != doc[:now_price]
+      key = "sku_now_price_updated_#{link[1]}"
+      $redis.set(key, doc.to_yaml)
+    end
+  end
+end
+
+driver.quit
+<% unless params[:debug] %>
+#`ps -ef | grep chromium-browser | grep -v grep | awk '{print $2}' | xargs kill -9`
+<% end %>
+
+headless.destroy

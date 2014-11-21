@@ -1,0 +1,53 @@
+-#=render :partial => 'comments/form', :locals => {:commentable => @post}
+-#- @post.comments.each do |comment|
+  %p
+    #{comment.comment}
+
+
+/ 日志
+.clearfix.log_det
+  .log_det_bd
+    .left
+      - if current_user and current_user.can_be_admin
+        = link_to "edit", edit_post_path(@post)   
+        = link_to "delete", @post, :method=>:delete, :data => { :confirm => "确定删除吗?" }
+      .bb-hd
+        %h2 #{@post.title}
+        -if @post.area and @post.area!=""
+          %em.price
+            %span>@ #{@post.area}
+      .article
+        .img
+          %ul{:style => "width:640px;"}
+            -if @post.photos and @post.photos.length>1
+              -@post.photos.each do |p|
+                %li
+                  %img{:src => "#{p.url(:scaled_full)}", :width => "300"}/
+            -elsif @post.photos and @post.photos.length==1
+              %img{ :src => "#{@post.photos.first.url(:scaled_full)}", :width => "600"}/
+            -else
+              %img{ :src => "/assets/img.jpg", :width => "600"}/
+        .article_bd
+          %p 
+            = raw @post.content
+        .like_comment.lover_bd
+          %a.lover_btn{:href => "javascript:void(0)",  :title=>"点击进行收藏", :likes_count=>"#{@post.likes_count}", :liked_type=>"Post", :liked_id=>"#{@post.id}"} 喜欢
+          %span.lover_icon
+            (#{@post.likes_count}) 
+            
+        .text_editor
+          .hd
+            %h3 我要评论
+          .input_con
+            =render :partial => 'comments/form', :locals => {:commentable => @post}
+        .comment_bd
+          .hd
+            %h3 全部评论(#{@post.comments.count})
+          %ul.comment_c
+            -@comments.each do |comment|
+              =render :partial=>"/comments/comment", :locals=>{:comment=>comment}
+          = paginate @comments
+    .right
+      =render :partial=>"/posts/items_module", :locals=>{:post=>@post}
+      =render :partial=>"/posts/shop_module", :locals=>{:post=>@post}
+      =render :partial=>"/posts/people_module", :locals=>{:post=>@post}

@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset='utf-8' />
+	<title>搭配详情</title>
+	<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
+    <style>
+        *, *:before, *:after{box-sizing:border-box; -webkit-box-sizing:border-box; -moz-box-sizing:border-box;}
+        body, img, p, img, div, h1, h2, h3, h4, span, ul, li, i{padding: 0; margin: 0;}
+        body{font-size: 62.5%; font-family: Arial, "微软雅黑", Helvetica, sans-serif}
+        ul, li{list-style: none;}
+        h1, h2, h3, h4, h5, h6{font-weight: normal;}
+        img{width: 100%;}   
+        .main{max-width: 640px; margin: 0 auto; border:1px solid #eee;}
+        .top{overflow: auto; padding: 15px 30px; border-bottom: 1px solid #eee; background: rgb(250, 250, 250); margin-bottom: 20px;}
+        .top div{float: left;}
+        .top h3{font-size: 2em;}.top h4{font-size: 1.8em;}
+        .top div:first-child{width: 25%}
+        .top img{border-radius: 5px;}
+        .top-desc{padding: 10px 20px 5px; width:75%;}
+        .top-desc h3, .top-desc h4{padding: 10px 0;}
+        .top-desc h3 span{color:#f8e7bf; padding-left: 10px;}
+        .content {position: relative;}
+        .content > div:first-child{text-align: center; padding-bottom: 30px; border-bottom: 1px solid rgb(201, 201, 201)}
+        .dapei-items{background: rgb(250, 250, 250); padding: 20px 25px;}
+        .dapei-items h3{font-size: 2.4em; padding-bottom: 16px;}
+        .dapei-items p{text-align: center; font-size: 1.8em; padding-top: 10px;}
+        .dapei-items ul{background: #fff; border: 1px solid rgb(201, 201, 201); overflow: auto;}
+        .dapei-items li{float: left; padding: 20px 15px 10px; border-right: 1px solid rgb(201, 201, 201);}
+        .dapei-items li:last-child{border-right: none;}
+        .tag-canvas{position: absolute; left:0;}
+        .bottom{background: rgb(242, 244, 245); padding: 18px 22px;}
+        .bottom h3{font-size: 2.6em; color: rgb(160, 160, 160);}
+        .bottom h3 i{font-style: normal; padding-right:7px;}
+        .bottom h3 span{padding-right: 11px;}
+        .bottom h3 span:last-child{border-left: 1px solid rgb(201, 201, 201); padding-left: 11px;}
+        .bottom > div:first-child{padding-bottom: 12px; border-bottom: 1px solid rgb(201, 201, 201)}
+        .like-user{border-bottom: 1px solid rgb(201, 201, 201); padding-top: 16px; padding-bottom: 16px;}
+        .like-user ul{overflow: hidden;}
+        .like-user li{float: left;}
+        .like-user li:first-child{padding-left: 0;}
+        .like-user img{border-radius: 5px;}
+        @media (max-width:400px){.top-desc{padding-top: 0;}}
+        @media (max-width:320px){.top-desc h3, .top-desc h4{padding: 6px 0;}}
+    </style>
+</head>
+<body>
+    <div>
+        <%if @selfie %>
+            <input type="hidden" name="selfie_url" value="<%= @selfie.url %>" id="selfie_url"/>
+        <%end%>
+    </div>
+    <div class="main" id="main">
+    </div>
+    <script type="text/javascript" src='/share_selfie/canvasUtil.js'></script>
+    <script type="text/javascript" src='/share_selfie/sea_de.js'></script>
+    <script type="text/javascript">       
+        new Details('main',document.getElementById("selfie_url").value) ;
+    </script>
+</body>
+</html>

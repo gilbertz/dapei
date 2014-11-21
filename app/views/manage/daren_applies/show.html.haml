@@ -1,0 +1,33 @@
+%p#notice= notice
+
+%p
+  %b User:
+  = @daren_apply.user_id
+%p
+  %b Mobile:
+  = @daren_apply.mobile
+%p
+  %b Qq:
+  = @daren_apply.qq
+%p
+  %b Address:
+  = @daren_apply.address
+%p
+  %b Reason:
+  = @daren_apply.reason
+%p
+  %b Photo1:
+  = @daren_apply.photo1_id
+%p
+  %b Photo2:
+  = @daren_apply.photo2_id
+%p
+  %b Photo3:
+  = @daren_apply.photo3_id
+%p
+  %b Status:
+  = @daren_apply.status
+
+= link_to 'Edit', edit_manage_daren_apply_path(@daren_apply)
+\|
+= link_to 'Back', manage_daren_applies_path

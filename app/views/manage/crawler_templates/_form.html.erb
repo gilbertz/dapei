@@ -1,0 +1,87 @@
+<h3 style='margin-top:0px;'><%= action_name.in?(['new','create']) ? '新建' : '编辑' %>
+  @  爬虫模板
+</h3>
+<hr style='margin-top:0px;'>
+<%= form_for [:manage,@crawler_template], html: {class: 'form-horizontal', role: 'form'} do |f| %>
+  <div class="form-group" style='margin-left:0px; margin-right:0px;'>
+    <label for="inputEmail3" class="col-sm-3 control-label">品 牌</label>
+    <div class="col-sm-9">
+      <%#= f.select :brand_id,@brands,{include_blank: '无品牌'}, class: "form-control input-sm" %>
+      <%= text_field_tag :brand_name, "#{@crawler_template.brand.name if @crawler_template.brand.present?}", class: "form-control input-sm" %>
+      <%= f.hidden_field :brand_id %>
+    </div>
+  </div>
+  <div class="form-group" style='margin-left:0px; margin-right:0px;'>
+    <label for="inputEmail3" class="col-sm-3 control-label">商 场</label>
+    <div class="col-sm-6">
+      <%#= f.select :mall_id,@malls,{include_blank: '无商场'}, class: "form-control input-sm" %>
+      <%= text_field_tag :mall_name, "#{@crawler_template.mall.name if @crawler_template.mall.present?}" , class: "form-control input-sm" %>
+      <%= f.hidden_field :mall_id %>
+    </div>
+  </div>
+  <div class="form-group" style='margin-left:0px; margin-right:0px;'>
+    <label for="inputEmail3" class="col-sm-3 control-label">来源ID</label>
+    <div class="col-sm-9">
+      <%= f.text_field :source, class: "form-control" %>
+    </div>
+  </div>
+  <div class="form-group" style='margin-left:0px; margin-right:0px;'>
+    <label for="inputEmail3" class="col-sm-3 control-label">来 源</label>
+    <div class="col-sm-5">
+      <%= f.select :template,['weibo','weixin',['官网','homepage']],{}, class: "form-control input-sm" %>
+    </div>
+  </div>
+  <div class="form-group" style='margin-left:0px; margin-right:0px;'>
+    <label for="inputEmail3" class="col-sm-3 control-label">类 型</label>
+    <div class="col-sm-5">
+      <%= f.select :t,['Item','Discount','Shop'],{}, class: "form-control input-sm" %>
+    </div>
+  </div>
+  <div class="form-group" style='margin-left:0px; margin-right:0px;'>
+    <label for="inputEmail3" class="col-sm-3 control-label">模 板</label>
+    <div class="col-sm-9">
+      <%= f.text_field :pattern, class: "form-control", placeholder: '2013|新款' %>
+    </div>
+  </div>
+  <div class="form-group" style='margin-left:0px; margin-right:0px;'>
+    <div class="col-sm-offset-3 col-sm-9">
+      <%= f.submit '提交', class: 'btn btn-primary' %>
+    </div>
+  </div>
+<% end %>
+
+
+<script type="text/javascript">
+  $(document).ready(function(){
+      $('#brand_name').typeahead({
+          ajax: {
+              url: '/manage/crawler_templates/search_brands',
+              timeout: 1000,
+              method: 'get'
+          },
+          display: 'name',
+          val: 'id'
+      });
+
+      $('#brand_name').on('change', function() {
+          var i = $(this).parent().find("li.active").attr("data-value");
+          $("#crawler_template_brand_id").val(i);
+      });
+
+
+      $('#mall_name').typeahead({
+          ajax: {
+              url: '/manage/crawler_templates/search_malls',
+              timeout: 1000,
+              method: 'get'
+          },
+          display: 'name',
+          val: 'id'
+      });
+
+      $('#mall_name').on('change', function() {
+          var i = $(this).parent().find("li.active").attr("data-value");
+          $("#crawler_template_mall_id").val(i);
+      });
+  })
+</script>

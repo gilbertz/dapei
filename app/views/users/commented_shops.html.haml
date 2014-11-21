@@ -1,0 +1,44 @@
+-#%h3 User
+-#%p
+  User: #{@user.name}
+-#%p
+  Email: #{@user.email if @user.email}
+-#%p
+  =link_to image_tag(@user.avatar_url(:thumb_medium)) ,root_path
+  -#=link_to "ssss"  @user.avatar_url(:thumb_small)
+  -#=image_tag @user.avatar_url(:thumb_small) , :width=>"50"
+-#%h3 The posts of the user
+-#%p
+  =@user.posts.each do |post|
+    %tr
+      %td= post.title
+      %td= post.content
+      %td= post.user_id
+      -#%td= link_to 'Show', post
+      -#%td= link_to 'Edit', edit_post_path(post)
+      -#%td= link_to 'Destroy', post, method: :delete, data: { confirm: 'Are you sure?' }
+
+=render :partial=>"/users/top_bar", :locals=>{:user=>@user, :nav_class=>"commented"}
+/ 菜单
+.menu01
+  .bd
+    %ul
+      %li.Current
+        %a{:href => "#{commented_shops_path(@user)}"} 店铺
+      %li.vertical
+      %li
+        %a{:href => "#{commented_items_path(@user)}"} 宝贝
+-if @shops.blank?
+  .clearfix.gjb_friends
+    .friends_bd
+      %h2 还没有进行任何评论，赶快行动起来吧
+.clearfix.gjb_shop
+  .gjb_shop_bd.stream{:style=>"width:1010px;"}
+    %ul{:style=>"width:1010px;"}
+      - @shops.each do |shop|
+        =render :partial=>"/users/shop_comment_item", :locals=>{:shop=>shop}
+      -#-@shops.each do |shop|
+        =render :partial=>"/shops/shop_list_item", :locals=>{:shop=>shop}
+  .page_nav
+    = paginate @shops
+

@@ -1,0 +1,31 @@
+-if(comment.user_id)
+  -user=User.find(comment.user_id)
+-#%li
+  .name
+    -if user
+      %a{:href => "#{user_path(user)}"} #{user.display_name}
+    -else
+      %a{:href=>"#"} #########
+  .text_c #{comment.comment}
+  .avatar
+    -if (user)
+      %a{:href => "#{user_path(user)}"}
+        %img{:height => "50", :src => "#{user.display_img_small}", :width => "50"}/
+    -else
+      %a{:href => "#"}
+        %img{:height => "50", :src => "/assets/0.gif", :width => "50"}/
+  .date #{comment.created_at.localtime.strftime("%F %H:%M")}
+  -if current_user and current_user.can_remove?(comment)
+    %a{:href=>"#{comment_path(comment)}", :class=>"comment_delete", :title=>"删除", :data => { :confirm => "确定删除吗?" }, :method=>:delete}
+      %img{:src=>"/assets/deletelabel.png"}
+
+%li
+  %ul.nav.nav-float
+    %li.item-comment-list-avatar
+      %img{:height => "50", :src => "#{user.display_img_small}", :width => "50"}/
+    %li.item-comment-list-content
+      .username
+        %a{:href => "#{user_path(user)}"} #{user.display_name}
+      .post-time #{comment.created_at.localtime.strftime("%F %H:%M")}
+      .comment-content
+        #{comment.comment}

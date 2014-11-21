@@ -1,0 +1,48 @@
+<%= search_form_for [:manage, @q], html: {class: 'form-inline',role: 'form',style: 'margin-top:30px;'} do |f| %>
+    <div class="form-group">
+      <label class="sr-only">tag name</label>
+      <%= f.text_field :name_cont, class: 'form-control', placeholder: 'tag name' %>
+    </div>
+    <%= f.submit '搜索', class: 'btn btn-primary'%>
+<% end %>
+
+
+<h2>
+  <%= link_to "New Tag", new_manage_tag_path %>
+</h2>
+
+<h1>Tags</h1>
+
+<table class="table">
+  <tr>
+    <th>ID</th>
+    <th>tag</th>
+    <th>desc</th>
+    <th>is show for app</th>
+    <th>operate</th>
+  </tr>
+
+<% unless @tags.blank? %>
+    <% @tags.each do |tag| %>
+    <tr>
+      <td>
+        <%= tag.id %>
+      </td>
+      <td>
+        <%= tag.name %>
+      </td>
+      <td>
+        <%= tag.desc %>
+      </td>
+      <td>
+        <%= tag.is_show %>
+      </td>
+      <td>
+        <%= link_to "edit", edit_manage_tag_path(tag) %>
+      </td>
+    </tr>
+    <% end %>
+<% end %>
+</table>
+
+<%= paginate @tags %>

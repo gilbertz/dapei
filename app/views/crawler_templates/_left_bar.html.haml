@@ -1,0 +1,13 @@
+.left_nav
+  - if true
+    %dl
+      %dt 爬虫
+      %dd
+        =link_to "增加品牌模板", new_crawler_template_path
+      %dd
+        =link_to "品牌模板列表", crawler_templates_url
+      - if @crawler_template and @crawler_template.brand
+        %dd
+          =link_to "品牌sku", manage_skus_path(@crawler_template.brand)
+        %dd
+          =link_to "品牌微博", "http://weibo.com/u/#{@crawler_template.source}"  

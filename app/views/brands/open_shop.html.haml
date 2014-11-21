@@ -1,0 +1,33 @@
+.recom-p.clearfix.perfect_info
+  .right_content
+    = simple_form_for(@shop, :url=>"/brand_admin/brands/#{@brand.id}/create_shop" ,:validate=>true, :html => { :method =>:post }) do |f|
+      %li.brand
+        %label
+          品牌:
+        %select{:name => "shop[brand_id]", :id=>"brand"}
+          %option{ :value => "0"} 无品牌
+          - @brands.each do |brand|
+            - if @brand.id == brand.id
+              %option{ :selected=>"selected", :value => "#{brand.id}"} #{brand.name}
+            - else
+              %option{ :value => "#{brand.id}"} #{brand.name}
+
+      %li.address_bd
+        %label
+          店铺地址：
+        .address
+          .address_01
+            /%input.txt{:name => "city", :style => "width:110px;", :value=>"S上海", :disabled=>"disabled", :type => "text"}/
+            %select{:name => "shop[city_id]", :id=>"city"}
+              - @cities.each do |city|
+                - if @shop.city_id == city.city_id
+                  %option{ :selected => 'selected', :value => "#{city.city_id}", :city=>"#{city.name}"} #{city.pinyin[0]}#{city.name}
+                - else
+                  %option{:value => "#{city.city_id}", :city=>"#{city.name}"} #{city.pinyin[0]}#{city.name}
+
+          .address_02
+            %input.txt{:name => "shop[address]", :value=>"#{@shop.address}" , :id=>"suggestId", :style => "width:250px;", :type => "text", :placeholder => "店铺详细地址"}/
+      %li
+        = f.input :phone_number, :label=>"电      话：",  :input_html=>{:class=>"txt", :style=>"width:250px;"}
+      %li
+        = f.button :submit, '提交店铺', :class => 'submit_btn_01'

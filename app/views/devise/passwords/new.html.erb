@@ -1,0 +1,26 @@
+<div class="layer_box" >
+  <div class="hd">
+    <h2>重置密码</h2>
+    <a class="close" href = "#"></a>
+  </div>
+
+  <div class="bd">
+    <div class="login_bd">
+      <div class="direction">
+        <p>在下面输入你注册时填的Email地址,</p>
+        <p>我们将发给你一封信,</p>
+        <p>按照上面的步骤你就可以重置密码了。</p>
+      </div>
+      <div class="clearfix login_w_bd">
+      <%= simple_form_for(resource, :as => resource_name, :url => password_path(resource_name), :html => { :method => :post }) do |f| %>
+        <%= f.error_notification %>
+        <ul>
+          <li><%= f.input :email, :label=>"邮箱：", :required => true, :input_html=>{:class=>"txt"} %></li>
+          <li><%= f.button :submit, "请求",  :class=>"submit_btn" %></li>
+        </ul>
+      <% end %>
+      </div>
+    </div>
+  <div>
+
+</div>

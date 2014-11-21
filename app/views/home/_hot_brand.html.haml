@@ -1,0 +1,52 @@
+.wrapper
+  .big-sale.chunk.chunk-three
+    .chunk-head
+      .head-img
+        %img{:src => "/assets/newweb/hot_brand.png", :alt=>"#{@city}品牌", :title => "#{@city}品牌"}
+    .chunk-three-body
+      %ul.nav.nav-float.chunk-three-ul.chunk-three-ul-one
+        -@wide3brands.each do |wb|
+          -#- if wb == @wide3brands.last
+            %li{:id => "ul-last-li"}
+              .three-top
+                %a{:href=>"#{brands_web_show_path(wb)}"}
+                  %img{:src => "#{wb.banner_url}"}
+                    .opacity-tiny-b
+                      #{wb.get_display_name.capitalize}
+          -#- else
+          %li
+            .three-top
+              %a{:href=>"#{brands_web_show_path(wb)}"}
+                %img{:src => "#{wb.banner_url}", :alt=>"#{brand_alt(wb)}", :title=>"#{brand_title(wb)}"}
+                  .opacity-tiny-b
+                    #{wb.get_display_name.capitalize}
+          
+      %ul.nav.nav-float.chunk-three-ul.chunk-three-ul-two
+        -unless @normal9brands.blank?
+          -@normal9brands.each do |nb|
+            - if nb == @normal9brands.last
+              %li{:id => "ul-last-li"}
+                %a{:href=>"#{brands_web_show_path(nb)}"}
+                  %img{:src => "#{nb.high_campaign_img(:normal_medium)}", :alt=>"#{brand_alt(nb)}", :title=>"#{brand_title(nb)}"}
+                    .opacity-tiny
+                      #{nb.get_display_name.capitalize}
+            - else
+              %li
+                %a{:href=>"#{brands_web_show_path(nb)}"}
+                  %img{:src => "#{nb.high_campaign_img(:normal_medium)}", :alt=>"#{brand_alt(nb)}",  :title=>"#{brand_title(nb)}"}
+                    .opacity-tiny
+                      #{nb.get_display_name.capitalize}
+      %ul.nav.nav-float.chunk-three-ul.chunk-three-ul-three
+        -@squre6brands.each do |sb|
+          - if sb == @squre6brands.last
+            %li{:id => "ul-last-li"}
+              %a{:href=>"#{brands_web_show_path(sb)}"}
+                %img{:src => "#{sb.high_campaign_img(:thumb_medium)}", :alt=>"#{brand_alt(sb)}",  :title=>"#{brand_title(sb)}"}
+                  .opacity-square
+                    #{sb.get_display_name.capitalize}
+          - else
+            %li
+              %a{:href=>"#{brands_web_show_path(sb)}"}
+                %img{:src => "#{sb.high_campaign_img(:thumb_medium)}", :alt=>"#{brand_alt(sb)}",  :title=>"#{brand_title(sb)}"}
+                  .opacity-square
+                    #{sb.get_display_name.capitalize}

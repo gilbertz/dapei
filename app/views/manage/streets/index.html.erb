@@ -1,0 +1,33 @@
+<%= search_form_for [:manage, @q], html: {class: 'form-inline',role: 'form',style: 'margin-top:30px;'} do |f| %>
+  <div class="form-group">
+    <label class="sr-only">StreetName</label>
+    <%= f.text_field :name_cont, class: 'form-control', placeholder: '街道名称' %>
+  </div>
+  <%= f.submit '搜索', class: 'btn btn-primary btn-xs'%> 
+  <%= total_span @streets %>
+<% end %>
+<table class="table table-bordered table-hover">
+  <thead>
+    <tr class="success">
+      <th>名称</th>
+      <th>链接</th>
+      <th width="17%"><%= sort_link @q, :created_at, '创建时间' %></th>
+      <th width="12%">操作</th>
+    </tr>
+  </thead>
+  <tbody>
+    <% @streets.each do |street| %>
+      <tr>
+        <td><%= street.name %></td>
+        <td><%= street.url %></td>
+        <td><%= to_local street.created_at %></td>
+        <td> 
+          <%= link_to '编辑', [:edit,:manage,street], class: 'e_obj' %> |
+          <%= link_to '删除', [:manage,street], remote: true, method: :delete, 
+          confirm: 'Are you sure ?', class: 'ajaxd' %>
+        </td>
+      </tr>
+    <% end %>
+  </body>
+</table>
+<%= paginate @streets %>  

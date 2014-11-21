@@ -1,0 +1,144 @@
+<div class="row">
+
+    <div class="col-md-12" style="margin: 30px 0">
+      一级分类:
+      <%= select_tag "category", options_for_select(@categories, @category_id), :style => "width: 300px" %>
+      二级分类:
+      <%= select_tag "sub_category", options_for_select(@sub_categories, params[:sub_category_id]), :style => "width: 300px" %>
+ 
+      <a href='?m=1'> 全部素材 </a>
+      <a href='?m=1&level=10'> 已用搭配素材 </a>
+      <a href='/manage/skus/sub_category?sub_category_id=0'>无分类</a>
+    </div>
+
+    <% unless @skus.blank? %>
+
+        <% @skus.each do |sku| %>
+        <% unless sku.photos.blank? %>
+          <% if params[:m] == "1" %>
+              <% next if sku.matter_photos.blank? %>
+          <% end %>
+
+          <div class="col-sm-7 col-md-3 recommend">
+            <div class="thumbnail">
+
+              <%= link_to sku.photos.first.url, class: 'preview' do %>
+                  <img alt="300x200" style="max-width: 300px; max-height: 200px;" src="<%= sku.photos.first.url %>">
+              <% end %>
+              <div class="caption">
+                <p style="height: 50px; overflow: hidden">
+                  <%= sku.try(:brand_name) %> | <%= sku.try(:title) %>
+                </p>
+                <% if sku.get_matter %>
+                   <a href="/matters/<%= sku.get_matter.id %>/dapeis">素材</a>
+                <% end %>
+                
+                <p>
+                  <label for="first_category">一级分类: </label>
+                  <%= select_tag "first_category", options_for_select(@categories, sku.category_id), :class => "first_category", "data-id" => sku.id %>
+                </p>
+                <p>
+                  <label for="sub_category_id">二级分类: </label>
+                  <%= select_tag "sub_category_id", options_for_select(Category.get_all_sub_categories(sku.category_id).collect{|c|[c.name, c.id]}, sku.sub_category_id), :class => "sub_category_id", "data-id" => sku.id %>
+                </p>
+                <% sku.tags.each do |t| %>
+                 <span><%= t.name %></span> &nbsp;
+                <% end %> 
+              </div>
+            </div>
+          </div>
+        <% end %>
+        <% end %>
+
+    <% end %>
+
+    <div class="col-lg-12">
+      <a href="<%= @next_page_url %>">下一页</a>
+    </div>
+
+</div>
+
+<script type="text/javascript" src="http://1251008728.cdn.myqcloud.com/1251008728/assets/javascripts/jquery.jgrowl.min.js"></script>
+<script type="text/javascript" src="http://1251008728.cdn.myqcloud.com/1251008728/assets/javascripts/select2.min.js"></script>
+<link rel="stylesheet" type="text/css" href="http://1251008728.cdn.myqcloud.com/1251008728/assets/css/select2.css"/>
+<link rel="stylesheet" type="text/css" href="http://1251008728.cdn.myqcloud.com/1251008728/assets/css/jquery.jgrowl.min.css"/>
+
+<style type="text/css">
+  .first_category{
+      width: 100%;
+  }
+  .sub_category_id{
+      width: 100%;
+  }
+  .tag_list{
+      width: 100%;
+  }
+  .bootstrap-tagsinput{
+      overflow-y: scroll;
+  }
+</style>
+
+<script type="text/javascript">
+  $(function(){
+    $(".first_category").select2();
+    $(".sub_category_id").select2();
+    $("#category").select2();
+    $("#sub_category").select2();
+
+    var option = '';
+    <% if params[:m] %>
+      option = "&m=1";
+    <% end %>    
+
+    $("#category").change(function(){
+        var category = $(this).val();
+        window.location.href = "/manage/skus/sub_category?category_id=" + category + option;
+    });
+
+    $("#sub_category").change(function(){
+        var category = $(this).val();
+        window.location.href = "/manage/skus/sub_category?sub_category_id=" + category + option;
+    });
+
+    $(".first_category").change(function(){
+        var sku_id = $(this).attr("data-id");
+        var first_category_id = $(this).val();
+
+        var sub_cate = $(this).parent().parent().find("#sub_category_id");
+
+        $.get("/manage/skus/get_sub_categories", {first_category_id: first_category_id}, function(data){
+            $(sub_cate).html(data);
+            $(sub_cate).select2();
+        });
+
+        $.get("/manage/skus/ajax_update_edit", {sku_id: sku_id, first_category_id: first_category_id}, function(data){
+            $.jGrowl(data.result, {
+                closer: true
+            });
+        });
+    });
+
+    $(".sub_category_id").change(function(){
+        var sku_id = $(this).attr("data-id");
+        var sub_category_id = $(this).val();
+        $.get("/manage/skus/ajax_update_edit", {sku_id: sku_id, sub_category_id: sub_category_id}, function(data){
+            $.jGrowl(data.result, {
+                closer: true
+            });
+        });
+    });
+
+    $(".tag_list").change(function(){
+        var tag_list = $(this).val();
+        console.log(tag_list);
+
+        var sku_id = $(this).attr("data-id");
+        $.get("/manage/skus/ajax_update_edit", {sku_id: sku_id, tag_list: tag_list}, function(data){
+            $.jGrowl(data.result, {
+                closer: true
+            });
+        });
+    });
+
+  })
+</script>

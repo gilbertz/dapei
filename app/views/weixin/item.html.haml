@@ -1,0 +1,47 @@
+.wrapper
+  %h4 #{@item.recommend_title}
+  %p
+    %font{:face => "icon"} 3
+    %font{:face => "微软雅黑"} 地址：#{@item.shop.address_tel}
+  .info
+    %p{:style=>"float:left;"}
+      #{@item.upload_date}
+    %p{:style => "margin-top:5px; color:#999; float:right;"}
+      %font{:face => "icon", :size => "1"} 1
+      %font{:face => "微软雅黑"} #{@item.likes_count}人喜欢  
+      \ 
+      %font{:face => "icon", :size => "1"} 2
+      %font{:face => "微软雅黑"} #{@item.get_dispose_count}人瞄过  
+  .grids
+    -#.grid-12
+      %p{:style => "margin-top:5px; color:#999; float:right;"}
+        %font{:face => "icon", :size => "1"} 1
+        %font{:face => "微软雅黑"} #{@item.likes_count}人喜欢
+        \ 
+        %font{:face => "icon", :size => "1"} 2
+        %font{:face => "微软雅黑"} #{@item.get_dispose_count}人瞄过
+    .grid-12.grid
+      %a{:href => "#"}
+        - @item.display_photos.each do |photo|
+          %img{:src => "#{photo.url(:scaled_full)}", :alt=>"#{@item.title}"}/     
+      %p{:style=>"padding-top:5px; margin-top:10px;"} 
+        = @item.get_desc
+      -#%a{:href=>"#{@weixin_shop_path}"} 
+        %p{:align => "center", :style => " background-color:#f861b0; max-width:50px; background-position:center; color:#fff"} 进入店铺
+
+= render "brand_shops"
+  
+/ end of wrapper
+.wrapper
+  #footer
+    .grids
+      .grid-16.grid.text-center
+        %p{:style => "font-size:14px;"}
+          %a{:href => "#{@shop_path}", :style => "color:#FFF"} 进入店铺
+    / end of grids
+  / end of footer
+/ end of wrapper
+
+
+
+=render :partial=>"/shared/report", :locals=>{:type=>"item", :id=>@item.url }

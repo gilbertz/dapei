@@ -1,0 +1,116 @@
+<%="#encoding:utf-8"%>
+require 'headless'
+require 'rubygems'
+require 'selenium-webdriver'
+require 'yaml'
+require 'json'
+require 'redis'
+
+headless = Headless.new(:reuse => false)
+headless.start
+
+$redis =  Redis.new(:host => '114.80.100.12', :port => 6379)
+ 
+driver = Selenium::WebDriver.for :chrome
+#driver.manage.timeouts.implicit_wait = 30
+driver.manage.timeouts.script_timeout = 120
+driver.manage.timeouts.page_load = 60
+
+def valid_url?(driver)
+  url = driver.current_url
+  valid = true
+
+    all_sold_out = "<%=raw @spider.sold_out%>"
+    arr_sold_out = all_sold_out.split("|")
+    sold_out_text1 = ""
+    sold_out_text2 = ""
+
+    begin
+      sold_out1 = driver.find_elements(:xpath, arr_sold_out.first).first
+      sold_out_text1 = sold_out1.text.strip if sold_out1
+      sold_out_text1 += (sold_out1[:text] || "").strip if sold_out1
+      case url
+      when /shangpin.com/
+        if !sold_out_text1.empty?
+          sold_out_text1 = ""
+        else
+          sold_out_text1 = "sold out"
+        end
+      when /sephora.cn/
+        sold_out_text1 = sold_out1.attribute("title") if sold_out1
+      when /hm.com/
+        sold_out1 = driver.find_elements(:xpath, "//div[@id='errorMessage']/h2/img").first
+        sold_out_text1 += sold_out1.attribute("alt") if sold_out1
+      when /yintai.com/
+        sold_out1 = driver.find_elements(:xpath, "//div[@class='p-buy']/button[@class='outstoke']").first
+        sold_out_text1 += sold_out1.attribute("title") if sold_out1
+       
+       if !url.include?("item.yintai.com")
+
+        li_buy_style = ""
+        li_empty_style = ""
+        li_buy_style = driver.find_element(:xpath, "//li[@id='liBuy']").attribute("style") 
+        li_empty_style = driver.find_element(:xpath, "//li[@id='liEmpty']").attribute("style")
+        sold_out_text1 = li_empty_style.strip.empty? ? "sold out" : "" 
+       end
+      when /elleshop.com.cn/
+        sold_out1 = driver.find_elements(:xpath, "//a[contains(@class, 'btnSoldout')]").first
+        sold_out_text1 += sold_out1.attribute("title") if sold_out1
+      else
+      end
+    rescue => e
+      p e.to_s
+    end
+
+  if arr_sold_out.length > 1 
+    begin
+      sold_out2 = driver.find_element(:xpath, arr_sold_out.last)
+      sold_out_text2 = sold_out2.text.strip
+    rescue => e
+      p e.to_s
+    end
+  end
+
+  sold_out = "#{sold_out_text1}#{sold_out_text2}"
+  puts sold_out
+  valid = false if sold_out && !sold_out.empty?
+        
+  valid
+end
+  
+def valid_link?(driver, link)
+  begin
+    driver.get link
+    bool_valid_url = valid_url?(driver)
+  rescue => e  
+    puts e.to_s
+    error_message = e.to_s
+        case link
+        when /yintai.com/
+          if error_message =~ /unexpected alert open/
+          end
+        else
+        end
+  end
+  bool_valid_url
+end
+
+
+<%=raw @links%>.each do |link|
+ doc = {}
+ puts link[0]
+ valid = valid_link?(driver, link[0])
+ key = "sku_deleted_#{link[1]}"
+ $redis.del key
+ if valid == false
+   doc["docid"]=link[1]
+   $redis.set(key, doc.to_yaml)
+ end
+end
+
+driver.quit
+<% unless params[:debug] %>
+#`ps -ef | grep chromium-browser | grep -v grep | awk '{print $2}' | xargs kill -9`
+<% end %>
+
+headless.destroy

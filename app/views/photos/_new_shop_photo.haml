@@ -1,0 +1,52 @@
+-#   Copyright (c) 2010-2011, Diaspora Inc.  This file is
+-#   licensed under the Affero General Public License version 3 or later.  See
+-#   the COPYRIGHT file.
+
+:javascript
+ function createUploader(){
+
+   var uploader = new qq.FileUploaderBasic({
+       element: document.getElementById('shop-file-upload'),
+       params: {'photo' : {'pending' : 'true'}, 'set_shop_image' : "#{set_shop_image if defined?(set_shop_image)}"},
+       allowedExtensions: ['jpg', 'jpeg', 'png', 'gif', 'tiff'],
+       action: "#{photos_path}",
+       debug: true,
+       button: document.getElementById('shop-file-upload'),
+       sizeLimit: 4194304,
+
+       onProgress: function(id, fileName, loaded, total){
+       },
+
+       messages: {
+           typeError: "invalid_ext",
+           sizeError: "size_error",
+           emptyError: "empty"
+       },
+
+       onSubmit: function(id, fileName){
+        $('#shop-file-upload').addClass("loading");
+        //$('.simple_form').find("input[type='submit']").attr('disabled','disabled');
+        //$('#photozone').append('<div class="img"><a href="#"><img width="100" height="100" src="/assets/img.jpg"><div class="x"><b></b></div></a></div>')
+        var img = $('#shopphotozone').find('img').last();
+        img.attr('src', "/assets/ajax-loader3.gif");
+       },
+
+       onComplete: function(id, fileName, responseJSON) {
+        var id = responseJSON.data.id,
+            url = responseJSON.data.unprocessed_image.url,
+            currentPlaceholder = $('#shopphotozone');
+
+        $('#shopphotoid').html("<input type='hidden' value='" + id + "' name='shop_photo' />");
+        // replace image placeholders
+        var img = currentPlaceholder.find('img').last();
+        img.attr('src', url);
+        img.attr('photoid', id);
+       },
+
+       onAllComplete: function(completed_files){
+       }
+
+   });
+ }
+
+ createUploader();

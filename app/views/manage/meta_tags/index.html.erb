@@ -1,0 +1,50 @@
+<%= search_form_for [:manage, @q], html: {class: 'form-inline',role: 'form',style: 'margin-top:30px;'} do |f| %>
+   <div class="form-group">
+      <label class="sr-only">tag name</label>
+      <%= f.text_field :tag_cont, class: 'form-control', placeholder: 'meta_tag name' %>
+    </div>
+    <%= f.submit '搜索', class: 'btn btn-primary'%>
+<% end %>
+
+
+
+<h2>
+  <%= link_to "New Tag", new_manage_meta_tag_path %>
+</h2>
+
+
+<h1>Meta_Tags</h1>
+
+<table class="table">
+  <tr>
+    <th>ID</th>
+    <th>meta_tag</th>
+    <th>is show for app</th>
+    <th>image</th>
+    <th>operate</th>
+  </tr>
+
+<% unless @meta_tags.blank? %>
+    <% @meta_tags.each do |meta_tag| %>
+    <tr>
+      <td>
+        <%= meta_tag.id %>
+      </td>
+      <td>
+        <%= meta_tag.tag %>
+      </td>
+      <td>
+        <%= meta_tag.is_show %>
+      </td>
+      <td>
+        <img src="<%= meta_tag.meta_image %>" />
+      </td>
+      <td>
+        <%= link_to "edit", edit_manage_meta_tag_path(meta_tag) %>
+      </td>
+    </tr>
+    <% end %>
+<% end %>
+</table>
+
+<%= paginate @meta_tags %>

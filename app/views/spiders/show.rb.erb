@@ -1,0 +1,183 @@
+require 'rubygems'
+require 'selenium-webdriver'
+require 'yaml'
+require 'json'
+require 'redis'
+
+$redis =  Redis.new(:host => '114.80.100.12', :port => 6379)
+ 
+driver = Selenium::WebDriver.for :chrome
+driver.manage.timeouts.implicit_wait = 1200
+driver.manage.timeouts.script_timeout = 1200
+driver.manage.timeouts.page_load = 6000
+
+links = []
+docs = []
+next_link = ""
+max_page = 5
+npage = 0
+
+def unescape(input)
+  input.gsub("&amp;", "&")
+end
+
+def parse(driver)
+  doc = {}
+  doc["title"] =  driver.find_element(:xpath, "<%= @spider.ptitle %>").text
+  p doc
+  <% if @spider.pprice and @spider.pprice != "" %>
+    doc["price"] =  driver.find_element(:xpath, "<%= @spider.pprice %>").text
+    p doc
+  <% end %>
+
+  <% if @spider.pdesc and @spider.pdesc != "" %>
+    doc["desc"] =  driver.find_element(:xpath, "<%= @spider.pdesc %>").text
+    p doc
+  <% end %>
+  doc["brand_id"] = "<%= @brand_id %>"
+  imgs = []
+  <% if not @spider.pimg_attr or @spider.pimg_attr == "" %>
+     <%   @spider.pimg_attr = "src" %>
+  <% end %>
+
+  simgs = []
+  <% if @spider.pshow_img and @spider.pshow_img != "" %>  
+    driver.find_elements(:xpath, "<%= @spider.pshow_img %>").each do |e|
+      img = e.attribute("src")
+      if img and not img.index("http://")
+        img = "<%= @domain%>/" + img
+      end
+      simgs << img
+    end 
+  <% end %>
+  doc["simg"] = simgs
+  p doc
+  driver.find_elements(:xpath, "<%= @spider.pimgs %>").each do |e|
+    img = e.attribute("<%= @spider.pimg_attr %>")
+    if img and not img.index("http://")
+      img = "<%= @domain%>/" + img
+    end
+    <% if @spider.img_rule != "" %>
+      img = img<%= @spider.img_rule %>
+    <% end %>
+    imgs << img
+  end
+  p doc
+  doc["url"] = driver.current_url
+  doc["imgs"] = imgs
+  doc["time"] = Time.new.to_s
+  <% if @spider.phot and @spider.phot != "" %>
+    doc["hot"] = driver.find_element(:xpath, "<%= @spider.phot %>").text
+  <% end %>
+  
+  <% if @spider.porigin_price and @spider.porigin_price != "" %>
+  begin
+    driver.find_elements(:xpath, "<%= @spider.porigin_price %>").each do |e|
+      doc["origin_price"] = e.text
+      break
+    end
+    p doc
+  rescue => e
+    p e.to_s
+    return doc
+  end
+  <% end %>
+  doc
+
+end
+
+
+def make_docid(url)
+  if url.index("tmall.com")
+    url = url.gsub(/\?(.*)(id=\d+)(.*)/, '?\2')
+  end
+  Digest::MD5.hexdigest( url )
+end
+
+
+def parse_links(driver, links, docs, cat_id)
+  links.reverse.uniq.each do |link|
+    p link
+    key = make_docid(link) 
+    <% unless params[:debug] %>
+    if $redis.get(key)
+    <% else %>
+    if true
+    <% end %>
+      doc = YAML::load( $redis.get(link) )
+      p "exists...", link
+      p doc
+      docs << doc
+      next
+    end
+
+    begin
+      if link.index("javascript:")
+        driver.execute_script link
+        sleep 1
+        doc = parse(driver)
+        driver.navigate.back
+      else
+        driver.get link
+        doc = parse(driver)
+      end
+      doc["category_id"] = cat_id
+      $redis.set(key, doc.to_yaml)
+      $redis.expire key, 3600*24*7
+      p doc
+      docs << doc
+    rescue=>e
+      kstatus = make_docid(link).to_s + "_status"
+      $redis.set(kstatus, "failed")
+      next
+    end
+  end
+end
+
+<% @categories.each do |cat| %>
+<% next if @ospider.get_start_page(cat.id).blank? %>
+"<%= @ospider.get_start_page(cat.id) %>".split("|").each do |page|
+  next if page == ""
+  page = unescape(page)
+  p page
+  driver.navigate.to page
+  while true do
+    elements = driver.find_elements(:xpath, "<%= @spider.product_page%>")
+      elements.each do |e|
+      p e.attribute("href")
+      links << e.attribute("href")
+    end
+    <% if @spider.next_page and  @spider.next_page != "" %>
+    begin
+      driver.find_elements(:xpath, "<%= @spider.next_page %>").each do |ele|
+        next_link = ele.attribute("href")
+        npage += 1
+        if npage >=max_page
+          break
+        end
+        if  next_link != ""
+          driver.get next_link
+          sleep 3
+        else
+          break
+        end
+      end
+    rescue=>e
+      p e.to_s
+      break
+    end
+    <% else %>
+      break
+    <% end %>
+  end
+  parse_links(driver, links, docs, <%= cat.id %> )
+  links = []
+ end
+<% end %>
+
+tstr = Time.new.strftime("%Y-%m-%d")
+file = File.open( "<%= @brand_id %>_#{tstr}.json", "w")
+file.write( docs.to_json )
+ 
+driver.quit
+#`ps -ef | grep chromium-browser | grep -v grep | awk '{print $2}' | xargs kill -9`

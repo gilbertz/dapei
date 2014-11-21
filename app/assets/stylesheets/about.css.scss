@@ -1,0 +1,193 @@
+// Place all the styles related to the about controller here.
+// They will automatically be included in application.css.
+// You can use Sass (SCSS) here: http://sass-lang.com/
+.about-title{
+	margin-top: 10px;
+
+	margin-bottom: 10px;
+	font-size: 14px;
+	line-height: 35px;
+	a{
+		color:#777;
+	}	
+}
+.about-content{
+	li{
+		list-style: none;
+
+	}
+}
+.about-left{
+	width: 230px;
+	font-size: 14px;
+	float: left;
+	padding-top: 10px;
+	padding-bottom: 10px;
+	border: 1px solid #cccccc;
+	.about-li-menu{
+		margin:15px 0px ;
+
+	}
+	.about-list li.current_about{
+		background-color: #666666;
+		a{
+		 color:#fff;
+		}		
+	}
+	
+	ul{
+		margin-left:0px;
+	}
+	li{
+		margin-left: 0px;
+		/*cursor: pointer;*/
+		/*margin-bottom: 10px;*/
+		list-style: none;
+		div.about-menu{
+			margin-left: 30px;
+			font-weight: 600;
+			color:#383838;
+			cursor: pointer;
+		};
+		li{
+			padding:10px;
+			padding-left: 50px;
+			list-style: none;
+			color:#404040;
+
+		}
+	}
+	li.split{
+		border-bottom: 1px dashed #d2d2d2;
+		margin: 0px 10px;
+	}
+	/*.current_about{
+		background-color: #666;
+		a{color:#fff;}		
+	}*/
+
+}
+.about-right{
+	width: 220px;
+	font-size: 14px;
+	/*left:240px;*/
+	float: left;
+	border: 1px solid #cccccc;
+	width: 850px;
+	margin-left: 30px;
+	padding: 15px 40px;
+	line-height: 20px;
+	hr{
+		margin:0px;
+	}
+	.split{
+		border-bottom: 1px dashed #d2d2d2;
+		width: 850px;
+	}
+	.website_map_nav{
+		font-weight: 600;
+		height: 30px;
+		background-color: #F8F8F8;
+		line-height: 30px;
+		padding-left: 20px;
+		/*margin-bottom: 20px;*/
+	}
+
+}
+.clear{
+	clear: both;
+}
+.about-caret-w-y{
+display: inline-block;
+width: 0;
+height: 0;
+vertical-align: top;
+border-top: 5px solid #000;
+border-right: 3px solid transparent;
+border-left: 3px solid transparent;
+content: "";
+margin-top: 4px;
+/*margin-left: 0px;*/
+}
+.about-caret-w{
+display: inline-block;
+width: 0;
+height: 0;
+vertical-align: top;
+border-left: 5px solid #000;
+border-top: 3px solid transparent;
+border-bottom: 3px solid transparent;
+content: "";
+margin-top: 4px;
+/*margin-left: 0px;*/
+}
+.alphabet-list{
+  background-color:#F8F8F8; 	
+  line-height: 30px;
+  text-align: center;
+  a{
+  	/*margin-left: 16px;*/
+  	/*height: 30px*/
+  	padding:6px 0px;
+  	margin: 0px 8px;
+  }
+}
+.about-area{
+	margin: 10px 30px;
+	li{
+		list-style: none;
+		float:left;
+		color:#666;
+		margin: 10px 20px;
+		min-width: 80px;
+		text-align: center;		
+	}
+
+}
+.about-q-underline{
+	border-bottom: 2px solid #000;
+}
+.website_map_table{
+	width: 100%;
+	background-color: transparent;
+	border-collapse: collapse;
+	border-spacing: 0;
+	margin: 20px 0;
+	padding: 0;
+	min-height: 30px;
+	.left{
+		padding-left: 20px;
+		width: 50px;
+		font-weight: 600;
+	}
+	.left2{
+		padding-left: 20px;
+		width: 80px;
+		font-weight: 600;
+	}
+	.right{
+		min-height: 20px;
+		border-left: 1px solid #A8A4A4;
+		padding-left: 20px;
+		div{
+			float:left;
+			margin-right: 30px
+		}
+		color: #777;
+	}
+
+}
+.about-table{
+	width: 100%;
+	line-height: 40px;
+	margin: 20px 0 40px 0;
+	thead{
+	  font-weight: 600;
+	  color: #383838;
+	  background: #eee;
+	  td{
+	  	padding-left: 10px;
+	  }
+
+	}
+}

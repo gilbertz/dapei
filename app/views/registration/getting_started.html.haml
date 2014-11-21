@@ -1,0 +1,11 @@
+
+/ 完善资料
+.wrapper
+  .change_data
+    .hd
+      %strong
+        欢迎加入上街吧！
+      花一分钟完善资料，然后开始上街之旅。
+      = link_to "跳过这步 »", "/", :class => "literal_link"
+    .clearfix.bd
+      = render :partial=>"/shared/edit_profile", :locals=>{:start=>1}

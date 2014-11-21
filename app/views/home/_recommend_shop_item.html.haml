@@ -1,0 +1,23 @@
+%li
+  -if shop and shop.photos and shop.photos.length >=1
+    %a.pic{:href => "#{shop_path(shop)}", :target=>"_blank"}
+      %img{:height => "135", :src => "#{shop.get_display_photo.url(:wide_medium)}", :width => "346", :alt=>"上街吧 #{shop.name}", :title =>"上街吧 #{shop.name}" }/
+  -else
+    %a.pic{:href => "javascript:void(0)"}
+      %img{:height => "135", :src => "/assets/img.jpg", :width => "346"}/
+  %h3
+    -if shop
+      %a{:href => "#{shop_path(shop)}", :target=>"_blank"} #{shop.name}服装店
+    -else
+      %a{:href => "javascript:void(0)"} xxxxxx xxx
+  -if shop and shop.address and shop.address!=""
+    %p.address #{shop.address}
+  -else
+    %p.address xxxxxxx xxxxxxxxxxxxxx
+  .lover
+    %b.lover_icon>
+    #{shop.likes_count}人喜欢
+  .shopping
+    %b.shopping_icon>
+    #{shop.get_dispose_count}人在逛
+

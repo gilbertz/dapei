@@ -1,0 +1,47 @@
+<div class="bs-sidebar hidden-print affix-top" role="complementary">
+  <ul class="nav bs-sidenav">
+    <li class="active">
+    <a href="#download" style="border-right:1px solid #f7f5fa;">搭配管理</a>
+      <ul class="nav">
+        <li class="<%= ac_active('dapeis','collection') %>">
+          <%= link_to '新建collection', '/brand_admin/dapeis/new' %>
+        </li>
+        <li class="<%= ac_active('matters','index') %>"> 
+          <%= link_to '搭配素材', [:manage,:matters] %> 
+        </li>
+        <li class="<%= ac_active('matters','new') %>"> 
+          <%= link_to '上传素材', [:new,:manage,:matter] %> 
+        </li>
+        <li class="<%= ac_active('matters','recommends') %>"> 
+          <%= link_to '推荐素材', [:recommends,:manage,:matters] %> 
+        </li>
+        <li class="<%= ac_active('matter_tags','index') %>"> 
+          <%= link_to '素材标签', [:manage,:matter_tags] %> 
+        </li>
+        <li class="<%= ac_active('dapei_tags','index') %>"> 
+          <%= link_to '搭配标签', [:manage,:dapei_tags] %> 
+        </li>
+        <li class="<%= ac_active('dapeis','index') %>"> 
+          <%= link_to '所有搭配', [:manage,:dapeis] %> 
+        </li>
+       
+        <li class="<%= ac_active('dapeis','index') %>">
+          <%= link_to '所有collections', [:manage,:collections] %>
+        </li>
+
+
+        <li class="<%= ac_active('dapeis','index') %>">
+          <%= link_to '所有自拍', [:manage, :selfies] %>
+        </li>
+
+        <li class="<%= ac_active('dapeis','index') %>">
+          <%= link_to '搭配审核队列', "/manage/dapeis/queue" %>
+        </li>
+
+        <li class="<%= ac_active('dapeis','index') %>">
+          <%= link_to '近义词二级分类', "/manage/synonyms" %>
+        </li>
+      </ul>
+    </li>
+  </ul>
+</div>

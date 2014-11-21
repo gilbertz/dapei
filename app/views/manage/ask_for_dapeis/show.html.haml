@@ -1,0 +1,30 @@
+%p#notice= notice
+
+%p
+  %b User:
+  = @ask_for_dapei.user_id
+%p
+  %b Matter:
+  = @ask_for_dapei.matter_id
+%p
+  %b Level:
+  = @ask_for_dapei.level
+%p
+  %b Dapei:
+  = @ask_for_dapei.dapei_id
+%p
+  %b Likes count:
+  = @ask_for_dapei.likes_count
+%p
+  %b Comments count:
+  = @ask_for_dapei.comments_count
+%p
+  %b Dispose count:
+  = @ask_for_dapei.dispose_count
+%p
+  %b Reward:
+  = @ask_for_dapei.reward
+
+= link_to 'Edit', edit_ask_for_dapei_path(@ask_for_dapei)
+\|
+= link_to 'Back', ask_for_dapeis_path

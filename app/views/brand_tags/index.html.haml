@@ -1,0 +1,25 @@
+%h1 Listing brand_tags
+
+%table
+  %tr
+    %th Name
+    %th Thing image
+    %th Type
+    %th On
+    %th
+    %th
+    %th
+
+  - @brand_tags.each do |brand_tag|
+    %tr
+      %td= brand_tag.name
+      %td= brand_tag.thing_image_id
+      %td= brand_tag.type_id
+      %td= brand_tag.on
+      %td= link_to 'Show', brand_tag
+      %td= link_to 'Edit', edit_brand_tag_path(brand_tag)
+      %td= link_to 'Destroy', brand_tag, :method => :delete, :data => { :confirm => 'Are you sure?' }
+
+%br
+
+= link_to 'New Brand tag', new_brand_tag_path

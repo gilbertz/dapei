@@ -1,0 +1,270 @@
+.navbox
+  #nav-top.row.link-w
+    .wrapper
+      .pull-left
+        %span 欢迎来到上街吧！关注我们：
+        %span.icon
+          %a{:href => "http://weibo.com/u/3985893887"}
+            %img{:alt => "", :src => "/assets/newweb/weibo-sina.png"}/
+        %span.icon
+          %a{:href => "http://t.qq.com/s2100961668"}
+            %img{:alt => "", :src => "#{image_path('newweb/weibo-qq.png')}"}/
+      = render "shared/login_status"
+
+  .wrapper
+    #new_header
+      %ul.nav.nav-float
+        %li
+          #logo
+            %a{:href => "/"}
+              %img{:alt => "", :src => "/assets/newweb/logo.png"}/
+        %li
+          #area
+            %a.city_t{:href => "javascript:void(0);"}
+              #{@current_city.name}
+              %b.caret-b
+            =render 'shared/header_area_select'
+                              
+        %li#head-search
+          %form{"accept-charset" => "UTF-8", :class=>"search_f", :action => "/info/search", :method => "get"}
+            %ul.nav.nav-float.search
+              %li.search_select
+                .bar
+                  .cat
+                    -if @index=="item"
+                      宝贝
+                    -elsif @index=="shop"
+                      店铺
+                    -elsif @index=="dapei"
+                      搭配
+                    -elsif @index=="discount"
+                      活动
+                  %b.caret-b
+                .child-nav
+                  %ul
+                    %li.shopitem
+                      店铺
+                    %li.baobeiitem
+                      宝贝
+                    %li.dapeiitem
+                      搭配
+                    %li.discountitem.remove
+                      资讯
+                     
+
+              %li.serach-input
+                %input{:name => "index", :type => "hidden", :value => "#{@index}"}
+                %input{:name => "q", :id=>"search", :value => "#{@query}", :placeholder => "搜你喜欢 穿你好看", :type => "text"}/
+              %li#search-submit
+                %input.icon-search{:name => "", :onclick => "goSearch(); return false;", :type=>"submit", :value=>""}/
+
+    #header-navbar
+      #navbar-left.pull-left
+        %ul#navbar-top-ul.nav.nav-float.pull-left
+          %li
+            %a{:href => "javascript:void(0);"}
+              附近逛逛
+              %b.caret-w
+          %li
+            %a{:href => "javascript:void(0);"}
+              所有分类
+              %b.caret-w
+          %li#all-brands
+            %a{:href => "javascript:void(0);"}
+              热门品牌
+              %b.caret-w
+        -unless params[:controller] == "home" and params[:action] == "index"
+          .nav-b-top#nav-b-top-not-home
+            %ul.nav.nav-float
+              %li
+                .click-scroll-up
+                  %a{:href => "javascript:void(0)"}
+                    %img{:src => "/assets/newweb/arrows-top.png"}
+                .click-scroll
+                  .wrapper-ul
+                    %ul.nav
+                      -num=0
+                      -@dists.each do |dist|
+                        -num=num+1
+                        %li.nav_b
+                          / 添加hover后显示层
+                          .showChaoyangCounts.menu
+                            %a.menu-hd{:href => "#{search_path('shop', '', dist.dp_id)}", :num=>"#{num}", :dp_id=>"#{dist.dp_id}"}
+                              #{dist.name}
+                              %b
+                          .nav-hover
+                            %ul.nav.nav-float
+                              %li.first
+                                %ul.nav
+                              %li.second
+                                %ul.nav
+                              %li.third
+                                %ul.nav
+                              %li.fourth
+                                %ul.nav
+                .click-scroll-down
+                  %a{:href => "javascript:void(0)"}
+                    %img{:src => "/assets/newweb/arrows-bottom.png"}
+              %li.divider-y
+              %li
+                .click-scroll-up
+                  -#%a{:href => "javascript:void(0)"}
+                    %img{:src => "/assets/newweb/arrows-top.png"}
+                .click-scroll
+                  .wrapper-ul
+                    %ul.nav
+                      %li.nav_b
+                        / 添加hover后显示层
+                        .showChaoyangCounts.menu
+                          %a.menu-hd{:href => "#{cat_path('11')}"} 上装
+                      %li.nav_b
+                        / 添加hover后显示层
+                        .showChaoyangCounts.menu
+                          %a.menu-hd{:href => "#{cat_path('12')}"} 裤装
+                      %li.nav_b
+                        / 添加hover后显示层
+                        .showChaoyangCounts.menu
+                          %a.menu-hd{:href => "#{cat_path('13')}"} 裙装
+                      %li.nav_b
+                        / 添加hover后显示层
+                        .showChaoyangCounts.menu
+                          %a.menu-hd{:href => "#{cat_path('14')}"} 内衣
+                      %li.nav_b
+                        / 添加hover后显示层
+                        .showChaoyangCounts.menu
+                          %a.menu-hd{:href => "#{cat_path('4')}"} 鞋子
+                      %li.nav_b
+                        / 添加hover后显示层
+                        .showChaoyangCounts.menu
+                          %a.menu-hd{:href => "#{cat_path('5')}"} 包包
+                      %li.nav_b
+                        / 添加hover后显示层
+                        .showChaoyangCounts.menu
+                          %a.menu-hd{:href => "#{cat_path('6')}"} 配饰
+                      %li.nav_b
+                        / 添加hover后显示层
+                        .showChaoyangCounts.menu
+                          %a.menu-hd{:href => "#{cat_path('7')}"} 男装
+                .click-scroll-down
+                  %a{:href => "javascript:void(0)"}
+                    /%img{:src => "/assets/newweb/arrows-bottom.png"}
+              %li.divider-y
+              %li
+                .click-scroll-up
+                  %a{:href => "javascript:void(0)"}
+                    %img{:src => "/assets/newweb/arrows-top.png"}
+                .click-scroll
+                  .wrapper-ul
+                    %ul.nav
+                      -unless @hot_rec_brands.blank?
+                        -@hot_rec_brands.each do |brand|
+                          %li.nav_b
+                            .showChaoyangCounts.menu
+                              %a.menu-hd{:href => "#{brands_web_show_path(brand)}"} #{brand.get_display_name}
+                .click-scroll-down
+                  %a{:href => "javascript:void(0)"}
+                    %img{:src => "/assets/newweb/arrows-bottom.png"}
+      #navbar-center.pull-left
+        %ul.nav.nav-float
+          %li
+            %a{:href => "#{root_path}"} 首页
+            %span.active-b
+          %li
+            %a{:href => "#{search_path}"} 周边热店
+            %span.active-b
+          %li
+            %a{:href => "#{search_path('item')}"} 在售新品
+            %span.active-b
+          %li
+            %a{:href => "#{brands_web_index_path}"} 品牌汇
+            %span.active-b
+          %li
+            %a{:href => "/dapeis/index_all"} 搭配记
+      #bookmark-me.pull-right
+        %span#bookmark
+          -if user_signed_in?
+            %a{:href=>"#{favorite_shops_path(current_user)}"}
+              我的收藏
+          -else
+            %a{:href=>"#{layer_sign_in_path}", :rel => "facebox[.about]" }
+              我的收藏
+      .clearfix
+  / 头部导航条下 通栏线
+  #navbar-line.row
+
+
+
+
+-#.old_holder
+  .logo
+    %a{:href => "/", :title => "上街吧 - shangjieba.com"}
+  .city_switch
+    %a.city_t{:href => "#"} #{@current_city.name}
+  .search
+    %form.search_form{"accept-charset" => "UTF-8", :action => "/#{@index}/info/search", :method => "get"}
+      /%input{:name => "utf8", :type => "hidden", :value => "✓"}
+      %input{:name => "index", :type => "hidden", :value => "#{@index}"}
+      .search_select
+        .bar
+          .top-nav
+            -if @index=="item"
+              宝贝
+            -elsif @index=="shop"
+              店铺
+            -elsif @index=="discount"
+              优惠
+          .list
+        .child-nav{:style => "width: 50px;"}
+          %ul#popnav
+            %li.shopitem
+              店铺
+            %li.baobeiitem
+              宝贝
+            %li.discountitem.remove
+              优惠
+      %input.search_text{:name => "q", :id=>"suggestId", :placeholder=>"搜地址, 搜品牌, 实体店最新款同步预览!", :size => "", :type => "text", :value => "#{@query}"}/
+      %input.search_btn{:name => "", :onclick => "goSearch(); return false;", :type=>"submit", :value=>""}/
+    -#=link_to "", "#{search_by_map_path}", :class=>"goto_map", :rel=>"facebox"
+    -#%input.goto_map{:name => "", :type => "button"}/
+    .recent_query
+      - max=6
+      - i=1
+      %span 热门搜索:
+      - recent_queries.each do |q|
+        -if i>max
+          -break
+        = link_to q, search_path(@index, "", "", q)
+        -i=i+1
+  .title
+  .mobile
+    -#%a{:href => "#"}
+      %img{:height => "70", :src => "http://t2.qpic.cn/mblogpic/73149a6d847e3dfa9c02/460", :width => "70", :alt=>"上街吧微信"}/
+    %a{:href => "/about/download_app"}
+      %img{:height => "58", :src => "/assets/shouji.jpg", :width => "112"}/
+
+
+:javascript
+  jQuery(function() {
+    $( "#search" ).autocomplete({
+       source: function( request, response ) {
+        $.ajax({
+          url: "/info/search_suggest",
+          dataType: "json",
+          data: {q: request.term},
+          success: function( data ) {
+            response( $.map( data['dat'], function( item ) {
+              return {
+                label: item['keyword'],
+                value: item['keyword']
+              }
+            }));
+          }
+        });
+      },
+      select: function(event, ui) { 
+        $("input#search").val(ui.item.value);
+        goSearch();
+      }
+    })
+   
+  });

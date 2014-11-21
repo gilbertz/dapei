@@ -1,0 +1,15 @@
+<div class="bs-sidebar hidden-print affix-top" role="complementary">
+  <ul class="nav bs-sidenav">
+    <li class="active">
+    <a href="#download" style="border-right:1px solid #f7f5fa;">日志管理</a>
+      <ul class="nav">
+        <li class="<%= ac_active('posts','index') %>">
+          <%= link_to '全部日志', "/manage/posts" %>
+        </li>
+        <li class="<%= ac_active('posts','new') %>">
+          <%= link_to '发布日志', "/manage/posts/new" %>
+        </li>
+      </ul>
+    </li>
+  </ul>
+</div>

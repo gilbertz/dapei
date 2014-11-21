@@ -1,0 +1,76 @@
+<style>
+    td.border-right {border-right: 1px solid #d9d9d9}
+    tr.border {border-right:1px solid #d9d9d9; border-left:1px solid #d9d9d9; border-bottom: 1px solid #d9d9d9}
+</style>
+<p></p>
+<div>
+  <%= form_tag "/manage/orders", method: :get do %>
+      <label for="number">订单号</label>
+      <input type="text" name="number" value="<%= @number %>"/>
+      <label for="name">用户</label>
+      <input type="text" name="name" value="<%= @name %>"/>
+      <label for="status">状态</label>
+      <%= select_tag "status", options_for_select([["全部", 0]] + @statuses, @status) %>
+      <input type="submit" name="submit" value="搜索"/>
+  <% end %>
+</div>
+<% unless @orders.blank? %>
+
+    <table class="table">
+      <thead class="well">
+      <tr>
+        <th colspan="2">产品</th>
+        <th width="8%">单价</th>
+        <th width="8%">数量</th>
+        <th width="8%">总价</th>
+        <th width="8%">状态</th>
+        <th width="12%">下单时间</th>
+        <th width="8%">操作</th>
+      </tr>
+      </thead>
+      <% @orders.each do |order| %>
+          <tbody>
+          <tr>
+            <td colspan="7" style="padding:2px"></td>
+          </tr>
+          </tbody>
+          <tbody>
+          <tr class="well">
+            <td colspan="8" style="padding:4px">
+              <span>订单号: <%= order.number %></span> &nbsp;&nbsp;&nbsp;&nbsp;
+              <span>买家: <%= order.user.name %></span> &nbsp;&nbsp;&nbsp;&nbsp;
+            </td>
+          </tr>
+          <% items, size = order.line_items, order.line_items.size %>
+          <% items.each_with_index do |item, index| %>
+              <tr class="border">
+                <td width="7%" class="border-right">
+                  <%= image_tag item.image, alt: '木图片哦', style: "width: 120px; height: 120px" %>
+                </td>
+                <td>
+                  <div>名称: <%= link_to item.name, item.sku.buy_url %></div>
+                  <div>编号: <%= item.sku_id %></div>
+                </td>
+                <td width="8%"><%= item.price %></td>
+                <td width="8%" class="border-right"><%= item.quantity %></td>
+                <% if index == 0 %>
+                    <td width="8%" rowspan="<%= size %>" class="border-right"><%= order.total %></td>
+                    <td width="8%" rowspan="<%= size %>" class="border-right">
+                      <%= order.cn_status %>
+                    </td>
+                    <td width="8%" rowspan="<%= size %>" class="border-right">
+                      <%= order.created_at %>
+                    </td>
+                    <td width="8%" rowspan="<%= size %>">
+                      <%= link_to '详情', [:manage, order], class: 'btn btn-primary btn-small' %>
+                    </td>
+                <% end %>
+              </tr>
+          <% end %>
+          </tbody>
+      <% end %>
+    </table>
+
+<%= paginate @orders %>
+
+<% end %>

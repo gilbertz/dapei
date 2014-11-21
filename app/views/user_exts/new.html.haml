@@ -1,0 +1,11 @@
+= simple_form_for(@user_ext) do |f|
+  = f.error_notification
+
+  .form-inputs
+    = f.input :wx_gz_id, :as=>:hidden
+
+  .form-inputs
+    = f.input :weixin_id
+
+  .form-actions
+    = f.button :submit

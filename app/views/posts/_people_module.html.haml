@@ -1,0 +1,10 @@
+.Small_module
+  .hd
+    %h3 这些人喜欢
+  .bd
+    %ul.img4
+      -unless @like_users.blank?
+        -@like_users.each do |user|
+          %li
+            %a{:href => "#{user_path(user)}", :title=>"#{user.name}"}
+              %img{:height => "60", :src => "#{user.display_img_small}", :width => "60"}/

@@ -1,0 +1,11 @@
+= simple_form_for(@user_activity) do |f|
+  = f.error_notification
+
+  .form-inputs
+    = f.input :user_id
+    = f.input :action
+    = f.input :object_type
+    = f.input :object
+
+  .form-actions
+    = f.button :submit

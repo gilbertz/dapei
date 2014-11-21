@@ -1,0 +1,59 @@
+<% ratio = @dapei_info.get_ratio %>
+
+{"status": {
+    "ok": 1
+}, "collection": {
+    "cid": "<%= @dapei_info.id %>",
+    "original_id": "<%= @dapei_info.original_id %>",
+    "spec_uuid": "<%= @dapei_info.spec_uuid %>",
+    "user_id": "<%= @dapei_info.user_id %>",
+    "width": "<%= @dapei_info.width.blank? ? "600" : @dapei_info.width.to_i %>",
+    "height": "<%= @dapei_info.height.blank? ? "600" : @dapei_info.height.to_i %>",
+    "by": "<%= @dapei_info.by.to_s %>",
+    "tags": [],
+    "items": [
+        <% first = true %>
+        <% unless (items = @dapei_info.dapei_item_infos).blank? %>
+          <% items.each do |i| %>
+          <% matter = i.get_matter %>
+          <% next unless matter %>
+          <% unless first %>
+          ,
+          <% end %>
+          <% first = false %>
+        {
+            "thing_id": "<%= matter.image_name %>",
+            "object_id": "<%= matter.id %>",
+            "y": "<%= i.y %>",
+            "z": "<%= i.z %>",
+            "w": "<%= i.w %>",
+            "x": "<%= i.x %>",
+            "h": "<%= i.h %>",
+            "ow": "<%= matter.width %>",
+            "oh": "<%= matter.height %>",
+            <% if params[:token] %>
+              <% unless i.get_mask_spec['template_spec'].blank? %>
+                "mask_spec": "",
+                "template_flag": "1", 
+                "template_spec": "<%= i.get_mask_spec['template_spec'].to_s %>",
+              <% else %>
+                "template_flag": "0",
+                "mask_spec": "<%= i.mask_spec %>",
+              <% end %>
+            <% else %>
+              "mask_spec": "<%= i.format_mask_spec_for_mobile %>",
+            <% end %>
+            <% unless i.transform.blank? %>
+            "transform": [<%= i.transform.gsub(" ", ",") %>],
+            <% end %>
+            "bkgd": "<%= i.bkgd.to_i %>",
+            "img_png": "<%=  matter.matter_img_url %>",
+            "img_jpg": "<%= matter.matter_img_url(false) %>",
+            "spec_url": "<%= i.get_mask_spec['url'] %>",
+            "spec_w": "<%= i.get_mask_spec['w'] %>",
+            "spec_h": "<%= i.get_mask_spec['h'] %>"
+        }
+        <% end %>
+        <% end %>
+    ]
+}}

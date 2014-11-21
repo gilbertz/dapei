@@ -1,0 +1,224 @@
+links = [];
+next = [];
+imgs = [];
+docs = [];
+current_url = "";
+
+
+
+Array.prototype.unique = function()
+{
+	var n = []; //一个新的临时数组
+	for(var i = 0; i < this.length; i++) //遍历当前数组
+	{
+		//如果当前数组的第i已经保存进了临时数组，那么跳过，
+		//否则把当前项push到临时数组里面
+		if (n.indexOf(this[i]) == -1) n.push(this[i]);
+	}
+	return n;
+}
+
+var casper = require('casper').create({
+    loadImages: true,
+    loadPlugins: true,
+    verbose: true,
+    //logLevel: 'info',
+    viewportSize: {
+        width: 1366,
+        height: 768,
+    },
+    pageSettings: {
+        javascriptEnabled: true,
+        userAgent: 'Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/536.5 (KHTML, like Gecko) Chrome/19.0.1084.9 Safari/536.5',
+    },
+});
+
+
+
+function getLinks() {
+    var links = __utils__.getElementsByXPath("<%= @spider.product_page %>" );
+    return Array.prototype.map.call(links, function(e) {
+        href = e.getAttribute('href');
+        if( href.indexOf( "http" ) == -1 ) {
+          href = current_url + href;
+        }
+        __utils__.echo("url: " + href); 
+        return href;
+    });
+}
+
+
+function getNextPage() {
+    var links = __utils__.getElementsByXPath("<%= @spider.next_page %>" );
+    return Array.prototype.map.call(links, function(e) {
+        href = e.getAttribute('href');
+        if( href.indexOf( "http" ) == -1 ) {
+          href = current_url + href;
+        }
+         __utils__.echo("next:" + href);
+        return href;
+    });
+}
+
+
+function getImgs() {
+    var imgs = __utils__.getElementsByXPath( "<%= @spider.pimgs %>" );
+    return Array.prototype.map.call(imgs, function(e) {
+       <% if  @spider.pimg_attr and  @spider.pimg_attr != ""  %>   
+          return e.getAttribute('<%= @spider.pimg_attr %>');
+       <% else %>
+          return e.getAttribute('src');
+       <% end %>
+    });
+}
+
+
+function getShowImg() {
+    var imgs = __utils__.getElementsByXPath( "<%= @spider.pshow_img %>" );
+    return Array.prototype.map.call(imgs, function(e) {
+        return e.getAttribute('src');
+    });
+}
+
+
+
+casper.fetchTitle = function() {
+    return this.evaluate(function() {
+        var result = __utils__.getElementByXPath( "<%= @spider.ptitle %>" ).innerText;
+        return result;
+    });
+};
+
+
+casper.fetchPrice = function() {
+    return this.evaluate(function() {
+        var result = __utils__.getElementByXPath( "<%= @spider.pprice %>" ).innerText;
+        return result;
+    });
+};
+
+
+casper.fetchHot = function() {
+    return this.evaluate(function() {
+        var result = __utils__.getElementByXPath( "<%= @spider.phot %>" ).innerText;
+        return result;
+    });
+};
+
+
+casper.fetchPic = function() {
+    return this.evaluate(getImgs);
+};
+
+casper.fetchShowPic = function() {
+   return this.evaluate(getShowImg);
+};
+
+casper.fetchNextPage = function() {
+   <% if not @spider.next_page.index("click:") %> 
+     return this.evaluate(getNextPage);
+   <% else %>
+     this.click({type: "xpath", path: "<%= @spider.next_page.gsub("click:", "") %>"});
+   <% end %>
+};
+
+casper.fetchDesc =  function() {
+    return this.evaluate(function() {
+        var result = __utils__.getElementByXPath( "<%= @spider.pdesc %>" ).innerText;
+        return result;
+    });
+};
+
+
+function unescape(str){
+    return str.replace(/&amp;/g, "&")
+}
+
+function spider(url){
+    casper.open(url).then( function(){
+       current_url = this.getCurrentUrl().replace(/\?(.*)$/g, "");
+       this.echo("open");
+       this.echo( current_url );
+       this.captureSelector("<%= @spider.brand_id %>.png", 'html'); 
+       links = links.concat(this.evaluate(getLinks));
+       var nlinks = this.fetchNextPage();
+       this.echo(nlinks);
+       this.echo(nlinks.length);
+       nlinks = nlinks.unique;
+       if( nlinks.length > 0 ){
+           var index = 0;
+           for (index = 0; index < nlinks.length; ++index){
+               this.echo("!!!next page");
+               this.echo(nlinks[index]);
+               spider(nlinks[index]);
+           }
+       }
+    });
+}
+
+
+casper.start("<%= @domain %>", function() {
+   <% @start_pages.each do |page| %>
+     <% if page != ""%>
+       spider( "<%= page %>" );
+     <% end %>
+   <% end %>
+});
+
+
+casper.then(function() {
+    //links = links.concat(this.evaluate(getLinks));
+    var index;
+    links = links.unique().reverse();
+    for (index = 0; index < links.length; ++index) {
+       this.echo( links[index]  );
+       this.thenOpen( links[index], function(){
+         title = this.fetchTitle();
+         price = this.fetchPrice();
+         pic = this.fetchPic();
+         spic = this.fetchShowPic();
+         url = this.getCurrentUrl();
+         desc = this.fetchDesc();
+         hot = this.fetchHot();
+         brand = "<%= @spider.brand.name %>";
+         brand_id = "<%= @spider.brand_id %>";
+         time = new Date();
+         docs.push({
+            title: title,
+            price: price,
+            imgs: pic,
+            simg: spic,
+            url: url,
+            desc: desc,
+            brand: brand,
+            time: time,
+            brand_id: brand_id,
+            hot: hot
+         });
+         this.echo("ti" + '=' + title);
+         this.echo("pr" + '=' + price);
+         this.echo("pic" + '=' + pic);
+         this.echo("url" + '=' + url);
+         this.echo("desc" + '=' + desc);
+         this.echo("brand" + '=' + brand);
+         this.echo("time" + '=' + time);
+         this.echo("brand_id" + '=' + brand_id); 
+         this.echo("hot" + '=' + hot);
+         this.echo("spic" + '=' + spic);
+       });
+    }
+});
+
+
+casper.run(function() {
+    // echo results in some pretty fashion
+    this.echo(docs.length + ' docs found:');
+    var fs = require('fs');
+    var currentTime = new Date();
+    var month = currentTime.getMonth() + 1;
+    var day = currentTime.getDate();
+    var year = currentTime.getFullYear();
+    var myfile = "<%= @spider.brand_id %>_" + year + "-" + month + "-" + day+".json"; 
+    fs.write(myfile, JSON.stringify(docs), 'w');
+    this.exit();
+});

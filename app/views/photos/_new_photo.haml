@@ -1,0 +1,99 @@
+-#   Copyright (c) 2010-2011, Diaspora Inc.  This file is
+-#   licensed under the Affero General Public License version 3 or later.  See
+-#   the COPYRIGHT file.
+
+:javascript
+ function createUploader(){
+
+   var uploader = new qq.FileUploaderBasic({
+       element: document.getElementById('file-upload'),
+       params: {'photo' : {'pending' : 'true'}, 'set_profile_image' : "#{set_profile_image if defined?(set_profile_image)}"},
+       allowedExtensions: ['jpg', 'jpeg', 'png', 'gif', 'tiff'],
+       action: "#{photos_path}",
+       debug: true,
+       button: document.getElementById('file-upload'),
+       sizeLimit: 4194304,
+
+       onProgress: function(id, fileName, loaded, total){
+       },
+
+       messages: {
+           typeError: "文件格式不对",
+           sizeError: "文件大小不能超过4M",
+           emptyError: "文件为空"
+       },
+
+       onSubmit: function(id, fileName){
+        $('#file-upload').addClass("loading");
+        //$('.simple_form').find("input[type='submit']").attr('disabled','disabled');
+        $('#photozone').append('<div class="img"><a href="javascript:void(0)"><img width="100" height="100" src="/assets/img.jpg"><div class="x"><b></b></div></a></div>')
+        var imgs = $('#photozone').find('img')  
+        if (imgs.length >2){
+           $('.img_holder').css('display', 'none');
+        }     
+        var img = imgs.last();
+        img.attr('src', "/assets/ajax-loader3.gif");
+       },
+
+       onComplete: function(id, fileName, responseJSON) {
+        var id = responseJSON.data.id,
+            url = responseJSON.data.unprocessed_image.url,
+            currentPlaceholder = $('#photozone');
+
+        $('#photozone').append("<input type='hidden' value='" + id + "' name='photos[]' />");
+
+        $('#warning').css("display","none");
+        $('.upload .warning').css("display","none");
+        var theButton=$('#create_shop_form').find('input[name="commit"]');
+        theButton.removeAttr('disabled');
+        var theItemButton=$('#create_item_form').find('input[name="commit"]');
+        theItemButton.removeAttr('disabled');
+        var theItemButton=$('#create_post_form').find('input[name="commit"]');
+        theItemButton.removeAttr('disabled');
+
+        // replace image placeholders
+        var img = currentPlaceholder.find('img').last();
+        img.attr('src', url);
+        img.attr('photoid', id);
+        //$('.simple_form').find("input[type='submit']").removeAttr('disabled');
+
+        $('.x').bind('click', function(){
+          var photo = $(this).closest('.img');
+          //photo.addClass("dim");
+          $.ajax({url: "/photos/" + photo.find('img').attr('photoid'),
+                  type: 'DELETE',
+                  success: function() {
+                            photo.fadeOut(400, function(){
+                              photo.remove();
+                              $("input[value="+photo.find('img').attr('photoid')+"]").remove();
+                              $('.img_holder').css('display', 'block');
+                              //if ( $('.img').length  == 0){
+                              //}
+                            });
+                          }
+                  });
+        });
+       },
+
+       onAllComplete: function(completed_files){
+       }
+
+   });
+ }
+ $('.x').bind('click', function(){
+          var photo = $(this).closest('.img');
+          //photo.addClass("dim");
+          $.ajax({url: "/photos/" + photo.find('img').attr('photoid'),
+                  type: 'DELETE',
+                  success: function() {
+                            photo.fadeOut(400, function(){
+                              photo.remove();
+                              //$("input[value="+photo.find('img').attr('data-id')+"]").remove();
+                              //if ( $('.img').length  == 0){
+                              //}
+                            });
+                          }
+                  });
+ });
+
+ createUploader();

@@ -1,0 +1,59 @@
+.wrapper
+  - first = true
+  - @discounts.each do |discount|
+    - if not discount.is_current? and first
+      - first = false
+      %p{:align => "center", :style => "background-color:#CCC; background-position:center; color:#fff"}
+        历史资讯
+    .item
+      %h4
+        - if first
+          %img{:src => "#{discount.wide_avatar_url}"}
+        #{discount.title} -- #{discount.discountable.shop_name}
+      - unless discount.discountable.instance_of?(Brand) 
+        %p
+          %font{:face => "icon"} 3
+          %font{:face => "微软雅黑"} 地址：#{discount.discountable.address_tel}
+      %p          
+        .discount
+          /%img{:src=>"#{@discount.shop_img_url}"}/
+          .main
+            .status
+              - if discount.is_current?
+                .current
+                  %p{:align => "center", :style => " background-color:#f861b0; background-position:center; color:#fff"} 
+                    活动进行中
+            .title.now
+              #{discount.description}
+            .time.now
+              #{discount.start_date}
+            .intro
+              .reason 
+      .grids
+        .grid-12
+          %p{:align => "right", :style => "margin-top:5px; color:#f861b0"}
+            %font{:face => "icon", :size => "1"} 1
+            %font{:face => "微软雅黑"} #{discount.likes_count}人喜欢
+            \ 
+            %font{:face => "icon", :size => "1"} 2
+            %font{:face => "微软雅黑"} #{discount.get_dispose_count}人瞄过
+        .grid-12.grid
+          %a{:href => "#"}
+            - discount.display_photos.each do |photo|
+              %img{:src => "#{photo.url(:scaled_large)}"}/     
+          -#%a{:href=>"#{@shop_path}"} 
+            %p{:align => "center", :style => " background-color:#f861b0; max-width:50px; background-position:center; color:#fff"} 进入店铺
+ 
+/ end of wrapper
+.wrapper
+  #footer
+    .grids
+      .grid-16.grid.text-center
+        %p{:style => "font-size:14px;"}
+          %a{:href => "#{@inst_path}", :style => "color:#FFF"} 进入店铺
+    / end of grids
+  / end of footer
+/ end of wrapper
+
+
+=render :partial=>"/shared/report", :locals=>{:type=>"discount", :id=>@discount.id }

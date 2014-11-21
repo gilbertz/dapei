@@ -1,0 +1,51 @@
+<%= render 'nav_tag' %>
+<%= search_form_for @q, url: manage_shop_path(@shop), html: {class: 'form-inline',role: 'form',style: 'margin-top:30px;'} do |f| %>
+  <div class="form-group">
+    <label class="sr-only">ItemTitle</label>
+    <%= f.text_field :title_cont, class: 'form-control', placeholder: '宝贝名' %>
+  </div>
+  <%= f.submit '搜索', class: 'btn btn-primary btn-xs'%> 
+  <%= total_span @items %>
+<% end %>
+<table class="table table-bordered table-hover" style="margin-top:20px;">
+  <thead>
+    <tr class="success">
+      <th colspan="2">宝贝</th>
+      <th>价格</th>
+      <th>特殊折扣</th>
+      <th width="7%">时间</th>
+      <th width="7%">操作</th>
+    </tr>
+  </head>
+  <tbody>
+    <% @items.each do |item| %>
+      <tr>
+        <td style="width:100px;"> 
+          <% if item.display_photos && item.display_photos.length>0 %>
+            <%= image_tag item.display_photos[0].url(:thumb_small), style: "width:50px; height:50px;" %> 
+          <% else %>
+            <%= image_tag "/assets/img.jpg", style: "width:50px; height:50px;" %> 
+          <% end %>
+        </td>
+        <td><%= item.title %></td>
+        <td width="10%"><%= item.price %></td>
+        <td width="10%"><%= item.discount %></td>
+        <td width="10%"><%= to_local item.created_at %></td>
+        <td> 
+          <%= link_to '编辑',[:edit,:manage,item] %> 
+          <hr/ style="margin-top:0px; margin-bottom:0px;">
+          <%= link_to '删除',manage_item_path(item.id), class: 'ajaxd',  
+            remote: true, method: :delete, confirm: 'Are you sure?' %> 
+          <hr/ style="margin-top:0px; margin-bottom:0px;">
+          <a href="#" id="setup" data-toggle="tooltip" title="" data-placement="bottom" data-original-title="设为店面照片">设置</a>
+        </td>
+      </tr>
+    <% end %>
+  </tbody>
+</table>
+<%= will_paginate @items %> 
+<script type="text/javascript">
+  $(document).ready(function(){
+    $("a#setup").tooltip();
+  });
+</script>

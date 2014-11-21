@@ -1,0 +1,25 @@
+%h1 Listing user_activities
+
+%table
+  %tr
+    %th User
+    %th Action
+    %th Object type
+    %th Object
+    %th
+    %th
+    %th
+
+  - @user_activities.each do |user_activity|
+    %tr
+      %td= user_activity.user_id
+      %td= user_activity.action
+      %td= user_activity.object_type
+      %td= user_activity.object
+      %td= link_to 'Show', user_activity
+      %td= link_to 'Edit', edit_user_activity_path(user_activity)
+      %td= link_to 'Destroy', user_activity, :method => :delete, :data => { :confirm => 'Are you sure?' }
+
+%br
+
+= link_to 'New User activity', new_user_activity_path

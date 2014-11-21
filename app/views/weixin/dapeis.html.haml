@@ -1,0 +1,21 @@
+-#.wrapper.wx_wrapper
+  = render 'tabs'
+
+- @dapeis.each do |item|
+  -if item
+    .wrapper
+      .grid-7.grid
+        %a{:href => "/weixin/dapei?id=#{item.url}&#{@lbs_params}"}
+          %p{:align => "center"}
+            %img{:src => "#{item.img_url(:scaled_large)}"}/
+      .title
+        .avatar
+          %img{ :src => "#{item.get_user.display_img_medium}"}/
+        .name
+          =item.get_user.name
+        .like
+          %p
+            %font{:face => "icon", :size => "2"} 1
+            %font{:face => "微软雅黑"} #{item.likes_count.blank?  ? 0 : item.likes_count}
+
+= render 'footer'

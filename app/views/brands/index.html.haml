@@ -1,0 +1,35 @@
+=render :partial=>"/shared/admin_bar"
+
+%h1 Listing brands
+
+%table
+  %tr
+    %th level
+    %th 推荐
+    %th pic
+    %th Name
+    %th E name
+    %th Des
+    %th
+    %th
+    %th
+
+  - @brands.each do |brand|
+    %tr
+      %td= brand.level
+      %td
+        %a{:href=>"#{recommend_brand_path(brand)}", :data => { :confirm => "Are you sure?" }}推荐 
+      %td 
+        %img{:src => "#{brand.avatar_url}"}
+      %td= brand.skus_count
+      %td= link_to brand.name, manage_skus_path(brand)
+      %td= brand.e_name
+      %td= brand.des
+      %td= link_to 'Recommend', recommend_brand_path(brand)
+      %td= link_to 'Show', brand
+      %td= link_to 'Edit', edit_brand_path(brand)
+      %td= link_to 'Destroy', brand, method: :delete, data: { confirm: 'Are you sure?' }
+
+%br
+
+= link_to 'New Brand', new_brand_path

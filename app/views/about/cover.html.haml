@@ -1,0 +1,10 @@
+.alphabet-list
+  - for i in 65..90
+    %a{href:"/about/info/cover?q="+i.chr,class:"#{params[:q] == i.chr ? "about-q-underline" : ""}"}
+      %b=i.chr
+- if @areas
+  .about-area
+    %ul
+      - for city in @areas
+        %li
+          %a{:href => "#{city_path(city.pinyin)}"} #{city.name}

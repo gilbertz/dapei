@@ -1,0 +1,211 @@
+body{
+    margin: 0 auto;
+    padding: 0;
+    font-family: Arial, "微软雅黑", Helvetica, sans-serif;
+    font-size: 14px;
+    line-height: 16px;
+    color: #181818;
+    background-color: #fafafa;
+}
+
+img{
+    border: none;
+}
+
+.clearfixed{
+    clear: both;
+}
+
+.mk-row{
+    width: 1350px;
+    margin: 0 auto;
+    padding: 0;
+    height: 749px;
+    background: url(http://1251008728.cdn.myqcloud.com/1251008728/2014/08/20/top-bg.jpg);
+    padding-top: 34px;
+}
+
+.mk-container{
+    width: 1145px;
+    margin: 0 auto;
+    padding: 0;
+}
+
+#top-banner{
+    width: 1117px;
+    height: 97px;
+    margin: 0 auto;
+    top: 20px;
+    background: rgba(255,255,255, 0.8);
+}
+
+#top-banner .top-logo{
+    width: 120px;
+    height: 95px;
+    display: inline-block;
+}
+
+#top-banner .top-nav{
+    float: right;
+    height: 97px;
+    font-size: 26px;
+    line-height: 97px;
+    font-family: "微软雅黑";
+}
+
+#top-content{
+    width: 1077px;
+    padding: 0 20px;
+    margin: 0 auto;
+    margin-top: 70px;
+}
+
+.top-nav ul li a{
+    color: #282528;
+    text-decoration: none;
+}
+
+.top-nav ul{
+    padding: 0;
+    margin: 0 auto;
+}
+
+.top-nav ul li{
+    list-style-type: none;
+    float: left;
+    margin: 0 20px;
+    color: #282528;
+}
+
+.content-title{
+    margin: 82px 0;
+    text-align: center;
+}
+
+.dapeis-list{
+    background: #fff;
+    padding-bottom: 50px;
+}
+
+.dapeis-list ul{
+    padding: 0 20px;
+
+}
+
+.dapeis-list ul li{
+    list-style-type: none;
+    float: left;
+    width: 348px;
+    background: #fff;
+    margin: 9px 9px;
+    border: 1px solid #d5d5d5;
+}
+
+.dapeis-list ul li .dp-item .top-part{
+    width: 348px;
+    height: 348px;
+
+}
+
+.top-part .title{
+    height: 30px;
+    line-height: 30px;
+    font-size: 20px;
+    margin: 12px 12px;
+    overflow: hidden;
+    color: #282528;
+}
+
+.dapeis-list ul li .dp-item .foot-part{
+    height: 58px;
+    line-height: 58px;
+    border-top: 1px solid #d5d5d5;
+    padding: 0 10px;
+}
+
+.dapeis-list ul li .dp-item .top-part img{
+    width: 324px;
+    height: 324px;
+    padding: 12px 12px;
+}
+
+.foot-part .avatar{
+    width: 38px;
+    height: 38px;
+    float: left;
+    padding-top: 10px;
+    padding-right: 10px;
+}
+
+.foot-part .avatar img{
+    width: 37px;
+    height: 37px;
+    border: 1px solid #333;
+
+}
+
+.float-left{
+    float: left;
+}
+
+#mk-download{
+    margin-top: 30px;
+}
+
+#mk-download img{
+    display: block;
+}
+
+#weixin-code{
+    margin-top: 30px;
+}
+
+#follow-us{
+    padding-left: 20px;
+    margin-top: 20px;
+}
+
+#follow-us a{
+    color: #333;
+    text-decoration: none;
+}
+
+#mk-slides{
+    width: 424px;
+    height: 566px;
+    background: url(http://1251008728.cdn.myqcloud.com/1251008728/2014/08/20/slides-bg.png);
+    margin-left: 230px;
+}
+
+#mk-slides #slides_images{
+    width: 221px;
+    height: 395px;
+    margin-left: 35px;
+    padding: 0;
+    position: relative;
+    top: 71px;
+}
+
+#slides_images ul{
+    padding: 0;
+}
+
+#mk-slides #slides_images ul li{
+    list-style-type: none;
+}
+
+.data-count{
+    float: right;
+    height: 48px;
+    padding: 0 5px;
+}
+
+.data-count span.like-icon{
+    padding-top: 10px;
+    float: left;
+}
+
+.data-count span.comment-icon{
+    padding-top: 10px;
+    float: left;
+}

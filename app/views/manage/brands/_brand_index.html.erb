@@ -1,0 +1,98 @@
+<table class="table table-bordered table-hover">
+  <thead>
+    <tr class="success">
+      <th>ID</th>
+      <th>Logo</th>
+      <th>品牌名</th>
+      <th width="20%">类别</th>
+      <th>level</th>
+      <th>priority</th>
+      <th>img_quality</th>
+      <th>90天内单品</th>
+      <th>品牌素材</th>
+      <th>品牌搭配</th>
+      <th>
+        <%= link_to "关注人数", '?order=hot' %>
+      </th>
+      <th width="14%"><%= sort_link @q, :last_updated, '最后爬取日期' %></th>
+      <th width="14%"><%= sort_link @q, :created_at, '创建时间' %></th>
+      <th width="20%">爬虫情况</th>
+      <th width="20%">操作</th>
+    </tr>
+  </thead>
+  <tbody>
+    <% @brands.each do |brand| %>
+      <tr>
+        <td> 
+          <span class="badge">
+            <%= brand.id %> 
+          </span>
+        </td>
+        <td width="70px;"> 
+          <img src="<%= brand.black_avatar_url %>" style="width: 100px; height:42px;" />
+        </td>
+        <td>
+          <% if brand.is_v == "1" %>
+          V
+          <% end %>
+          <%= link_to brand.name + '推荐素材', "/manage/matters/recommends?brandid=#{brand.id}" %>
+        </td>
+        <td>
+          <%= brand.brief_html.html_safe %>
+        </td>
+        
+        <td>
+          <% if brand.level %>
+              <%= link_to brand.level.to_s, "/manage/brands?level=#{brand.level}" %>
+          <% end %>
+        </td>
+
+        <td>
+          <%= link_to brand.priority.to_s, "/manage/brands?priority=#{brand.priority}" %> 
+        </td>
+        <td>
+          <%= brand.img_quality %>
+        </td>
+       
+
+        <td>
+          <%= link_to brand.seasonal_skus_count, "/manage/skus?brand_id=#{brand.id}" %>
+        </td>
+        <td>
+          <%= link_to "#{brand.matters_count}素材", "/manage/matters?brand_id=#{brand.id}" %>
+        </td>
+        <td>
+          <%= link_to "#{brand.name} 搭配", "/manage/dapeis/queue?brand_id=#{brand.id}" %>
+        </td>
+        
+        <td>
+          <%= brand.likes_count %>
+        </td>
+   
+
+        <td><%= to_local brand.last_updated unless brand.last_updated.nil?%></td>
+        <td><%= to_local brand.created_at unless brand.created_at.nil?%></td>
+        <td>
+            <% if brand.get_active_spider %>
+              <% category_counts = brand.get_active_spider.brand.count_skus_by_category
+              category_counts.keys.each do |category_count|%>
+                <%=category_count%> : <%=category_counts[category_count]%><br/>
+              <% end %>
+            <% end %>
+        </td>
+
+
+        <td>
+          <%= link_to '爬虫', [:spiders,:manage,brand] %> |
+          <% brand_current_spider = brand.current_spider%>
+          <%= link_to '当前爬虫', brand_current_spider.nil? ? [:new,:manage,brand,:spider] : [:edit,:manage,brand_current_spider] %> |
+          <%= link_to '推荐', '#' %> |
+          <%= link_to '编辑', [:edit,:manage,brand] %> |
+          <%= link_to '删除', [:manage,brand], method: :delete, class: 'ajaxd', 
+          remote: true, confirm: 'Are you sure?' %>
+        </td>
+      </tr>
+    <% end %>
+  </tbody>
+</table>
+<%= paginate @brands %>  

@@ -1,0 +1,112 @@
+.nav_box
+  .nav_bd
+    .nav
+      .left
+        %ul
+          %li.select
+            = link_to "首页", root_path
+          %li
+            = link_to "热店", search_path
+          %li
+            %a{:href => "#{search_path('item')}"} 新品
+          %li.s
+            .menu
+              %a{:class=>"#{menu_class('3')}", :href => "#{cat_path('3')}"} 衣服
+          %li.s
+            .menu
+              %a{:class=>"#{menu_class('5')}", :href => "#{cat_path('5')}"} 包包
+          %li.s
+            .menu
+              %a{:class=>"#{menu_class('4')}", :href => "#{cat_path('4')}"} 鞋子
+          %li.s
+            .menu
+              %a{:class=>"#{menu_class('6')}", :href => "#{cat_path('6')}"} 配饰
+          %li
+            %a{:href => "/dapeis/index_all"} 搭配
+          %li
+            %a{:href => "#{search_path('discount')}"} 优惠
+          %li.m
+            / 添加hover后显示层
+            #myIndex.menu
+              -if user_signed_in?
+                %a.menu-hd{:href => "#{user_path(current_user)}"}
+                  我的主页
+                  %b
+                .child-nav{:style => "width: 76px;"}
+                  %ul
+                    %li
+                      %a{:href => "#{favorite_shops_path(current_user)}"} 喜欢的店铺
+                    %li
+                      %a{:href => "#{favorite_items_path(current_user)}"} 喜欢的宝贝
+                    %li
+                      %a{:href => "#{user_posts_path(current_user)}"} 上街日志
+                    %li.remove
+                      %a{:href => "#{followings_path(current_user)}"} 我的好友
+              -else
+                %a.menu-hd{:href => "#{new_user_session_path}"}
+                  我的主页
+                  %b
+                .child-nav{:style => "width: 76px;"}
+                  %ul
+                    %li
+                      %a{:href => "#{new_user_session_path}"} 喜欢的店铺
+                    %li
+                      %a{:href => "#{new_user_session_path}"} 喜欢的宝贝
+                    %li
+                      %a{:href => "#{new_user_session_path}"} 上街日志
+                    %li.remove
+                      %a{:href => "#{new_user_session_path}"} 我的好友
+      .right
+        %ul
+          - if user_signed_in?
+            %li
+              / 添加hover后显示层
+              #myMessage.menu
+                .menu-hd
+                %a.menu-hd{:href => "/notifications/index"}
+                  -if current_user.unread_notifications_count>0
+                    消息中心(
+                    %em> #{current_user.unread_notifications_count}
+                    )
+                  -else
+                    消息中心
+          - unless user_signed_in?
+            %li
+              / 添加hover后显示层
+              #loginType.menu.login
+                = link_to '登录', new_user_session_path
+                .child-nav{:style => "width: 96px;"}
+                  %ul
+                    %li.qq_icon
+                      %a{:href => "/accounts/info/auth/qq_connect"} QQ登录
+                    %li.remove.sina_icon
+                      %a{:href => "/accounts/info/auth/weibo"} 新浪微博登录
+                    -#%li.remove.tb_icon
+                      %a{:href => "#"} 淘宝登录
+            %li.register
+              = link_to '注册', new_user_registration_path
+          - else
+            %li#loginType.menu
+              .user_info
+                %span.avatar
+                  %img{:height => "28", :src => "#{current_user.display_img_small}", :width => "28"}/
+                %span
+                  %a.menu-hd{:href => "#{user_path(current_user)}"} 
+                    = current_user.display_name
+                    %b
+              .child-nav{:style => "width: 96px;"}
+                %ul
+                  %li
+                    = link_to '帐号设置',  edit_user_registration_path
+                  %li.remove
+                    = link_to '退出登录', destroy_user_session_path, :method=>'delete'
+          - if user_signed_in? and current_user.can_be_admin
+            %li
+              = link_to '| 管理网站', shop_admin_list_path
+          - elsif user_signed_in?
+            %li.shop
+              %a{:href => "#{shop_admin_path(current_user)}"}  管理店铺
+          - else
+            %li.shop
+              %a{:href => "#{new_user_session_path}"}  管理店铺
+

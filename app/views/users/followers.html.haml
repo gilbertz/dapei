@@ -1,0 +1,35 @@
+=render :partial=>"/users/top_bar", :locals=>{:user=>@user, :nav_class=>"followers"}
+
+.wrapper.my-home-main-body
+  -if @user.followers_by_type_count('User')==0
+    .resort
+      %h2 还没有任何粉丝， 加油哟！
+  %ul.nav.stream
+    - @followers.each do |f|
+      =render :partial=>"/users/follower", :locals=>{:user=>f}
+  = paginate @followers
+
+
+-#.menu01
+  .bd
+    %ul
+      %li
+        -if user_signed_in? and current_user==@user
+          %a{:href => "#{followings_path(@user)}"} 我的关注
+        -else
+          %a{:href => "#{followings_path(@user)}"} TA的关注
+      %li.vertical
+      %li.Current
+        -if user_signed_in? and current_user==@user
+          %a{:href => "#{followers_path(@user)}"} 我的粉丝
+        -else
+          %a{:href => "#{followers_path(@user)}"} TA的粉丝
+-#.clearfix.gjb_friends
+  .friends_bd
+    -if @user.followers_by_type_count('User')==0
+      %h2 还没有任何粉丝，加油哟!
+
+    %ul
+      - @followers.each do |f|
+        =render :partial=>"/users/follower", :locals=>{:user=>f}
+    = paginate @followers

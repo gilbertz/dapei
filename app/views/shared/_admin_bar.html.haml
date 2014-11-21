@@ -1,0 +1,124 @@
+-if current_user and current_user.can_be_admin
+  .nav_area_bd  
+    .nav_area
+      .l 管理操作：
+      .c
+        %ul
+          %li.nav_b
+            .menu
+              %a.menu-hd{:href => "/shop/open"}
+                开店
+                %b
+          %li.nav_b
+            .menu
+              %a.menu-hd{:href => "/brand_admin/brands/new"}
+                开牌
+                %b
+ 
+          %li.nav_b
+            .menu
+              %a.menu-hd{:href => "/brand_admin/brands/info/index"}
+                品牌
+                %b
+          %li.nav_b
+            .menu
+              %a.menu-hd{:href => "/areas/info/get_cities"}
+                城市
+                %b
+          %li.nav_b
+            .menu
+              %a.menu-hd{:href => "/brand_admin/malls/info/index"}
+                商场
+                %b
+          %li.nav_b
+            .menu
+              %a.menu-hd{:href => "/brand_admin/streets/info/index"}
+                街道
+                %b
+          %li.nav_b
+            .menu
+              %a.menu-hd{:href => "#{crawler_templates_url}"}
+                微博
+                %b
+          
+          %li.nav_b
+            .menu
+              %a.menu-hd{:href => "#{spiders_url}"}
+                官网
+                %b
+
+          %li.nav_b
+            .menu
+              %a.menu-hd{:href => "/brand_admin/skus/index_all"}
+                sku
+                %b
+            
+          %li.nav_b
+            .menu
+              %a.menu-hd{:href => "/brand_admin/skus/lookbooks"}
+                宣传图
+                %b       
+
+          %li.nav_b
+            .menu
+              %a.menu-hd{:href => "/brand_admin/discounts/admin_index"}
+                优惠
+                %b
+
+          -#%li.nav_b
+            .menu
+              %a.menu-hd{:href => "#{rails_admin_path}"}
+                数据管理
+                %b
+          -#%li.nav_b
+            .menu
+              %a.menu-hd{:href => "#{new_recommend_path}"}
+                推荐
+                %b
+          %li.nav_b
+            .menu
+              %a.menu-hd{:href => "#{recommends_path}"}
+                推荐表
+                %b
+          -#%li.nav_b
+            .menu
+              %a.menu-hd{:href => "#{users_path}"}
+                用户管理
+                %b
+          %li.nav_b
+            .menu
+              %a.menu-hd{:href => "/shops/info/test"}
+                经纬度              
+                %b
+          %li.nav_b
+            .menu
+              %a.menu-hd{:href =>"#{flinks_path}"}
+                友链
+                %b
+          %li.nav_b
+            .menu
+              %a.menu-hd{:href =>"/brand_admin/brands/info/check"}
+                brand check
+                %b
+          %li.nav_b
+            .menu
+              %a.menu-hd{:href =>"/users/info/index_all"}
+                用户
+                %b
+
+          %li.nav_b
+            .menu
+              %a.menu-hd{:href =>"/brand_admin/brand_tags"}
+                品牌类别
+                %b
+
+          %li.nav_b
+            .menu
+              %a.menu-hd{:href =>"/dapeis/index_all?all="}
+                搭配
+                %b
+          -#%li.nav_b
+            .menu
+              %a.menu-hd{:href => "/shops/info/admin_index?level=0&bnum=1"}
+                未编辑热铺
+                %b

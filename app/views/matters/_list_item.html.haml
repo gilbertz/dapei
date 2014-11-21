@@ -1,0 +1,6 @@
+%li{:id=>"#{dis_class}", :class=>"infli"}
+  %a{:href => "#", :target=>"_blank"}
+    %img{:title =>"", :src => "#{matter.get_big_png}" }
+  %div
+    - if current_user and matter.user_id == current_user.id
+      = link_to '删除', matter, method: :delete, data: { confirm: 'Are you sure?' }

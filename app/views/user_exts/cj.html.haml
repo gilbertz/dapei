@@ -1,0 +1,223 @@
+!!!
+%html
+  %head
+    %link{href: "http://1251008728.cdn.myqcloud.com/1251008728/assets/images/wanhuir-icon.png", rel: "shortcut icon", type: "image/vnd.microsoft.icon"}/
+    %title 3.8抽奖 - 上街吧
+    %meta{charset: "utf-8"}/
+    %script{src: "http://1251008728.cdn.myqcloud.com/1251008728/assets/javascripts/jquery.js"}
+    /%meta{content: "width=device-width, initial-scale=1.0", name: "viewport"}/
+    <meta name="viewport" content="target-densitydpi=320,width=640,user-scalable=no">
+    %script{src: "/assets/jquery-b89b172fc56a912408007bcc5c0f8370.js"}
+    
+    :javascript
+      var share_callback_hy = function () {
+                  ajax = new XMLHttpRequest();
+                  ajax.open('GET', '/materials/wx_share?f=wx_hy&ref=' + window.location.href, true);
+                  ajax.send(null);
+              }
+      
+              var share_callback_pyq = function () {
+                  ajax = new XMLHttpRequest();
+                  ajax.open('GET', '/materials/wx_share?f=wx_pyq&ref=' + window.location.href, true);
+                  ajax.send(null);
+              }
+      
+      
+              var dataForWeixin = {
+                    appId: "wx78f81724e6590b1d",
+                    TLImg: "http://wxcover.qiniudn.com/gudai.jpg",
+                    url: "<%= @share_url %>",
+                    title: "3.8号，iphone5s土豪金大抽奖，人人机会平等 - 上街吧",
+                    desc: "赶快来关注上街吧"
+              };
+      
+      
+      
+              var onBridgeReady = function(){
+                  WeixinJSBridge.on('menu:share:appmessage', function(argv){
+                      WeixinJSBridge.invoke('sendAppMessage', {
+                          "appid": dataForWeixin.appId,
+                          "img_url": dataForWeixin.TLImg,
+                          "img_width": "120",
+                          "img_height": "120",
+                          "link": dataForWeixin.url + '?f=wx_hy_bb',
+                          "title":  dataForWeixin.title,
+                          "desc": dataForWeixin.desc 
+                      });
+                      //share_callback_hy();
+                      setTimeout(function () {location.href = "http://mp.weixin.qq.com/s?__biz=MjM5MzgxNTAxMQ==&mid=200063159&idx=8&sn=73d791f479fefb304f3ddf6818c0437a#rd";}, 1500); 
+                  });
+                  WeixinJSBridge.on('menu:share:timeline', function(argv){              
+                      WeixinJSBridge.invoke('shareTimeline', {
+                          "appid": dataForWeixin.appId,
+                          "img_url":dataForWeixin.TLImg,
+                          "img_width": "120",
+                          "img_height": "120",
+                          "link": dataForWeixin.url + '?f=wx_pyq_bb',
+                          "title": dataForWeixin.title,
+                          "desc": dataForWeixin.desc
+                      });
+                      //share_callback_pyq();
+      		setTimeout(function () {location.href = "http://mp.weixin.qq.com/s?__biz=MjM5MzgxNTAxMQ==&mid=200063159&idx=8&sn=73d791f479fefb304f3ddf6818c0437a#rd";}, 1500);  
+                  });
+              };
+              if(document.addEventListener){
+                  document.addEventListener('WeixinJSBridgeReady', onBridgeReady, false);
+              }else if(document.attachEvent){
+                  document.attachEvent('WeixinJSBridgeReady', onBridgeReady);
+                  document.attachEvent('onWeixinJSBridgeReady', onBridgeReady);
+              }
+    :css
+      body{
+                padding: 0;
+                margin: 0;
+                background: #fff;
+                width:100%;
+                margin: 0 auto;
+                text-align:center;
+            }
+            #content{
+                padding: 0;
+                margin: 0 auto;
+                width: 100%;
+                background: #fff;
+            }
+
+            #result{
+                width: 100%;
+                height: 90%;
+                font-family: "Microsoft YaHei", "WenQuanYi Micro Hei", sans-serif;
+            }
+
+            #number{
+                position: absolute;
+                font-size: 50px;
+                left: 160px;
+                top: 193px;
+                z-index: 2;
+            }
+ 
+            #input{
+                position: absolute;
+                left: 70px;
+                top: 110px;
+                z-index: 2;
+            }
+
+            
+            #notice{
+                position: absolute;
+                left: 370px;
+                top: 110px;
+                z-index: 2;
+            }
+
+                 
+            
+            #marry-innput{
+                margin: 0 auto;
+                padding-top: 10px;
+                width: 95%;
+                height: 160px;
+                background-repeat: no-repeat;
+                background-position: bottom;
+                filter:"progid:DXImageTransform.Microsoft.AlphaImageLoader(sizingMethod='scale')";
+                -moz-background-size:100% 100%;
+                background-size:100% 100%;
+            }
+      
+            #marry-form{
+                padding-top: 20px;
+                padding-left: 20px;
+            }
+            #marry-form .form-one{
+                margin-top: 10px;
+            }
+            #display_head img{
+               width:5px;
+               height:5px;
+            }
+            #begin{
+                margin: 0 auto;
+                margin-top: 0px;
+                width: 100px;
+                height: 30px;
+                cursor: pointer;
+            }
+      
+            #begin img{
+                width: 100px;
+                height: auto;
+            }
+      
+           #ad{
+               margin: 0 auto;
+               text-align:center;
+           }
+      
+            #info{
+                padding-top: 50px;
+                padding-bottom: 10px;
+                padding-left: 20px;
+                z-index: 999;
+            }
+            #tools{
+                padding-left: 20px;
+            }
+            #user_ext_weixin_id{
+              width:270px;
+              height:37px;
+              position:absolute;
+              left:-2px;
+              margin-top:16px;
+            }
+            .btn{
+              float:right;
+              margin-top:20px;
+              width:120px;
+              height:45px;
+              margin-left:15px;
+              font-size:18px;
+              position:absolute;
+              left: 320px;
+            }
+  %body
+    - unless @user_ext.id
+      -##notice
+        %p
+          分享到朋友圈，获取5个赞才有效
+      #result
+        #pic
+          %img{:src => "http://1251008728.cdn.myqcloud.com/1251008728/choujiang/cj_tx.jpg"}
+        #input{:style=>"width:400px; height:500px; margin: 0 auto; text-align:center;"}
+          = simple_form_for(@user_ext) do |f|
+            = f.error_notification
+    
+            .form-inputs
+              = f.input :wx_gz_id, :as=>:hidden, :input_html=>{ :value => "#{params[:openid]}" }
+
+            .form-inputs
+              = f.input :weixin_id,:label=>"", :place_holder=>"", :input_html=>{:style=>"font-size:20px;"}
+
+            .form-actions
+              = f.button :submit, '获取抽奖号'
+
+    - else
+      #result
+        #pic
+          %img{:src => "http://1251008728.cdn.myqcloud.com/1251008728/choujiang/cj_qh.jpg"}
+        #number
+          = @user_ext.cj_num_1
+      
+
+    #ad{style: "margin:0px auto;text-align:center; margin-top:5px;"}
+      %script{async: "", src: "//pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"}
+      / wanhuir_mm
+      %ins.adsbygoogle{"data-ad-client" => "ca-pub-1344464505364136", "data-ad-slot" => "1140980007", style: "display:inline-block;width:320px;height:50px"}
+      :javascript
+        (adsbygoogle = window.adsbygoogle || []).push({});
+    #analysis{style: "display:none;"}
+      %script{language: "JavaScript", src: "http://s6.cnzz.com/stat.php?id=5253391&web_id=5253391"}
+  %div{style: "display: none;"}
+    %script{language: "JavaScript", src: "http://s5.cnzz.com/stat.php?id=2814783&web_id=2814783"}
+

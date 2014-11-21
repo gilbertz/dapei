@@ -1,0 +1,666 @@
+﻿
+*上装
+上衣
+上装
+西装
+外套
+长袖
+七分袖
+针织衫
+开衫
+衬衫
+圆领
+v领
+风衣
+翻领
+短外套
+长袖T
+雪纺衫
+娃娃衫
+打底衫
+罩衫
+马甲
+背心
+蝙蝠衫
+T恤
+t桖
+T恤衫
+小西装
+卫衣
+坎肩
+套衫
+夹克
+套头衫
+皮衣
+女衫
+衫
+长袍
+大衣
+皮草
+羽绒服
+衬衣
+防寒服
+棉服
+毛衣
+毛衫
+高领
+蕾丝衫
+polo衫
+毛织衫
+女装
+羊毛衫
+女单上
+西服
+礼服
+连体衣
+无袖衫
+短袖恤
+无袖恤
+开衣
+短衫
+运动衫
+连身衣
+羽绒衣
+棉袄
+披肩
+洋装
+斗篷
+棉衣
+马甲
+马夹
+茄克
+大衣
+尼克服
+羽绒
+Tee
+blazer
+Top
+Tops
+Suit
+Coat
+Long sleeve
+Sleeve
+Knitwear
+Cardigan
+Shirt
+Neck
+v-neck
+Windbreaker
+Lapel
+Jacket
+Long-sleeved T
+Chiffon shirt
+Wawa Shan
+Bottoming shirt
+Smock
+Vest
+Bat shirt
+T-shirt
+Small suit
+coat
+suits
+sweater
+fleeces
+knitswear
+shirt
+T-shirt
+jacket
+tank
+Down coat
+ 
+*裤装
+长裤
+小脚
+牛仔裤
+铅笔裤
+高腰裤
+背带裤
+连体裤
+西装裤
+哈伦裤
+休闲裤
+连身裤
+小脚裤
+打底裤
+喇叭裤
+修身裤
+西裤
+热裤
+短裤
+a字裤
+裤子
+腿裤
+彩裤
+弹力裤
+七分裤
+八分裤
+九分裤
+直筒裤
+窄脚裤
+灯芯绒裤
+女装裤
+阔腿裤
+紧身裤
+女裤
+露踝裤
+梭织裤
+机车裤
+男友裤
+卡其裤
+收脚裤
+丹宁裤
+印花裤
+宽松裤
+修身裤
+补花裤
+口袋裤
+交叉裤
+涂层裤
+宽腿裤
+条纹裤
+拉链裤
+宽腿裤
+裤脚裤
+提花裤
+植绒裤
+棉缎裤
+五分裤
+中裤
+裸裤
+条纹裤
+哔叽裤
+斜纹裤
+棉布裤
+款裤
+运动裤
+脚口裤
+亚麻裤
+跨裤
+工装裤
+连衣裤
+短褲
+休闲裤
+裤
+阔口裤
+Pants
+Trousers
+Feet
+Jeans
+Pencil pants
+High waist pants
+Bib
+Siamese pants
+Suit pants
+Harem pants
+Casual pants
+Jumpsuits
+Feet pants
+Leggings
+Trouser
+Shorts
+jean
+dress pants
+crop jeans
+capri
+shorts
+pirate pants
+casual pants
+jumpsuits
+
+*裙装
+百褶裙
+短裙
+半身裙
+长裙
+包臀裙
+碎花裙
+花苞裙
+纱裙
+连衣裙
+裙子
+蛋糕裙
+百褶裙
+中裙
+印花裙
+裙裤
+铅笔裙
+背心裙
+迷你裙
+mini裙
+连身裙
+半裙
+喇叭裙
+拼接裙
+皮裙
+紧身裙
+亚麻裙
+抹胸裙
+修身裙
+A裙
+A型裙
+棉裙
+蓬蓬裙
+女裙
+褶裙
+针织裙
+雪纺裙
+半身裙
+裙
+Dresses
+Pleated skirt
+Skirt
+Skirts
+Dress
+Package hip skirt
+Floral Skirt
+Bud skirt
+Veil
+Dress
+Skirt
+Cake skirt
+Pleated skirt
+Skirt
+Print dress
+Culottes
+dress
+mini
+knee-length
+maxi
+braces skirt
+gown
+
+
+*内衣
+文胸
+内裤
+薄模杯
+中模杯
+厚模杯
+超薄杯
+情趣
+网袜
+袜子
+吊带
+丝袜
+绳衣
+网衣
+三点式
+裹胸
+浴袍
+胸罩
+三角裤
+丁字裤
+睡裙
+起居裤
+起居套裤
+浴衣
+浴裤
+平角裤
+家居上衣
+睡衣
+睡裤
+棉毛裤
+四角裤
+家居服
+家居裤
+底裤
+睡裙
+袜
+睡衣裤
+晨衣
+胸衣
+内搭
+游泳衣
+游泳裤
+比基尼
+蜜桃派
+Underwear
+Bra
+Underpants
+Thin mold cup
+In the mold cup
+Thick mold cup
+Slim Cup
+Delight
+Fishnet stockings
+Socks
+Stockings
+Rope clothes
+Netting
+Wrapped chest
+Bathrobes
+panty
+bikini
+
+*包包
+手提包
+草编包
+手袋
+单肩包
+双肩包
+肩包
+斜挎包
+手拿包
+零钱包
+旅行包
+机车包
+定型包
+水桶包
+PU包
+大包
+卡包
+钱包
+钱夹
+皮夹
+零钱夹
+零钱袋
+ipad袋
+剑桥包
+波士顿包
+链条包
+流苏包
+背包
+水饺包
+蝙蝠包
+拉杆箱
+旅行箱
+登机箱
+小包
+大包
+书包
+信封包
+公文包
+女包
+包包
+帆布包
+邮差包
+手提袋
+手提
+购物袋
+行李袋
+包
+Bag
+Straw bag
+Handbags
+Shoulder Bags
+Backpack
+Shoulder Bag
+Messenger Bag
+Clutch
+Purse
+Bag
+Motorcycle Bag
+Stereotypes package
+Bucket Bag
+PU Bag
+Large package
+Card package
+Wallet
+Cambridge pack
+Boston Pack
+Chain bag
+Fringed bag
+Backpack
+Dumplings package
+Bat Pack
+Trolley
+Suitcase
+Board chassis
+Packet
+Large package
+Schoolbag
+Envelope package
+Briefcase
+Handbags
+Bags
+Canvas bag
+Messenger bags
+wallets
+satchels
+totes
+crossbody
+shoulder
+clutches
+backpacks
+suitcase
+
+*鞋子
+平底鞋
+凉鞋
+凉拖
+拖鞋
+鱼嘴鞋
+罗马鞋
+人字拖
+漆皮鞋
+厚底鞋
+低帮鞋
+坡跟鞋
+铆钉鞋
+高跟鞋
+圆头鞋
+平跟鞋
+松糕鞋
+粗跟鞋
+系带鞋
+帆布鞋
+运动鞋
+牛津鞋
+透气鞋
+豆豆鞋
+通勤鞋
+学生鞋
+板鞋
+皮鞋
+小皮鞋
+单鞋
+靴子
+棉鞋
+布洛克鞋
+鞋子
+女鞋
+高跟鞋
+增高鞋
+厚底鞋
+雨鞋
+靴
+皮靴
+鞋
+Shoes
+Flat shoes
+Sandals
+Mules
+Slippers
+Fish head shoes
+Roman shoes
+Flip-Flops
+Leather shoes
+Platform shoes
+Low shoes
+Wedges
+Rivet shoes
+High-heeled shoes
+Round Toe
+Flattie
+Platform shoes
+Thick heel
+Lace-up shoes
+Canvas shoes
+Sports shoes
+Oxford shoes
+Breathable shoes
+Peas shoes
+Commuter shoes
+Student shoes
+Shoes
+Leather shoes
+Small shoes
+Shoes
+Boots
+Mianxie
+Bullock shoes
+Shoes
+Shoes
+High-heeled shoes
+Elevator shoes
+Platform shoes
+Rain Boots
+Flats
+CHUCK TAYLOR ALL STAR
+heels
+heel
+sandal
+high heels
+mid heels
+low heels
+ballet flats
+wedges
+boots
+sneakers
+casual
+boot
+bootie
+pump
+slipper
+
+*配饰
+钥匙扣
+戒指
+耳环
+发夹
+项链
+胸针
+发圈
+发箍
+手链
+手镯
+吊坠
+耳钉
+脚链
+锁骨链
+发饰
+胸饰
+耳夹
+手表
+腕表
+假领
+镜框
+腰带
+首饰
+手饰
+饰品
+帽子
+遮阳帽
+伞
+太阳伞
+太阳镜
+眼睛
+丝巾
+围巾
+纱巾
+墨镜
+草帽
+女表
+皮带
+名片夹
+围脖
+胸花
+手链
+发卡
+发带
+对戒
+耳圈
+耳坠
+衣链
+颈饰
+颈链
+耳饰
+领带夹
+手串
+套戒
+手带
+饰戒
+裤链
+挂链
+手环
+袖扣
+项坠
+指环
+链坠
+军帽
+毛线帽
+针织帽
+鸭舌帽
+手套
+帽
+手机壳
+按摩梳
+化妆镜
+化妆刷
+手机套
+方巾
+ipad套
+配件
+保护套
+信用卡套
+护照夹
+护照套
+行李牌
+针织袋
+裤带
+Accessories
+Ring
+Earring
+Hairpin
+Necklace
+Brooch
+Headband
+Hair bands
+Bracelets
+Bracelet
+Pendant
+Earrings
+Anklets
+Clavicle chain
+Hair Accessories
+Pectoral
+Ear clip
+Wristwatch
+False Collar
+Picture frame
+Belt
+Jewelery
+Bracelets
+Accessories
+Hat
+Visor
+Umbrella
+Parasol
+Sunglasses
+Eye
+Scarves
+Muffler
+Scarf
+Sunglasses
+Straw hat
+watch
+gloves
+glasses
+jewelry
+belt
+scarf
+hat
+cap
+
+*男装
+男士
+男包
+男表
+男裤
+男内衣
+男鞋
+M package
+Men's Watch
+Men's Trousers
+Male underwear
+Men's shoes

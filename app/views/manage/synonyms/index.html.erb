@@ -1,0 +1,48 @@
+<% unless @categories.blank? %>
+
+    <table class="table">
+      <tr>
+        <th>ID</th>
+        <th>name</th>
+      </tr>
+
+    <% @categories.each do |category| %>
+      <tr>
+        <td>
+          <%= category.id %>
+        </td>
+        <td>
+          <%= category.name %>
+        </td>
+        <td>
+          <% unless category.synonyms.blank? %>
+            <% category.synonyms.each do |synonym| %>
+                  <label class="label label-primary">
+                    <%= synonym.content %>
+
+                    <a class="ajaxDel" data-confirm="Are you sure?" data-method="delete" href="/manage/synonyms/<%= synonym.id %>" rel="nofollow">
+                      x&nbsp;
+                    </a>
+                  </label>
+
+            <% end %>
+          <% end %>
+        </td>
+        <td>
+          <form action="/manage/synonyms" method="post">
+            <input type="text" name="content" placeholder="同义词"/>
+            <input type="hidden" name="category_id" value="<%= category.id %>"/>
+            <input type="submit" name="确定"/>
+          </form>
+        </td>
+      </tr>
+    <% end %>
+    </table>
+<% end %>
+
+<style>
+  .label a{
+      color: #fff;
+  }
+
+</style>

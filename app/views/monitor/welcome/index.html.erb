@@ -1,0 +1,116 @@
+<div class="container">
+
+  <div class="header">
+    <ul class="nav nav-pills pull-right">
+      <li class="active">
+        <a href="/monitor/welcome/expire_index">刷新缓存</a>
+        <small>上次缓存时间: <%= Time.now %></small>
+      </li>
+    </ul>
+    <h3 class="text-muted">SHANGJIEBA MONITOR</h3>
+  </div>
+
+  <div class="page-header">
+    最近12天
+  </div>
+
+  <div class="well">
+    <label for="">
+      全部
+      <%= @redirect_24_hours %>
+    </label>
+
+    <label for="">
+      尚品
+      <%= @tmall_24_hours %>
+    </label>
+
+    <label for="">
+      银泰
+      <%= @yintai_24_hours %>
+    </label>
+
+    <label for="">
+      stylosophy
+      <%= @stylosophy_24_hours %>
+    </label>
+
+    <label for="">
+      elleshop
+
+      <%= @lshop_24_hours %>
+    </label>
+
+  </div>
+
+  <canvas id="myChart" width="800px" height="450px"></canvas>
+
+</div>
+
+
+<style type="text/css">
+  .tips ul li{
+      list-style-type: none;
+      float: left;
+      margin: 0 10px;
+  }
+  .tips ul li span{
+      display: inline-block;
+      height: 20px;
+      width: 40px;
+  }
+  .tips .result{
+      background: rgb(151, 187, 205);
+  }
+  .tips .dapei_list_result{
+      background: rgb(220,220,220);
+  }
+  .tips .dapei_result{
+      background: rgb(247,70,74);
+  }
+  .tips .item_list{
+      background: rgb(77,83,96);
+  }
+</style>
+
+<script type="text/javascript">
+  $(document).ready(function(){
+      var ctx = document.getElementById("myChart").getContext("2d");
+      var days_12_ago_label = ['<%= @keys_label.join("','") %>'];
+      var data = {
+          labels : days_12_ago_label,
+          datasets : [
+              {
+                  fillColor : "rgba(151,187,205,0.5)",
+                  strokeColor : "rgba(151,187,205,1)",
+                  pointColor : "rgba(151,187,205,1)",
+                  pointStrokeColor : "#fff",
+                  data : [<%= @redirect_12_day.join(",") %>]
+              },
+              {
+                  fillColor : "rgba(220,220,220,0.5)",
+                  strokeColor : "rgba(220,220,220,1)",
+                  pointColor : "rgba(220,220,220,1)",
+                  pointStrokeColor : "#fff",
+                  data : [<%= @shangpin_12_day.join(",") %>]
+              },
+              {
+                  fillColor : "rgba(247,70,74,0.5)",
+                  strokeColor : "rgba(247,70,74,1)",
+                  pointColor : "rgba(247,70,74,1)",
+                  pointStrokeColor : "#fff",
+                  data : [<%= @tmall_12_day.join(",") %>]
+              },
+              {
+                  fillColor : "rgba(77,83,96,0.5)",
+                  strokeColor : "rgba(77,83,96,1)",
+                  pointColor : "rgba(77,83,96,1)",
+                  pointStrokeColor : "#fff",
+                  data : [<%= @yintai_12_day.join(",") %>]
+              }
+          ]
+      }
+      var myNewChart = new Chart(ctx).Line(data);
+
+  });
+</script>

@@ -1,0 +1,21 @@
+<!--#[:manage,@q]-->
+<%= search_form_for [:manage,@q] , html: {class: 'form-inline',role: 'form',style: 'margin-top:30px;'} do |f| %>
+  <div class="form-group" style="width:22%;">
+    <label class="sr-only">Title</label>
+    <%= f.text_field :title_cont, class: 'form-control', placeholder: '标题' %>
+  </div>
+  <div class="form-group" style="width:22%;">
+    <label class="sr-only">UserName</label>
+    <%= f.text_field :user_name_cont, class: 'form-control', placeholder: '用户名' %>
+  </div>
+  <div class="form-group">
+    <label class="sr-only">Title</label>
+    <%= f.select :level_eq, (-2..6), {include_blank:'无'}, class: 'form-control' %>
+  </div>
+  <%= f.submit '搜索', class: 'btn btn-primary btn-xs'%> 
+  <%= total_span @items %>
+<% end %>
+
+<%= render 'dapei_list' ,:items => @items %>
+
+<%= paginate @items %>

@@ -1,0 +1,42 @@
+<%= search_form_for [:manage, @q], html: {class: 'form-inline',role: 'form',style: 'margin-top:30px;'} do |f| %>
+  <div class="form-group" style="width:25%;">
+    <label class="sr-only">FlinkName</label>
+    <%= f.text_field :name_cont, class: 'form-control', placeholder: '名称' %>
+  </div>
+  <div class="form-group" style="width:25%;">
+    <label class="sr-only">FlinkLink</label>
+    <%= f.text_field :link_cont, class: 'form-control', placeholder: '链接' %>
+  </div>
+  <%= f.submit '搜索', class: 'btn btn-primary btn-sm'%> 
+  <%= total_span @flinks %>
+  <div class="form-group pull-right">
+    <%= link_to  [:new,:manage,:flink], class: 'btn btn-primary btn-sm', id: 'a_obj' do %>
+      <span class="glyphicon glyphicon-plus"></span>新建友链 
+    <% end %>
+  </div>
+<% end %>
+<table class="table table-bordered table-hover">
+  <thead>
+    <tr class="success">
+      <th width="20%">名称</th>
+      <th>链接</th>
+      <th width="17%">创建时间</th>
+      <th width="12%">操作</th>
+    </tr>
+  </thead>
+  <tbody>
+    <% @flinks.each do |ln| %>
+      <tr>
+        <td><%= link_to ln.name, ln.link, target: '_blank' %></td>
+        <td><%= ln.link %></td>
+        <td><%= to_local ln.created_at %></td>
+        <td> 
+          <%= link_to '编辑', [:edit,:manage,ln], class: :e_obj %> | 
+          <%= link_to '删除', [:manage,ln], remote: true, method: :delete,  
+          confirm: 'Are you sure?', class: 'ajaxd' %>
+        </td>
+      </tr>
+    <% end %>
+  </tbody>
+</table>
+<%= paginate @flinks %>  

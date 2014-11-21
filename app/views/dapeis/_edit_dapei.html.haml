@@ -1,0 +1,45 @@
+/ 完善资料
+.recom-p.clearfix.perfect_info
+  .right_content
+    %h1 发布搭配
+    #warning
+      提交失败，缺乏必要信息， 请参考下面提示补齐信息！
+    .process
+      .add_info
+        填写宝贝信息
+        %b
+    .master_c
+      .bd
+        .direction
+          %p
+        .info_bd
+          = simple_form_for(@dapei, :validate=>true, :url=>"/brand_admin/dapeis/#{@dapei.id}/update",  :html => { :method => :post, :id=>"create_item_form", :multipart => true }) do |f|
+            %ul
+              %li
+                = f.input :level, :label=>"评级：".html_safe,  :input_html=>{:class=>"txt", :style=>"width:250px;height:30px;"}, :collection=> -2..6
+              %li
+                = f.input :title, :label=>"<s>*</s>宝贝名称：".html_safe,  :input_html=>{:class=>"txt", :style=>"width:250px;"}
+              %li
+                %label 
+                  开始时间：
+                %input{:name => "start_date", :value => @dapei.dapei_info.start_date, :type => :date}/
+              %li
+                %label 
+                  结束时间：
+                %input{:name => "end_date", :value => @dapei.dapei_info.end_date, :type => :date}/
+              %li
+                %label
+                  主题：
+                %select{:name => "dapei_tags_id", :id=>"theme"}
+                  %option{:value => "0"} 无
+                  - @themes.each do |t|
+                    - if @dapei.dapei_info.dapei_tags_id == t.id
+                      %option{ :selected => 'selected', :value => "#{t.id}"} #{t.name}
+                    - else
+                      %option{:value => "#{t.id}"} #{t.name}
+  
+              %li
+                = f.input :category_id, :as=>:hidden, :input_html=>{:value=>"1001"}
+              %li
+                = f.button :submit, '发布宝贝', :class => 'submit_btn_01'
+                                                                                

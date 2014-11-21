@@ -1,0 +1,62 @@
+<%if @user_id.nil?%>
+<%= search_form_for @q, url: "/manage/user_behaviours", html: {class: 'form-inline',role: 'form',style: 'margin-top:30px;'} do |f| %>
+  <div class="form-group">
+    <label class="sr-only">UserName</label>
+    <%= f.text_field :name_cont, class: 'form-control', placeholder: '用户名' %>
+  </div>
+  <%= f.submit '搜索', class: 'btn btn-primary'%> 
+  <%= total_span @users %>
+<% end %>
+<table class="table table-bordered table-hover">
+  <thead>
+    <tr class="success">
+      <th>名称</th>
+      <th>邮箱</th>
+      <th>浏览历史</th>
+    </tr>
+  </thead>
+  <tbody>
+    <% @users.each do |u| %>
+      <tr>
+        <td><a href="/users/<%= u.url %>"><%= u.name %></a> </td>
+        <td><%= u.email %></td>
+        <td>
+          <%= link_to "历史记录", "/manage/user_behaviours/xml_index/#{u.id}" %>
+        </td>
+      </tr>
+    <% end %>
+  </body>
+</table>
+<%= paginate @users %>  
+<%else%>
+<h2>User <%=@user.name%></h2>
+<table class="table table-bordered table-hover">
+  <thead>
+    <tr class="success">
+      <th style="text-align:center;width:15%;">时间</th>
+      <th style="text-align:center;width:40%;">路径</th>
+      <th style="text-align:center;width:15%;">IP</th>
+      <th style="text-align:center;width:6%;">Controller</th>
+      <th style="text-align:center;width:6%;">Action</th>
+      <th style="text-align:center;width:6%;">Method</th>
+      <th style="text-align:center;width:6%;">Format</th>
+      <th style="text-align:center;width:6%;">Status</th>
+    </tr>
+  </thead>
+  <tbody>
+    <% @user_behaviours.each do |user_behaviour| %>
+      <tr>
+        <td><%=to_local user_behaviour.request_time%> </td>
+        <td><%=link_to user_behaviour.request_url, user_behaviour.request_url %></td>
+        <td><%=user_behaviour.ip_address %></td>
+        <td style="text-align:center;"><%= user_behaviour.request_controller %></td>
+        <td style="text-align:center;"><%= user_behaviour.request_action %></td>
+        <td style="text-align:center;"><%= user_behaviour.request_method %></td>
+        <td><%= user_behaviour.request_format %></td>
+        <td><%= user_behaviour.request_status %></td>
+      </tr>
+    <% end %>
+  </body>
+</table>
+<%= paginate @user_behaviours %>  
+<%end%>

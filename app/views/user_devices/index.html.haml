@@ -1,0 +1,29 @@
+%h1 Listing user_devices
+
+%table
+  %tr
+    %th Appid
+    %th User
+    %th Baidu uid
+    %th Channel
+    %th Device type
+    %th Token
+    %th
+    %th
+    %th
+
+  - @user_devices.each do |user_device|
+    %tr
+      %td= user_device.appid
+      %td= user_device.user_id
+      %td= user_device.baidu_uid
+      %td= user_device.channel_id
+      %td= user_device.device_type
+      %td= user_device.token
+      %td= link_to 'Show', user_device
+      %td= link_to 'Edit', edit_user_device_path(user_device)
+      %td= link_to 'Destroy', user_device, :method => :delete, :data => { :confirm => 'Are you sure?' }
+
+%br
+
+= link_to 'New User device', new_user_device_path

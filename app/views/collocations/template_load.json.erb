@@ -1,0 +1,92 @@
+<% unless @dapei_template.blank? %>
+{"xsrf": "ODQzNjU2MiwxMzgwMDcyNDM3", "template": {
+    "user_type": "consumer",
+    "age": "5153043",
+    "buddyicon": "8426174",
+    "state": "active",
+    "tid": "1",
+    "isOwner": 0,
+    "viewport": null,
+    "spec_uuid": "<%= @dapei_template.spec_uuid %>",
+    "fills": "132",
+    "status_msg": "",
+    "country": "hr",
+    "occupation": "",
+    "description": "<%= @dapei_template.description %>",
+    "user_name": "kristina-krizanec",
+    "user_age": "14040211",
+    "user_state": "active",
+    "user_id": "6845636",
+    "title": "<%= @dapei_template.title %>",
+    "invalid_items": [],
+    "items": [
+    <% unless (template_items = @dapei_template.template_items).blank?  %>
+        <% template_items.each do |ti| %>
+
+            <%= puts ti.inspect %>
+            <%= puts "-----------------------------------------" %>
+
+            <% if ti.item_type == "image" %>
+            {
+                "paid_url": null,
+                "visibility": "public",
+                "a": "2.3000",
+                "masking_policy": "default_yes",
+                "thing_id": "<%= ti.thing_id %>",
+                "oa": "<%= ti.oa %>",
+                "state": "active",
+                "y": "<%= ti.y %>",
+                "url": "http://pinterest.com/pin/139259813449274595/",
+                "old_thing_id": "",
+                "sale_price": null,
+                "imgurl": "http://media-cache-ec6.pinterest.com/upload/191191946651208894_qsUc4gAM_c.jpg",
+                "title": "<%= ti.title.gsub(/\s+/, ' ') %>",
+                "price": null,
+                "type": "image",
+                "visible_ratio": "<%= ti.visible_ratio %>",
+                "z": "<%= ti.z %>",
+                "ow": "<%= ti.ow || ti.w %>",
+                "w": "<%= ti.w %>",
+                "brand_id": null,
+                "x": "<%= ti.x %>",
+                "brand": null,
+                "opacity": 0,
+                "currency": null,
+                "host_type": "image",
+                "category_id": "73",
+                "instock": "1",
+                "h": "<%= ti.h %>",
+                "oh": "<%= ti.oh || ti.h %>",
+                "displayurl": "pinterest.com",
+                "createdby": "2270420",
+                <% unless ti.transform.blank? %>
+                    "transform": [<%= ti.transform %>],
+                <% end %>
+                "feed": 0,
+                "bkgd": <%= ti.bkgd.to_i %>,
+                "host": "pinterest.com",
+                "paid": 0
+            },
+        <% elsif ti.item_type == "ph" %>
+            {
+                "w": "<%= ti.w %>",
+                "transform": [<%= ti.transform %>],
+                "dropHint": "<%= ti.dropHint %>",
+                "x": "<%= ti.x %>",
+                "state": "<%= ti.state %>",
+                "y": "<%= ti.y %>",
+                "h": "<%= ti.h %>",
+                "type": "ph",
+                "visible_ratio": "<%= ti.visible_ratio %>",
+                "z": "<%= ti.z %>"
+            },
+        <% end %>
+
+        <% end %>
+    <% end %>
+    ]
+}, "status": {
+    "ok": 1
+}}
+
+<% end %>

@@ -1,0 +1,11 @@
+[
+    <% unless @malls.blank? %>
+    <% @malls.each do |mall| %>
+    <% unless mall == @malls.last %>
+    {"id": <%= mall[1] %>, "name": "<%= mall[0] %>"},
+    <% else %>
+    {"id": <%= mall[1] %>, "name": "<%= mall[0] %>"}
+    <% end %>
+    <% end %>
+    <% end %>
+]

@@ -1,0 +1,27 @@
+.menu01
+  .bd
+    -#.left_bd
+      %ul.nav.nav-float
+        %li{:class=> "#{li_class('hot')}"}
+          %a{:href => "#{search_path(@index, "hot", @dp_id, @query, @cid, @street, @mall, @brand)}"} 最热
+        %li.vertical
+        %li{:class=> "#{li_class('new')}"}
+          %a{:href => "#{search_path(@index, "new", @dp_id, @query, @cid, @street, @mall, @brand)}"} 最新
+        - if @sort == "near"
+          %li.vertical
+          %li{:class=> "#{li_class('near')}"}
+            %a{:href => "#{search_path(@index, "near", @dp_id, @query, @cid, @street, @mall, @brand)}"} 最近
+
+
+    - if true
+      .right_bd
+        %ul.nav.nav-float
+          %li
+            &nbsp; &nbsp;  &nbsp; &nbsp;&nbsp; &nbsp;  &nbsp; &nbsp;&nbsp; &nbsp;  &nbsp; &nbsp;
+          %li.left_sh
+            .Current 
+              /*%h2
+              = search_info
+          %li.vertical
+          %li.right_sh
+            = change_link 

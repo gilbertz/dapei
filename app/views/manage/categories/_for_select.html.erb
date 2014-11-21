@@ -1,0 +1,21 @@
+<div id="for_select" style="margin-top:5px;">
+  <table class="table table-condensed table-bordered">
+    <thead>
+      <tr><th colspan=15>分类表</th></tr>
+    </thead>
+    <tbody>
+      <% @categories.in_groups_of(12) do |group| %>
+        <tr>
+          <% group.each do |cate| %>
+            <td> 
+              <a href='#' class='select_cate' id="<%= cate.try(:id) %>"><%= cate.try(:name) || 'Nothing' %></a>
+            </td>
+          <% end %>
+        </tr>
+      <% end %>
+    </tbody>
+  </table>
+  <div id="paginate">
+    <%= paginate @categories, remote: true %>
+  </div>
+</div>

@@ -1,0 +1,18 @@
+-#= render :partial => 'shared/page_head', :locals => {:obj =>  @item}
+
+/ 日志
+.clearfix.log_det
+  .log_det_bd
+    .left
+      .article
+        .pic
+          %ul.slides
+            -for i in 1..5 do
+              %li
+                %img{:src => "/assets/#{i}.jpg"}/ 
+    .right
+      -for j in 1 ..8 do 
+        =render :partial=>"/about/download"
+       
+
+

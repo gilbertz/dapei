@@ -1,0 +1,123 @@
+<%= form_for [:manage,@sku], html: {class: 'form-horizontal', role: 'form', style: 'margin-top:30px;'} do |f| %>
+  <div class="form-group" style='margin-left:0px; margin-right:0px;'>
+    <label for="inputEmail3" class="col-sm-2 control-label">评 级</label>
+    <div class="col-sm-3">
+      <%= f.select :level, (-1..5),{include_blank: '无'}, class: 'form-control input-sm' %>
+    </div>
+  </div>
+  <div class="form-group" style='margin-left:0px; margin-right:0px;'>
+    <label for="inputEmail3" class="col-sm-2 control-label">标 题</label>
+    <div class="col-sm-10">
+      <%= f.text_field :title, class: 'form-control' %>
+    </div>
+  </div>
+
+  <div class="form-group" style='margin-left:0px; margin-right:0px;'>
+    <label for="inputEmail3" class="col-sm-2 control-label">宝贝类别</label>
+    <div class="col-sm-3">
+      <%= f.select :category_id, @categories,{include_blank: '无'}, class: 'form-control' %>
+    </div>
+  </div>
+
+    <div class="form-group" style='margin-left:0px; margin-right:0px;'>
+      <label for="inputEmail3" class="col-sm-2 control-label">二级类别</label>
+      <div class="col-sm-3">
+        <%= f.select :sub_category_id, @sub_categories, {include_blank: '无'}, class: 'form-control' %>
+      </div>
+    </div>
+
+
+    <div class="form-group" style='margin-left:0px; margin-right:0px;'>
+      <label for="inputEmail3" class="col-sm-2 control-label">二级类别</label>
+      <div class="col-sm-3">
+        <%= f.select :collection_id, @collections.collect {|p| [ p.title, p.id ] },  {include_blank: '无'}, class: 'form-control' %>
+      </div>
+    </div>
+  
+
+  <div class="form-group" style='margin-left:0px; margin-right:0px;'>
+    <label for="inputEmail3" class="col-sm-2 control-label">店 价</label>
+    <div class="col-sm-3">
+      <%= f.text_field :price, class: 'form-control' %>
+    </div>
+  </div>
+  <div class="form-group" style='margin-left:0px; margin-right:0px;'>
+    <label for="inputEmail3" class="col-sm-2 control-label">品 牌</label>
+    <div class="col-sm-6">
+      <%= f.select :brand_id,@brands,{include_blank: '无品牌'}, class: 'form-control' %>
+    </div>
+  </div>
+  <div class="form-group" style='margin-left:0px; margin-right:0px;'>
+    <label for="inputEmail3" class="col-sm-2 control-label">删 除</label>
+    <div class="col-sm-10">
+      <div class="checkbox">
+        <%= f.check_box :deleted %>
+      </div>
+    </div>
+  </div>
+  <div class="form-group" style='margin-left:0px; margin-right:0px;'>
+    <label for="inputEmail3" class="col-sm-2 control-label">代 购</label>
+    <div class="col-sm-10">
+      <div class="checkbox">
+        <%= f.check_box :is_agent %>
+      </div>
+    </div>
+  </div>
+  <div class="form-group" style='margin-left:0px; margin-right:0px;'>
+    <label for="inputEmail3" class="col-sm-2 control-label">运 费</label>
+    <div class="col-sm-3">
+      <%= f.text_field :freight, class: 'form-control' %>
+    </div>
+  </div>
+  <div class="form-group" style='margin-left:0px; margin-right:0px;'>
+    <label for="inputEmail3" class="col-sm-2 control-label">导 购</label>
+    <div class="col-sm-10">
+      <div class="checkbox">
+        <%= f.check_box :is_guide %>
+      </div>
+    </div>
+  </div>
+  <div class="form-group" style='margin-left:0px; margin-right:0px;'>
+    <label for="inputEmail3" class="col-sm-2 control-label">描 述</label>
+    <div class="col-sm-10">
+      <%= f.text_area :desc, class: 'form-control' %>
+    </div>
+  </div>
+  <div class="form-group" style='margin-left:0px; margin-right:0px;'>
+    <label for="inputEmail3" class="col-sm-2 control-label">头 部</label>
+    <div class="col-sm-10">
+      <%= f.text_field :head, class: 'form-control' %>
+    </div>
+  </div>
+  <div class="form-group" style='margin-left:0px; margin-right:0px;'>
+    <label for="inputEmail3" class="col-sm-2 control-label">标 签</label>
+    <div class="col-sm-10">
+      <%#= f.text_field :tags, class: 'form-control' %>
+    </div>
+  </div>
+
+    <div class="form-group" style='margin-left:0px; margin-right:0px;'>
+      <label for="inputEmail3" class="col-sm-2 control-label">标 签(new)</label>
+      <div class="col-sm-10">
+        <%= f.text_field :tag_list, class: 'form-control', "data-role" => "tagsinput" %>
+      </div>
+    </div>
+
+  <div class="form-group" style='margin-left:0px; margin-right:0px;'>
+    <div class="col-sm-offset-2 col-sm-10">
+      <%= f.submit '提交', class: 'btn btn-primary' %>
+    </div>
+  </div>
+<% end %>
+
+<script type="text/javascript">
+  $(function(){
+      $("#sku_category_id").change(function(){
+          var pid = $(this).val();
+          $.get("/manage/categories/ajax_select_change", {pid: pid}, function(data){
+            $("#sku_sub_category_id").html(data);
+          });
+      });
+
+  })
+</script>

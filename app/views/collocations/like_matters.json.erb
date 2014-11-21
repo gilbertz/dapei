@@ -1,0 +1,51 @@
+{"status": {
+    "ok": 1
+}, "result": {
+    "total_count": <%= @total_count %>,
+    "limit": <%= @limit %>,
+    "total_pages": <%= @total_pages %>,
+    "page": <%= @page %>,
+    "total_results": "<%= @total_count %>",
+    "current_page": <%= @page %>,
+    "uploaded_count": <%= current_user.get_uploaded_count %>,
+    "user_level": "<%= current_user.get_level %>",
+    "user_upload_limit": "<%= current_user.get_upload_limit %>",
+    "can_upload": "<%= current_user.can_upload %>",
+    "items": [
+        <% unless @matters.blank? %>
+            <% first = true %>
+            <% @matters.each do |m| %>
+                <% next unless m %>
+                <% unless m.image_name.blank? %>
+                <% if not first %>
+                ,
+                <% end %>
+                <% first = false %>
+                {
+                    "id": "<%= m.id %>",
+                    "w": "<%= m.width.to_i %>",
+                    "thing_id": "<%= m.image_name.to_s %>",
+                    "masking_policy": "default_yes",
+                    "oh": "<%= m.height.to_i %>",
+                    "h": "<%= m.height.to_i %>",
+                    "displayurl": "<%= m.get_item_buy_domain.to_s %>",
+                    "url": "<%= m.get_item_buy_url.to_s %>",
+                    "object_id": "<%= m.id.to_s %>",
+                    "host_id": "",
+                    "object_class": "editoritem",
+                    "seo_title": "<%= m.get_item_title %>",
+                    "title": "<%= m.get_item_title %>",
+                    "price": "<%= m.get_item_price %>",
+                    "display_price": "<%= m.get_item_price %>",
+                    "ow": "<%= m.width.to_i %>",
+                    "detail_url": "",
+                    "small_jpg": "<%=  m.get_small_jpg.to_s %>",
+                    "big_png": "<%= m.get_big_png.to_s %>",
+                    "like_id": "<%= m.like_id %>",
+                    "owned": "<%= m.is_owned %>" 
+                }
+                <% end %>
+            <% end %>
+        <% end %>
+    ]
+}}

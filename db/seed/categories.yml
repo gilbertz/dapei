@@ -1,0 +1,215 @@
+categories_001:
+  name: 全部
+  abb: all
+  id: 1
+  parent_id: 1
+
+categories_002:
+  name: 搭配
+  abb: dapei
+  id: 2
+  parent_id: 1
+
+categories_003:
+  name: 衣服
+  abb: yifu
+  id: 3
+  parent_id: 1
+
+categories_004:
+  name: 鞋子
+  abb: xiezi
+  id: 4
+  parent_id: 1
+
+categories_005:
+  name: 包包
+  abb: baobao
+  id: 5
+  parent_id: 1
+
+categories_006:
+  name: 配饰
+  abb: peishi
+  id: 6
+  parent_id: 1
+
+categories_007:
+  name: 男装
+  abb: nanzhuang
+  id: 7
+  parent_id: 1
+
+categories_000:
+  name: 童装
+  abb: tongzhuang
+  id: 8
+  parent_id: 1
+
+categories_bea:
+  name: 美妆
+  abb: beauty
+  id: 9
+  parent_id: 1
+
+categories_home:
+  name: 家居
+  abb: home
+  id: 10
+  parent_id: 1
+
+categories_008:
+  name: 潮搭 
+  abb: chaoda
+  id: 1001
+  parent_id: 1
+
+categories_col:
+  name: 收集
+  abb: collection
+  id: 1000
+  parent_id: 1
+
+
+categories_upload:
+  name: 上传
+  abb: upload
+  id: 100
+  parent_id: 1
+
+
+categories_009:
+  name: 上装
+  abb: shangzhuang
+  id: 11
+  parent_id: 3
+
+categories_010:
+  name: 裤装
+  abb: kuzhuang
+  id: 12
+  parent_id: 3
+
+categories_011:
+  name: 裙装
+  abb: qunzhuang
+  id: 13
+  parent_id: 3
+
+categories_012:
+  name: 内衣 
+  abb: neiyi
+  id: 14
+  parent_id: 3
+
+categories_015:
+  name: 男上装
+  abb: nanshangzhuang
+  id: 15
+  parent_id: 7
+
+categories_016:
+  name: 男裤装
+  abb: nankuzhuang
+  id: 16
+  parent_id: 7
+
+categories_017:
+  name: 男鞋
+  abb: nanxie
+  id: 17
+  parent_id: 7
+
+categories_018:
+  name: 男包
+  abb: nanbao
+  id: 18
+  parent_id: 7
+
+categories_019:
+  name: 男配饰
+  abb: nanpeishi
+  id: 19
+  parent_id: 7
+
+categories_020:
+  name: 男内衣
+  abb: nanneiyi
+  id: 20
+  parent_id: 7
+
+
+categories_021:
+  name: 鞋包
+  abb: xiebao
+  id: 21
+  parent_id: 3
+
+categories_0133:
+  name: 宣传w
+  abb: xuanchuang_w
+  id: 101
+  parent_id: 1
+
+categories_0134:
+  name: 宣传h
+  abb: xuanchuang_h
+  id: 102
+  parent_id: 1
+
+
+categories_0135:
+  name: lookbook
+  abb: lookbook
+  id: 103
+  parent_id: 1
+
+categories_0136:
+  name: 大片
+  abb: dapian
+  id: 104
+  parent_id: 1
+
+
+categories_2001:
+  name: 穿衣搭配
+  abb: cydp
+  id: 2001
+  parent_id: 2000
+
+categories_2002:
+  name: 生活知识
+  abb: shcs
+  id: 2002
+  parent_id: 2000
+
+categories_2003:
+  name: 心灵鸡汤
+  abb: xljt
+  id: 2003
+  parent_id: 2000
+
+categories_2004:
+  name: 养儿育女
+  abb: yeyn
+  id: 2004
+  parent_id: 2000
+
+
+categories_2005:
+  name: 星座运程
+  abb: xzyc
+  id: 2005
+  parent_id: 2000
+
+categories_2006:
+  name: 美容瘦身
+  abb: mrss
+  id: 2006
+  parent_id: 2000
+
+categories_2007:
+  name: 男人女人
+  abb: nrnr 
+  id: 2007
+  parent_id: 2000

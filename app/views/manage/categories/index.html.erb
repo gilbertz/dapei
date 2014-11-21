@@ -1,0 +1,62 @@
+<%= search_form_for [:manage, @q], html: {class: 'form-inline',role: 'form',style: 'margin-top:30px;'} do |f| %>
+  <div class="form-group" style="width:25%;">
+    <label class="sr-only">FlinkName</label>
+    <%= f.text_field :name_cont, class: 'form-control', placeholder: '名称' %>
+  </div>
+  <%= f.submit '搜索', class: 'btn btn-primary btn-sm'%> 
+  <%= total_span @categories %>
+  <div class="form-group pull-right">
+    <%= link_to  [:new,:manage,:category], class: 'btn btn-primary btn-sm', id: 'a_obj' do %>
+      <span class="glyphicon glyphicon-plus"></span>新建分类
+    <% end %>
+  </div>
+<% end %>
+<table class="table table-bordered table-hover">
+  <thead>
+    <tr class="success">
+      <th width="10%">ID</th>
+      <th>名称</th>
+      <th>图片</th>
+      <th>app icon image</th>
+      <th>app desc</th>
+      <th width="20%">父类</th>
+      <th width="10%">Active ?</th>
+      <th width="10%">搭配教室显示?</th>
+      <th>权重</th>
+      <th>最小价格</th>
+      <th>最大价格</th>
+      <th width="17%">创建时间</th>
+      <th width="12%">操作</th>
+    </tr>
+  </thead>
+  <tbody>
+    <% @categories.each do |cate| %>
+      <tr>
+        <td><%= cate.id %></td>
+        <td><%= link_to cate.name, manage_categories_path(:pid => cate.id) %></td>
+        <td><img src="<%= cate.img_url %>" ></td>
+        <td>
+          <% unless cate.app_icon_image.blank? %>
+              <img src="<%= cate.app_icon_image %>" alt=""/>
+          <% end %>
+        </td>
+        <td>
+          <%= cate.desc %>
+        </td>
+        <td><%= cate.parent_id %>|<%= cate.parent.try(:name)%></td>
+        <td><%= cate.is_active == true ? '是' : '否' %></td>
+        <td><%= cate.is_active_for_app == 1 ? '是' : '否' %></td>
+        <td><%= cate.weight %></td>
+        <td><%= cate.min_price %></td>
+        <td><%= cate.max_price %></td>
+        <td><%= to_local cate.created_at %></td>
+        <td> 
+          <%= link_to '编辑', [:edit,:manage,cate], class: :e_obj %> | 
+          <%= link_to '删除', [:manage,cate], remote: true, method: :delete, confirm: 'Are you sure?', class: 'ajaxd' %> |
+          <%= link_to 'App特色图像', feature_manage_category_path(cate), class: :e_obj %>
+        </td>
+      </tr>
+    <% end %>
+  </tbody>
+</table>
+<%= paginate @categories %>  

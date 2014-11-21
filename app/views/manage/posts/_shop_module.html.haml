@@ -1,0 +1,16 @@
+.Small_module
+  .hd
+    %h3 推荐店铺
+  .bd
+    %ul.img1
+      -num=3
+      -i=0
+      -unless @shops.blank?
+        -@shops.each do |shop|
+          -break unless i<num
+          -i=i+1
+          %li
+            %a{:href => "#{shop_path(shop)}"}
+              %img{:height => "100", :src => "#{shop.img_url(:wide_medium)}", :width => "264"}/
+              %span #{shop.name}
+              %span.Transparent_black

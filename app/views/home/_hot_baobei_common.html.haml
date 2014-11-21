@@ -1,0 +1,74 @@
+.bd
+  %ul
+    -i=0
+    -num=9
+    -length=items.length
+    -if template==1
+      %li.group-1
+        -if i<length and i<num
+          =render :partial=>"/home/recommend_baobei_item", :locals=>{:item=>items[i], :size=>"thumb_large"}
+          -i=i+1
+        -if i<length and i<num
+          =render :partial=>"/home/recommend_baobei_item", :locals=>{:item=>items[i], :size=>"thumb_large"}
+          -i=i+1
+        .bottom
+          -if i<length and i<num
+            =render :partial=>"/home/recommend_baobei_item", :locals=>{:item=>items[i], :size=>"thumb_large"}
+            -i=i+1
+      %li.group-2
+        -if i<length and i<num
+          =render :partial=>"/home/recommend_baobei_item", :locals=>{:item=>items[i], :size=>"thumb_large"}
+          -i=i+1
+        .bottom
+          -if i<length and i<num
+            =render :partial=>"/home/recommend_baobei_item", :locals=>{:item=>items[i], :size=>"thumb_large"}
+            -i=i+1
+          -if i<length and i<num
+            =render :partial=>"/home/recommend_baobei_item", :locals=>{:item=>items[i], :size=>"thumb_large"}
+            -i=i+1
+      %li.group-1
+        -if i<length and i<num
+          =render :partial=>"/home/recommend_baobei_item", :locals=>{:item=>items[i], :size=>"thumb_large"}
+          -i=i+1
+        -if i<length and i<num
+          =render :partial=>"/home/recommend_baobei_item", :locals=>{:item=>items[i], :size=>"thumb_large"}
+          -i=i+1
+        .bottom
+          -if i<length and i<num
+            =render :partial=>"/home/recommend_baobei_item", :locals=>{:item=>items[i], :size=>"thumb_large"}
+            -i=i+1
+    -elsif template==2
+      %li.group-1
+        .bottom
+          -if i<length and i<num
+            =render :partial=>"/home/recommend_baobei_item", :locals=>{:item=>items[i], :size=>"thumb_large"}
+            -i=i+1
+        -if i<length and i<num
+          =render :partial=>"/home/recommend_baobei_item", :locals=>{:item=>items[i], :size=>"thumb_large"}
+          -i=i+1
+        -if i<length and i<num
+          =render :partial=>"/home/recommend_baobei_item", :locals=>{:item=>items[i], :size=>"thumb_large"}
+          -i=i+1
+      %li.group-1
+        -if i<length and i<num
+          =render :partial=>"/home/recommend_baobei_item", :locals=>{:item=>items[i], :size=>"thumb_large"}
+          -i=i+1
+        -if i<length and i<num
+          =render :partial=>"/home/recommend_baobei_item", :locals=>{:item=>items[i], :size=>"thumb_large"}
+          -i=i+1
+        .bottom
+          -if i<length and i<num
+            =render :partial=>"/home/recommend_baobei_item", :locals=>{:item=>items[i], :size=>"thumb_large"}
+            -i=i+1
+      %li.group-1
+        .bottom
+          -if i<length and i<num
+            =render :partial=>"/home/recommend_baobei_item", :locals=>{:item=>items[i], :size=>"thumb_large"}
+            -i=i+1
+        -if i<length and i<num
+          =render :partial=>"/home/recommend_baobei_item", :locals=>{:item=>items[i], :size=>"thumb_large"}
+          -i=i+1
+        -if i<length and i<num
+          =render :partial=>"/home/recommend_baobei_item", :locals=>{:item=>items[i], :size=>"thumb_large"}
+          -i=i+1
+

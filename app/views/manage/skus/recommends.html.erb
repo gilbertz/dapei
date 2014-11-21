@@ -1,0 +1,129 @@
+<%= form_tag recommends_manage_matters_path, class: 'form-inline', role: 'form', style: 'margin-top:30px;' do %>
+    <div class="form-group">
+      <label class="sr-only">BrandId</label>
+      <%= text_field_tag :a, @c_selects[params[:cid]], class: 'form-control', placeholder: '类别名' %>
+    </div>
+    <%= link_to '类别', '#inline_content', id: 'inline', class: 'btn btn-primary btn-xs' %> -&nbsp;
+    <div class="form-group">
+      <label class="sr-only">BrandId</label>
+      <%= text_field_tag :b, params[:brand_id] && Brand.find(params[:brand_id]).name, class: 'form-control', placeholder: '品牌名' %>
+    </div>
+    <%= link_to '品牌', [:brands, :manage, :matters], id: 'brands_table', class: 'btn btn-primary btn-xs' %>
+    - <%= total_span @photos %>
+<% end %>
+<%= link_to '生成封面图', "#" ,:class => 'btn btn-primary btn-xs' ,:id => 'link_cover_photo' if @item%>
+<div style="display:none;">
+  <div id='inline_content' style='padding:10px; background:#fff;'>
+    <table class="table table-condensed table-bordered">
+      <thead>
+      <tr>
+        <th colspan=6>类别选项</th>
+      </tr>
+      </thead>
+      <tbody>
+      <% @c_selects.to_a.in_groups_of(6) do |g| %>
+          <tr>
+            <% g.each do |c| %>
+                <td><a href="?cid=<%= c && c[0] %>"><%= c && c[1] %></a></td>
+            <% end %>
+          </tr>
+      <% end %>
+      </tbody>
+    </table>
+  </div>
+</div>
+
+
+<div class="row" style="margin-top:30px;">
+  <% @skus.each do |p| %>
+      <% next if p.blank? %>
+      <div class="col-sm-7 col-md-3 recommend">
+        <div class="thumbnail">
+          <%= link_to p.img_url(:scaled_medium), class: 'preview' do %>
+              <img alt="300x200" style="max-width: 300px; max-height: 200px;" src="<%= p.img_url(:scaled_medium) %>">
+          <% end %>
+          <div class="caption">
+            <h3 style="overflow:hidden; height:28px;">
+              <%= p.try(:brand_name) %>
+            </h3>
+            <%= p.created_at.localtime.strftime("%F %H:%M") %>
+            <p style="height:45px; overflow:hidden;">
+              <%= p.try(:title) %>
+              <%= p.try(:get_show_price) %>
+            </p>
+
+            <p>
+              <%= p.try(:likes_count) %>
+            </p>
+
+            <p>
+              <% unless recom = Recommend.find_by_recommended_type_and_recommended_id("Sku", p.id) %>
+                  <%= link_to '推荐单品', "/manage/skus/recommend_sku/#{p.id}",
+                              method: :post, remote: true, class: 'btn btn-primary add-recommend'
+                  %>
+              <% else %>
+                  <%= link_to '删除单品推荐', recom, method: :delete, class: 'ajaxd', remote: true, confirm: 'Are you sure' %>
+              <% end %>
+
+              <% unless @is_collection %>
+                  <%= link_to '删除', [:manage, p], method: :delete, remote: true,
+                              confirm: 'Are you sure?', class: 'btn btn-default del-recommend' %>
+              <% else %>
+                  <% @relation = Relation.find_by_item_id_and_target_type_and_target_id(@item.id, 'Sku', p.id) %>
+                  <%= link_to '选集中删', @relation, method: :delete, remote: true,
+                              confirm: 'Are you sure?', class: 'btn btn-default del-recommend' %>
+              <% end %>
+              <br/>
+              <%= check_box_tag('cover', p.id, false, :class => 'select_cover') %>封面图集
+
+            </p>
+          </div>
+        </div>
+      </div>
+      <%= hidden_field_tag :sku_ids %>
+  <% end %>
+</div>
+<%#= paginate @skus %>
+
+<script type="text/javascript">
+    // 必须选4张图生成封面
+    var sku_ids = Array.create();
+
+    $(function(){
+        $(".select_cover").click(function () {
+            if($(this).is(':checked')) {
+                add_cover(this,$(this).val())
+            } else {
+                mv_cover($(this).val())
+            }
+        })
+        link_cover_photo();
+    })
+
+    function link_cover_photo(){
+        $('#link_cover_photo').click(function(){
+            sku_ids = $('#sku_ids').val().split(",");
+            if(sku_ids.length == 4) {
+                $.post('/manage/collections/<%= @item.id%>/cover_photo', {"sku_ids": $('#sku_ids').val()});
+//            alert('ok')           }
+            }else{
+                alert("必须选择4张单品图片!!")
+            }
+        })
+    }
+    function add_cover(obj,sku_id) {
+        if (sku_ids.length >= 4) {
+            alert("最多只能选4张图片");
+            $(obj).attr("checked",false)
+            return;
+        }
+        sku_ids.push(sku_id);
+        $('#sku_ids').val(sku_ids.join(','));
+
+
+    }
+    function mv_cover(sku_id) {
+        sku_ids.remove(sku_id);
+        $('#sku_ids').val(sku_ids.join(','));
+    }
+</script>

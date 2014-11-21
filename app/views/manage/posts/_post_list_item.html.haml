@@ -1,0 +1,35 @@
+.infli
+  %li{:style=>"list-style:none;", :class=>"shopli"}
+    -if post.photos and post.photos.length>0
+      -post.photos.each do |p|
+        %a.pic{:href => "#{user_post_path(@user, post)}"}
+          %img{:height => "218", :src => p.url(:thumb_medium), :width => "218"}/
+      -if(user_signed_in? and current_user==@user) or (current_user and current_user.can_be_admin)
+        .x
+          =link_to "", post, :method=>:delete, :data => { :confirm => "确定删除吗?" }
+    -else
+      %a.pic{:href => "#{user_post_path(@user, post)}"}
+        %img{:height => "218", :src => "/assets/img.jpg", :width => "218"}/
+      -if(user_signed_in? and current_user==@user)
+        .x
+          =link_to "", post, :method=>:delete, :data => { :confirm => "确定删除吗?" }
+    %h4
+      %a.t_01{:href => "#{user_post_path(@user, post)}"} #{post.title}
+    -#.txt_bd #{post.content}
+    -#.to_see
+      %a{:href => "#"} 去看看
+    .shop_properties
+      .lover_icon
+        -if post
+          %a{:href=>"javascript:void(0)", :title=>"点击进行收藏", :likes_count=>"#{post.likes_count}", :liked_type=>"Post", :liked_id=>"#{post.id}" }#{post.likes_count}人喜欢
+          %b{:href=>"javascript:void(0)", :title=>"点击进行收藏"}
+        -else
+          %a{:href=>"#", :title=>"点击进行收藏"}xx人喜欢
+          %b{:href=>"#", :title=>"点击进行收藏"}
+      .commentary
+        -if @user and post
+          %a{:href=>"#{user_post_path(@user, post)}", :target=>"_blank", :title=>"点击进行评论"}#{post.comments_count}评论
+          %b{:href=>"#{user_post_path(@user, post)}", :target=>"_blank", :title=>"点击进行评论"}
+        -else
+          %a{:href=>"#", :title=>"点击进行评论"}xx评论
+          %b{:href=>"#", :title=>"点击进行评论"}

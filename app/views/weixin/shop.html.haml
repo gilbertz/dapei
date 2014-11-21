@@ -1,0 +1,76 @@
+.head_wrapper
+  %a{:href => "#"}
+    %img{:src => "#{@shop.get_display_photo.url(:wide_medium)}"}/
+  .intro
+    %h4
+      = @shop.shop_name
+      %p.right{:align => "right", :style => "margin-top:5px; color:#666"}
+        %font{:face => "icon", :size => "2"} 1
+        %font{:face => "微软雅黑"} #{@shop.likes_count}人喜欢
+        \ 
+        %font{:face => "icon", :size => "2"}
+        %font{:face => "微软雅黑"} #{@shop.dispose_count}人在逛
+  %p
+    %font{:face => "icon"} 3
+    %font{:face => "微软雅黑"} 地址：#{@shop.address_tel}
+  %p
+    .discount
+      .status
+        - if @discount
+          %a{:href=>"/weixin/discount?id=#{@discount.id}"}
+            %p{:align => "center", :style => " background-color:#f861b0; background-position:center; color:#fff"}
+              #{@discount.title} ... 点击查看>>
+
+  - if @page == 1
+    .grids
+      .grid-12.grid
+        -#%a{:href => "#"}
+          %img{:src => "#{@shop.get_display_photo.url(:wide_medium)}"}/
+        -#%p{:align => "right", :style => "margin-top:5px; color:#f861b0"}
+          %font{:face => "icon", :size => "2"} 1
+          %font{:face => "微软雅黑"} #{@shop.likes_count}人喜欢
+          \ 
+          %font{:face => "icon", :size => "2"} 
+          %font{:face => "微软雅黑"} #{@shop.dispose_count}人在逛
+        - brand_intro=@shop.get_brand_intro
+        - unless brand_intro.blank? 
+          %p
+            = @shop.get_brand_intro
+        %p
+          %a{:href=>"/weixin/search?#{@lbs_params}&q=#{@shop.street}"}查看#{@shop.street}其他店铺>>
+        - if @shop.brand
+          %p
+            %a{:href=>"/weixin/search?q=#{@shop.brand_name}&#{@lbs_params}"}查看#{@shop.brand_name}其他店铺>>
+            
+            /(点击图片查看大图)
+            /\----上街小编
+        %a
+  - elsif @page > 1
+    %a{:href=>"#{@first_page}"}
+      %p{:align => "center", :style => " background-color:#f861b0; max-width:50px; background-position:center; color:#fff"} 回到店铺
+  / end of grids
+/ end of wrapper
+/%hr/
+
+- @items.each do |item|
+  - next unless item.first_photo
+  .wrapper
+    %p{:style => "text-align:center"}
+      %a{:href => "/weixin/sku?id=#{item.sku_id}"}
+        %img{:src => "#{item.first_photo.url(:scaled_large)}"}/
+    .title
+      %p{:style => "color:#000"} #{item.title}
+    .grid-7
+      %p{:align => "right", :style => "color:#ccccc"}
+        %font{:face => "icon", :size => "2"} 1
+        %font{:face => "微软雅黑"} #{item.sku.likes_count}人喜欢
+        \ 
+        %font{:face => "icon", :size => "2"} 2
+        %font{:face => "微软雅黑"} #{item.sku.get_dispose_count}人瞄过
+/ end of grids
+/ end of wrapperrapper
+
+= render 'footer'
+
+
+=render :partial=>"/shared/report", :locals=>{:type=>"shop", :id=>@shop.url }

@@ -1,0 +1,133 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta content="text/html" charset="utf-8" http-equiv="Content-Type">
+    <link type="text/css" rel="stylesheet" href="./css/install.css" />
+    <script>
+      var BROWSER_TEXT = {
+            chrome: '您可以通过菜单中的“视图”，勾选“总是显示书签栏”打开。',
+            firefox: '您可以通过菜单中“查看-工具栏”，勾选“书签工具栏”打开。',
+            safari: '您可以通过菜单中的“显示”，勾选“显示书签栏”打开。',
+            ie: '您可以通过菜单中“查看-工具栏”，勾选“收藏夹栏”打开。请在添加My Wish时，选择保存到“收藏夹栏”。'
+      }
+    
+      window.onload = function() {
+        var urlPrefix = getURLPrefix();
+        var dom = document.getElementById('content-wrapper');
+        //var zhUrl = 'javascript: (function() {var c=window;c.iLikeLang="zh-CN";if (c.sapiLike) {$=sapiLike.jQuery;c.sapiLike.run();} else { if (typeof($) !== "undefined") window.origin$ = $;if(typeof(jQuery) !== "undefined") window.$jQuery$ = jQuery; var jsCode = c.document.createElement("script");jsCode.src="' + urlPrefix + '/js/jquery.js"; c.document.body.appendChild(jsCode); var b=c.document.createElement("script");b.src="' + urlPrefix + '/sapilike.js";c.document.body.appendChild(b);}})();';
+        var zhUrl = 'javascript: (function() {var c=window;c.iLikeLang="zh-CN";if (c.sapiLike) {$=sapiLike.jQuery;c.sapiLike.run();} else { if (typeof($) !== "undefined") window.origin$ = $;if(typeof(jQuery) !== "undefined") window.$jQuery$ = jQuery; var jsCode = c.document.createElement("script");jsCode.src="' + 'http://www.shangjieba.com:8080/sjb_mywish' + '/js/jquery.js"; c.document.body.appendChild(jsCode); var b=c.document.createElement("script");b.src="' + 'http://www.shangjieba.com:8080/sjb_mywish' + '/sapilike.js";c.document.body.appendChild(b);}})();';
+        var myWishBtns = dom.getElementsByTagName("a");
+        for (var i = 0; i < myWishBtns.length; i++) {
+            myWishBtns[i].href = zhUrl;
+            myWishBtns[i].onclick = function(event) {
+                return false;
+            }
+        }
+        
+        if (browserType() == "ie" && !ieModernVersion()) {
+            showInstallMethod(false);
+        } else {
+            showInstallMethod(true);
+        }
+        
+        renderByBrowser("mac", browserType());
+        
+        function getURLPrefix() {
+          var reg = /\/[a-zA-Z]+\.html/;
+          return (document.URL).replace(reg, ''); 
+        }
+        
+        function showInstallMethod(isDragging) {
+          if (!isDragging) {
+            document.getElementById('drag_install').style.display = 'none';
+            document.getElementById('click_install').style.display = 'block';              
+          } else {
+            document.getElementById('drag_install').style.display = 'block';
+            document.getElementById('click_install').style.display = 'none';  
+          }
+        }
+      };
+      
+      function browserType() {
+        var browser = "",
+            ua = navigator.userAgent.toLowerCase();
+        
+        if (ua.match(/msie ([\d.]+)/)) {
+            browser = "ie";
+        } else if (ua.match(/firefox\/([\d.]+)/)) {
+            browser = "firefox";
+        } else if (ua.match(/chrome\/([\d.]+)/)) {
+            browser = "chrome";
+        } else if (ua.match(/opera.([\d.]+)/)) {
+            browser = "opera";
+        } else if (ua.match(/version\/([\d.]+).*safari/)) {
+            browser = "safari";
+        }
+        return browser;
+      }
+      
+      function ieModernVersion() {
+          if (navigator.appVersion.indexOf("MSIE 10.0") > -1 || navigator.appVersion.indexOf("MSIE 9.0") > -1) {
+              return true;
+          } else {
+              return false;
+          }
+      }
+      
+      function renderByBrowser(os, browser) {
+        if (ieModernVersion()) {
+            version = "10";
+        } else {
+            version = "";
+        }
+        var sampleImage = "./images/install/" + os + "_sample_" + browser + version + ".png",
+            guideImage = "./images/install/" + os + "_guide_" + browser + ".png";
+        document.getElementById("install_image").src = sampleImage;
+        document.getElementById("instructions").src = guideImage;
+        
+        var noteDom = document.getElementById("notes");
+        var modifyP = noteDom.getElementsByTagName("p")[1];
+        modifyP.innerHTML = BROWSER_TEXT[browser];
+      }
+    </script>
+  </head>
+  <body>
+    <div id="content-wrapper">
+      <div id="install_guide">
+        <div class="page-content">
+			<p><span class="mywish">MyWish </span>是 MyRunway 最新推出的网上最强大的网页美图抓取工具</p>
+	        <p>因为只有她才能把品牌官网的单品图片和详情(价格,ID)一键收藏</p>
+          <div id="install_description">
+            <img id="install_image" src="" />
+            <div id="drag_install" class="installation">
+              <p>
+                	安装超简单！把这个按钮  <a href="#" class="mywish-btn" title="MyWish">Shangjieba</a> 拖到书签栏上就可以使用啦！
+              </p>
+            </div>
+            <div id="click_install" class="installation">
+              <p>
+                	安装超简单！鼠标右击安装按钮 <a class="mywish-btn" title="MyWish">Shangjieba</a> 并选择“添加到收藏夹”，就可以使用啦！
+              </p>
+            </div>
+            <div id="notes">
+                <p class="notes">*找不到书签栏？</p>
+                <p class="notes"></p>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div id="use_guide">
+        <div class="page-content">
+          <h4>Use Guide</h4>
+          <div>
+            <img id="instructions" src="" />
+            <p class="first">浏览网页时看到了喜欢的时尚单品，打开单品的详情页面</p>
+            <p>点击书签栏/收藏栏上的“My Wish”，做一回时尚小编</p>
+            <p>提交后，喜欢的单品就加入“我的T台”App的愿望清单中啦！</p>
+            <div class="clear"></div>
+          </div>
+        </div>
+      </div>
+    </div>
+</body>
+</html>

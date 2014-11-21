@@ -1,0 +1,60 @@
+<%= form_for [:manage, @set_cell], html: {class: "form-horizontal", role: "form"} do |f| %>
+
+    <legend>Cell 设置</legend>
+
+    <div class="form-group">
+      <label class="col-md-2 control-label">标签</label>
+      <div class="col-md-8">
+        <%= f.select :tag_id, @tags_for_select, class: "form-control col-md-6", placeholder: "" %>
+      </div>
+    </div>
+
+    <%= f.hidden_field :typeset_id %>
+    <%= f.hidden_field :cell_type_id %>
+
+    <div class="form-group">
+      <label class="col-md-2 control-label">图片</label>
+      <div class="col-md-8">
+        <%= f.text_field :image, class: "form-control", placeholder: "" %>
+        <p class="help-block">
+          大小: <%= @cell_type.width %> X <%= @cell_type.height %>
+        </p>
+      </div>
+    </div>
+
+    <div class="form-group">
+      <label class="col-md-6 control-label"></label>
+      <div class="col-md-2">
+        <%= f.submit class: "btn btn-default" %>
+      </div>
+    </div>
+
+<% end %>
+
+<script type="text/javascript" src="http://1251008728.cdn.myqcloud.com/1251008728/assets/javascripts/jquery.jgrowl.min.js"></script>
+<script type="text/javascript" src="http://1251008728.cdn.myqcloud.com/1251008728/assets/javascripts/select2.min.js"></script>
+<link rel="stylesheet" type="text/css" href="http://1251008728.cdn.myqcloud.com/1251008728/assets/css/select2.css"/>
+<link rel="stylesheet" type="text/css" href="http://1251008728.cdn.myqcloud.com/1251008728/assets/css/jquery.jgrowl.min.css"/>
+
+<style>
+  .select2-container{
+      width: 200px;
+  }
+</style>
+
+
+<script>
+$(function(){
+    $("#set_cell_tag_id").select2();
+
+    $("#new_set_cell").submit(function(){
+
+        if(parseInt($("#set_cell_tag_id").val()) == 0){
+            alert("请选择标签");
+            return false;
+        }
+
+    });
+
+});
+</script>

@@ -1,0 +1,24 @@
+<p>
+  <br/>
+</p>
+<% unless @typeset_types.blank? %>
+
+    <table class="table">
+      <tr>
+        <th>id</th>
+        <th>mark</th>
+      </tr>
+      <% @typeset_types.each do |tt| %>
+
+          <tr>
+            <td>
+              <%= tt.id %>
+            </td>
+            <td>
+              <%= tt.mark %>
+            </td>
+          </tr>
+
+      <% end %>
+    </table>
+<% end %>

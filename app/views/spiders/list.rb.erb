@@ -1,0 +1,18 @@
+# encoding: utf-8
+#!/usr/bin/env ruby
+
+require "rubygems"
+
+<% num = 1%>
+
+while true do 
+<% @spiders.each do |s| %>
+    <% next if not s.brand or s.brand.spiders_count > 0 %>
+    <% id = s.brand.id %>
+    p "<%=num %>"
+    <% num += 1%> 
+   `wget http://shangjieba.com:3000/spiders/js/<%=id %>.rb -O <%=id %>.rb`
+   `ruby <%=id %>.rb > log/run_<%=id %>.rb`
+<% end %>
+break
+end

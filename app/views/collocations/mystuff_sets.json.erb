@@ -1,0 +1,35 @@
+{"status": {
+    "ok": 1
+}, "result": {
+    "page": <%= @current_page %>,
+    "limit": <%= @limit %>,
+    "total_count": <%= @dapeis.total_entries %>,
+    "more_pages": <%= @dapeis.total_pages.to_i - @dapeis.current_page.to_i %>,
+    "items": [
+        <% unless @dapeis.blank? %>
+            <% first = true%>
+
+            <% @dapeis.each do |d| %>
+            <% next unless d.dapei_info %>  
+            <% unless first%>
+            ,
+            <% end %>
+            <% first = false %>
+            {
+                <% unless d.dapei_info.basedon_tid.blank? %>
+                  "basedon_tid": "<%= d.dapei_info.basedon_tid %>",
+                <% end %>
+                "spec_uuid": "<%= d.dapei_info.spec_uuid %>",
+                "id": "<%= d.id %>",
+                "url": "<%= d.url %>",
+                "user_name": "<%= d.user.display_name %>",
+                "type": "c",
+                "user_id": "<%= d.user.id %>",
+                "title": "<%= d.title %>",
+                "img": "<%= d.img_url('m')%>",
+                "img_big": "<%= d.img_url('y')%>"
+            }
+            <% end %>
+        <% end %>
+    ]
+}}

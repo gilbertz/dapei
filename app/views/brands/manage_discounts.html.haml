@@ -1,0 +1,40 @@
+=render :partial=>"/shared/admin_bar"
+
+/ 完善资料
+.recom-p.clearfix.perfect_info
+  =render "left_bar"
+  .right_content
+    %h1 当前的优惠活动
+    .master_c
+      .hd
+        -#%ul
+          %li.selected
+            %a{:href => "#"} 宝贝评论
+          %li
+            %a{:href => "#"} 店铺评论
+      .bd
+        .comment_bd
+          %table.comment_tab{:width => "100%"}
+            %colgroup
+              %col{:width => "150"}/
+              %col{:width => "150"}/
+              %col{:width => ""}/
+              %col{:width => "120"}/
+              %col{:width => "120"}/
+              %col{:width => "120"}/
+            %thead
+              %tr
+                %th{:scope => "col"} 优惠标语
+                %th{:scope => "col"} 优惠原因
+                %th{:scope => "col"} 优惠详情
+                %th{:scope => "col"} 开始时间
+                %th{:scope => "col"} 结束时间
+                %th{:scope => "col"} 操作
+            %tbody
+              - i=0
+              - @discounts.each do |discount|
+                - i=i+1
+                - color_class = i%2==1 ?  'Back_color' : ''
+                =render :partial=>"discount", :locals=>{:discount=>discount, :color_class=>color_class }
+          
+          = paginate @discounts

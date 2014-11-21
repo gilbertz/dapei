@@ -1,0 +1,116 @@
+<h3 style='margin-top:0px;'><%= action_name.in?(['new','create']) ? '新建' : '编辑' %> 
+ @ 搭配标签 
+</h3>
+<hr style='margin-top:0px;'>
+
+<form class="form-horizontal">
+  <div class="form-group">
+    <label for="inputEmail3" class="col-sm-2 control-label">主题图片</label>
+    <div class="col-sm-5">
+      <div style="margin-top: 5px; color:#463265; width:100px; height:100px;" class="logo_image">
+        <% if @dapei_tag.avatar_url.present? %>
+            <%= image_tag @dapei_tag.avatar_url %>
+        <% end %>
+      </div>
+      <br>
+      <input id="avatar_url" type="file" class="brand_image_upload" name="logo_file">
+    </div>
+  </div>
+</form>
+
+
+<form class="form-horizontal">
+  <div class="form-group">
+    <label for="inputEmail3" class="col-sm-2 control-label">底部图片</label>
+    <div class="col-sm-5">
+      <div style="margin-top: 5px; color:#463265; width:100px; height:100px;" class="logo_image">
+        <% if @dapei_tag.img_url.present? %>
+            <%= image_tag @dapei_tag.img_url %>
+        <% end %>
+      </div>
+      <br>
+      <input id="img_url" type="file" class="brand_image_upload" name="img_file">
+    </div>
+  </div>
+</form>
+
+
+<%= form_for [:manage,@dapei_tag], html: {class: 'form-horizontal', role: 'form'} do |f| %>
+  <div class="form-group" style='margin-left:0px; margin-right:0px;'>
+    <label for="inputEmail3" class="col-sm-4 control-label">名 称</label>
+    <div class="col-sm-8">
+      <%= f.text_field :name, class: "form-control" %>
+    </div>
+  </div>
+
+  <div class="form-group" style='margin-left:0px; margin-right:0px;'>
+    <label for="inputEmail3" class="col-sm-4 control-label">描述</label>
+    <div class="col-sm-8">
+      <%= f.text_field :desc, class: "form-control" %>
+    </div>
+  </div>
+
+  
+  <div class="form-group" style='margin-left:0px; margin-right:0px;'>
+    <label for="inputEmail3" class="col-sm-3 control-label">修改用户</label>
+    <div class="col-sm-9">
+      <%= f.select :user_id, @users_for_select, class: "form-control" %>
+    </div>
+  </div>
+
+
+  <div class="form-group" style='margin-left:0px; margin-right:0px;'>
+    <label for="inputEmail3" class="col-sm-4 control-label">Image Thing</label>
+    <div class="col-sm-8">
+      <%= f.text_field :image_thing, class: "form-control" %>
+    </div>
+  </div>
+  <div class="form-group" style='margin-left:0px; margin-right:0px;'>
+    <label for="inputEmail3" class="col-sm-4 control-label">标签类型</label>
+    <div class="col-sm-4">
+      <%= f.select :tag_type, [['无',-1],['风格',0],['主题',1],['款式',2],['色系',3],['元素',4],['身材',5]],{},class: "form-control" %>
+    </div>
+  </div>
+  <div class="form-group" style='margin-left:0px; margin-right:0px;'>
+    <label for="inputEmail3" class="col-sm-4 control-label">is hot ?</label>
+    <div class="col-sm-4">
+      <%= f.select :is_hot,[['否',0],['是',1]],{}, class: 'form-control' %>
+    </div>
+  </div>
+  <div class="form-group" style='margin-left:0px; margin-right:0px;'>
+    <label for="inputEmail3" class="col-sm-4 control-label">Parent</label>
+    <div class="col-sm-4">
+      <%#= f.select :parent_id, [['主题',71],['风格',72],['色系',73],['款式',74],['身材',75],['元素',76]],{include_blank:'无'}, class: 'form-control' %>
+      <%= f.select :parent_id, @parent_tag,{include_blank:'无'}, class: 'form-control' %>
+
+    </div>
+  </div>
+  <div class="form-group" style='margin-left:0px; margin-right:0px;'>
+    <div class="col-sm-offset-4 col-sm-8">
+      <%= f.submit '提交', class: 'btn btn-primary' %>
+    </div>
+  </div>
+<% end %>
+
+<script type="text/javascript">
+    $(function () {
+        $('.brand_image_upload').fileupload({
+            url: '/manage/dapei_tags/<%= @dapei_tag.id %>/upload',
+            type: 'post',
+            dataType: 'json',
+            done: function (e, data) {
+                r = data.result.image_url;
+
+                var logo_image = $(this).parent().find(".logo_image").find("img");
+
+                if(logo_image.length < 1){
+                    logo_image = $("<img/>");
+                    logo_image.attr("src", r);
+                    $(logo_image).append(logo_image);
+                }else{
+                    logo_image.attr("src", r);
+                }
+            }
+        });
+    });
+</script>

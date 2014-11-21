@@ -1,0 +1,36 @@
+{"xsrf": "ODQzNjU2MiwxMzgxOTgyNTI5", "status": {
+    "ok": 1
+}, "result": {
+    "page": <%= @dapei_templates.current_page %>,
+    "more_pages": <%= @dapei_templates.total_pages.to_i - @dapei_templates.current_page.to_i %>,
+    "items": [
+        <% unless @dapei_templates.blank? %>
+        <% @dapei_templates.each do |dt| %>
+        {
+            "isOwner": 1,
+            "spec_uuid": "<%= dt.spec_uuid %>",
+            "fills": "5",
+            "id": "<%= dt.id %>",
+            "sets": [
+//                {
+//                    "spec_uuid": "nlyw-vAv4xGGwBZntP8JyA",
+//                    "id": "99896637"
+//                },
+//                {
+//                    "spec_uuid": "SJ0pzMkv4xG8Usq6tP8JyA",
+//                    "id": "99887075"
+//                },
+//                {
+//                    "spec_uuid": "II2d6skv4xG634x6GdwLkg",
+//                    "id": "99887135"
+//                }
+            ],
+            "user_name": "",
+            "user_id": "",
+            "title": "<%= dt.title %>",
+            "type": "t"
+        },
+        <% end %>
+        <% end %>
+    ]
+}}

@@ -1,0 +1,7 @@
+{"xsrf":"ODQzNjU2MiwxMzg0MzEyNDY2","status":{"ok":1},"result":{"page":1,"more_pages":0,"items":[
+    <% unless @dapei_tags.blank? %>
+        <% @dapei_tags.each do |dt| %>
+            {"hashtag":"<%= dt.name %>"},
+        <% end %>
+    <% end %>
+]}}

@@ -1,0 +1,49 @@
+.infli
+  %li{:style=>"list-style:none;", :class=>"shopli"}
+    -if shop and item
+      %a.pic{:href => "#{shop_item_path(shop,item)}"}
+        -#%img{:height => "218", :src => "#{item.display_photos.last.url(:thumb_medium)}", :width => "218"}/
+        -if item and item.display_photos and item.display_photos.length>0
+          -item_photo=item.display_photos.last
+          -scale=item_photo.height.to_f/item_photo.width.to_f
+          -height=218*scale
+          %img{:alt=>"#{item.name} #{item.url} #{item.shop_name}", :height => "218", :src => "#{item_photo.url(:scaled_medium)}", :width => "218", :height=>"#{height}"}/
+    -else
+      %a.pic{:href => "#"}
+        %img{:height => "218", :src => "/assets/img.jpg", :width => "218"}/
+    -if shop and item
+      %h4
+        %a{:href => "#{shop_item_path(shop,item)}"} #{item.title}
+      %h5
+        %a{:href => "#"} #{shop.name} 
+    -else
+      %h4
+        %a{:href => "#"} ############
+      %h5
+        %a{:href => "#"} ###### ##
+    .shop_properties
+      .lover_icon
+        -if shop and item
+          %a{:href=>"#", :title=>"点击进行收藏"}#{item.likes_count}人喜欢
+          %b{:href=>"#", :title=>"点击进行收藏"}
+        -else
+          %a{:href=>"#", :title=>"点击进行收藏"}xx人喜欢
+          %b{:href=>"#", :title=>"点击进行收藏"}
+      .commentary
+        -if shop and item
+          %a{:href=>"#{shop_item_path(shop, item)}", :target=>"_blank", :title=>"点击进行评论"}#{item.comments_count}评论
+          %b{:href=>"#{shop_item_path(shop, item)}", :target=>"_blank", :title=>"点击进行评论"}
+        -else
+          %a{:href=>"#", :title=>"点击进行评论"}xx评论
+          %b{:href=>"#", :title=>"点击进行评论"}
+    -#.promotions-label 限量五折！
+    .comment_bd
+      .comment_list
+        .Each
+          -comment=item.comments.where(:user_id=>@user.id).first
+          %a.Avatar{:href => "javascript:void(0)"}
+            %img{:height => "24", :src => "#{@user.display_img_small}", :width => "24"}/
+          = succeed " #{comment.comment}" do
+            %a{:href => "javascript:void(0)"} #{@user.display_name}
+          %br
+          =comment.created_at.localtime.strftime("%F %H:%M")

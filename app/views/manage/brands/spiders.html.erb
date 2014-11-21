@@ -1,0 +1,94 @@
+<!--<%#= search_form_for [:manage, @q], html: {class: 'form-inline',role: 'form',style: 'margin-top:30px;'} do |f| %>
+  <div class="form-group">
+    <label class="sr-only">UserName</label>
+    <%#= f.text_field :name_cont, class: 'form-control', placeholder: '用户名' %>
+  </div>
+  <%#= f.submit '搜索', class: 'btn btn-primary'%> 
+  <%#= total_span @users %>
+<%# end %>-->
+<table class="table table-bordered table-hover" style="margin-top:30px;">
+  <thead>
+    <tr class="success">
+      <th>品牌名</th>
+      <th>Tshow</th>
+      <th>级别</th>
+      <th width="16%">操作</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>
+         <%= link_to @brand.name, "/manage/skus?brand_id=#{@brand.id}" %>
+      </td>
+      <td>
+         <%= link_to @brand.name, "/manage/skus?brand_id=#{@brand.id}" %>
+      </td>
+      <td><%= @brand.level %></td>
+      <td> 
+        <%= link_to '编辑', [:edit,:manage,@brand] %> | 
+        <%= link_to '删除', [:manage,@brand], method: :delete, class: 'ajaxd', 
+          remote: true, confirm: 'Are you sure?' %> |
+        <%= link_to '新建爬虫', [:new,:manage,@brand,:spider] %> | 
+        <%= link_to '新建Tshow爬虫', [:new,:manage,@brand,:tshow_spider] %> 
+      </td>
+    </tr>
+  </tbody>
+</table>
+<table class="table table-bordered table-hover" style="margin-top:20px;">
+  <thead>
+    <tr class="success">
+      <th width="17%">更新时间</th>
+      <th>停止</th>
+      <th>开始页</th>
+      <th width="17%"><%= sort_link @q, :created_at, '创建时间' %></th>
+      <th width="12%">操作</th>
+    </tr>
+  </thead>
+  <tbody>
+    <% @spiders.each do |spider| %>
+      <tr>
+        <td><%= to_local spider.updated_at %></td>
+        <td><%= spider.stop %></td>
+        <td><%= spider.stop %></td>
+        <td><%= to_local spider.created_at %></td>
+        <td>
+          <%= link_to '编辑', [:edit,:manage,spider] %> |
+          <%= link_to '删除', [:manage,spider], method: :delete, class: 'ajaxd', 
+          remote: true, confirm: 'Are you sure?' %> |
+          <%= link_to '立即启动爬取', [:start_crawl,:manage,spider],  remote: true, confirm: '确定立即启动爬取？' %> |
+          <%= link_to '立即下架处理', [:start_soldout,:manage,spider],  remote: true, confirm: '确定立即下架处理？' %>  
+        </td>
+      </tr>
+    <% end %>
+  </tbody>
+</table>
+<p><strong>Tshow Spider</strong></p>
+<table class="table table-bordered table-hover" style="margin-top:20px;">
+  <thead>
+    <tr class="success">
+      <th width="17%">更新时间</th>
+      <th>停止</th>
+      <th>开始页</th>
+      <th width="17%"><%= sort_link @q, :created_at, '创建时间' %></th>
+      <th width="12%">操作</th>
+    </tr>
+  </thead>
+  <tbody>
+    <% @tshow_spiders.each do |tshow_spider| %>
+      <tr>
+        <td><%= to_local tshow_spider.updated_at %></td>
+        <td><%= tshow_spider.stop %></td>
+        <td><%= tshow_spider.start_page %></td>
+        <td><%= to_local tshow_spider.created_at %></td>
+        <td>
+          <%= link_to '编辑', [:edit,:manage,tshow_spider] %> |
+          <%= link_to '删除', [:manage,tshow_spider], method: :delete, class: 'ajaxd', 
+          remote: true, confirm: 'Are you sure?' %> |
+          <%= link_to '立即启动爬取', [:start_crawl,:manage,tshow_spider],  remote: true, confirm: '确定立即启动爬取？' %>  
+        </td>
+      </tr>
+    <% end %>
+  </tbody>
+</table>
+
+<%#= will_paginate @spiders %>  

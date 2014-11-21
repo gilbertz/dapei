@@ -1,0 +1,9 @@
+- meta_info = page_seo(obj)
+- content_for :title do
+  = meta_info['title']
+
+- content_for :description do
+  = meta_info['desc']
+
+- content_for :keywords do
+  = meta_info['keywords']

@@ -1,0 +1,9 @@
+/*
+*= require ./m/base
+*= require ./m/index
+*= require ./m/like
+*= require ./m/comment
+*= require ./m/avatar
+*= require ./m/bottom_bar
+*= require_self
+*/

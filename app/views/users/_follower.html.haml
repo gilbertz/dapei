@@ -1,0 +1,33 @@
+%li
+  %ul.nav.nav-float
+    %li.user-friend-avatar
+      -if user
+        %a{:href => "#{user_path(user)}"}
+          %img{:src => "#{user.display_img_small}"}/
+      -else
+        %a{:href => "#{user_path(user)}"}
+          %img{:src => "/assets/0.gif"}/
+    %li.user-friend-desc
+      .user-friend-name
+        %a{:href => "#{user_path(user)}"} #{user.display_name}
+      .user-friend-from
+        -if user.city and user.city!=""
+          %span.from 来自：
+          %span #{user.city}
+        -else
+          %span.from 来自：
+          %span  还不知道。
+      .user-friend-info
+        关注#{user.following_count} | 粉丝#{user.followers_count}
+    -#%li.brief_intr
+      -if user.desc and user.desc!=""
+        简介：#{user.desc}
+      -else
+        简介：还没有任何介绍哟
+    -if user_signed_in?
+      %li#pull-right
+        %span.follow-me
+          = render :partial => "/shared/follow", :locals => {:followable => user}
+
+
+

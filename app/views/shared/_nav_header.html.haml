@@ -1,0 +1,93 @@
+%ul.nav.nav-float
+  %li
+    .click-scroll-up
+      %a{:href => "javascript:void(0)"}
+        %img{:src => "/assets/newweb/arrows-top.png"}
+    .click-scroll
+      .wrapper-ul
+        %ul.nav
+          -num=0
+          -@dists.each do |dist|
+            -num=num+1
+            %li.nav_b
+              / 添加hover后显示层
+              .showChaoyangCounts.menu
+                %a.menu-hd{:href => "#{search_path('shop', '', dist.dp_id)}", :num=>"#{num}", :dp_id=>"#{dist.dp_id}"}
+                  #{dist.name}
+                  %b
+              .nav-hover
+                %ul.nav.nav-float
+                  %li.first
+                    %ul.nav
+                  %li.second
+                    %ul.nav
+                  %li.third
+                    %ul.nav
+                  %li.fourth
+                    %ul.nav
+    .click-scroll-down
+      %a{:href => "javascript:void(0)"}
+        %img{:src => "/assets/newweb/arrows-bottom.png"}
+  %li.divider-y
+  %li
+    .click-scroll-up
+      -#%a{:href => "javascript:void(0)"}
+        %img{:src => "/assets/newweb/arrows-top.png"}
+    .click-scroll
+      .wrapper-ul
+        %ul.nav
+          %li.nav_b
+            / 添加hover后显示层
+            .showChaoyangCounts.menu
+              %a.menu-hd{:href => "#{cat_path('11')}"} 上装 
+          %li.nav_b
+            / 添加hover后显示层
+            .showChaoyangCounts.menu
+              %a.menu-hd{:href => "#{cat_path('12')}"} 裤装 
+          %li.nav_b
+            / 添加hover后显示层
+            .showChaoyangCounts.menu
+              %a.menu-hd{:href => "#{cat_path('13')}"} 裙装 
+          %li.nav_b
+            / 添加hover后显示层
+            .showChaoyangCounts.menu
+              %a.menu-hd{:href => "#{cat_path('14')}"} 内衣 
+          %li.nav_b
+            / 添加hover后显示层
+            .showChaoyangCounts.menu
+              %a.menu-hd{:href => "#{cat_path('4')}"} 鞋子 
+          %li.nav_b
+            / 添加hover后显示层
+            .showChaoyangCounts.menu
+              %a.menu-hd{:href => "#{cat_path('5')}"} 包包 
+          %li.nav_b
+            / 添加hover后显示层
+            .showChaoyangCounts.menu
+              %a.menu-hd{:href => "#{cat_path('6')}"} 配饰
+          %li.nav_b
+            / 添加hover后显示层
+            .showChaoyangCounts.menu
+              %a.menu-hd{:href => "#{cat_path('7')}"} 男装 
+          %li.nav_b
+            / 添加hover后显示层
+            .showChaoyangCounts.menu
+              %a.menu-hd{:href => "#{cat_path('8')}"} 童装 
+    .click-scroll-down
+      %a{:href => "javascript:void(0)"}
+        /%img{:src => "/assets/newweb/arrows-bottom.png"}
+  %li.divider-y
+  %li
+    .click-scroll-up
+      %a{:href => "javascript:void(0)"}
+        %img{:src => "/assets/newweb/arrows-top.png"}
+    .click-scroll
+      .wrapper-ul
+        %ul.nav
+          -unless @hot_rec_brands.blank?
+            -@hot_rec_brands.each do |brand|
+              %li.nav_b
+                .showChaoyangCounts.menu
+                  %a.menu-hd{:href => "#{brands_web_show_path(brand)}"} #{brand.get_display_name.capitalize}
+    .click-scroll-down
+      %a{:href => "javascript:void(0)"}
+        %img{:src => "/assets/newweb/arrows-bottom.png"}

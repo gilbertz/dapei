@@ -1,0 +1,9 @@
+=render :partial=>"/users/top_bar", :locals=>{:user=>@user, :nav_class=>"followings"}
+.wrapper.my-home-main-body
+  -if @user.following_by_type_count('User')==0
+    .resort
+      %h2 还没有关注任何人，赶快行动起来吧
+  %ul.nav.stream
+    - @followings.each do |f|
+      =render :partial=>"/users/follower", :locals=>{:user=>f}
+  = paginate @followings

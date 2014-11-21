@@ -1,0 +1,38 @@
+.recom-p.clearfix.perfect_info
+  .right_content
+    %h1 发布SKU-#{@brand.name}
+    #warning
+      提交失败，缺乏必要信息， 请参考下面提示补齐信息！
+    .process
+      .add_info
+        填写宝贝信息
+        %b
+    .master_c
+      .bd
+        .direction
+          %p
+            每个宝贝必须要有一张图片，清晰、高质量的图片能吸引更多的顾客到你的店铺
+          %p 可以选择性的给出宝贝的价格等信息
+        .info_bd
+          = simple_form_for([:manage, @brand, @sku], :validate=>true, :html => { :method => :post,:id=>"create_item_form", :multipart => true }) do |f|
+            %ul
+              %li.logo_pic
+                %label
+                  %s> *
+                  宝贝照片：
+                #photozone
+                .img.img_holder
+                  %a{:href => "#"}
+                    %img{:height => "100", :src => "#{@brand.wide_campaign_img(:wide_small)}", :width => "100"}
+                    %br
+                .upload
+                  = render 'manage/skus/plupload'
+                  %span.warning  必须要上传宝贝照片！
+              %li
+                =f.input :title, :label=>"<s>*</s>宝贝名称：".html_safe,  :input_html=>{:class=>"txt", :style=>"width:250px;"}
+              %li
+                =f.input :price, :label=>"宝贝价格：",  :input_html=>{:class=>"txt", :style=>"width:250px;"}, :hint=>"<b></b>可以不给出价格信息".html_safe
+              %li#create_item_btn
+                = f.button :submit, '发布宝贝', :class => 'submit_btn_01'
+
+

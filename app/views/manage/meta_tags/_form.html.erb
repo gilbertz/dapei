@@ -1,0 +1,20 @@
+<%= form_for [:manage, @meta_tag] do |f| %>
+
+    <div class="form-group">
+      <%= f.label :元标签 %>  
+      <%= f.text_field :tag, class: "form-control" %>
+    </div>
+
+    <div class="form-group">
+      <%= label_tag "全局显示" %>
+      <%= f.select :is_show, [["不显示", 0], ["显示", 1]], {}, class: "form-control" %>
+    </div>
+
+    <div class="form-group">
+      <%= f.label :图片 %>  
+      <%= f.file_field :meta_image, class: "form-control" %>
+    </div>
+
+    <label></label>
+    <%= f.submit %>
+<% end %>

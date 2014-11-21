@@ -1,0 +1,24 @@
+<table class="table table-bordered table-hover" style="margin-top:30px;">
+  <thead>
+    <tr class="success">
+      <th class="">Id</th>
+      <th width="10%">用户id</th>
+      <th class="">内容</th>
+      <th class="">qq</th>
+      <th class="">email</th>
+      <th class="">创建时间</th>
+    </tr>
+  </thead>
+  <tbody>
+    <% @feedbacks.each do |feedback| %>
+      <tr>
+        <td><%= feedback.id %></td>
+        <td><%= feedback.user_id %></td>
+        <td><%= feedback.content %></td>
+        <td><%= feedback.qq %></td>
+        <td><%= feedback.email %></td>
+        <td><%= feedback.created_at %></td>
+      </tr>
+    <% end %>
+  </tbody>
+</table>

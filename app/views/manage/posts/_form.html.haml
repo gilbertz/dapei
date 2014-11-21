@@ -1,0 +1,34 @@
+.written_log
+  .hd
+    %h2 发布日志
+  .bd
+    = form_for [:manage, @post] do |f|
+      .title.form-group
+        = f.label :title
+        = f.text_field :title, :class=>"tit_input form-control"
+      .title.form-group
+        = f.label :desc
+        = f.text_field :desc, :class=>"tit_input form-control"
+      .link.form-group
+        = f.label :link
+        = f.text_field :link, :class=>"tit_input form-control"
+      .category.form-group
+        = f.label :category_id
+        = f.select :category_id, [["日志", 1], ["照片", 2]], {}, :class=>"txt form-control", :style=>"width:258px; height:30px;", :class => "form-control"
+      .intr.form-group
+        = f.label :content
+        = f.kindeditor :content, :name => "post[content]", :rows => 40, :cols => 120, :class => "form-control"
+      -unless @post.thumb.blank?
+        %img{:src => @post.qiniu_thumb_url}
+      .intr.logo_pic.form-group
+        = f.label :thumb
+        = f.file_field :thumb, :class => "form-control"
+        %p.help-block 尺寸 428X246
+      .selected_user.form-group
+        = f.label :user_id
+        = f.select :user_id, @users_for_post_selected, {}, :class => "form-control"
+      .is_show.form-group
+        = f.label :is_show
+        = f.select :is_show, [["草稿", 0], ["发布", 1]], {}, :class => "form-control"
+      #create_post_button.submit.form-group
+        = f.button '发表', :class => 'submit_btn form-control'

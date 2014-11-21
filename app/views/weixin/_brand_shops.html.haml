@@ -1,0 +1,9 @@
+.wrapper
+  %h4
+    #{@city}分店
+  - @shops.each do |shop|
+    %p
+      -#%img{:src => "#{shop.wide_avatar_url}" }
+      = shop.shop_name
+      %font{:face => "icon"} 3
+      %font{:face => "微软雅黑"} #{ shop.address_tel } &nbsp; #{shop.get_distance} 

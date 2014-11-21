@@ -1,0 +1,166 @@
+# encoding: utf-8
+- ["logo", "logo_white", "logo_black", "wide_banner"].each do |type|
+  %form{"accept-charset" => "UTF-8", :action => "/manage/brands/#{@brand.id}/upload", :method => "post", :enctype=>"multipart/form-data" }
+    %input{:name => "brand_id", :type => "hidden", :value => "#{@brand.id}"}/
+    = file_field("#{type}_file", "file") 
+    = submit_tag("上传#{type}") 
+
+wide  logo
+%img{:src=>@brand.wide_avatar_url}
+white logo
+%img{:src=>@brand.white_avatar_url}
+black logo
+%img{:src=>@brand.black_avatar_url}
+wide banner
+%img{:src=>@brand.wide_banner_url}
+
+.recom-p.clearfix.perfect_info
+  =render "left_bar"
+  .right_content
+    %h1 修改资料
+    #warning
+      提交失败，缺乏必要信息， 请参考下面提示补齐信息！
+    .process
+      .add_info
+        修改品牌信息
+        %b
+    .master_c
+      -#.hd
+        %ul
+          %li.selected
+            %a{:href => "#"} 填写资料
+          %li
+            %a{:href => "#"} 认证
+      .bd
+        .direction
+          %p
+            品牌信息
+            -#%a{:href => "#"} 什么是贡献值和D币?
+        .info_bd
+          -form_id= (meth=="post" ? "create_brand_form" :"put_brand_form")
+          = simple_form_for(@brand, :validate=>true, :html => { :method =>meth, :id=>form_id , :multipart => true }) do |f|
+            %ul
+              -if current_user.can_be_admin
+                %li
+                  =f.input :level, :label=>"品牌评级：".html_safe,  :input_html=>{:class=>"txt", :style=>"width:250px;height:30px;"}, :collection=> -1..5
+                %li
+                  =f.input :priority, :label=>"品牌排序档：".html_safe,  :input_html=>{:class=>"txt", :style=>"width:250px;height:30px;"}, :collection=> 1..10
+                %li
+                  = f.input :img_quality, :label=>"图片质量级别：".html_safe,  :input_html=>{:class=>"txt", :style=>"width:250px;height:30px;"}, :collection=> 1..10
+                %li
+                  = f.label "品牌一般分类"
+                  = f.select :brand_type, BrandTag.get_tags(1)
+                %li
+                  = f.label "品牌品类分类"
+                  = f.select :brand_type_1, BrandTag.get_tags(2)
+                %li
+                  = f.label "品牌风格分类"
+                  = f.select :brand_type_2, BrandTag.get_tags(3)
+                %li
+                  = f.label "品牌地域分类"
+                  = f.select :brand_type_3, BrandTag.get_tags(4)
+                %li
+                  =f.input :price_level, :label=>"价格区间：".html_safe,  :input_html=>{:class=>"txt", :style=>"width:250px;height:25px;"}
+                %li
+                  =f.input :brand_intro, :label=>"品牌介绍：".html_safe,  :as=>:text, :input_html=>{:class=>"txt", :style=>"width:400px;height:50px;"} 
+              %li
+                =f.input :name, :label=>"<s>*</s>品牌名称：".html_safe,  :input_html=>{:class=>"txt", :style=>"width:250px;"}
+              %li
+                =f.input :url, :label=>"<s>*</s>url：".html_safe,  :input_html=>{:class=>"txt", :style=>"width:250px;"}
+              %li
+                =f.input :display_name, :label=>"<s>*</s>品牌正式名称：".html_safe,  :input_html=>{:class=>"txt", :style=>"width:250px;"}
+              %li
+                =f.input :currency, :label=>"官网货币：",  :input_html=>{:class=>"txt", :style=>"width:250px;"}
+              %li
+                =f.input :url, :label=>"品牌域名：",  :placeholder=>"字母或者 -",:input_html=>{:class=>"txt", :style=>"width:250px;"}, :hint=>"<b></b>设置后可以通过&nbsp“http://shangjieba.com/品牌域名” &nbsp 直接访问。".html_safe
+              %li
+                =f.input :wide_avatar_url, :label=>"品牌logo url：".html_safe,  :input_html=>{:class=>"txt", :style=>"width:250px;"}
+                %img{:src=>@brand.wide_avatar_url}
+              %li
+                =f.input :white_avatar_url, :label=>"品牌白logo url：".html_safe,  :input_html=>{:class=>"txt", :style=>"width:250px;"}
+                %img{:src=>@brand.white_avatar_url}
+              %li
+                =f.input :black_avatar_url, :label=>"品牌黑logo url：".html_safe,  :input_html=>{:class=>"txt", :style=>"width:250px;"}
+                %img{:src=>@brand.black_avatar_url}
+
+              %li.logo_pic
+                %label
+                  -#%s> *
+                  品牌头像：
+                .img
+                  #photoid
+                  #profilephotozone
+                    %img{:height => "100", :src => "#{@brand.avatar_url}", :width => "100"}
+                .upload
+                  %a{:href => "javascript:void(0)", :id=>"profile-file-upload"} 更改图片
+                  = render "photos/new_profile_photo"
+              %li.logo_pic
+                %label
+                  -#%s> *
+                  品牌店铺照：
+                .img
+                  #shopphotoid
+                  #shopphotozone
+                    %img{:height => "100", :src => "#{@brand.shop_photo_url}", :width => "100"}
+                .upload
+                  %a{:href => "javascript:void(0)", :id=>"shop-file-upload"} 更改图片
+                  = render "photos/new_shop_photo"
+              %li  
+                %img{:src => "#{@brand.shop_photo_url}" }
+              %li.logo_pic
+                %label
+                  品牌宣传照片：
+                #photozone
+                  - @brand.photos.each do |photo|
+                    .img
+                      %a{:href => "#"}
+                        %img{:src => "#{photo.url(:thumb_medium)}", :photoid => "#{photo.id}" }/
+                        .x
+                          %b
+                .img.img_holder
+                  %a{:href => "#"}
+                    %img{:height => "100", :src => "/assets/img.jpg", :width => "100"}/
+                .upload
+                  /%a{:href => "#", :id=> "file-upload", :class=>"img_holder"} 上传图片
+                  = render 'photos/plupload'
+              %li   
+                - @brand.photos.each do |photo|
+                  %img{:src => "#{photo.url(:wide_medium)}"}
+              %li
+                =f.input :des, :as=>:text, :label=>"描述：", :input_html=>{:class=>"txt", :style=>"width:250px;"}
+              %li.address_bd
+                %label
+                  %s> * 
+                  品牌地址：
+                .address
+                  .address_01
+                  .address_02
+                    %label
+                      %s> *
+                    %input.txt{:name => "brand[address]", :value=>"#{@brand.address}" , :id=>"suggestId", :style => "width:250px;", :type => "text", :placeholder => "品牌详细地址"}/
+                    /%input.txt{:type=>"hidden", :value=>"#{@dist_name}", :name => "brand[district]"}
+                    /%input.txt{:type=>"hidden", :value=>"#{@street}", :name => "brand[street]"} 
+
+              %li
+                =f.input :products, :label=>"主      营：",:label_html=>{:class=>"main_product"},  :placeholder=>"女装, 吊带裙, 外套", :input_html=>{:class=>"txt", :style=>"width:250px;"}
+              %li
+                =f.input :phone_number, :label=>"电      话：",  :input_html=>{:class=>"txt", :style=>"width:250px;"}
+              %li
+                =f.input :homepage, :label=>"官     网：",  :input_html=>{:class=>"txt", :style=>"width:250px;"}
+              %li
+                =f.input :domain, :label=>"域    名：",  :input_html=>{:class=>"txt", :style=>"width:250px;"}
+              %li
+                =f.input :weibo, :label=>"微    博：",  :input_html=>{:class=>"txt", :style=>"width:250px;"}
+              %li
+                =f.input :weixin, :label=>"微    信：",  :input_html=>{:class=>"txt", :style=>"width:250px;"}
+              %li
+                =f.input :tmall, :label=>"天    猫：",  :input_html=>{:class=>"txt", :style=>"width:250px;"}
+              %li
+                =f.input :crawled_source, :label=>"其他网址：",  :input_html=>{:class=>"txt", :style=>"width:250px;"}
+              -if meth=="post"
+                %li#create_brand_btn
+                  = f.button :submit, '提交品牌', :class => 'submit_btn_01'
+              -else
+                %li
+                  = f.button :submit, '提交品牌', :class => 'submit_btn_01'
+

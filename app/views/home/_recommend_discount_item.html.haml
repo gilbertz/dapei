@@ -1,0 +1,29 @@
+- if discount.discountable_type=="Shop" and discount.is_current?
+  -#%li
+    -shop=discount.discountable
+    .left
+      %p
+        %a{:href => "#{shop_path(shop)}"}
+          %img{:height => "50", :src => "#{shop.shop_avatar_url}", :width => "70", :alt=>"#{shop.name}"}/
+      -#%p.name
+        %a{:href => "#{shop_path(shop)}"} #{shop.display_name}
+    .right
+      %p.reason
+        -# -if !discount.reason.blank?
+          %a{:href => "#{shop_path(shop)}"} #{discount.reason}
+        -#-else
+          %a{:href => "#{shop_path(shop)}"} 无条件特惠
+        %a{:href => "#{shop_path(shop)}"} #{shop.display_name}
+        -#if user_signed_in? and current_user.can_be_admin
+          .delete
+            =link_to "删除" ,recommend_path(recommend), :class=>"delete", :title=>"删除",:method=>"delete", :confirm=>"确定删除吗?"
+      %p.title
+        %a{:href => "#{shop_path(shop)}"}#{discount.title}
+  %li
+    -shop=discount.discountable
+    .chunk-two
+      .item-brand
+        %a{:href => "#{shop_discount_path(shop, discount)}"}#{shop.brand_name.capitalize}
+        /%img{:height => "50", :src => "#{shop.shop_avatar_url}", :width => "70", :alt=>"#{shop.name}"}/
+      .item-active
+        %a{:href => "#{shop_discount_path(shop, discount)}"}#{discount.title}

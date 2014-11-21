@@ -1,0 +1,97 @@
+<% if @q %>
+  <%= search_form_for [:manage, @q], html: {class: 'form-inline',role: 'form',style: 'margin-top:30px;'} do |f| %>
+    <div class="form-group" style="width:100px;">
+      <label class="sr-only">MatterRuleCategoryId</label>
+      <%= f.text_field :category_name_cont, class: 'form-control', placeholder: '分类', style: "cursor:pointer;", id: 'select_cate' %>
+    </div>
+    <%= f.submit '搜索', class: 'btn btn-primary btn-xs'%> 
+    <%= total_span @matters %>
+  <% end %>
+<% end %>
+
+<table class="table table-bordered table-hover">
+  <thead>
+    <tr class="success">
+      <% if @q %>
+        <th width="10%"><%= sort_link @q, :id, 'Id' %></th>
+      <% end %>
+      <th class="">品牌</th> 
+      <th class="">分类</th>
+      <th class="">二级分类</th>
+      <th class="">level</th>  
+      <th class="">SKU标题</th>
+      <th class="">SJB ID</th>
+      <th>PNG图</th>
+      <th>JPG图</th>
+      <th>颜色</th>
+      <th width="11%">创建时间</th>
+      <th width="8%">操作</th>
+    </tr>
+  </thead>
+  <tbody>
+    <% @matters.each do |matter| %>
+      <tr>
+        <% if @q %>
+          <td width="10%"> 
+            <span class="badge"><%= matter.id %></span>
+          </td>
+        <% end %>
+        <td>
+          <% if matter.get_user %>
+            <%= link_to matter.get_user.name, "/manage/matters?user_id=#{matter.user_id}" %>
+          <% end %>
+        </td>
+
+        <td width="16%"> 
+          <%= link_to matter.category.try(:name), "/manage/matters?category_id=#{matter.category.try(:id)}" %>
+        </td>
+
+
+        <td width="16%">
+          <% if matter.sub_category %>
+            <%= link_to matter.sub_category.try(:name), "/manage/matters?sub_category_id=#{matter.sub_category.try(:id)}" %>
+          <% end %>
+        </td>
+
+
+        <td width="16%">
+          <%= link_to matter.try(:level), "/manage/matters?level=#{matter.try(:level)}" %>
+        </td>
+
+        <td><%= matter.try(:title) %></td>
+        <td><%= matter.sjb_photo_id %></td>
+        <td style="padding:2px; width:74px;"> 
+          <% img_url = matter.matter_img_url %>
+          <%= link_to img_url, class: 'preview', title: matter.try(:title) do %>
+            <%= image_tag img_url, alt: 'nothing', style: "width:70px; height:56px;" %> 
+          <% end %>
+        </td>
+        <td style="padding:2px; width:74px;"> 
+          <% img_url = matter.matter_img_url(false) %>
+          <%= image_tag img_url, style: "width:70px; height:56px;" %> 
+        </td>
+        <td>
+          <% matter.colors.each do |color| %>
+           <font color="<%= color %>" > <%= color %> </font>
+          <% end %>
+         </td>
+        <td><%= to_local matter.created_at %></td>
+        <td> 
+          <%= link_to '编辑', [:edit,:manage,matter] %> 
+          <hr/ style="margin: 5px 0 5px 0;">
+          <%= link_to '删除', [:manage,matter], method: :delete, remote: true, 
+          class: 'ajaxd', confirm: 'Are you sure ?' %>
+          <hr/ style="margin: 5px 0 5px 0;"> 
+          <%= link_to '重新抠图', "/manage/matters/#{matter.id}/koutu" %>
+          <hr/ style="margin: 5px 0 5px 0;">
+          <%= link_to '不抠图', "/manage/matters/#{matter.id}/koutu?yt=1" %>
+          <% if matter.category %>
+            <hr/ style="margin: 5px 0 5px 0;">
+            <%= link_to "设为类别照", "/manage/update_category_photo/#{matter.category.id}/#{matter.id}", :confirm => "are u sure?" %>
+          <% end %>
+        </td>
+      </tr>
+    <% end %>
+  </tbody>
+</table>
+<%= paginate @matters %>

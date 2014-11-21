@@ -1,0 +1,66 @@
+= simple_form_for(@spider) do |f|
+  = f.error_notification
+
+  .form-inputs
+    %label
+      品牌：
+    %select{:name => "spider[brand_id]", :id=>"brand"}
+      %option{ :value => "0"} 无品牌
+      - @brands.each do |brand|
+        - if @spider.brand_id == brand.id
+          %option{ :selected=>"selected", :value => "#{brand.id}"} #{brand.name}
+        - else
+          %option{ :value => "#{brand.id}"} #{brand.name}
+
+    %select{:name => "spider[template_id]", :id=>"template"}
+      %option{ :value => "0"} 无模板
+      - @templates.each do |t|
+        - if @spider.template_id == t.id
+          %option{ :selected=>"selected", :value => "#{t.id}"} #{t.brand.name}
+        - elsif t.brand
+          %option{ :value => "#{t.id}"} #{t.brand.name}
+
+    = f.input :is_template
+    = f.input :stop
+    = f.input :update_period
+    = f.input :show_pic_index
+    = f.input :pic_index
+    = f.input :shoe_pic_index
+    = f.input :bag_pic_index
+    = f.input :peishi_pic_index
+    = f.input :start_page, :input_html=>{:class=>"txt", :style=>"width:1024px;height:30px;"}
+    - @categories.each do |cat|
+      %div
+        %label
+          = cat.name + "start_page"
+        %div
+          - val = eval("@spider.start_page_#{cat.id}")
+          %textarea{ :class=>"text optional txt", :cols=>"40", :name=>"spider[start_page_#{cat.id}]", :rows=>"20", :style=>"width:1024px;height:30px;"}
+            = val
+    = f.input :product_page, :input_html=>{:class=>"txt", :style=>"width:1024px;height:30px;"}
+    = f.input :next_page, :input_html=>{:class=>"txt", :style=>"width:1024px;height:30px;"}
+    = f.input :ptitle, :input_html=>{:class=>"txt", :style=>"width:1024px;height:30px;"}
+    = f.input :pprice, :input_html=>{:class=>"txt", :style=>"width:1024px;height:30px;"}
+    = f.input :porigin_price, :input_html=>{:class=>"txt", :style=>"width:1024px;height:30px;"}
+    = f.input :pdesc, :input_html=>{:class=>"txt", :style=>"width:1024px;height:30px;"}
+    = f.input :pcode, :input_html=>{:class=>"txt", :style=>"width:1024px;height:30px;"}
+    = f.input :phot, :input_html=>{:class=>"txt", :style=>"width:1024px;height:30px;"}
+
+    = f.input :pimgs, :input_html=>{:class=>"txt", :style=>"width:1024px;height:30px;"}
+    = f.input :pimg_attr    
+    = f.input :img_rule
+    
+    = f.input :dp_img, :input_html=>{:class=>"txt", :style=>"width:1024px;height:30px;"}
+    = f.input :dp_img_attr
+    = f.input :dp_img_rule
+
+    = f.input :pcolor, :input_html=>{:class=>"txt", :style=>"width:1024px;height:30px;"}
+    = f.input :psize, :input_html=>{:class=>"txt", :style=>"width:1024px;height:30px;"}
+    = f.input :pshow_img, :input_html=>{:class=>"txt", :style=>"width:1024px;height:30px;"}
+
+    = f.input :pstore_count, :input_html=>{:class=>"txt", :style=>"width:1024px;height:30px;"}
+    = f.input :psold_count, :input_html=>{:class=>"txt", :style=>"width:1024px;height:30px;"}
+    = f.input :others, :input_html=>{:class=>"txt", :style=>"width:1024px;height:30px;"}
+
+  .form-actions
+    = f.button :submit

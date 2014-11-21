@@ -1,0 +1,12 @@
+<div class="bs-sidebar hidden-print affix-top" role="complementary">
+  <ul class="nav bs-sidenav">
+    <li class="active">
+    <a href="#download">店铺管理</a>
+      <ul class="nav">
+        <li class="<%= action_name == 'index' ? 'active' : '' %>"> 
+          <%= link_to '店铺列表', [:manage,:shops] %> 
+        </li>
+      </ul>
+    </li>
+  </ul>
+</div>

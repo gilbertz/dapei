@@ -1,0 +1,282 @@
+<% if params[:action] == "edit" %>
+<form class="form-horizontal">
+<div class="form-group">
+  <label for="inputEmail3" class="col-sm-2 control-label">品牌Logo Url</label>
+  <div class="col-sm-5">
+    <div style="margin-top: 5px; color:#463265" class="logo_image">
+    <% if @brand.wide_avatar_url.present? %>
+      <%= image_tag @brand.wide_avatar_url %>
+    <% end %>
+    </div>
+    <br>
+    <input id="wide_avatar_url" type="file" class="brand_image_upload" name="wide_avatar_file">
+  </div>
+</div>
+</form>
+
+<form class="form-horizontal">
+  <div class="form-group">
+    <label for="inputEmail3" class="col-sm-2 control-label">品牌 White Logo Url</label>
+    <div class="col-sm-5">
+      <div style="margin-top: 5px; color:#463265" class="logo_image">
+        <% if @brand.white_avatar_url.present? %>
+            <%= image_tag @brand.white_avatar_url %>
+        <% end %>
+      </div>
+      <br>
+      <input id="logo_white_file" class="brand_image_upload" type="file" name="logo_white_file">
+    </div>
+  </div>
+</form>
+
+<form class="form-horizontal">
+  <div class="form-group">
+    <label for="inputEmail3" class="col-sm-2 control-label">品牌 Black Logo Url</label>
+    <div class="col-sm-5">
+      <div style="margin-top: 5px; color:#463265" class="logo_image">
+        <% if @brand.black_avatar_url.present? %>
+            <%= image_tag @brand.black_avatar_url %>
+        <% end %>
+      </div>
+      <br>
+      <input id="logo_black_file" class="brand_image_upload" type="file" name="logo_black_file">
+    </div>
+  </div>
+</form>
+
+<form class="form-horizontal">
+  <div class="form-group">
+    <label for="inputEmail3" class="col-sm-2 control-label">品牌wide banner url</label>
+    <div class="col-sm-5">
+      <div style="margin-top: 5px; color:#463265" class="logo_image">
+        <% if @brand.wide_banner_url.present? %>
+            <%= image_tag @brand.wide_banner_url %>
+        <% end %>
+      </div>
+      <br>
+      <input id="wide_banner_url" class="brand_image_upload" type="file" name="wide_banner_file">
+    </div>
+  </div>
+</form>
+
+
+<form class="form-horizontal">
+  <div class="form-group">
+    <label for="inputEmail3" class="col-sm-2 control-label">品牌封面 宣传w</label>
+    <div class="col-sm-5">
+      <div style="margin-top: 5px; color:#463265" class="logo_image">
+        <img src="<%= @brand.campaign_img_url %>" alt="" style="width: 200px; height:auto;"/>
+      </div>
+      <br>
+      <input id="campaign_file" class="brand_image_upload" type="file" name="wide_campaign_img">
+    </div>
+  </div>
+</form>
+<% end %>
+
+<%= form_for [:manage,@brand], html: {class: 'form-horizontal', role: 'form'} do |f| %>
+  <div class="form-group">
+    <label for="inputEmail3" class="col-sm-2 control-label">品牌评级</label>
+    <div class="col-sm-2">
+      <%= f.select :level, ::Brand::LEVEL, {include_blank: true }, class: "form-control input-sm" %>
+    </div>
+  </div>
+  <div class="form-group">
+    <label for="inputEmail3" class="col-sm-2 control-label">品牌排序档</label>
+    <div class="col-sm-2">
+      <%= f.select :priority, ::Brand::PRIORITY, {include_blank: true }, class: "form-control input-sm" %>
+    </div>
+  </div>
+  <div class="form-group">
+    <label for="inputEmail3" class="col-sm-2 control-label">图片质量级别</label>
+    <div class="col-sm-2">
+      <%= f.select :img_quality, ::Brand::IMG_QUALITY, {include_blank: true }, class: "form-control input-sm" %>
+    </div>
+  </div>
+  <div class="form-group"> 
+    <label for="inputEmail3" class="col-sm-2 control-label">品牌一般分类</label>
+    <div class="col-sm-2">
+      <%= f.select :brand_type, select_tags(1), {}, class: 'form-control input-sm' %>
+    </div>
+  </div>
+  <div class="form-group"> 
+    <label for="inputEmail3" class="col-sm-2 control-label">品牌品类分类</label>
+    <div class="col-sm-3">
+      <%= f.select :brand_type_1, select_tags(2),{}, class: 'form-control input-sm' %>
+    </div>
+  </div>
+  <div class="form-group"> 
+    <label for="inputEmail3" class="col-sm-2 control-label">品牌风格分类</label>
+    <div class="col-sm-3">
+      <%= f.select :brand_type_2, select_tags(3),{}, class: 'form-control input-sm' %>
+    </div>
+  </div>
+  <div class="form-group">
+    <label for="inputEmail3" class="col-sm-2 control-label">品牌地域分类</label>
+    <div class="col-sm-3">
+      <%= f.select :brand_type_3, select_tags(4),{}, class: 'form-control input-sm' %>
+    </div>
+  </div>
+  <div class="form-group">
+    <label for="inputEmail3" class="col-sm-2 control-label">价格区间</label>
+    <div class="col-sm-3">
+      <%= f.text_field :price_level, class: 'form-control' %>
+    </div>
+  </div>
+  <div class="form-group">
+    <label for="inputEmail3" class="col-sm-2 control-label">品牌介绍</label>
+    <div class="col-sm-10">
+      <%= f.text_area :brand_intro, class: 'form-control', style: "height:130px;" %>
+    </div>
+  </div>
+  <div class="form-group">
+    <label for="inputEmail3" class="col-sm-2 control-label">品牌名称</label>
+    <div class="col-sm-3">
+      <%= f.text_field :name, class: 'form-control' %>
+    </div>
+  </div>
+  <div class="form-group">
+    <label for="inputEmail3" class="col-sm-2 control-label">官网货币</label>
+    <div class="col-sm-3">
+      <%= f.text_field :currency, class: 'form-control' %>
+    </div>
+  </div>
+  <div class="form-group">
+    <label for="inputEmail3" class="col-sm-2 control-label">品牌域名</label>
+    <div class="col-sm-5">
+      <%= f.text_field :url, class: 'form-control' %>
+      <p class="help-block">设置后可以通过 "http://shangjieba.com/品牌域名"   直接访问。</p>
+    </div>
+  </div>
+
+  <div class="form-group">
+    <label for="inputEmail3" class="col-sm-2 control-label">描述</label>
+    <div class="col-sm-10">
+      <%= f.text_area :des, class: 'form-control', style: "height:90px;" %>
+    </div>
+  </div>
+  <div class="form-group">
+    <label for="inputEmail3" class="col-sm-2 control-label">品牌正式名称</label>
+    <div class="col-sm-3">
+      <%= f.text_field :display_name, class: 'form-control' %>
+    </div>
+  </div>
+  <div class="form-group">
+    <label for="inputEmail3" class="col-sm-2 control-label">品牌地址</label>
+    <div class="col-sm-3">
+      <%= f.text_field :address, class: 'form-control', placeholder: '品牌详细地址' %>
+    </div>
+  </div>
+  <div class="form-group">
+    <label for="inputPassword3" class="col-sm-2 control-label">主 营</label>
+    <div class="col-sm-5">
+      <%= f.text_field :products, class: 'form-control input-sm', placeholder: '女装, 吊带裙, 外套' %>
+    </div>
+  </div>
+  <div class="form-group">
+    <label for="inputPassword3" class="col-sm-2 control-label">官 网</label>
+    <div class="col-sm-5">
+      <%= f.text_field :homepage, class: 'form-control input-sm' %>
+    </div>
+  </div>
+  <div class="form-group">
+    <label for="inputPassword3" class="col-sm-2 control-label">域 名</label>
+    <div class="col-sm-5">
+      <%= f.text_field :domain, class: 'form-control input-sm' %>
+    </div>
+  </div>
+  <div class="form-group">
+    <label for="inputPassword3" class="col-sm-2 control-label">微 博</label>
+    <div class="col-sm-5">
+      <%= f.text_field :weibo, class: 'form-control input-sm' %>
+    </div>
+  </div>
+  <div class="form-group">
+    <label for="inputPassword3" class="col-sm-2 control-label">主 营</label>
+    <div class="col-sm-5">
+      <%= f.text_field :weixin, class: 'form-control input-sm' %>
+    </div>
+  </div>
+  <div class="form-group">
+    <label for="inputPassword3" class="col-sm-2 control-label">天 猫</label>
+    <div class="col-sm-5">
+      <%= f.text_field :tmall, class: 'form-control input-sm' %>
+    </div>
+  </div>
+  <div class="form-group">
+    <label for="inputPassword3" class="col-sm-2 control-label">其他网址</label>
+    <div class="col-sm-5">
+      <%= f.text_field :crawled_source, class: 'form-control input-sm' %>
+    </div>
+  </div>
+  <div class="form-group">
+    <div class="col-sm-offset-2 col-sm-10">
+      <%= f.submit '提交品牌', class: 'btn btn-primary' %>
+    </div>
+  </div>
+<% end %>
+
+<script type="text/javascript">
+    $(function () {
+        $('.brand_image_upload').fileupload({
+            url: '/manage/brands/<%= @brand.id %>/upload',
+            type: 'post',
+            dataType: 'json',
+            done: function (e, data) {
+                r = data.result.image_url;
+
+                var logo_image = $(this).parent().find(".logo_image").find("img");
+
+                if(logo_image.length < 1){
+                    logo_image = $("<img/>");
+                    logo_image.attr("src", r);
+                    $(logo_image).append(logo_image);
+                }else{
+                    logo_image.attr("src", r);
+                }
+            }
+        });
+
+//        $('#wide_avatar_url').fileupload({
+//            url: '/manage/brands/<%= @brand.id %>/upload',
+//            type: 'post',
+//            dataType: 'json',
+//            done: function (e, data) {
+//                r = data.result.image_url;
+//
+//                var logo_image = $(".logo_image").find("img");
+//
+//                console.log(logo_image.length);
+//
+//                if(logo_image.length < 1){
+//                    logo_image = $("<img/>");
+//                    logo_image.attr("src", r);
+//                    $(".logo_image").append(logo_image);
+//                }else{
+//                    logo_image.attr("src", r);
+//                }
+//            }
+//        });
+//
+//        $('#shop_photo_url').fileupload({
+//            url: '/manage/brands/<%= @brand.id %>/upload',
+//            type: 'post',
+//            dataType: 'json',
+//            done: function (e, data) {
+//                r = data.result.image_url;
+//
+//                var logo_image = $(".shop_image").find("img");
+//
+//                console.log(logo_image.length);
+//
+//                if(logo_image.length < 1){
+//                    logo_image = $("<img/>");
+//                    logo_image.attr("src", r);
+//                    $(".shop_image").append(logo_image);
+//                }else{
+//                    logo_image.attr("src", r);
+//                }
+//            }
+//        });
+    });
+</script>

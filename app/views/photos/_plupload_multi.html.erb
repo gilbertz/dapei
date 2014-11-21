@@ -1,0 +1,133 @@
+<!-- Third party script for BrowserPlus runtime (Google Gears included in Gears runtime now) -->
+<script type="text/javascript" src="/javascripts/jquery.js"></script>
+<script type="text/javascript" src="/javascripts/browserplus-min.js"></script>
+<!-- Load plupload and all it's runtimes and finally the jQuery queue widget -->
+<script type="text/javascript" src="/javascripts/plupload.full.js"></script>
+
+<script type="text/javascript">
+// Custom example logic
+$(function() {
+	var uploader = new plupload.Uploader({
+		runtimes : 'gears,html5,flash,silverlight,browserplus',
+		browse_button: 'file-upload',
+		container : 'container',
+		max_file_size : '50mb',
+		url : '/photos',
+		flash_swf_url : '/javascripts/plupload.flash.swf',
+		silverlight_xap_url : '/javascripts/plupload.silverlight.xap',
+		filters : [
+			{title : "Image files", extensions : "jpg,gif,png"},
+			{title : "Zip files", extensions : "zip"}
+		],
+		resize : {width : 800, quality : 99},
+                
+                multipart: true,
+                multipart_params: {
+                        "authenticity_token" : '<%= form_authenticity_token %>'
+                }
+  
+	});
+
+	uploader.bind('Init', function(up, params) {
+		$('#filelist').html("<div>Current runtime: " + params.runtime + "</div>");
+	});
+
+	$('#uploadfiles').click(function(e) {
+		uploader.start();
+		//e.preventDefault();
+	});
+
+	uploader.init();
+
+	uploader.bind('FilesAdded', function(up, files) {
+		$.each(files, function(i, file) {
+			$('#filelist').append(
+				'&nbsp; &nbsp; <div style="float:left;" id="' + file.id + '">' +
+				file.name + ' (' + plupload.formatSize(file.size) + ') <b></b>' +
+			'</div> &nbsp; &nbsp;');
+                        //uploader.start();
+		});
+
+		up.refresh(); // Reposition Flash/Silverlight
+	});
+
+	uploader.bind('UploadProgress', function(up, file) {
+		$('#' + file.id + " b").html(file.percent + "%");
+	});
+
+	uploader.bind('Error', function(up, err) {
+		$('#filelist').append("<div>Error: " + err.code +
+			", Message: " + err.message +
+			(err.file ? ", File: " + err.file.name : "") +
+			"</div>"
+		);
+
+		up.refresh(); // Reposition Flash/Silverlight
+	});
+
+	uploader.bind('FileUploaded', function(up, file, info) {
+		$('#' + file.id + " b").html("100%");
+                 var response = jQuery.parseJSON(info.response);
+                 var id = response.data.id,
+                     url = response.data.unprocessed_image.url,
+                     currentPlaceholder = $('photozone');
+                                
+                 $('#photozone').append("<input type='hidden' value='" + id + "' name='photos[]' />");
+
+/*$('#photozone').append('<div class="img"><a href="javascript:void(0)"><img width="100" height="100" src="/assets/img.jpg"><div class="x"><b></b></div></a></div>')
+ 
+                 var imgs = $('#photozone').find('img')
+                 var img = imgs.last();
+                 img.attr('src', url);
+                 img.attr('photoid', id);
+                 //uploader.init();
+                 var theButton=$('#create_shop_form').find('input[name="commit"]');
+                 theButton.removeAttr('disabled');
+                 var theItemButton=$('#create_item_form').find('input[name="commit"]');
+                 theItemButton.removeAttr('disabled');
+                 var theItemButton=$('#create_post_form').find('input[name="commit"]');
+                 theItemButton.removeAttr('disabled');
+                    
+                 $('.x').bind('click', function(){
+                    var photo = $(this).closest('.img');
+                    //photo.addClass("dim");
+                    $.ajax({url: "/photos/" + photo.find('img').attr('photoid'),
+                    type: 'DELETE',
+                    success: function() {
+                            photo.fadeOut(400, function(){
+                              photo.remove();
+                              $("input[value="+photo.find('img').attr('photoid')+"]").remove();
+                              $('.img_holder').css('display', 'block');
+                              //if ( $('.img').length  == 0){
+                              //}
+                            });
+                          }
+                    });
+                 }); */
+	});
+
+        $('.x').bind('click', function(){
+          var photo = $(this).closest('.img');
+          //photo.addClass("dim");
+          $.ajax({url: "/photos/" + photo.find('img').attr('photoid'),
+                  type: 'DELETE',
+                  success: function() {
+                            photo.fadeOut(400, function(){
+                              photo.remove();
+                              //$("input[value="+photo.find('img').attr('data-id')+"]").remove();
+                              //if ( $('.img').length  == 0){
+                              //}
+                            });
+                          }
+                  });
+        });
+});
+</script>
+<div id="container"">
+	<a class="img_holder" href="javascript:void(0)" id="file-upload" style="position: relative; z-index: 0; ">选择多张图片</a>
+        <br/></br>
+        <a id="uploadfiles" href="#">批量上传照片</a>
+        <div id="filelist" style="display:block;">No runtime found.</div>
+	<br />
+</div>
+			

@@ -1,0 +1,54 @@
+.infli
+  %li{:style=>"list-style:none;", :class=>"shopli"}
+    -if shop and shop.photos and shop.photos.length >=1
+      %a.pic{:href => "#{shop_path(shop)}", :target=>"_blank"}
+        %img{:height => "180", :src => "#{shop.get_display_photo.url(:wide_medium)}", :width => "484", :alt=>"#{shop.name}"}/
+    -else
+      %a.pic{:href =>  "#{shop_path(shop)}", :target=>"_blank" }
+        %img{:height => "180", :src => "/assets/img.jpg", :width => "484", :alt=>"#{shop.name}" }/
+    %h4
+      -if shop
+        %a{:href => "#{shop_path(shop)}"} #{shop.name}
+      -else
+        %a{:href => "#"} xxxxxx xxx
+    -if shop and shop.address and shop.address!=""
+      %p.address #{shop.address}
+    -else
+      %p.address xxxxxxx xxxxxxxxxxxxxx
+    .shop_properties
+      -#.attention
+        165已关注
+        %b
+      .commentary
+        -if shop
+          %a{:href=>"#{shop_path(shop)}", :target=>"_blank", :title=>"点击进行评论"}#{shop.comments_count}评论
+          %b{:href=>"#{shop_path(shop)}", :target=>"_blank", :title=>"点击进行评论"}
+        -else
+          %a{:href=>"#", :title=>"点击进行评论"}xx评论
+          %b{:href=>"#", :title=>"点击进行评论"}
+      .lover_icon
+        -if shop
+          %a{:href=>"javascript:void(0)", :title=>"点击进行收藏"}#{shop.likes_count}人喜欢
+          %b{:href=>"javascript:void(0)", :title=>"点击进行收藏"}
+        -else
+          %a{:href=>"javascript:void(0)", :title=>"点击进行收藏"}xx人喜欢
+          %b{:href=>"javascript:void(0)", :title=>"点击进行收藏"}
+      .shopping_icon
+        -if shop
+          #{shop.dispose_count}人在逛
+          %b
+        -else
+          xx人在逛
+          %b
+    -#.promotions-label 全场五折起！"/users/shop_comment_item
+    -comment=shop.comments.where(:user_id=>@user.id).first
+    -if comment
+      .comment_bd
+        .comment_list
+          .Each
+            %a.Avatar{:href => "javascript:void(0)"}
+              %img{:height => "24", :src => "#{@user.display_img_small}", :width => "24"}/
+            = succeed " #{comment.comment}" do
+              %a{:href => "javascript:void(0)"} #{@user.display_name}
+            %br/
+            -#=comment.created_at.localtime.strftime("%F %H:%M")

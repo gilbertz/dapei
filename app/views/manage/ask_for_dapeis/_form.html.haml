@@ -1,0 +1,23 @@
+= simple_form_for([:manage, @ask_for_dapei], :validate=>true, :html => {:multipart => true } ) do |f|
+  = f.error_notification
+  <input class="form-control" id="matter_image" name="matter_image" type="file" multiple>
+  .form-inputs
+    = f.input :title
+    = f.input :level
+    = f.select :user_id, @users_for_select
+    = f.input :reward
+    = f.input :url
+    %select{:name => "tags"}
+      %option{:value => "0"}
+        无
+      - @tags.each do |name|
+        - if @ask_for_dapei.tag_list.include?(name)
+          %option{:selected => "selected", :value => name}
+            = name
+        - else
+          %option{:value => name}
+            = name
+    = f.input :tag
+
+  .form-actions
+    = f.button :submit

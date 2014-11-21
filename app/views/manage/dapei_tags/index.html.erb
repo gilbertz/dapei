@@ -1,0 +1,45 @@
+<%= search_form_for [:manage, @q], html: {class: 'form-inline',role: 'form',style: 'margin-top:30px;'} do |f| %>
+  <div class="form-group">
+    <label class="sr-only">TagName</label>
+    <%= f.text_field :name_cont, class: 'form-control', placeholder: '名称' %>
+  </div>
+  <%= f.submit '搜索', class: 'btn btn-primary btn-xs'%> 
+  <%= total_span @matter_tags %>
+  <div class="form-group pull-right">
+    <%= link_to  [:new,:manage,:dapei_tag], class: 'btn btn-primary btn-sm', id: 'a_obj' do %>
+      <span class="glyphicon glyphicon-plus"></span>新建搭配标签
+    <% end %>
+  </div>
+<% end %>
+<table class="table table-bordered table-hover">
+  <thead>
+    <tr class="success">
+      <th class="col-md-1">Id</th>
+      <th class="">名称</th>
+      <th class="col-md-1">Hot ?</th>
+      <th class="col-md-1">类型</th>
+      <th width="17%">创建时间</th>
+      <th width="10%">操作</th>
+    </tr>
+  </thead>
+  <tbody>
+    <% @dapei_tags.each do |tag| %>
+      <tr>
+        <td>
+          <span class="badge">
+            <%= tag.id %> 
+          </span>
+        </td>
+        <td><%= tag.name %></td>
+        <td><%= tag.is_hot == 1? '是' : '否' %></td>
+        <td><%= @types[tag.tag_type] %></td>
+        <td><%= tag.updated_at && to_local(tag.updated_at) %></td>
+        <td> 
+          <%= link_to '编辑', [:edit,:manage,tag], class: 'e_obj' %>  |
+          <%= link_to '删除', '#' %>
+        </td>
+      </tr>
+    <% end %>
+  </tbody>
+</table>
+<%= paginate @dapei_tags %>

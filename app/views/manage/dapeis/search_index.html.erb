@@ -1,0 +1,9 @@
+<h2>
+  <%= @dapeis.length %> 个搭配
+  <% if @brand %>
+    <%= @brand.name %>
+  <% end %>
+</h2>
+
+
+<%= render 'dapei_list' ,:items => @dapeis %>

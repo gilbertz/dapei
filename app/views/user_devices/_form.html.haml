@@ -1,0 +1,13 @@
+= simple_form_for(@user_device) do |f|
+  = f.error_notification
+
+  .form-inputs
+    = f.input :appid
+    = f.input :user_id
+    = f.input :baidu_uid
+    = f.input :channel_id
+    = f.input :device_type
+    = f.input :token
+
+  .form-actions
+    = f.button :submit

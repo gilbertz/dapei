@@ -1,0 +1,62 @@
+mysql: &mysql
+  adapter: mysql2
+  host: "rdsnjuzn3bybvrj.mysql.rds.aliyuncs.com"
+  port: 3306
+  username: "kao"
+  password: "kao123"
+  charset: utf8
+
+postgres: &postgres
+  adapter: postgresql
+  host: localhost
+  port: 5432
+  username: postgres
+  password:
+  encoding: unicode
+
+# You can ignore this
+postgres_travis: &postgres_travis
+  adapter: postgresql
+  username: postgres
+
+# Comment the the mysql line and uncomment the postgres line
+# if you want to use postgres
+common: &common
+  # Choose one of the following
+  <<: *mysql
+  #<<: *postgres
+
+wx_database:
+  adapter: mysql2
+  host: "180.150.166.57"
+  port: 3306
+  username: "wx_admin"
+  password: "shangjieba123"
+  database: wx_shangjieba
+  charset: utf8
+  collation: utf8_bin
+
+sg_database:
+  adapter: mysql2
+  encoding: utf8
+  username: root
+  password: wan123
+  host: "203.195.197.31"
+  database: flash_buy
+
+# Normally you don't need to touch anything here
+development:
+  <<: *common
+  database: sjb
+production:
+  <<: *common
+  database: sjb
+test:
+  <<: *common
+  database: "sjb_test<%= ENV['TEST_ENV_NUMBER'] %>"
+integration1:
+  <<: *common
+  database: sjb_integration1
+integration2:
+  <<: *common
+  database: sjb_integration2

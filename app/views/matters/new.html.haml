@@ -1,0 +1,16 @@
+%h3{:style=>'margin-top:30px;'}
+  上传@素材
+%hr{:style=>'margin-top:0px;'}
+
+= render 'form'
+
+.wrapper
+  .dapei-body
+    -if @matters.blank?
+      .resort
+        %h2 还没有上传任何素材!
+    %ul.nav.nav-float.stream
+      - @matters.each  do |d|
+        =render :partial=>"/matters/list_item", :locals=>{:matter=>d, :dis_class=>"holder"}
+    #page_nav
+      = paginate @matters

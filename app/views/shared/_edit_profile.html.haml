@@ -1,0 +1,38 @@
+.left
+  %ul
+    %li.whole
+      %a{:href => "/accounts/info/edit"} 修改资料
+    %li
+      %a{:href => "/accounts/change_password"} 修改密码
+.right
+  = simple_form_for(resource, :as => resource_name, :validate=>true, :url => registration_path(resource_name), :html => { :method => :put, :multipart => true }) do |f| 
+    = f.error_notification
+    %ul
+      %input{:type=>"hidden", :value=>"#{start}", :name => "start"}
+      %li
+        -#%label.title 昵称：
+        -#%input.txt{:name => "", :style => "width:140px;", :type => "text"}/
+        =f.input :name, :label=>"名字 :", :label_html=>{:class=>"title"}, :input_html=>{:style=>"width:180px;"}
+      %li
+        =f.input :is_girl, :label=>"性别 :", :label_html=>{:class=>"title"}, :collection => ["女性", "男性"], :selected=>@user.is_girl
+      %li
+        =f.input :email, :label=>"Email :", :required=>true, :label_html=>{:class=>"title"}, :input_html=>{:style=>"width:180px;"}
+      %li{:style => "height:130px;"}
+        %label.title 头像：
+        .Avatar
+          #photoid
+          #profilephotozone
+            %img{:height => "120", :src => "#{@user.display_img_medium}", :width => "120"}
+        .AlterAvatar
+          %a{:href => "javascript:void(0)", :id=>"profile-file-upload"} 修改头像
+          = render "photos/new_profile_photo"
+      %li
+        =f.input :birthday, :label=>"出生年月 :",  :label_html=>{:class=>"title"}, :as=>:date, :start_year => Date.today.year - 45,
+          :end_year => Date.today.year - 12, :discard_day => true,
+          :order => [:year, :month]
+      %li
+        =f.input :city, :label=>"居住城市 :",:value=>"上海", :label_html=>{:class=>"title"}, :input_html=>{:style=>"width:180px;"}
+      %li{:style => "height:120px;"}
+        =f.input :desc, :label=>"简介 :", :label_html=>{:class=>"title"}, :input_html=>{:style=>"width:300px;height:80px;"}
+      %li
+        = f.button :submit, '提交修改', :class => 'login-submit'

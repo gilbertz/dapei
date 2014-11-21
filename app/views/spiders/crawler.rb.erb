@@ -1,0 +1,286 @@
+<%="#encoding:utf-8"%>
+require 'headless'
+require 'rubygems'
+require 'selenium-webdriver'
+require 'yaml'
+require 'json'
+require 'redis'
+
+headless = Headless.new(:reuse => false)
+headless.start
+
+$redis =  Redis.new(:host => '114.80.100.12', :port => 6379)
+ 
+driver = Selenium::WebDriver.for :chrome
+#driver.manage.timeouts.implicit_wait = 30
+driver.manage.timeouts.script_timeout = 120
+driver.manage.timeouts.page_load = 60
+
+links = []
+docs = []
+next_link = ""
+npage = 0
+
+def parse(driver)
+  doc = {}
+  doc["title"] =  driver.find_element(:xpath, "<%=raw @spider.ptitle %>").text
+
+  <% if @spider.pprice && @spider.pprice != "" %>
+    doc["price"] =  driver.find_element(:xpath, "<%=raw @spider.pprice %>").text
+  <% end %>
+
+  <% if @spider.freight && @spider.freight > 0 %>
+    doc["freight"] =  "<%=raw @spider.freight %>"
+  <% end %>
+
+  <% if @spider.is_agent %>
+    doc["is_agent"] = 1
+  <% end %>
+
+  <% if @spider.is_guide %>
+    doc["is_guide"] = 1
+  <% end %>
+
+  <% if @spider.pdesc && @spider.pdesc != "" %>
+    doc["desc"] =  driver.find_element(:xpath, "<%=raw @spider.pdesc %>").text
+  <% end %>
+
+  doc["brand_id"] = "<%=raw @brand_id %>"
+  imgs = []
+  <% if @spider.pimg_attr.nil? || @spider.pimg_attr.strip.empty? %>
+     <%   @spider.pimg_attr = "src" %>
+  <% end %>
+  <% if @spider.dp_img_attr.nil? || @spider.dp_img_attr.strip.empty? %>
+     <%   @spider.dp_img_attr = "src" %>
+  <% end %>
+
+  simgs = []
+  <% if @spider.pshow_img && @spider.pshow_img != "" %>  
+    driver.find_elements(:xpath, "<%=raw @spider.pshow_img %>").each do |e|
+      img = e.attribute("src")
+      if img && !(img =~ /http:\/\/|https:\/\//)
+        img = "<%=raw @domain%>/" + img
+      end
+      simgs << img
+    end 
+  <% end %>
+  doc["simg"] = simgs
+  driver.find_elements(:xpath, "<%=raw @spider.pimgs %>").each do |e|
+    img = e.attribute("<%=raw @spider.pimg_attr %>")
+    <% if @spider.img_rule != "" %>
+      img = img<%=raw @spider.img_rule %> unless img.nil?
+    <% end %>
+    if img && !(img =~ /http:\/\/|https:\/\//)
+      img = "<%=raw @domain%>/" + img
+    end
+    imgs << img
+  end
+
+  dp_imgs = []
+  <% if @spider.dp_img && @spider.dp_img != "" %> 
+    arr_dp_img = "<%=raw @spider.dp_img%>".split("|")
+    arr_dp_img.each_with_index do |single_dp_img, i|
+      driver.find_elements(:xpath, single_dp_img).each do |e|
+        img = (i==0) ? e.attribute( "<%=raw @spider.dp_img_attr %>"  ) : e.attribute("src")
+        <% if @spider.dp_img_rule && @spider.dp_img_rule != "" %>
+          img = img<%=raw @spider.dp_img_rule %> unless img.nil?
+        <% end %>
+        if img && !(img =~ /http:\/\/|https:\/\//)
+          img = "<%=raw @domain%>/" + img
+        end
+        case img
+        when /ikea.com/
+          img = ["http://www.ikea.com", "PIAimages", img.split("__").last].join("/")
+        else
+        end
+        dp_imgs << img
+      end
+    end
+    doc["dp_imgs"] = dp_imgs
+  <% end %>
+
+  doc["url"] = driver.current_url
+  doc["imgs"] = imgs
+  doc["time"] = Time.new.to_s
+  doc["spider_id"] = <%=raw @ospider.id %>
+  doc["origin_platform"] = "<%=@origin_platform_name %>"
+  <% if @spider.pcode && !@spider.pcode.strip.empty? %>
+    doc["pno"] = driver.find_element(:xpath, "<%=raw @spider.pcode %>").text
+  <% end %>
+  <% if @spider.pstore_count && @spider.pstore_count != "" %>
+    doc["store_count"] = driver.find_element(:xpath, "<%=raw @spider.pstore_count %>").text
+  <% end %>
+  <% if @spider.psold_count && @spider.psold_count != "" %>
+    doc["sold_count"] = driver.find_element(:xpath, "<%=raw @spider.psold_count %>").text
+  <% end %>
+   <% if @spider.phot && @spider.phot != "" %>
+    doc["hot"] = driver.find_element(:xpath, "<%=raw @spider.phot %>").text
+  <% end %>
+  <% if @spider.prate && @spider.prate != "" %>
+    doc["rate"] = driver.find_element(:xpath, "<%=raw @spider.prate %>").text
+  <% end %>
+  <% if @spider.psize && !@spider.psize.strip.empty? %>
+    case doc["url"]
+    when /zalando.de|zalando.co.uk|abercrombie.com/
+      doc["sizes"] = driver.find_elements(:xpath, "<%=raw @spider.psize %>").map{|ele| ele["text"]}[1..-1].join(",")
+    when /www.lachapelle.cn/
+      doc["sizes"] = driver.find_elements(:xpath, "<%=raw @spider.psize %>").map{|ele| ele["text"]}[0..-2].join(",")
+    when /sp.lachapelle.cn/
+      doc["sizes"] = driver.find_elements(:xpath, "<%=raw @spider.psize %>").map{|ele| ele.attribute("src").split("/").last.split("_").last.split(".").first}.join(",")
+    else     
+      doc["sizes"] = driver.find_elements(:xpath, "<%=raw @spider.psize %>").map{|ele| ele.text}.join(",")
+    end
+  <% end %>
+  <% if @spider.pcolor && !@spider.pcolor.strip.empty? %>
+      icon_url_arr = []
+      color_name_arr = []
+      
+      driver.find_elements(:xpath, "<%=raw @spider.pcolor %>").each do |ele| 
+        case doc["url"]
+        when /zalando.de|zalando.co.uk/
+          icon_url = ele.attribute("src").gsub('selector','large')
+          title_info = ele.attribute("title")
+          color_name = title_info.split("-").last.strip
+        when /tmall.com|tmall.hk/
+          icon_url_origin = ele.attribute( "<%=raw @spider.dp_img_attr %>"  )
+          icon_url = icon_url_origin<%=raw @spider.dp_img_rule %> 
+          color_name = ele.text
+        when /newlook.com/          
+          icon_url_origin = ele.attribute( "<%=raw @spider.dp_img_attr %>"  )
+          icon_url = icon_url_origin<%=raw @spider.dp_img_rule %> 
+          color_name = ele.attribute("alt").split("(").first.strip
+        when /dorothyperkins.com|elleshop.com.cn|hm.com|theoutnet.cn|madewell.com|accessorize.com|sp.lachapelle.cn|fossilchina.cn|missselfridge.com|abercrombie.com/          
+          icon_url = ""
+          color_name = ele.text
+          color_name = ele.text.split("(").first.strip if doc["url"].include?("accessorize.com")
+          color_name = ele.text.gsub(/Shown In|SHOWN IN/,"").strip if doc["url"].include?("abercrombie.com")
+          color_name = ele.attribute("src").split("/").last.split("_").last.split(".").first if doc["url"].include?("sp.lachapelle.cn")
+        when /secoo.com|shopbop.com/
+          icon_url_origin = ele.attribute( "<%=raw @spider.dp_img_attr %>"  )
+          icon_url = icon_url_origin<%=raw @spider.dp_img_rule %>          
+          color_name = ele.attribute("title")
+        when /zara.cn|anneklein.com|esprit.cn|tommy.com.cn/          
+          icon_url = ""
+          color_name = ele.attribute("title")
+        when /www.lachapelle.cn/          
+          icon_url = ""
+          color_name = ele.attribute("rel")
+        when /fiveplus.com|ochirly.com|riverisland.com|paixie.net/
+          icon_url_origin = ele.attribute( "<%=raw @spider.dp_img_attr %>"  )
+          icon_url = icon_url_origin<%=raw @spider.dp_img_rule %> 
+          color_name = ele.attribute("alt")
+          color_name = color_name.gsub(/^[0-9]+/, "") if doc["url"].include?("paixie.net")
+        else     
+        end
+        icon_url_arr << icon_url
+        color_name_arr << color_name if !color_name_arr.include?(color_name)
+     end
+      doc_colors = {:color_names=>color_name_arr, :icon_urls=>icon_url_arr}.to_json
+      doc["colors"] = doc_colors
+ <% end %>
+ <% if @spider.porigin_price && @spider.porigin_price != "" %>
+    begin
+      driver.find_elements(:xpath, "<%=raw @spider.porigin_price %>").each do |e|
+        unless e.nil?
+          doc["origin_price"] = e.text
+          break 
+        end
+      end
+    rescue => e
+      p e.to_s
+      return doc
+    end
+  <% end %>
+  doc
+end
+
+def make_docid(url)
+  case url
+  when /tmall.com|mango.com|tmall.hk/
+    url = url.gsub(/\?(.*)(id=\d+)(.*)/, '?\2')
+  when /daphne.cn/
+    url = url.gsub(/&c=\d+/, '')
+  when /net-a-porter.com/
+    url_arr = url.split("/")
+    if url_arr.size == 7
+      str_to_replace = url_arr.last(2).join("\/")
+      str_to_sub = "\/#{str_to_replace}"
+      url = url.gsub( /#{Regexp.escape(str_to_sub)}/, "")
+    end
+  when /swarovski.com.cn/
+    url = url.split(";").first
+  when /jumei.com/
+    url = url.split("?").first
+  when /yintai.com/
+    url = url.split("?").first
+    url = "#{url}?source=shangjie"
+  else
+  end
+  Digest::MD5.hexdigest( url )
+end
+
+def parse_links(driver, docs, cat_id)
+  pkey = "brand_<%=raw @brand_id %>_spider_<%= @spider_id%>_product_pages_#{cat_id}"
+  lks = $redis.lrange(pkey, 0, -1)
+  brand_cat_list_length = lks.length
+  p "key=" + pkey
+  p "list len=#{brand_cat_list_length}"
+  return if brand_cat_list_length == 0
+
+  lks.each do |link|
+    next unless link.include?("<%=raw @domain_without_www %>")
+    sub_cat_id = "0"
+    if [9, 10, 11].include?(cat_id)
+      link_sub_cat_id = link.split(",")
+      if link_sub_cat_id.length == 2
+        link = link_sub_cat_id.last
+        sub_cat_id = link_sub_cat_id.first
+      else
+        link = link_sub_cat_id.first
+        sub_cat_id = "0"
+      end
+    end
+    key = make_docid(link)
+
+    <% unless params[:cache] %>
+    if $redis.get(key)
+    <% else %>
+    if false
+    <% end %>
+      $redis.del(key)
+    end
+
+    begin
+      if link.include?("javascript:")
+        driver.execute_script link
+        sleep 1
+        doc = parse(driver)
+        driver.navigate.back
+      else
+        driver.get link
+        doc = parse(driver)
+      end
+      doc["category_id"] = cat_id
+      if sub_cat_id && sub_cat_id!="0"
+        doc["sub_cat_id"] = sub_cat_id
+      end
+      $redis.set(key, doc.to_yaml)
+      $redis.expire key, 3600*24*15
+      p doc
+      docs << doc
+    rescue=>e
+      p e.to_s
+    end
+  end
+end
+
+<% @categories.each do |cat| %>
+  parse_links(driver, docs, <%= cat.id %> )
+<% end %>
+
+driver.quit
+<% unless params[:debug] %>
+#`ps axf | grep chromium-browser | grep -v grep | awk '{print "kill -9 " $1}' | sh`
+<% end %>
+
+headless.destroy

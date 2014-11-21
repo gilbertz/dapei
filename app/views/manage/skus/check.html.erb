@@ -1,0 +1,69 @@
+<table class="table table-bordered table-hover">
+  <thead>
+  <tr class="success">
+    <th width="6%">ID</th>
+    <th>标题</th>
+    <th>描述</th>
+    <th>分类</th>
+    <th>二级分类</th>
+    <th>品牌</th>
+    <th>图片</th>
+    <th width="8%">价格</th>
+    <th width="17%"><%= '创建时间' %></th>
+    <th width="16%">操作</th>
+  </tr>
+  </thead>
+  <tbody>
+  <% @skus.each do |sku| %>
+      <tr>
+        <td>
+          <span class="badge">
+            <%= sku.id %>
+          </span>
+        </td>
+        <td><%=link_to sku.title, sku.buy_url %></td>
+        <td><%= sku.desc %></td>
+        <td><%= sku.category.name %></td>
+        <td><%= sku.sub_category_name %></td>
+        <td>
+          <%= link_to sku.brand.try(:name), "?brand_id=#{sku.brand_id}" %>
+        </td>
+        <% photos = sku.photos %>
+        <% fphoto = sku.photos.first %>
+        <td style="padding:1px; width:72px;">
+          <div style="display:none;">
+            <div id="inline_content<%= sku.id %>" style='background:#fff;'>
+              <div class="row" style="margin:0px;">
+                <% photos.each do |p| %>
+                    <div class="col-sm-3 col-md-2 photo">
+                      <div class="thumbnail">
+                        <img alt="300x200" style="width: 300px; height: 200px;" src="<%= p.url(:scaled_medium) %>">
+                        <div class="caption">
+                          <p>
+                            <%= link_to '删除', [:manage,p], method: :delete, remote: true,
+                                        confirm: 'Are you sure?', class: 'del-photo' %>
+                          </p>
+                        </div>
+                      </div>
+                    </div>
+                <% end %>
+              </div>
+            </div>
+          </div>
+          <%= link_to fphoto.try(:url,:scaled_medium), class: 'preview', title: sku.title do %>
+              <img src="<%= fphoto.try(:url,:scaled_medium) %>", style="width:70px; height:56px;" />
+          <% end %>
+        </td>
+        <td>¥ <%= sku.price %></td>
+        <td><%= to_local sku.created_at %></td>
+        <td>
+          <%= link_to '编辑', [:edit,:manage,sku] %> |
+          <%= link_to '编辑品牌', [:edit,:manage, sku.brand] %> |
+          <%= link_to '删除', [:manage,sku], method: :delete, class: 'ajaxd',
+                      remote: true, confirm: 'Are you sure' %> |
+          <%= link_to '显图', "#inline_content#{sku.id}", class: 'sku_images' %>
+        </td>
+      </tr>
+  <% end %>
+  </tbody>
+</table>

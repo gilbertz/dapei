@@ -1,0 +1,11 @@
+<%= search_form_for [:manage, @q], html: {class: 'form-inline',role: 'form',style: 'margin-top:30px;'} do |f| %>
+  <div class="form-group">
+    <label class="sr-only">BrandName</label>
+    <%= f.text_field :name_cont, class: 'form-control', placeholder: '品牌名' %>
+  </div>
+
+  <%= f.submit '搜索', class: 'btn btn-primary btn-xs'%> 
+  <%= total_span @brands %>
+<% end %>
+
+<%= render 'brand_index' %>

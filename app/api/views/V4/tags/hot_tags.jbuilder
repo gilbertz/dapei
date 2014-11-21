@@ -1,0 +1,1 @@
+json.hot_tags @hot_tags

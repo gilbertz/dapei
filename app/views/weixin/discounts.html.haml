@@ -1,0 +1,22 @@
+.wrapper
+  = render 'tabs'
+
+- @objs.each do |discount|
+  .wrapper
+    %p.wx_head
+      %span.wx_logo
+        %img{:src => discount['wide_avatar_url']}
+      %span.wx_title
+        = discount['title']
+    - if discount['img_scaled_large'] and discount['img_scaled_large'] != ""
+      %p{:align => "center"}
+        %a{:href=>"#{weixin_discount_path(discount['discount_id'])}"}
+          %img{:src =>discount['wide_half_campaign_img'] }
+    %p
+      %font{:face => "icon"} 3
+      %font{:face => "微软雅黑"}#{show_distance(discount)} #{discount['street']}
+      &nbsp;&nbsp;
+      = "#{discount['start_date']}-#{discount['end_date']}"
+    %p
+      %a{:href=>"#{weixin_discount_path(discount['discount_id'])}"} 查看详情>>  
+= render 'footer'

@@ -1,0 +1,7 @@
+<% unless @categories.blank? %>
+
+    <% @categories.each do |c| %>
+        <option value="<%= c[1] %>"><%= c[0] %></option>
+    <% end %>
+
+<% end %>

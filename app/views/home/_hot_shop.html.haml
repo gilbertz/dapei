@@ -1,0 +1,56 @@
+.wrapper
+  .big-sale.chunk.chunk-two
+    .chunk-head
+      .head-img
+        %img{:src => "/assets/newweb/hot_shop.png", :alt => "#{@city}打折", :title => "#{@city}打折"}
+    .chunk-two-body
+      %ul.nav.nav-float.chunk-two-ul
+        - @sale_items.each do |item|
+          - unless item.blank?
+            %li
+              %a{:href => "#{brand_baobei_path(item.brand,item)}", :target=>"_blank"}
+                %img{:src => "#{item.img_url(:normal_medium)}", :alt=>"#{@city}#{item.brand_name.capitalize}打折 #{@city}打折", :title=>"#{@city}#{item.brand_name.capitalize}打折 #{@city}打折"}
+                  .opacity-big
+                    .item-brand
+                      #{item.brand_name.capitalize}
+                    .item-price
+                      %span.price
+                        %span.price-two #{item.get_currency}
+                        %span.new-price
+                          #{item.get_num_price}
+                        %span.old-price
+                          #{item.get_num_origin_price}
+                    -#.item-adress
+                      #{item.shop_street}
+      -#%ul.nav.nav-float.chunk-two-ul-bottom
+        -@discounts.each do |discount|
+          =render :partial=>'recommend_discount_item', :locals=>{:discount=>discount}
+
+/ 2F
+-#.recom-p.clearfix.gjb_2
+  .hd
+    %h2 推荐热店
+    %a.more{:href => "#{search_path}"} more
+  -#%a.previous{:href => "#"}
+  -#%a.next{:href => "#"}
+  .bd
+    %div
+      %ul
+        -number=0
+        -@shops.each do |shop|
+          -if number>3
+            -break
+          -number=number+1
+          =render :partial=>"/home/recommend_shop_item", :locals=>{:shop=>shop}
+      %dl
+        %dt
+          -#优惠活动
+          -#%b
+        -i=0
+        -num=5
+        -@discounts.each do |discount|
+          -break unless i<num
+          -if discount.discountable_type=="Shop" and discount.is_current?
+            =render :partial=>"/home/recommend_discount_item", :locals=>{:discount=>discount}
+            -i=i+1
+

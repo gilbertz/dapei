@@ -1,0 +1,105 @@
+<% cache("#{request.url}?fragment", :expires_in => 2.hour) do %>
+{
+   "status":{"ok":1},
+   "result":{ 
+        "categories": {
+            "fashion": [
+                <% unless @rule_categories.blank? %>
+                    <% first = true %>
+                    <% @rule_categories.each do |c| %>
+                        <% unless [121, 123].include?(c.id) %>
+                        <%if not first %>
+                        ,
+                        <% end %>
+                        <% first = false  %>
+                        {
+                            "group_name": "服饰",
+                            "thing_id": "<%= c.image_thing %>",
+                            "filters": [{"value": "<%= c.id %>", "name": "category_id"}],
+                            "type": "thing",
+                            "label": "<%= c.name %>"
+                        }
+                        <% end %>
+                    <% end %>
+                <% end %>
+            ],
+
+            "others": [
+                {"group_name": "个性定制", "thing_id": "1391925399486", "weight": "1", "type": "text", "label": "自定义文字"},
+                {"group_name": "个性定制", "thing_id": "1397617159152", "weight": "1", "type": "camera", "label": "上传照片"}
+            ],
+
+
+            
+            "filler": [
+                <% first = true %>
+                <% @sucai_categories .each do |c|%>
+                   <%if not first %>
+                     ,
+                   <% end %>
+                   <% first = false  %>
+                   {"group_name": "素材", "thing_id": "<%= c.image_thing %>", "weight": "<%= c.weight%>", "filters": [{"value": "<%= c.id %>", "name": "category_id"}], "type": "thing", "label": "<%= c.name%>"}
+                <% end %>
+            ],
+
+
+            "brand": [
+                <% unless @brands.blank? %>
+                    <% first = true %>
+                    <% @brands.each do |b| %>
+                        <%if not first%>
+                        ,
+                        <% end %>
+                        <% first = false  %>                        
+                        {
+                            "group_name": "品牌",
+                            "thing_id": "<%= b.id %>",
+                            "filters": [{"value": "<%= b.id %>", "name": "brand_id"}],
+                            "type": "thing",
+                            "label": "<%= b.get_name %>"
+                        }
+                    <% end %>
+                 <% end %>
+           ]
+        }, 
+
+
+        "color": {
+               "items": [
+                    {"value":"#505050"},{"value":"#e7e7e7"},{"value":"#828283"},{"value":"#ead0cd"},{"value":"#8c7762"},{"value":"#b5b5b6"},{"value":"#62778c"},{"value":"#cb837f"},{"value":"#000000"},{"value":"#ffffff"},{"value":"#660000"},{"value":"#ffc898"},{"value":"#c69c7b"},{"value":"#33151a"},{"value":"#1c0946"},{"value":"#5e1800"},{"value":"#cf5352"},{"value":"#980000"},{"value":"#31318c"},{"value":"#3d1f00"},{"value":"#e32636"},{"value":"#205260"},{"value":"#4a73bd"},{"value":"#8cbcbd"},{"value":"#724120"},{"value":"#fa624d"},{"value":"#628c8c"},{"value":"#77628c"},{"value":"#8c6277"},{"value":"#a1c4e9"},{"value":"#bdd6bd"},{"value":"#e2db9a"},{"value":"#589ad5"},{"value":"#520f41"},{"value":"#840e47"},{"value":"#ffdfef"},{"value":"#ef8cae"},{"value":"#8c8c62"},{"value":"#e30e5c"},{"value":"#34e3e5"},{"value":"#8e7032"},{"value":"#8c5e31"},{"value":"#318c8c"},{"value":"#65f3c9"},{"value":"#c6a5b6"},{"value":"#ff59ac"},{"value":"#ffc549"},{"value":"#daca7a"},{"value":"#00ff00"},{"value":"#b2ffff"},{"value":"#ff0000"},{"value":"#de6318"},{"value":"#d1b45b"},{"value":"#eed54f"},{"value":"#778c62"},{"value":"#e8d1ff"},{"value":"#ffffae"},{"value":"#bf9c3b"},{"value":"#ffff6d"},{"value":"#293206"},{"value":"#ffb2ff"},{"value":"#8c008c"},{"value":"#77f6a7"},{"value":"#a297e9"},{"value":"#5e318c"},{"value":"#8c8c31"},{"value":"#8c4600"},{"value":"#88ba41"},{"value":"#d8ffb2"},{"value":"#006700"},{"value":"#96d28a"},{"value":"#d3d100"},{"value":"#ffa000"},{"value":"#ff7f00"},{"value":"#8c8c00"},{"value":"#00ffff"},{"value":"#b2ffb2"},{"value":"#1f07b0"},{"value":"#ffff00"},{"value":"#46008c"},{"value":"#a9ff00"},{"value":"#ff00ff"},{"value":"#00ae00"},{"value":"#0000ff"},{"value":"#ac59ff"},{"value":"#7f00ff"}
+                 ]
+        },
+        
+   
+        "price_int": {
+              "items": [
+                  {
+                       "value": "0,50",
+                       "label": "under ￥50"
+                  },
+                  {
+                       "value": "50,100",
+                       "label": "￥50-100"
+                  },
+                  {
+                       "value": "100,250",
+                       "label": "￥100-250"
+                  },
+                  {
+                       "value": "250,500",
+                       "label": "￥250-500"
+                  },
+                  {
+                       "value": "500,1000",
+                       "label": "￥500-1,000"
+                  },
+                  {
+                       "value": "1000",
+                       "label": "over ￥1,000"
+                  }
+              ]
+        }
+
+   }
+}
+<% end %>

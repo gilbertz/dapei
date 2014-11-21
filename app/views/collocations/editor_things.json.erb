@@ -1,0 +1,95 @@
+{"status": {
+    "ok": 1
+}, "result": {
+    "total_pages": <%= @matters.total_pages %>,
+    "page": <%= @matters.current_page %>,
+    "total_results": "<%= @matters.total_entries %>",
+    "more_pages": "<%= @matters.total_pages.to_i - @matters.current_page %>",
+    "current_page": <%= @matters.current_page %>,
+    "filters": {
+        "color": {
+            "items": [
+                {"value":"#505050"},{"value":"#e7e7e7"},{"value":"#828283"},{"value":"#ead0cd"},{"value":"#8c7762"},{"value":"#b5b5b6"},{"value":"#62778c"},{"value":"#cb837f"},{"value":"#000000"},{"value":"#ffffff"},{"value":"#660000"},{"value":"#ffc898"},{"value":"#c69c7b"},{"value":"#33151a"},{"value":"#1c0946"},{"value":"#5e1800"},{"value":"#cf5352"},{"value":"#980000"},{"value":"#31318c"},{"value":"#3d1f00"},{"value":"#e32636"},{"value":"#205260"},{"value":"#4a73bd"},{"value":"#8cbcbd"},{"value":"#724120"},{"value":"#fa624d"},{"value":"#628c8c"},{"value":"#77628c"},{"value":"#8c6277"},{"value":"#a1c4e9"},{"value":"#bdd6bd"},{"value":"#e2db9a"},{"value":"#589ad5"},{"value":"#520f41"},{"value":"#840e47"},{"value":"#ffdfef"},{"value":"#ef8cae"},{"value":"#8c8c62"},{"value":"#e30e5c"},{"value":"#34e3e5"},{"value":"#8e7032"},{"value":"#8c5e31"},{"value":"#318c8c"},{"value":"#65f3c9"},{"value":"#c6a5b6"},{"value":"#ff59ac"},{"value":"#ffc549"},{"value":"#daca7a"},{"value":"#00ff00"},{"value":"#b2ffff"},{"value":"#ff0000"},{"value":"#de6318"},{"value":"#d1b45b"},{"value":"#eed54f"},{"value":"#778c62"},{"value":"#e8d1ff"},{"value":"#ffffae"},{"value":"#bf9c3b"},{"value":"#ffff6d"},{"value":"#293206"},{"value":"#ffb2ff"},{"value":"#8c008c"},{"value":"#77f6a7"},{"value":"#a297e9"},{"value":"#5e318c"},{"value":"#8c8c31"},{"value":"#8c4600"},{"value":"#88ba41"},{"value":"#d8ffb2"},{"value":"#006700"},{"value":"#96d28a"},{"value":"#d3d100"},{"value":"#ffa000"},{"value":"#ff7f00"},{"value":"#8c8c00"},{"value":"#00ffff"},{"value":"#b2ffb2"},{"value":"#1f07b0"},{"value":"#ffff00"},{"value":"#46008c"},{"value":"#a9ff00"},{"value":"#ff00ff"},{"value":"#00ae00"},{"value":"#0000ff"},{"value":"#ac59ff"},{"value":"#7f00ff"}
+            ]
+        },
+        "brand":{
+           "items":[
+               <% first = true %>
+               <% @brands.each do |b| %>
+                  <% if not first %>
+                  ,
+                  <% end %>
+                  <% first = false %>
+                  {
+                      "group_name": "品牌",
+                      "thing_id": "<%= b.id %>",
+                      "filters": [{"value": "<%= b.id %>", "name": "brand_id"}],
+                      "type": "thing",
+                      "label": "<%= b.get_display_name %>",
+                      "url": "<%= b.url[0] %>"
+                  }
+               <% end %>
+            ]
+        },
+        "category": {
+           "groups": [
+               { 
+                  "name": "<%= @current_category_name%>",
+                  "items": [
+                    <% first = true %>
+                    <% @sub_categories.each do |s| %>
+                    <% if not first %>
+                    ,
+                    <% end %>
+                    <% first = false %>
+                    {
+                      "group_name": "类别",
+                      "filters": [{"value": "<%= s.id %>", "name": "category_id"}],
+                      "type": "category",
+                      "label": "<%= s.name %>"
+                    }
+                  <% end %>
+                  ]
+               } 
+           ]
+        }    
+    },
+    "items": [
+        <% unless @matters.blank? %>
+            <% first = true %>
+            <% @matters.each do |m| %>
+                <% next unless m %>
+                <% unless m.image_name.blank? %>
+                <% if not first %>
+                ,
+                <% end %>
+                <% first = false %>
+                {
+                    "id": "<%= m.id %>",
+                    "w": "<%= m.width.to_i %>",
+                    "thing_id": "<%= m.image_name.to_s %>",
+                    "masking_policy": "default_yes",
+                    "oh": "<%= m.height.to_i %>",
+                    "h": "<%= m.height.to_i %>",
+                    "displayurl": "<%= m.get_item_buy_domain.to_s %>",
+                    "url": "<%= m.get_item_buy_url.to_s %>",
+                    "object_id": "<%= m.id.to_s %>",
+                    "category_id": "<%= m.rule_category_id.to_s %>",
+                    "host_id": "",
+                    "object_class": "editoritem",
+                    "seo_title": "<%= m.get_item_title %>",
+                    "title": "<%= m.get_item_title %>",
+                    "price": "<%= m.get_item_price %>",
+                    "display_price": "<%= m.get_item_price %>",
+                    "ow": "<%= m.width.to_i %>",
+                    "detail_url": "",
+                    "small_jpg": "<%=  m.get_small_jpg.to_s %>",
+                    "big_png": "<%= m.get_big_png.to_s %>",
+                    "like_id": "<%= m.like_id %>",
+                    "level": "<%= m.level %>"
+                }
+                <% end %>
+            <% end %>
+        <% end %>
+    ]
+}}

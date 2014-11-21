@@ -1,0 +1,49 @@
+.shopli_admin
+  %li{:style=>"list-style:none;"}
+    -if brand and brand.photos and brand.photos.length>0
+      %a.pic{:href => "#{brand_path(brand)}", :target=>"_blank"}
+        %img{:height => "180", :src => "#{brand.photo.url(:wide_medium)}", :width => "484"}/
+    -else
+      %a.pic{:href => "#"}
+        %img{:height => "180", :src => "/assets/img.jpg", :width => "484"}/
+    %h4
+      -if brand
+        %a{:href => "#{brand_path(brand)}", :target=>"_blank"} #{brand.name}
+      -else
+        %a{:href => "#"} xxxxxx xxx
+    -if brand and brand.address and brand.address!=""
+      %p.address #{brand.address}
+    -else
+      %p.address xxxxxxx xxxxxxxxxxxxxx
+    -if user_signed_in? and current_user.can_be_admin
+      %a.address.float_right{:href=>"#{new_brand_sku_multi_path(brand)}", :target=>"_blank", :style=>"font-weight:600;"}  编辑 
+      .address.float_right (level:#{brand.level}) 
+    .shop_properties
+      .commentary
+        -if brand
+          %a{:href=>"#{brand_path(brand)}", :target=>"_blank", :title=>"点击进行评论"}#{brand.comments_count}评论
+          %b{:href=>"#{brand_path(brand)}", :target=>"_blank", :title=>"点击进行评论"}
+        -else
+          %a{:href=>"javascript:void(0)", :title=>"点击进行评论"}xx评论
+          %b{:href=>"javascript:void(0)", :title=>"点击进行评论"}
+      .lover_icon
+        -if brand
+          %a{:href=>"javascript:void(0)", :title=>"点击进行收藏", :likes_count=>"#{brand.likes_count}", :liked_type=>"Shop", :liked_id=>"#{brand.url}" }#{brand.likes_count}人喜欢
+          %b{:href=>"javascript:void(0)", :title=>"点击进行收藏"}
+        -else
+          %a{:href=>"javascript:void(0)", :title=>"点击进行收藏"}xx人喜欢
+          %b{:href=>"javascript:void(0)", :title=>"点击进行收藏"}
+      .shopping_icon
+        -if brand
+          #{brand.dispose_count}人在逛
+          %b
+        -else
+          xx人在逛
+          %b
+      .shopping_baobei
+        -if brand
+          #{brand.skus_count}宝贝
+          %b
+          /#{brand.shops_count}店铺
+          /%b
+  -#.promotions-label 全场五折起！

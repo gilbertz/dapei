@@ -1,0 +1,10 @@
+# encoding: utf-8
+
+= simple_form_for([commentable, Comment.new], :html => { :method => :post, :class => 'form-vertical' }) do |f|
+  -#= f.error_notification
+  = f.input :commentable_id, :as=>:hidden, :input_html=>{:value=>commentable.id}
+  = f.input :commentable_type, :as=>:hidden, :input_html=>{:value=>commentable.class}
+  = f.input :comment, :as=>:text, :input_html=>{:class=>"new_text", :id=>"comment-textarea"}, :label=>false
+
+  = f.button :submit, '发布评论', :class => 'submit_b'
+

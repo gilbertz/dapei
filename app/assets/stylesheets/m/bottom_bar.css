@@ -1,0 +1,27 @@
+.bottom-bar {
+  position: fixed;
+  bottom: 0;
+  left: 0;
+  width: 100%;
+  background: rgba(250, 250, 250, 0.6);
+  padding: 0.1rem 0;
+}
+
+.bottom-bar div {
+  float: left;
+  width: 50%;
+  text-align: center;
+}
+
+.bottom-bar img {
+  height: 0.7rem;
+}
+
+#bottom-bar.app-topbar .app-button{
+    position: static;
+    padding: 0;
+}
+
+#bottom-bar{
+    background: #fff;
+}

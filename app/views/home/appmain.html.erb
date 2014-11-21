@@ -1,0 +1,156 @@
+<html><head>
+<meta charset="utf-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="renderer" content="webkit">
+
+<meta name="keywords" content="上街吧,时尚,打折,优惠,搭配,搭配工具,女装,包包,鞋子,配饰,服饰,热店,品牌,女装,女包,女鞋,男装,童装,化妆品,app">
+<meta name="description" content="上街吧,帮助爱美女性发现时尚，创建自己的时尚范儿。是女性用户首选的时装购物平台,方便快捷获取最新款时尚女装、包包、鞋子、配饰及其周边热门品牌新品、打折、优惠信息，轻松制作搭配，分享搭配心得和美丽经验。">
+<title>上街吧-时尚品牌穿衣助手,美丽搭配DIY.</title>
+<script>
+    var is_iPd = navigator.userAgent.match(/(iPad|iPod|iPhone)/i) != null;
+    var is_mobi = navigator.userAgent.toLowerCase().match(/(ipod|iphone|android|coolpad|mmp|smartphone|midp|wap|xoom|symbian|j2me|blackberry|win ce)/i) != null;
+    if(is_mobi && window.location.search.indexOf("m=true")<0){
+      //window.location.href="http://m.shangjieba.com";
+    }
+</script>
+<link rel="icon" href="/favicon.ico" type="image/x-icon">
+<link rel="shortcut icon" href="/favicon.ico" type="image/x-icon">
+<link href="/app_main_css/style.min.css" rel="stylesheet">
+<link href="/app_main_css/zh-skin.css" rel="stylesheet">
+<!--<%= stylesheet_link_tag "application_2013", :media => "all"%>-->
+<%= javascript_include_tag "basic"%>
+  <!--[if lte IE 6]>
+  <link rel="stylesheet" type="text/css" href="/app_main_css/ie6.min.css">
+  <link rel="stylesheet" type="text/css" href="/app_main_css/ie.css">
+  <![endif]-->
+<link rel="stylesheet" href="http://zhushou.360.cn/pop/style/pop_0411.css" id="zsp_css" media="all" type="text/css"></head>
+
+
+<body class="welcome" style="">
+
+<div class="times" style="display:none;">
+  <div class="endtime" value="1386216000">上街吧全新3.0已隆重发布!</div>
+  <p><a href="/20131205">☆☆☆有奖活动猛击这里☆☆☆</a></p>
+</div>
+
+<div class="carousel">
+  <div class="navbar-wrapper">
+    <div class="container">
+      <a href="/" class="navbar-logo pull-left"></a>
+
+      <ul class="navbar-menu nav nav-pills pull-right">
+        <li><a href="/">首页</a><span>|</span></li>
+        <li><a href="<%=app_about_path%>">关于我们</a><span>|</span></li>
+        <%- if user_signed_in? %>
+          <li><a href = "<%=user_path(current_user)%>">
+               已登录, <%= current_user.display_name%>
+          </a><span>|</span></li>
+        <%- else %>
+          <li><a href="<%=new_user_session_path%>" target="_blank">登录</a><span>|</span></li>
+        <%- end %>
+        <%- if user_signed_in? %>
+          <li><a href = "/dapeis/index_all" target="_blank"> +发布搭配</a></li>
+        <%-else%>
+          <li><a href = "<%=search_path('dapei')%>" target="_blank"> +发布搭配</a></li>
+        <%- end%>
+      </ul>
+    </div>
+  </div>
+
+  <div class="container carousel-banner">
+    <div class="intro-left pull-left">
+      <h2>穿出你的时尚范儿</h2>
+      <h3>紧跟1000+时装品牌的脚步</h3>
+      <h3>时尚搭配DIY,轻松分享自己的style</h3>
+      <!--
+      <button type="button" class="btn btn-success btn-lg download-btn" data-target="#click-down" data-toggle="modal"><span class="glyphicon glyphicon-download"></span> 免费下载</button>
+      -->
+      <button type="button" class="btn btn-success btn-lg download-btn" data-target="#click-down" data-toggle="modal"><span><img src="/app_main_images/download_icon.png" style="margin-top:-5px;"></span> 免费下载</button> 
+   </div>
+    <div class="intro-right pull-right"></div>
+  </div>
+
+</div>
+
+
+<div class="container">
+
+  <h2 class="slogan">她们正在创造的时尚范儿！</h2>
+
+  <div class="inner">
+
+  <div class="dp-container">
+    <% @dapeis.each do |dp|%>
+      <% next unless dp %>
+      <div class="dp-item">
+        <div class="top-part">
+          <img alt="<%=dapei_photo_alt(dp)%>" title ="<%=dapei_photo_title(dp)%>" src ="<%=dp.img_url(:scaled_medium)%>">
+        </div>
+        <div class="foot-part">
+          <span>  by </span>
+          <span>
+            <%=dp.get_user.name%>
+          </span>
+        </div>
+      </div>
+    <%-end%>
+  </div>
+
+    <div class="comeonbaby">更多时尚范儿，等待你的发现...</div>
+    <div class="comeonbtn text-center"><button type="button" class="btn btn-success btn-lg download-btn" data-target="#click-down" data-toggle="modal"><span><img src="/app_main_images/download_icon.png" style="margin-top:-5px;"></span> 立即下载</button></div>
+
+  </div>
+</div>
+
+<%= render :partial=>"/layouts/footer"%>
+
+<!-- click-down -->
+<div class="modal fade downloadModal" id="click-down" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-body">
+        <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
+
+        <div class="btn-list">
+          <a href="https://itunes.apple.com/us/app/shang-jie-ba/id657031277?ls=1&mt=8" target="_blank" class="btn-download ios" title="App Store下载">App Store下载</a>
+          <a href="http://www.shangjieba.com/shangjieba.apk" target="_blank" class="btn-download android" title="下载APK安装包">下载APK安装包</a>
+         
+          <div class="qr-code">
+            <p>
+             <a href="https://itunes.apple.com/us/app/shang-jie-ba/id657031277?ls=1&mt=8" target="_blank" title="App Store下载"> 
+               <img src="/assets/liantu.png">
+             </a> 
+            </p> 
+          </div>
+
+          <div class="qr-code2">
+            <p>
+             <a href="http://www.shangjieba.com/shangjieba.apk" target="_blank" title="下载APK安装包">
+               <img src="/assets/android_app.png">
+             </a> 
+            </p>
+          </div>
+        </div>
+
+      </div>
+    </div>
+  </div>
+</div>
+<!-- end click-down -->
+
+<!-- click-wx -->
+<div class="modal fade downloadModal" id="click-wx" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-body">
+        <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
+
+            <img alt="" class="wx_img" src="/assets/banner/weixin.jpg" width="130" height="130">
+            <p> 或者搜索公众账号</p>
+            <p> 【上街吧】</p>
+      </div>
+    </div>
+  </div>
+</div>
+<!-- end click-wx -->
+

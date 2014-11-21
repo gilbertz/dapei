@@ -1,0 +1,9 @@
+<p>欢迎 <%= @resource.email %>!</p>
+
+<p>您可以通过下面的链接来验证您的邮箱:</P>
+
+<p><%= link_to '确认账户', confirmation_url(@resource, :confirmation_token => @resource.confirmation_token) %></p>
+
+<p>
+shangjieba(上街吧)团队
+</p>

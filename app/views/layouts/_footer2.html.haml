@@ -1,0 +1,28 @@
+/ 分界线
+.f-dividing-line
+/ footer
+.clearfix.footer
+  -#.friend-link
+    .links
+      %span
+        友情链接>>
+      -@flinks.each do |flink|
+        %span
+          -if flink.name and flink.link
+            %a{:href => "#{flink.link}", :target=>"_blank"} #{flink.name}    
+  -#.f-dividing-line2 
+  .bottom-nav
+    %a{:href => "http://www.shangjieba.com" }> 上街吧
+    |
+    %a{:href => "/about/about_me", :rel=>"facebox[.about]"} 关于我们
+    |
+    %a{:href => "/sitemap.xml"}> sitemap
+    |
+    %a{:href => "/about/about_me", :rel=>"facebox[.about]"}> 联系我们
+    |
+    %a{:href => "/about/feedback", :rel=>"facebox[.about]"} 反馈
+    |
+    %a{:href => "/site/sitemap"} 站点地图
+  .copyright
+    Copyright ©2013-2013 Shangjieba.com, All Rights Reserved.
+    %a{:href => "#"} 沪ICP备 09039856号-5

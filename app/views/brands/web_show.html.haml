@@ -1,0 +1,87 @@
+- if current_user and current_user.can_be_admin
+  = link_to 'Edit', edit_brand_path(@brand)
+  = link_to 'shops', "/brand_admin/brands/#{@brand.id}/shops"
+
+- cache "brand_#{@brand.id}_#{@city_id}"  do
+  = render :partial => 'shared/page_head', :locals => {:obj =>  @brand}
+
+  #brand-detail.wrapper
+    #shop-head.brand-head
+      %ul.nav.nav-float
+        %li.shop-head-first
+          .head-first
+            .head-first-info
+              .head-first-brand
+                %span.shop-name
+                  -##{shop.brand_name.capitalize}
+                  %a{:href=>"#{brands_web_show_path(@brand)}"}
+                    %img{:alt => "#{@city}#{@brand.name}品牌", :title=>"#{@city}#{@brand.name}品牌", :src => "#{@brand.wide_avatar_url}"}/
+            .brandpage-desc
+              -if @brand.brand_intro and @brand.brand_intro!=""
+                %p #{@brand.brand_intro}
+        %li.shop-head-second
+          .second-img
+            .brandpage-imgs
+              .second
+                %img{:alt => "#{brand_alt(@brand)}", :title =>"#{brand_title(@brand)}", :src => "#{@brand.high_campaign_img(:normal_medium)}"}/
+                %img{:alt => "#{brand_alt(@brand)}", :title =>"#{brand_title(@brand)}", :src => "#{@brand.wide_campaign_img(:normal_medium)}"}/
+            -#%ul.nav.nav-float
+              %li
+                %img{:alt => "", :src => "/assets/tmp/second-img.png"}/
+              %li
+                %img{:alt => "", :src => "/assets/tmp/second-img.png"}/
+              %li
+                %img{:alt => "", :src => "/assets/tmp/second-img.png"}/
+    -#.chunk-head.brand-chunk-head
+      .head-img
+        %img{:src => "/assets/newweb/hot_shop.png"}
+    -##brand-info.brand-info-div
+      品牌·资讯
+    -#.brand-info-img
+      %ul.first.nav.nav-float
+        %li.first-first
+          %img{:alt => "", :src => "/assets/tmp/first-first.png"}/
+        %li.first-second
+          %img{:alt => "", :src => "/assets/tmp/first-first.png"}/
+      %ul.nav.nav-float.second-ul
+        %li.first-first
+          %ul.second.nav.nav-float
+            %li
+              %img{:alt => "", :src => "/assets/tmp/first-first.png"}/
+            %li#ul-last-li
+              %img{:alt => "", :src => "/assets/tmp/first-first.png"}/
+        %li.first-second
+          %img{:alt => "", :src => "/assets/tmp/first-first.png"}/
+  
+    #brand-info-address.brand-info-div
+      #{@brand.get_name}品牌店·#{@city}地址
+    .brand-shop-address
+      %ul.nav.nav-float
+        %li.brand-shop-image
+          %img{:alt => "#{brand_alt(@brand)} 店铺", :alt => "#{brand_title(@brand)}店铺", :src => "#{@brand.shop_img_url(:wide_half)}"}/
+        %li.brand-address-list-b
+          %ul.nav.nav-float
+            - @f3shops.each do |shop|
+              - if shop
+                %li
+                  %a{:href=>"#{shop_path(shop)}"}
+                    .shop-city
+                      #{@brand.get_name}(#{shop.street}店)
+                    .shop-address
+                      %span #{shop.address}
+                    .shop-telephone
+                      #{shop.phone_number}
+        -if @lshops
+          -@lshops.each_slice(5) do |slice| 
+            %li.brand-address-list-b
+              %ul.nav.nav-float
+                -slice.each do |shop|
+                  %li
+                    %a{:href=>"#{shop_path(shop)}"}
+                      .shop-city
+                        #{@brand.get_name}(#{shop.street}店)
+                      .shop-address
+                        %span #{shop.address}
+                      .shop-telephone
+                        #{shop.phone_number}
+    = will_paginate @shops   

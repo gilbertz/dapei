@@ -1,0 +1,211 @@
+<div class="form-horizontal">
+  <h3>订单详情</h3>
+  <hr style="margin-top:0px"/>
+  <div class="control-group" style="margin-bottom:3px">
+    <label class="control-label">订单号:</label>
+    <div class="controls" style="padding-top:5px">
+      <%= @order.number %>
+    </div>
+  </div>
+  <div class="control-group" style="margin-bottom:3px">
+    <label class="control-label">下单时间:</label>
+    <div class="controls" style="padding-top:5px">
+      <%= @order.created_at %>
+    </div>
+  </div>
+  <div class="control-group" style="margin-bottom:3px">
+    <label class="control-label">状态:</label>
+    <div class="controls" style="padding-top:5px">
+      <%= @order.cn_status %>
+    </div>
+  </div>
+
+  <% if @order.state.in?([11,22,33,55]) %>
+      <div class="control-group">
+        <label class="control-label">操作:</label>
+        <div class="controls" style="padding-top:2px">
+          <%= form_tag "/manage/orders/#{@order.id}/change", method: :get do %>
+              <%= info_btns.html_safe %>
+          <% end %>
+        </div>
+      </div>
+  <% end %>
+
+</div>
+<div class="tabbable">
+  <ul class="nav nav-tabs" id="orderTab">
+    <li class="active"><a href="#detail" data-toggle="tab">订单详情</a></li>
+    <li><a href="#payinfo" data-toggle="tab">付款信息</a></li>
+    <li><a href="#shipinfo" data-toggle="tab">物流信息</a></li>
+    <li><a href="#customer" data-toggle="tab">买家信息</a></li>
+    <li><a href="#orderinfo" data-toggle="tab">订单日志</a></li>
+  </ul>
+</div>
+<div class="tab-content">
+  <div class="tab-pane fade in active" id="detail">
+    <table class="table table-bordered table-hover">
+      <thead>
+      <tr class="well">
+        <th colspan="2">产品</th>
+        <th width="10%">单价</th>
+        <th width="33">数量</th>
+        <th width="10%">小结</th>
+      </tr>
+      </thead>
+      <tbody>
+      <% @order.line_items.each do |item| %>
+          <tr>
+            <td width="8%"><%= image_tag item.image %></td>
+            <td>
+              <%= link_to item.sku.try(:name), item.sku.buy_url, target: true %>
+              <p>
+                尺码: <%= item.get_size_property_value %>
+              </p>
+              <p>
+                颜色: <%= item.get_color_property_value %>
+              </p>
+            </td>
+            <td><%= item.price %></td>
+            <td><%= item.quantity %></td>
+            <td>¥ <%= item.sub_total %></td>
+          </tr>
+      <% end %>
+      </tbody>
+    </table>
+  </div>
+  <div class="tab-pane fade form-horizontal" id="payinfo">
+    <div class="control-group" style="margin-bottom:3px">
+      <label class="control-label">订单金额:</label>
+      <div class="controls" style="padding-top:5px">
+        <%= @order.item_total %>
+      </div>
+    </div>
+    <div class="control-group" style="margin-bottom:3px">
+      <label class="control-label">运费:</label>
+      <div class="controls" style="padding-top:5px">
+        <%= @order.shipment_total %>
+      </div>
+    </div>
+    <div class="control-group" style="margin-bottom:3px">
+      <label class="control-label">应支付:</label>
+      <div class="controls" style="padding-top:5px">
+        <%= @order.total %>
+      </div>
+    </div>
+    <div class="control-group" style="margin-bottom:3px">
+      <label class="control-label">最后支付:</label>
+      <div class="controls" style="padding-top:5px">
+        <%= @order.payment.try(:amount) %>
+      </div>
+    </div>
+    <div class="control-group" style="margin-bottom:3px">
+      <label class="control-label">支付宝交易号:</label>
+      <div class="controls" style="padding-top:5px">
+        <%= @order.payment.try(:out_trade_no) %>
+      </div>
+    </div>
+    <div class="control-group" style="margin-bottom:3px">
+      <label class="control-label">支付方式:</label>
+      <div class="controls" style="padding-top:5px">
+        <%= Payment::METHOD.fetch(@order.payment.payment_method_id - 1) %>
+      </div>
+    </div>
+    <div class="control-group" style="margin-bottom:3px">
+      <label class="control-label">状态:</label>
+      <div class="controls" style="padding-top:5px">
+        <span class="label label-important">
+          <%= @order.payment.try(:cn_state) %>
+        </span>
+      </div>
+    </div>
+  </div>
+  <div class="tab-pane fade form-horizontal" id="shipinfo">
+    <div class="control-group" style="margin-bottom:3px">
+      <label class="control-label">名称:</label>
+      <div class="controls" style="padding-top:5px">
+        <%= @order.shipment.try(:name) %>
+      </div>
+    </div>
+    <div class="control-group" style="margin-bottom:3px">
+      <label class="control-label">运费:</label>
+      <div class="controls" style="padding-top:5px">
+        <%= @order.shipment.try(:price) %>
+      </div>
+    </div>
+    <div class="control-group" style="margin-bottom:3px">
+      <label class="control-label">跟踪URL:</label>
+      <div class="controls" style="padding-top:5px">
+        <%= @order.shipment.try(:tracking_url) %>
+      </div>
+    </div>
+
+    <div class="control-group" style="margin-bottom:3px">
+      <label class="control-label">填写订单号:</label>
+      <div class="controls" style="padding-top:5px">
+        <%= @order.shipment.shipname %> <%= @order.shipment.try(:number) %>
+        <%= form_tag "/manage/shipments/update/#{@order.shipment.id}" do |f| %>
+
+            <%= select_tag "shipment_type", options_for_select(Shipment::Shipment_info, @order.shipment.name) %>
+
+            <%= text_field_tag :number %>
+            <%= submit_tag "添加" %>
+        <% end %>
+      </div>
+    </div>
+
+  </div>
+  <div class="form-horizontal tab-pane fade" id="customer">
+    <div class="control-group" style="margin-bottom:3px">
+      <label class="control-label" for="inputEmail">买家:</label>
+      <div class="controls" style="padding-top:5px">
+        <%= @order.user.name %>
+      </div>
+    </div>
+    <% unless @order.ship_address.blank? %>
+        <div class="control-group" style="margin-bottom:3px">
+          <label class="control-label" for="inputEmail">收货人:</label>
+          <div class="controls" style="padding-top:5px">
+            <%= @order.ship_address.name %>
+          </div>
+        </div>
+        <div class="control-group" style="margin-bottom:3px">
+          <label class="control-label" for="inputEmail">手机:</label>
+          <div class="controls" style="padding-top:5px">
+            <%= @order.ship_address.phone %>
+          </div>
+        </div>
+        <div class="control-group" style="margin-bottom:3px">
+          <label class="control-label" for="inputEmail">地区:</label>
+          <div class="controls" style="padding-top:5px">
+            <%= @order.ship_address.area %>
+          </div>
+        </div>
+        <div class="control-group" style="margin-bottom:3px">
+          <label class="control-label" for="inputEmail">详细地址:</label>
+          <div class="controls" style="padding-top:5px">
+            <%= @order.ship_address.address %>
+          </div>
+        </div>
+    <% end %>
+  </div>
+  <div class="tab-pane fade" id="orderinfo">
+    <table class="table table-bordered table-condensed table-hover">
+      <thead>
+      <tr class="well">
+        <th width="17%">日期时间</th>
+        <th>处理信息</th>
+        <th width="15%">操作者</th>
+      </tr>
+      </thead>
+      <tbody>
+      <% @order.logs.order('id desc').each do |log| %>
+          <tr>
+            <td><%= log.created_at %></td>
+            <td><%= log.action %></td>
+            <td><%= log.operator %></td>
+          </tr>
+      <% end %>
+      </tbody>
+    </table>
+  </div>
+</div>

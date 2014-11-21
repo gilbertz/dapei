@@ -1,0 +1,37 @@
+<div id="app-download">
+  <div id="colse_appdownload">
+    <img src="/assets/br/close_appdown.png" alt=""/>
+  </div>
+  <a href="/home/app">
+  <img src="/assets/br/appdownload.jpg" alt=""/>
+  </a>
+</div>
+
+<style type="text/css">
+  #app-download{
+      position: fixed;
+      top: 200px;
+      right: 0px;
+      z-index: 999999999;
+      display: none;
+  }
+  #colse_appdownload{
+      position: absolute;
+      left: 184px;
+      cursor: pointer;
+  }
+</style>
+
+<script type="text/javascript">
+  $(function(){
+      var w = $(document).width();
+      var p;
+      p = w/2 + 400;
+      //$("#app-download").css("left", p + "px");
+      $("#app-download").show();
+
+      $("#colse_appdownload").click(function(){
+          $("#app-download").hide();
+      });
+  });
+</script>

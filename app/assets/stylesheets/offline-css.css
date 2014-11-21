@@ -1,0 +1,97 @@
+.mk-main{
+	width: 600px ; 
+	margin: 40px auto ; 
+	border: #eee 1px solid ;
+	border-radius: 4px; 
+	padding: 20px;
+}
+
+.mk-main ul{
+	border-bottom: 1px solid #eee ; 
+	margin-bottom: 20px;
+}
+
+.mk-main li{
+	padding: 15px 10px;
+}
+
+.mk-main input{
+	font-size: 20px;
+	font-family: Arial, "微软雅黑", Helvetica, sans-serif ;
+}
+
+.mk-main input[type=text]{
+	border: none ;
+	border-bottom: 1px solid #eee ; 
+	padding-left: 5px;
+	margin-left: 10px;
+	height: 35px;
+}
+
+.mk-main .act-submit{
+	text-align: right;
+}
+
+.act-submit input[type=submit]{
+	border: solid #eee 1px ;
+	border-radius: 4px;
+	padding: 8px;
+	cursor: pointer;
+} 
+
+.act-submit input[type=button]:hover{
+	background-color: #e2e2e2 ;
+}
+
+.w-div{
+	float: left;
+	height: 35px; 
+	line-height: 35px;
+	margin-right: 5px;
+}
+
+.w-ul{
+	display: inline-block;
+	position: relative;
+	margin-left: 10px;
+	width: 225px;
+	height: 35px; 
+	border: 1px solid #eee;
+	overflow: hidden;
+	z-index: 999;
+}
+
+.w-ul ul, .w-ul li{
+	padding: 0; 
+	margin: 0 ;
+	border: none;
+}
+
+.w-ul li{
+	padding:1px 5px 0;
+	cursor: pointer;
+	height: 35px;
+}
+
+.w-ul li:hover{
+	background-color: #e2e2e2;
+}
+
+.w-ul ul{
+	width: 100%;
+	position: absolute;
+	top: 0;
+	left: 0;
+	overflow: hidden;
+	border: none;
+	transform: translate3d(0, 0, 0) ;
+}
+
+.w-ul div{
+	position: absolute;
+	height: 35px; 
+	width: 35px;
+	
+	top: 0;
+	left: 190px;
+}

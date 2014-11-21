@@ -1,0 +1,48 @@
+.wrapper
+  = render 'tabs'
+
+- @objs.each do |item|
+  -if item
+    .wrapper
+      .grid-7.grid
+        %a{:href => " #{weixin_item_path(item['item_id'])}"}
+          %p{:align => "center"}
+            %img{:src => "#{item['img_scaled_large']}"}/
+      %h3
+        = item['title']
+      %p
+        %font{:face => "icon"} 3
+        %font{:face => "微软雅黑"} #{show_distance(item)} 地址：#{ item['shop_address'] }
+      .grid-7
+        %p{:align => "right", :style => "margin-top:8px; color:#999"}
+          %font{:face => "icon", :size => "2"} 1
+          %font{:face => "微软雅黑"} #{item['likes_count']}人喜欢
+          \ 
+          %font{:face => "icon", :size => "2"}
+          %font{:face => "微软雅黑"} #{item['dispose_count']}人瞄过
+
+= render 'footer'
+
+- if @items
+  .wrapper
+    %h3
+      推荐宝贝
+
+  - @items.each do |item|
+    .wrapper{:style => "width:50%;"}
+      .grid-7.grid
+        %a{:href => "#{weixin_item_path(item.id)}"}
+          %p{:align => "center"}
+            %img{:src => "#{item.img_url(:scaled_large)}"}/
+      %h3
+        = item.title
+      %p
+        %font{:face => "icon"} 3
+        %font{:face => "微软雅黑"} 地址：#{ item.shop_address }
+      .grid-7
+        %p{:align => "right", :style => "margin-top:8px; color:#999"}
+          %font{:face => "icon", :size => "2"} 1
+          %font{:face => "微软雅黑"} #{item.likes_count}人喜欢
+          \ 
+          %font{:face => "icon", :size => "2"}
+          %font{:face => "微软雅黑"} #{item.get_dispose_count}人瞄过

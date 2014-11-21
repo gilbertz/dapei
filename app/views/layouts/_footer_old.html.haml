@@ -1,0 +1,172 @@
+#footer.row
+  .wrapper
+    %ul.nav.nav-float
+      %li
+        %ul.tour-guide.nav
+          %li.footer-head
+            新手上路
+            .eng Tour Guide
+          %li
+            %a{:href => "/about/info/trade"} 购物流程
+          %li
+            %a{:href => "/about/info/member_introduce"} 会员介绍
+          %li
+            %a{:href => "/about/info/get_password"} 找回密码
+          %li
+            %a{:href => "/about/info/help"} 帮助中心
+      %li.divider-y
+      %li
+        %ul.payment.nav
+          %li.footer-head
+            关于我们
+            .eng About us
+          %li
+            %a{:href => "/about/info/about_me"} 赛宝贝介绍
+          %li
+            %a{:href => "/about/info/report"} 媒体报道
+          %li
+            %a{:href => "/about/info/recruitment"} 招聘信息
+          %li
+            %a{:href => "/about/info/contact"} 联系我们
+      %li.divider-y
+      %li
+        %ul.payment.nav
+          %li.footer-head
+            商务合作
+            .eng Cooperation
+          %li
+            %a{:href => "/about/info/brand_enter"} 品牌入驻
+          %li
+            %a{:href => "/about/info/collaborate"} 媒体合作
+          %li
+            %a{:href => "/about/info/advertisement"} 广告投放
+          %li
+            %a{:href => "/about/info/merchant"} 商家中心
+      %li.divider-y
+      %li
+        %ul.payment.nav
+          %li.footer-head
+            网站导航
+            .eng Site Navigation
+          %li
+            %a{:href => "/about/info/brand_all"} 品牌大全
+          %li
+            %a{:href => "/about/info/cover"} 覆盖城市
+          %li
+            %a{:href => "/about/info/fashion"} 流行风格
+          %li
+            %a{:href => "/about/info/website_map"} 网站地图
+      %li.divider-y
+      -#%li
+        -# cache 'flink' do
+        %ul.payment.nav
+          %li.footer-head
+            友情链接
+            .eng Friend Link
+          %li
+            #hello_friend
+              %ul.nav
+                - i=1
+                - @flinks.each do |flink|
+                  - if flink.name and flink.link
+                    %li
+                      %a{:href => "#{flink.link}", :target=>"_blank"} #{flink.name}
+                    -i=i+1
+      %li.divider-y
+      %li
+        %ul.weixin.payment.nav
+          .weixin-code
+            %img{:src => "/assets/banner/weixin.jpg"}
+          %li
+            加上街吧为微信好友
+          %li
+            官方微博
+          %li
+            意见反馈
+      %li.divider-y
+      %li
+        .footer-right
+          %ul.nav.nav-float#app-logo.app-info
+            %li
+              %img{:src => "/assets/newweb/app-ios.png"}
+            %li
+              %img{:src => "/assets/newweb/app-and.png"}
+            %li.wpapp
+              %img{:src => "/assets/newweb/app-wp.png"}
+          %ul.download.nav
+            %li
+              身边时尚，轻松逛！
+          -#%ul.nav.nav-float#app-code.app-info
+            %li
+              %img{:src => "/assets/banner/weixin.jpg"}
+            %li
+              %img{:src => "/assets/banner/weixin.jpg"}
+            %li
+              %img{:src => "/assets/banner/weixin.jpg"}
+          -#%ul.nav.nav-float.friend-link-area
+            %li.friend-link
+              友情链接:
+            -#%li
+              %a{:href => "#"}
+            -@flinks.each do |flink|
+              -if flink.name and flink.link
+                %li.friend-link
+                  %a{:href => "#{flink.link}", :target=>"_blank"} #{flink.name}
+
+
+#footer-bottom.row.link-w
+  <script type="text/javascript">
+  (function(win,doc){
+  var s = doc.createElement("script"), h = doc.getElementsByTagName("head")[0];
+  if (!win.alimamatk_show) {
+  s.charset = "gbk";
+  s.async = true;
+  s.src = "http://a.alimama.cn/tkapi.js";
+  h.insertBefore(s, h.firstChild);
+  };
+  var o = {
+  pid: "mm_34564639_4376051_14642147",/*推广单元ID，用于区分不同的推广渠道*/
+  appkey: "",/*通过TOP平台申请的appkey，设置后引导成交会关联appkey*/
+  unid: ""/*自定义统计字段*/
+  };
+  win.alimamatk_onload = win.alimamatk_onload || [];
+  win.alimamatk_onload.push(o);
+  })(window,document);
+  </script>
+  .wrapper
+    %ul.nav.nav-float
+      %li#copyright
+        Copyright ©2013-2013 Shangjieba.com, All Rights Reserved. 沪ICP备09039856号-3
+        %a{href:"/about/info/mzsm",style:"color:#FFF"} &nbsp;&nbsp;&nbsp;免责声明
+
+
+
+
+/ 分界线
+-#.f-dividing-line
+/ footer
+-#.clearfix.footer
+  .friend-link
+    .links
+      %span
+        友情链接>>
+      -@flinks.each do |flink|
+        %span
+          -if flink.name and flink.link
+            %a{:href => "#{flink.link}", :target=>"_blank"} #{flink.name}    
+  .f-dividing-line2 
+  .bottom-nav
+    %a{:href => "http://www.shangjieba.com" }> 上街吧
+    |
+    %a{:href => "/about/about_me", :rel=>"facebox[.about]"} 关于我们
+    |
+    %a{:href => "/sitemap.xml"}> sitemap
+    |
+    %a{:href => "/about/about_me", :rel=>"facebox[.about]"}> 联系我们
+    |
+    %a{:href => "/about/feedback", :rel=>"facebox[.about]"} 反馈
+    |
+    %a{:href => "/site/sitemap"} 站点地图
+  .copyright
+    Copyright ©2013-2013 Shangjieba.com, All Rights Reserved.
+    %a{:href => "#"} 沪ICP备 09039856号-5

@@ -1,0 +1,122 @@
+<%= form_tag recommends_manage_matters_path, class: 'form-inline',role: 'form',style: 'margin-top:30px;',method: :get do  %>
+  <div class="form-group">
+    <label class="sr-only">BrandId</label>
+    <%= text_field_tag :a, @catid_text_value, class: 'form-control', placeholder: '类别名' %>
+    <%= hidden_field_tag :catid, params[:catid] || ""%>
+  </div>
+  <%= link_to '类别', '#inline_content', id: 'inline', class: 'btn btn-primary btn-xs'%> 
+  <%= link_to '链接', '#inline_content_links', id: 'inline', class: 'btn btn-primary btn-xs'%> -&nbsp;
+  <div class="form-group">
+    <label class="sr-only">BrandId</label>
+    <%= text_field_tag :b, @brandid_text_value, class: 'form-control', placeholder: '品牌名' %>
+    <%= hidden_field_tag :brandid, params[:brandid] || ""%>
+  </div>
+  <%= link_to '品牌', [:brands,:manage,:matters], id: 'brands_table', class: 'btn btn-primary btn-xs'%> 
+  <%= link_to '链接', '/manage/matters/brands?is_link=1', id: 'brands_table', class: 'btn btn-primary btn-xs'%> -&nbsp;
+  <div class="form-group">
+    <label class="sr-only">TagId</label>
+    <%= text_field_tag :c, @tagid_text_value, class: 'form-control', placeholder: '标签名' %>
+    <%= hidden_field_tag :tagid, params[:tagid] || ""%>
+  </div>
+  <%= link_to '标签', [:tags,:manage,:matters], id: 'tags_table', class: 'btn btn-primary btn-xs'%> 
+  <br/><br/>
+  <div class="form-group">
+    <label class="sr-only">PriceStartId</label>
+    <%= text_field_tag :price_start, @price_start_text_value, class: 'form-control', placeholder: '起始价格' %>
+  </div> &nbsp;-&nbsp;
+  <div class="form-group">
+    <label class="sr-only">PriceEndId</label>
+    <%= text_field_tag :price_end, @price_end_text_value, class: 'form-control', placeholder: '最大价格' %>
+  </div>
+
+   <%#= total_span @photos %>
+  <%=submit_tag "搜索"%>
+<% end %>
+<div style="display:none;">
+  <div id='inline_content' style='padding:10px; background:#fff;'>
+    <table class="table table-condensed table-bordered">
+      <thead>
+        <tr><th colspan=6>类别选项</th></tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td><a href="#" onclick="javascript:$('#cboxClose').click();$('#catid').val(0);$('#a').val('所有类别')">所有类别</a></td>
+        </tr>
+        <% @c_selects.to_a.in_groups_of(6) do |g| %>
+          <tr>
+            <% g.each do |c| %>
+              <td><a href="#" onclick="javascript:$('#cboxClose').click();$('#catid').val(<%= c && c[0] %>);$('#a').val('<%= c && c[1] %>')"><%= c && c[1] %></a></td>
+            <% end %>
+          </tr>
+        <% end %>
+      </tbody>
+    </table>
+  </div>
+  <div id='inline_content_links' style='padding:10px; background:#fff;'>
+    <table class="table table-condensed table-bordered">
+      <thead>
+        <tr><th colspan=6>类别链接</th></tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td><a href="/manage/matters/recommends" >所有类别链接</a></td>
+        </tr>
+        <% @c_selects.to_a.in_groups_of(6) do |g| %>
+          <tr>
+            <% g.each do |c| %>
+              <td><a href="/manage/matters/recommends?catid=<%= c && c[0] %>"><%= c && c[1] %></a></td>
+            <% end %>
+          </tr>
+        <% end %>
+      </tbody>
+    </table>
+  </div>
+</div>
+<div class="row" style="margin-top:30px;">
+  <% @photos.each do |p| %>
+    <div class="col-sm-7 col-md-3 recommend">
+      <div class="thumbnail">
+        <%= link_to p.url(nil), class: 'preview' do %>
+          <img alt="300x200" style="max-width: 300px; max-height: 200px;" src="<%= p.url(nil) %>">
+        <% end %>
+        <div class="caption">
+          <h3 style="overflow:hidden; height:28px;">
+            <%#= p.target.try(:brand_id) %>
+            <%= p.target.try(:created_at) %>
+          </h3>
+          <p style="height:45px; overflow:hidden;">
+            <%=link_to p.target.try(:title), p.target.try(:buy_url) %>
+          </p>
+          <p style="height:45px; overflow:hidden;">
+           <%= p.target.try(:currency) %> <%= p.target.try(:price) %>
+          </p>
+
+          <p>
+            <% if p.is_send == true %>
+              <%= link_to '已推', '#', class: 'btn btn-success' %>
+            <% else %>
+              <%= link_to '推荐素材', recommended_manage_matters_path(pid:p.id, sid:p.target_id), 
+                method: :post, remote: true, class: 'btn btn-primary add-recommend' %>
+            <% end %>
+
+            <% unless recom = Recommend.find_by_recommended_type_and_recommended_id("Sku", p.target_id) %>
+              <%= link_to '推荐单品', "/manage/skus/recommend_sku/#{p.target_id}?pid=#{p.id}",
+                method: :post, remote: true, class: 'btn btn-primary add-recommend'
+              %>
+            <% else %>
+              <%= link_to '删除单品推荐', recom, method: :delete, class: 'ajaxd', remote: true, confirm: 'Are you sure' %>
+            <% end %>
+
+            <%= link_to '删除', [:manage,p], method: :delete, remote: true,
+              confirm: 'Are you sure?', class: 'btn btn-default del-recommend' %>
+          </p>
+        </div>
+      </div>
+    </div>
+  <% end %>
+</div>
+<div>
+  <%if @photos_size>=500%>
+    <a href="/manage/matters/recommends?page=<%= @page.to_i + 1 %>&catid=<%=params[:catid] || '' %>&brandid=<%=params[:brandid] || '' %>&tagid=<%=params[:tagid] || '' %>">下一页</a>
+  <%end%>
+</div>

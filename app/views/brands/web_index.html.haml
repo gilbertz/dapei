@@ -1,0 +1,57 @@
+= render :partial => 'shared/index_page_head', :locals => {:obj =>  @paged_brands}
+
+.wrapper
+  .brands-top
+    %a{:href=>"/brands/info/493"}
+      %img{:src => "/assets/banner/brand_banner.jpg"}
+  -#.items-num.brand-category
+    %span 服饰
+  .chunk-head
+    .head-img
+      %img{:src => "/assets/newweb/hot_brand.png"}
+    -#.more
+      %span
+        查看全部
+      %span.symbol
+        >
+  %br
+  .ch-index
+    - ('A'..'Z').each do |ch|
+      &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+      = link_to "#{ch}",  "?prefix=#{ch}"
+
+  %br 
+  %ul.nav.nav-float.brands-big-ul.stream
+    -@paged_brands.each do |brand|
+      %li{:class=>"normal infli"}
+        %a{:href=>"#{brands_web_show_path(brand)}"}
+          %img{:src => "#{brand.wide_campaign_img(:wide_half)}", :alt => brand_alt(brand), :title => brand_title(brand)}
+          .opacity-over
+            %a{:href=>"#{brands_web_show_path(brand)}"}
+              %img{:src => "#{brand.white_avatar_url}", :alt => brand_alt(brand), :title => brand_title(brand)}
+            -if user_signed_in? and current_user.can_be_admin
+              %a{:href=>"#{edit_brand_path(brand)}"} 编辑
+    -#-nums=[1,2,3,4]
+    -#-@paged_brands.each_slice(4) do |slice|
+      -nums=nums.sort_by{rand}
+      -i=0
+      -slice.each do |brand|
+        %li{:class=>"c#{nums[i].to_s} infli"}
+          -if nums[i]==1
+            %a{:href=>"#{brands_web_show_path(brand)}"}
+              %img{:src => "#{brand.wide_campaign_img(:wide_medium)}"}
+          -elsif nums[i]==2
+            %a{:href=>"#{brands_web_show_path(brand)}"}
+              %img{:src => "#{brand.wide_campaign_img(:wide_medium)}"}
+          -elsif nums[i]==3
+            %a{:href=>"#{brands_web_show_path(brand)}"}
+              %img{:src => "#{brand.wide_campaign_img(:wide_half)}"}
+          -elsif nums[i]==4
+            %a{:href=>"#{brands_web_show_path(brand)}"}
+              %img{:src => "#{brand.high_campaign_img(:normal_small)}"}
+          .opacity-over
+            %a{:href=>"#{brands_web_show_path(brand)}"}
+              %img{:src => "#{brand.wide_avatar_url}"}
+        -i=i+1
+    #page_nav
+      =will_paginate @paged_brands

@@ -1,0 +1,30 @@
+%h1 活动列表
+
+%table.table
+  %tr
+    %th Title
+    %th Desc
+    %th Start date
+    %th End date
+    %th Award
+    %th Type id
+    %th Wait
+    %th Operate
+
+  - @lotteries.each do |lottery|
+    %tr
+      %td= lottery.title
+      %td= lottery.desc
+      %td= lottery.start_date
+      %td= lottery.end_date
+      %td= lottery.award
+      %td= lottery.type_id
+      %td= lottery.wait
+      %td
+        =link_to 'Show', [:manage, lottery]
+        =link_to 'Edit', edit_manage_lottery_path(lottery)
+        =link_to 'Destroy', [:manage, lottery], :method => :delete, :data => { :confirm => 'Are you sure?' }
+
+  %br
+
+= link_to 'New Lottery', new_manage_lottery_path

@@ -1,0 +1,38 @@
+<%= form_for @matter, html: {class: 'form-horizontal', role: 'form', :multipart => true} do |f| %>
+
+    <div class="form-group" style='margin-left:0px; margin-right:0px;'>
+      <div class="col-sm-3">
+
+        <% if action_name == "edit" %>
+        <div>
+          上传的素材：
+          <% upload_image_url = "/uploads/matters/#{@matter.local_photo_name}" %>
+
+          <%= image_tag upload_image_url, style: "width:70px; height:56px;" %>
+        </div>
+
+        <div>
+          <% png_img_url = @matter.matter_img_url %>
+          <%= image_tag png_img_url, style: "width:70px; height:56px;" %>
+        </div>
+        <br>
+        <div>
+          <% jpg_img_url = @matter.matter_img_url(false) %>
+          <%= image_tag jpg_img_url, style: "width:70px; height:56px;" %>
+        </div>
+        <br>
+
+        <% else %>
+            <input class="form-control" id="matter_image" name="matter_images[]" type="file" multiple>
+        <% end %>
+
+
+
+      </div>
+
+
+    <div class="col-sm-offset-2 col-sm-10">
+      <%= f.submit '提交', class: 'btn btn-primary' %>
+    </div>
+  </div>
+<% end %>

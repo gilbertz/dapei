@@ -1,0 +1,39 @@
+!!!
+%html
+  %head
+    %meta{:charset => 'utf-8'}
+    %meta{'http-equiv' => 'X-UA-Compatible', :content => 'IE=edge,chrome=1'}
+    %meta{"http-equiv"=>"Content-Type", :content=>"text/html; charset=utf-8"}
+    <meta name="chinaz-site-verification" content="7049ccf1-a0ca-4591-9f44-23ea314187e1" />
+    /%meta{:content => "width=device-width, initial-scale=1.0", :name => "viewport"}
+    %link{:rel => 'shortcut icon', :href => "#{image_path('favicon.png')}" }
+    %link{:rel => 'apple-touch-icon', :href => "#{image_path('favicon.png')}"}
+    
+    = render "layouts/meta"
+    = stylesheet_link_tag "application_2013", :media => "all"
+    = javascript_include_tag "shangjieba_2013"
+    %script{:src => "http://api.map.baidu.com/api?v=1.4", :type => "text/javascript"}
+    - if user_signed_in?
+      %script(type="text/javascript")
+        window.current_user_attributes = #{current_user.to_json.html_safe}
+    = csrf_meta_tags
+    <meta property="wb:webmaster" content="c9a73641d7e6f50c" />
+    <meta property="qc:admins" content="217012641267215216375" />
+    = yield(:head)
+    <script language='javascript' type='text/javascript' id='gj_zhengshu'  src='http://pc2.gtimg.com/pcmgr/online_server/cert/53/89/gj_zhengshu_5389c01e2fce3470a5a839218bf489a3.js?site=www.shangjieba.com&token=5389c01e2fce3470a5a839218bf489a3'></script>
+  %body{:class => "#{controller_name} #{action_name}"}
+
+  -#= render "layouts/float_app"
+
+  .header
+    = render 'shared/header'
+
+    #main{:role => "main"}
+      .container
+        -#= render 'layouts/messages'
+        #data
+          = yield
+        #toTop
+        = render 'layouts/footer_old'
+        #analysis
+          = render 'layouts/analysis'

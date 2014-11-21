@@ -1,0 +1,1206 @@
+* {
+    margin: 0;
+    padding: 0;
+}
+
+.clear {
+    clear: both;
+}
+.placeholder1 {
+  width: 0.0rem;
+  display: inline-block;
+}
+
+.cut {
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+html{
+    font-size: 600%;
+}
+
+body {
+  font-size: 0.3rem;
+  overflow: hidden;
+  padding: 0;
+}
+
+.hr {
+  height: 1px;
+  width: 100%;
+  background: #ddd;
+  margin: 0 auto;
+}
+
+.template, .templates {
+  display: none;
+}
+
+#return-top {
+  display: none;
+  height: 0.88rem;
+  width: 0.88rem;
+  background: url(/assets/m/icons/top.png);
+  background-size: cover;
+  position: fixed;
+  bottom: 40px;
+  right: 15px;
+}
+
+.avatar {
+  overflow: hidden;
+  float: left;
+  border-radius: 50%;
+}
+
+.page {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 120%;
+  padding-bottom: 1em;
+  overflow: auto;
+  background: #fff;
+}
+
+.page-content {
+  overflow-y: auto;
+  -webkit-overflow-scrolling: touch;
+  overflow-x: hidden; 
+  width: 100%;
+  height: 70%;
+  padding-bottom: 20%;
+}
+
+.page-template {
+  left: 6.4rem;
+}
+
+#bottom-channel {
+  position: fixed;
+  bottom: 0;
+  left: 0;
+  width: 100%;
+  height: 40px;
+  border-top: solid 1px rgb(224, 224, 224);
+  background: #fff;
+  background-image: linear-gradient(#fff,#eee);
+  line-height: 1.5;
+  transition: bottom 0.3s ease-in;
+  z-index: 9999;
+}
+
+.channel-link {
+  width: 25%;
+  text-align: center;
+  float: left;
+  font-size: 12px;
+  color: #333;
+}
+
+.channel-link-current {
+  color: rgb(252, 92, 91);
+}
+
+.channel-link > img {
+  height: 100%;
+}
+
+/***********************************************************************************banner*/
+#banner {
+  width: 100%;
+  overflow: hidden;
+  height: 2.8rem;
+}
+
+#banner-img-container {
+
+}
+
+.banner-img {
+  display: block;
+  float: left;
+}
+/***************************************************header*/
+.header {
+  height: 35px;
+  border-bottom: solid 1px #f0f1f2;
+  background: #fff;
+}
+
+.header > .icon {
+  width: 40px;
+  padding-top: 5px;
+  box-sizing: border-box;
+}
+.header div {
+  text-align: center;
+  line-height: 35px;
+  height: 100%;
+}
+
+.header .icon img {
+  width: 60%;
+}
+
+.header-title {
+  margin: 0 auto;
+  font-size: 16px;
+}
+
+.header-left-icon {
+  float: left;
+  
+}
+
+.header-right-icon {
+  float: right;
+}
+/************************************************************************** arrange-list*/
+.channel {
+  position: absolute;
+  z-index: -1;
+  display: none;
+  background: #fff;
+  height: 100%;
+  width: 100%;
+  overflow-y: auto;
+  -webkit-overflow-scrolling: touch;
+}
+
+.current-channel {
+  position: static;
+  display: block;
+}
+
+.arrange-channel .list {
+  width: 93.75%;
+  margin: 0 auto;
+  margin-top: 0.15rem;
+}
+
+.arrange-item {
+  border: solid 1px rgb(224, 224, 224);
+  margin-bottom: 0.1rem;
+  background: rgb(242,242,242);
+  width: ;
+}
+
+.arrange-item-info {
+  margin: 0.1rem 0;
+}
+
+.arrange-item-avatar {
+  width: 0.5rem;
+  border-radius: 0.25rem;
+  overflow: hidden;
+  float: left;
+  margin-left: 0.1rem;
+}
+
+.arrange-item-name {
+  height: 0.5rem;
+  line-height: 0.5rem;
+  float: left;
+  margin-left: 0.25rem;
+}
+
+.arrange-item-like-heart {
+  width: 0.5rem;
+}
+
+
+.arrange-item-info > div {
+  height: 0.5rem;
+  line-height: 0.5rem;
+  font-size: 0.22rem;
+}
+
+
+.arrange-item-like-count, .arrange-item-like-heart {
+  float: right; 
+}
+
+.arrange-item-like-heart {
+  text-align: center;
+  position: relative;
+}
+
+.arrange-item-like-heart > img {
+  position: relative;
+  display: block;
+  width: 120%;
+  top: -0.05rem;
+}
+
+.arrange-item-like-count {
+  margin: 0 0.25rem;
+}
+
+/********************************************single*/
+
+.single-channel > .list > div {
+  width: 47.5%;
+  font-size: 0.2rem;
+  color: #888;
+}
+
+#single-left-col {
+  float: left;
+  margin-left: 0.1rem;
+}
+
+#single-right-col {
+  float: right;
+  margin-right: 0.1rem;
+}
+
+.single-item {
+  border: solid 1px rgb(224, 224, 224);
+  margin-top: 0.1rem;
+}
+
+.single-item-brand {
+  margin-left: 0.1rem;
+}
+
+.single-item-price {
+  float: right;
+  margin-right: 0.1rem;
+}
+
+.single-channel .scroll-loading {
+  text-align: center;
+  display: block;
+  margin-top: 0.5rem;
+}
+/*********************************************************mine-channel*/
+.mine-channel {
+  background: #eee;
+}
+
+.mine-channel .hr {
+  height: 1px;
+  width: 86%;
+  background: #ddd;
+  float: right;
+}
+
+.mine-list {
+
+}
+
+.mine-item, .mine-channel .app-recommend-list {
+  padding: 0.15rem 0.25rem;
+  background: #fff;
+}
+
+.m-t-25 {
+  margin-top: 0.25rem;
+}
+
+.login .mine-item-logo {
+  height: 0.8rem;
+}
+
+.mine-item-logo {
+  display: block;
+  float: left;
+  height: 0.44rem;
+}
+
+.mine-item .text {
+  float: left;
+  margin-left: 0.2rem; 
+  font-size: 0.22rem;
+  line-height: 0.44rem;
+  height: 0.44rem;
+}
+
+.login .text {
+  line-height: 0.8rem;
+  height: 0.8rem;
+}
+
+.mine-item .arrow {
+  display: block;
+  float: right;
+  height: 0.44rem;
+}
+
+.login .arrow {
+  margin-top: 0.2rem;
+}
+
+.mine-channel .app-recommend-title {
+  font-size: 0.22rem;
+  padding-left: 0.5rem;
+  margin-top: 0.35rem;
+}
+
+.mine-channel .app-recommend-list {
+  padding-bottom: 0;
+}
+
+.mine-channel .app-recommend-item {
+  display: block;
+  float: left;
+  margin: 0 0.15rem;
+  font-size: 0.20rem;
+  text-align: center;
+  color: #666;
+  line-height: 2;
+  text-decoration: none;
+}
+
+.mine-channel .app-recommend-item img {
+  width: 0.7rem;
+  border-radius: 0.05rem;
+}
+
+.mine-channel .logout {
+  display: none;
+  background: rgb(252, 92, 91);
+  text-align: center;
+  color: #fff;
+  height: 0.6rem;
+  line-height: 0.6rem;
+  width: 90%;
+  margin: 0 auto;
+  font-size: 0.25rem;
+  margin-top: 0.35rem;
+}
+/*33333333333333333333333333333333333333****************find-channel*/
+.find-channel .search-zone {
+  padding: 0.15rem;
+  background: #eee;
+}
+
+.find-channel .search-input {
+  display: block;
+  border-radius: 1rem;
+  font-size: 0.2rem;
+  padding: 0.05rem 0.2rem;
+  outline: none;
+  border: solid 1px #ccc;
+  width: 4rem;
+  float: left;
+  margin-left: 0.5rem;
+}
+
+.find-channel .search-btn, .find-channel .cancel-btn {
+  float: left;
+  margin-left: 0.2rem;
+  color: blue;
+  font-size: 0.2rem;
+  line-height: 0.44rem;
+}
+
+.find-channel .cancel-btn {
+  display: none;
+}
+
+
+/***********************************************************set-Page*/
+.set-up-page {
+  background: #eee;
+}
+
+.set-up-page .bg-logo {
+  background: url(../images/icons/bg_logo.png) no-repeat 50% 100%;
+  height: 1rem;
+  margin-top: 0.25rem;
+  background-size: contain;
+}
+
+.set-list {
+
+}
+
+.set-item {
+  padding: 0.15rem 0.25rem;
+  margin-top: 0.25rem;
+  background: #fff;
+}
+
+.set-item-logo {
+  display: block;
+  float: left;
+  height: 0.44rem;
+}
+
+.set-item .text {
+  float: left;
+  margin-left: 0.2rem; 
+  font-size: 0.22rem;
+  line-height: 0.44rem;
+  height: 0.44rem;
+}
+
+.set-item .arrow {
+  display: block;
+  float: right;
+  height: 0.44rem;
+}
+
+/*******************************************************z-index*/
+.z1 {
+  z-index: 1;
+}
+
+.z2 {
+  z-index: 2;
+}
+
+.z3 {
+  z-index: 3;
+}
+
+.z4 {
+  z-index: 4;
+}
+
+.z5 {
+  z-index: 5;
+}
+
+.z6 {
+  z-index: 6;
+}
+
+.z7 {
+  z-index: 7;
+}
+
+.z8 {
+  z-index: 8;
+}
+
+.z9 {
+  z-index: 9;
+}
+
+/************************************************************arrange-detail*/
+
+.arrange-detail {
+
+}
+
+.arrange-detail .main-img {
+  width: 6rem;
+  height: 6rem;
+  margin: 0 auto;
+  margin-top: 0.15rem;
+}
+
+.main-img-info {
+  margin: 0.15rem 0;
+}
+
+.a-d-avatar {
+  width: 0.64rem;
+  height: 0.64rem;
+  margin: 0 0.2rem;
+}
+
+.a-d-m-sometext {
+  float: left;
+  margin-top: 0.05rem;
+}
+
+.a-d-m-sometext>.username {
+  font-size: 0.24rem;
+}
+
+.a-d-m-sometext>.desc {
+  font-size: 0.20rem;
+  color: rgb(88,88,88);
+  width: 3rem;
+}
+
+.attention {
+  background: rgb(252, 92, 91);
+  line-height: 0.46rem;
+  height: 0.46rem;
+  width: 1.28rem;
+  float: right;
+  margin-right: 0.25rem;
+  text-align: center;
+  color: #fff;
+  margin-top: 0.05rem;
+  font-size: 0.24rem;
+}
+
+/*************************************************************/
+
+.arrange-zone {
+  margin: 0 auto;
+  margin-top: 0.5rem;
+  width: 5.8rem;
+}
+
+.arrange-title {
+  float: left;
+  font-size: 0.22rem;
+  color: rgb(88, 88, 88);
+  width: 4rem;
+}
+
+.arrange-update {
+  float: right;
+  font-size: 0.2rem;
+  color: rgb(168, 168, 168);
+}
+
+.arrange-detail table {
+  border-color: #eee;
+  margin-top: 0.16rem;
+}
+
+.arrange-detail table td {
+  height: 2rem;
+  width: 2rem;
+}
+
+.arrange-detail table .item-img {
+  height: 1.92rem;
+  width: 1.92rem;
+}
+
+.arrange-detail table .item-brand {
+  text-align: center;
+  color: rgb(88,88,88);
+  font-size: 0.2rem;
+  height: 0.35rem;
+  line-height: 0.35rem;
+}
+
+.arrange-detail .comments {
+  width: 90%;
+  margin: 0 auto;
+  margin-top: 0.5rem;
+}
+
+.arrange-detail .comments>.hr {
+}
+
+.arrange-detail .comments-head {
+  position: relative;
+  top: -0.29rem;
+  width: 30%;
+  margin: 0 auto;
+  background: #fff;
+  text-align: center;
+}
+
+.comments-head span {
+  font-size: 0.22rem;
+  position: relative;
+  top: 0.08rem;
+}
+
+.comments-head img {
+  position: relative;
+  top: 0.08rem;
+  height: 0.18rem;
+}
+
+.a-d-c-avatar {
+  margin: 0 0.1rem;
+}
+
+.likes-user {
+  margin-bottom: 0.25rem;
+}
+
+.likes-user :first-child {
+  margin-left: 0;
+}
+
+.likes-user :last-child {
+  margin-right: 0;
+}
+
+
+.comments-detail { 
+  margin-top: 0.2rem;
+}
+
+.arrange-detail .comment-text-info {
+  font-size: 0.22rem;
+  line-height: 1.4;
+  float: right;
+  width: 82%;
+}
+.arrange-detail .user-name {
+  float: left;
+  color: #000;
+  width: 50%;
+}
+
+.arrange-detail .date {
+  float: right;
+  font-size: 0.2rem;
+  width: 30%;
+  color: rgb(150, 150, 150);
+  text-align: right;
+}
+
+/*************************************************************single-page*/
+.single-detail .page-content {
+  width: 92%;
+  margin: 0 auto;
+}
+
+.single-detail .s-d-m-sometext {
+  line-height: 1.35;
+  font-size: 0.22rem;
+  float: left;
+  width: 75%;
+}
+
+.single-detail .p-name {
+  font-size: 0.26rem;
+  width: 4.4rem;
+}
+
+.single-detail .p-price {
+  color: rgb(252, 92, 91);
+}
+
+.single-detail .p-buy-domain {
+  font-size: 0.2rem;
+}
+
+.single-detail .p-gobuy {
+  font-size: 0.2rem;
+  color: #fff;
+  float: right;
+  height: 0.4rem;
+  line-height: 0.4rem;
+  text-align: center;
+  width: 1.2rem;
+  background: rgb(252, 92, 91);
+  margin-top: 0.8rem;
+  border-radius: 0.04rem;
+}
+
+.single-detail .comments {
+  margin: 0 auto;
+  margin-top: 0.5rem;
+}
+
+.single-detail .comments-head {
+  position: relative;
+  top: -0.29rem;
+  width: 45%;
+  margin: 0 auto;
+  background: #fff;
+  text-align: center;
+}
+
+.single-detail .comments-head img {
+  position: relative;
+  top: 0.08rem;
+}
+
+.s-d-avatar {
+  width: 0.64rem;
+  height: 0.64rem;
+  margin: 0 0.1rem;
+}
+
+.likes-user {
+  margin-bottom: 0.25rem;
+}
+
+.likes-user :first-child {
+  margin-left: 0;
+}
+
+.likes-user :last-child {
+  margin-right: 0;
+}
+
+
+.comments-detail {
+  margin-top: 0.2rem;
+}
+
+.more-comments-btn {
+  display: none;
+  font-size: 0.22px;
+  float: right;
+  color: #666;
+  margin-top: 0.2rem;
+}
+
+.single-detail .comment-text-info {
+  font-size: 0.22rem;
+  line-height: 1.4;
+  float: right;
+  width: 82%;
+}
+
+.single-detail .user-name {
+  float: left;
+  color: #000;
+  width: 50%;
+}
+
+.single-detail .date {
+  float: right;
+  font-size: 0.2rem;
+  width: 30%;
+  color: rgb(150, 150, 150);
+  text-align: right;
+}
+
+/*************************************************login*/
+.login-page .login-form {
+  text-align: center;
+  margin-top: 0.25rem;
+}
+
+.login-page input {
+  border: none;
+  border-bottom: solid 1px rgb(224, 224, 224);
+  padding: 0 5px;
+  width: 90%;
+  height: 0.7rem;
+  outline: none;
+}
+
+.login-page .login-btn {
+  width: 80%;
+  height: 0.5rem;
+  text-align: center;
+  line-height: 0.5rem;
+  color: #fff;
+  background: rgb(252, 92, 91);
+  margin: 0 auto;
+  margin-top: 0.5rem;
+  font-size: 0.25rem;
+}
+
+.login-page .hr {
+  margin: 0.5rem auto;
+}
+
+.login-page .other-login-title {
+  font-size: 0.2rem;
+  color: rgb(224, 224, 224);
+  position: relative;
+  top: -0.65rem;
+  background: #fff;
+  padding: 0 5px;
+}
+
+.login-page .sina-login, .login-page .qq-login {
+  display: block;
+  text-align: center;
+  float: left;
+  width: 50%;
+  height: 1rem;
+}
+/*************************************************suggestion-page*/
+.suggestion-page textarea {
+  display: block;
+  width: 90%;
+  margin: 0.2rem auto;
+  height: 2rem;
+  padding: 5px;
+}
+/*/////////////////////////////////////////////////about_us-page*/
+
+.about-us-page {
+  text-align: center;
+}
+
+.about-us-page .app-logo {
+  width: 2.5rem;
+  margin-top: 1.8rem;
+}
+
+.about-us-page .app-version {
+  font-size: 0.2rem;
+  color: #666;
+}
+
+.about-us-page .app-name {
+  margin-top: 0.2rem;
+  font-size: 0.25rem;
+  font-weight: bold;
+}
+
+.about-us-page .app-info{
+  position: fixed;
+  bottom: 0.5rem;
+  width: 100%;
+  font-size: 0.2rem;
+  color: #666;
+  line-height: 1.5;
+}
+
+
+
+/***********************************************prompt*/
+.prompt {
+  position: fixed;
+  z-index: 2000;
+  bottom: 2rem;
+  left: 0;
+  width: 100%;
+  text-align: center;
+}
+
+.prompt-text {
+  display: inline-block;
+  background: rgba(0,0,0,0.8);
+  color: #fff;
+  text-align: center;
+  padding: 0.1rem 0.2rem;
+  font-size: 0.2rem;
+  border-radius: 0.1rem;
+}
+
+/*******************************************************home-page*/
+.home-page {
+
+}
+
+.home-bg {
+  height: 3rem;
+  position: relative;
+}
+
+.home-avatar {
+  position: absolute;
+  bottom: 0;
+  height: 1rem;
+  width: 1rem;
+  z-index: 200;
+  left: 50%;
+  margin-left: -0.57rem;
+  margin-bottom: -0.57rem;
+  border-radius: 1.5rem;
+  overflow: hidden;
+  border: solid 0.07rem #fff;
+  box-shadow: 0px 1px 7px 1px #888;
+}
+
+.home-avatar img {
+  border-radius: 1rem;
+}
+
+.home-user-info {
+  text-align: center;
+  font-size: 0.20rem;
+  margin-top: 0.8rem;
+  line-height: 1.8;
+}
+
+.home-username {
+  font-size: 0.22rem;
+  font-weight: bold;
+}
+
+.home-user-desc {
+  color: #666;
+}
+
+.home-attention {
+  height: 0.4rem;
+  line-height: 0.4rem;
+  background: rgb(252, 92, 91);
+  margin: 0 auto;
+  width: 1.8rem;
+  color: #fff;
+  margin-top: 0.05rem;
+}
+
+.home-page table {
+  width: 100%;
+  margin-top: 0.2rem;
+}
+
+.home-page td {
+  width: 1rem;
+  text-align: center;
+  font-size: 0.23rem;
+  color: #444; 
+}
+
+.home-count {
+  color: rgb(252, 92, 91);
+  font-size: 0.28rem;
+}
+
+.home-page .hr {
+  margin: 0.1rem auto;
+  width: 90%;
+}
+
+.home-like-count, .home-pub-count {
+  color: rgb(224, 224, 224);
+}
+
+/************************************lc-page*/
+
+.lc-nav>div {
+  width: 50%;
+  background: #eee;
+  float: left;
+  height: 0.6rem;
+  font-size: 0.2rem;
+}
+
+.lc-nav>div>div {
+  border-bottom: solid 0.06rem rgba(0,0,0,0);
+  box-sizing: border-box;
+  height: 100%;
+  width: 1rem;
+  margin: 0 auto;
+  line-height: 0.6rem;
+  text-align: center;
+  color: #666;
+}
+
+.lc-current-nav {
+  color: #000;
+  border-bottom: solid 0.06rem rgba(0,0,0,0.6);
+}
+
+.lc-single-list>div {
+  width: 47.5%;
+}
+
+.lc-arrange-list {
+  width: 95%;
+  margin: 0.1rem auto;
+}
+
+.lc-single-list {
+  display: none;
+}
+
+.lc-nav>div>.lc-current-nav {
+  border-bottom: solid 0.06rem rgba(0,0,0,0.6);
+  color: rgba(0,0,0,0.6);
+}
+/*////////////////////////////////////////////comment-text*/
+
+.comment-text {
+  background: #ccc;
+  position: fixed;
+  bottom: 0;
+  width: 100%;
+  z-index: 9999;
+}
+
+.comment-text table {
+  width: 100%;
+  margin-top: 0;
+}
+
+.comment-text table td {
+  height: auto;
+}
+
+#td1 {
+  width: 0.8rem;
+}
+
+#td2 {
+  width: 4.5rem;
+}
+
+#td3 {
+  text-align: center;
+}
+
+#comment-content {
+  width: 100%;
+}
+
+.send {
+  color: red;
+  font-size: 0.3rem;
+}
+
+.text-blur {
+  width: 0.6rem;
+  height: 0.6rem;
+  margin: 0 auto;
+  background: #456;
+}
+
+.like-item {
+    padding: 0.1rem 0;
+}
+
+.more-like-page .like-item {
+    border-bottom: solid 1px #ccc;
+}
+
+.like-avatar {
+    width: 0.64rem;
+    height: 0.64rem;
+    margin: 0 0.05rem;
+}
+
+.like-text-info {
+    font-size: 0.22rem;
+    line-height: 1.4;
+    float: right;
+    width: 82%;
+}
+.like-user-name {
+    float: left;
+    color: #000;
+    width: 50%;
+}
+
+.like-date {
+    float: right;
+    font-size: 0.2rem;
+    width: 30%;
+    color: rgb(150, 150, 150);
+    text-align: right;
+}
+
+.like-content {
+    float: left;
+    color: rgb(150, 150, 150);
+    width: 68%;
+}
+
+.intrest-item {
+    padding: 0.1rem 0;
+}
+
+.find-channel .intrest-item {
+    border-bottom: solid 1px #ccc;
+}
+
+.intrest-avatar {
+    width: 0.64rem;
+    height: 0.64rem;
+    margin: 0 0.05rem;
+}
+
+.intrest-text-info {
+    font-size: 0.22rem;
+    line-height: 1.4;
+    float: right;
+    width: 82%;
+}
+.intrest-user-name {
+    float: left;
+    color: #000;
+    width: 50%;
+}
+
+.intrest-date {
+    float: right;
+    font-size: 0.2rem;
+    width: 30%;
+    color: rgb(150, 150, 150);
+    text-align: right;
+}
+
+.intrest-content {
+    float: left;
+    color: rgb(150, 150, 150);
+    width: 68%;
+}
+
+.comment-item {
+    padding: 0.1rem 0;
+}
+
+.more-comment-page .comment-item {
+    border-bottom: solid 1px #ccc;
+}
+
+.comment-avatar {
+    width: 0.64rem;
+    height: 0.64rem;
+    margin: 0 0.05rem;
+}
+
+.comment-text-info {
+    font-size: 0.22rem;
+    line-height: 1.4;
+    float: right;
+    width: 82%;
+}
+.comment-user-name {
+    float: left;
+    color: #000;
+    width: 50%;
+}
+
+.comment-date {
+    float: right;
+    font-size: 0.2rem;
+    width: 30%;
+    color: rgb(150, 150, 150);
+    text-align: right;
+}
+
+.comment-content {
+    float: left;
+    color: rgb(150, 150, 150);
+    width: 100%;
+}
+
+.more-like-btn {
+    margin-left: 0.05rem;
+    display: none;
+    width: 0.64rem;
+    height: 0.64rem;
+    border-radius: 0.64rem;
+    background: #aaa;
+    color: #fff;
+    text-align: center;
+    line-height: 0.64rem;
+    overflow: hidden;
+    float: left;
+    letter-spacing: -0.2rem;
+}
+
+.more-like-dot {
+    margin-left: 0.5rem;
+}
+
+.bottom-bar {
+    position: fixed;
+    bottom: 0;
+    left: 0;
+    width: 100%;
+    background: rgba(250, 250, 250, 0.6);
+    padding: 0.1rem 0;
+}
+
+.bottom-bar div {
+    float: left;
+    width: 50%;
+    text-align: center;
+}
+
+.bottom-bar img {
+    height: 0.7rem;
+}
+
+#bottom-bar.app-topbar .app-button{
+    position: static;
+    padding: 0;
+}
+
+#bottom-bar{
+    background: #fff;
+}

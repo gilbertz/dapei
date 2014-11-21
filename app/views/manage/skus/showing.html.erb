@@ -1,0 +1,66 @@
+<h1>skus</h1>
+
+<div class="row">
+  <div class="col-lg-1">
+
+  </div>
+</div>
+
+<div class="skus-list">
+
+</div>
+
+<div class="paginate">
+  <span>
+    <a href="/manage/skus/showing?page=<%= @prev_page %>">上一页</a>
+  </span>
+  <span>
+    <a href="/manage/skus/showing?page=<%= @next_page %>">下一页</a>
+  </span>
+</div>
+
+<script>
+  $(function(){
+
+      $.get("/item/info/search.json", {page: <%= params[:page] || 1 %>}, function(data){
+
+          var items = data.items;
+
+          $.each(items, function(index, value){
+              var wrapper_div;
+              wrapper_div = $("<div class='wrapper-div'></div>");
+              var img = $("<img/>");
+              $(img).attr("src", value.img_normal_small);
+              $(wrapper_div).append(img);
+              $(".skus-list").append(wrapper_div);
+
+              $(wrapper_div).append("<span class='likes-count'>点击 "+value.get_dispose_count+"</span>");
+              $(wrapper_div).append("<span class='likes-count'>喜欢 "+value.likes_count+"</span>");
+              $(wrapper_div).append("<span class='comments-count'>评论 "+value.comments_count+"</span>");
+              $(wrapper_div).append("<span class='cancel-recommed'><a href='/manage/skus/"+value.item_id+"/cancel'>取消推荐</a></span>")
+
+              if((index % 2) == 1){
+                $(".skus-list").append("<hr>");
+              }
+
+          });
+
+      });
+
+  })
+</script>
+
+<style>
+  .wrapper-div{
+      float: left;
+  }
+  .wrapper-div img{
+      display: block;
+      height: 200px;
+      width: auto;
+  }
+  hr{
+      display: block;
+      width: 100%;
+  }
+</style>

@@ -1,0 +1,13 @@
+# encoding: utf-8
+
+=render :partial=>"/shared/admin_bar"
+
+/ 店铺列表
+.clearfix.gjb_shop
+  .gjb_shop_bd.stream{:style=>"width:1010px;"}
+    %ul{:style=>"width:1010px;"}
+      -@brands.each do |brand|
+        =render :partial=>"/brands/admin_list_item", :locals=>{:brand=>brand}
+  -##page_nav_2
+  = paginate @brands
+

@@ -1,0 +1,36 @@
+<hr>
+<table class="table">
+  <tr>
+    <th>No</th>
+    <th>Like id</th>
+    <th>user id</th>
+    <th>username</th>
+    <th style="width: 10%">email</th>
+    <th>Created at</th>
+  </tr>
+  <% i = 1 %>
+  <% @like_count_users.each do |like| %>
+      <% user = User.find(like.user_id) %>
+
+          <tr>
+            <td>
+              <%= i %>
+              <% i = i + 1 %>
+            </td>
+            <td>
+              <%= like.id %>
+            </td>
+            <td><%= user.id %></td>
+            <td>
+              <%= user.name %>
+            </td>
+            <td>
+              <%= user.email %>
+            </td>
+            <td>
+              <%= (like.created_at + 8.hours).strftime("%Y-%m-%d %H:%M:%S") %>
+            </td>
+          </tr>
+
+  <% end %>
+</table>

@@ -1,0 +1,35 @@
+class Shangjieba.Views.ShopsMap extends Backbone.View
+  initialize: (option) ->
+    _.bindAll(this, "render");
+    this.shops = option.colletion
+    this.shops.bind("change", @render)
+
+  render: ->
+    this.map = new BMap.Map("map_canvas");
+    point = new BMap.Point(121.4, 31.2);
+    this.map.centerAndZoom(point,13);    
+
+    this.pois = new Array();
+    points = this.shops.get_coordinates();
+    _.each points, ((coords) ->
+      if coords.lon != null and coords.lat != null and coords.lon.match(/^[1-9]\d*\.\d+$/) != null and coords.lat.match(/^[1-9]\d*\.\d+$/) != null
+        alert("bb")
+        p = new BMap.Point(coords.lon, coords.lat)
+        alert(coords.lon)
+        alert(coords.lat)
+        #this.map.centerAndZoom(p,13);
+        this.pois.push(p)
+        #alert("8")
+        #marker = new BMap.Marker(p)
+        #alert("aa")
+        #this.map.addOverlay(marker)
+      )
+    alert("cc")
+    this.map.setViewport(this.pois)
+    this.map.addControl(new BMap.NavigationControl());
+    #alert(points)
+    #this.map.setViewport(points);
+    #this.map.centerAndZoom(point,13);
+    #this.map.enableScrollWheelZoom();
+    #this.map.addOverlay(new BMap.Marker(point));
+    this

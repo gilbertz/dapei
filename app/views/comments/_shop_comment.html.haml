@@ -1,0 +1,26 @@
+-if(comment.user_id)
+  -user=User.find(comment.user_id)
+%li
+  %span.icon-user
+  %span.name
+    - if user
+      %a{:href => "#{user_path(user)}"} #{user.display_name}
+  #{comment.comment}
+  
+-#.commli
+  -if user 
+    %a.Avatar{:href => "#{user_path(user)}"}
+      %img{:height => "24", :src => "#{user.display_img_small}", :width => "24"}/
+  -else
+    %a.Avatar{:href =>"#{user_path(user)}"}
+      %img{:height => "24", :src => "/assets/0.gif", :width => "24"}/
+  = succeed comment.comment  do
+    -if user
+      %a{:href => "#{user_path(user)}"} #{user.display_name}  &nbsp
+    -else
+      %a{:href => "#"} #######  &nbsp
+  %br/
+  =comment.updated_at.localtime.strftime("%F %H:%M")
+  -if current_user and current_user.can_remove?(comment)
+    %a{:href=>"#{comment_path(comment)}", :class=>"comment_delete", :title=>"删除", :data => { :confirm => "确定删除吗?" }, :method=>:delete}
+      %img{:src=>"/assets/deletelabel.png"}

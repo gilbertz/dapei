@@ -1,0 +1,121 @@
+.wrapper
+  .dapei-top
+    %ul.nav.nav-float
+      %li
+        %img{:src => "/assets/banner/dapei_banner.png"}
+      %li
+        .new-dapei
+          %ul.nav
+            %li.new-dapei-link.link-w
+              -if user_signed_in?
+                %a{:href => "/collocations"} +发布搭配
+              -else
+                %a{:href => "#{layer_sign_in_path}", :rel => "facebox[.about]"} +发布搭配
+            %li.to-dapei-daren
+              %a{:href => "#"} 想要成为搭配达人?
+  
+
+  .hot-dapei-tag
+    .hot-dapei-tag-head
+      %h2{:style => "float:left;"} 
+        热门搭配标签
+      - if user_signed_in? and current_user.can_be_admin
+        #div{:style => "float:right;"}
+          %form{"accept-charset" => "UTF-8", :class=>"search_f", :action => "/info/search", :method => "get"}
+            %ul.nav.nav-float.search
+              %li.serach-input
+                %input{:name => "index", :type => "hidden", :value => "dapei"}
+                %input{:name => "q", :id=>"search", :value => "#{@query}", :placeholder => "", :type => "text"}/
+              %li#search-submit
+                %input.icon-search{:name => "", :onclick => "goSearch(); return false;", :type=>"submit", :value=>""}/
+
+    -labels=["场合","身型","款式","颜色","风格","元素"]
+    .hot-dapei-tags
+      %ul.nav.nav-float
+        - j=0
+        - [1,5,2,3,0,4].each do |tid|
+          %li
+            %h5 
+              = labels[j]
+              - j=j+1
+            -if tid==2
+              %ul.nav.nav-float.long-tag
+                - tags = DapeiTag.where(:is_hot => 1).where( :tag_type =>tid )
+                -i=0
+                - tags.each do |tag|
+                  -if i<6
+                    %li
+                      %a{:href =>"#{search_path(@index, @sort, nil, tag.name)}"}
+                        = tag.name
+                        -i=i+1
+                  -else
+                    -break
+            -else
+              %ul.nav.nav-float
+                - tags = DapeiTag.where(:is_hot => 1).where( :tag_type =>tid )
+                -i=0
+                - tags.each do |tag|
+                  -if i<12
+                    %li
+                      %a{:href =>"#{search_path(@index, @sort, nil, tag.name)}"}
+                        = tag.name
+                        -i=i+1
+                  -else
+                    -break
+
+    -#.hot-dapei-tags
+      %ul.nav.nav-float
+        %li
+          %h5 热门
+          %ul.nav.nav-float
+            %li 清纯
+            %li 诱惑
+            %li 魅力
+            %li 女神
+        %li
+          %h5 潮流
+          %ul.nav.nav-float
+            %li 清纯
+            %li 诱惑
+            %li 魅力
+            %li 女神
+        %li
+          %h5 聚会
+          %ul.nav.nav-float
+            %li 清纯
+            %li 诱惑
+            %li 魅力
+            %li 女神
+        %li
+          %h5 热门
+          %ul.nav.nav-float
+            %li 清纯
+            %li 诱惑
+            %li 魅力
+            %li 女神
+        %li
+          %h5 潮流
+          %ul.nav.nav-float
+            %li 清纯
+            %li 诱惑
+            %li 魅力
+            %li 女神
+        %li
+          %h5 聚会
+          %ul.nav.nav-float
+            %li 清纯
+            %li 诱惑
+            %li 魅力
+            %li 女神
+  .dapei-body
+    - if @dapeis
+      %ul.nav.nav-float.stream
+        -#- i=1
+        - @dapeis.each  do |d|
+          -#- if i%3==0
+            = render :partial=>"/dapeis/dapei_list_item", :locals=>{:dapei=>d, :dis_class=>"ul-last-li"}
+          -#-else
+          = render :partial=>"/dapeis/dapei_list_item", :locals=>{:dapei=>d, :dis_class=>"holder"}
+          -#-i=i+1
+      #page_nav
+        = will_paginate @dapeis

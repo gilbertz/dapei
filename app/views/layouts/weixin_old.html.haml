@@ -1,0 +1,32 @@
+!!!
+%html{:lang => "de"}
+  / use class="debug" here if you develope a template and want to check
+  %head
+    %meta{:charset => "UTF-8"}/
+    %meta{:content => "width=device-width, minimum-scale=1.0, maximum-scale=1.0", :name => "viewport"}/
+    %meta{:content => "index,follow", :name => "robots"}/
+    = stylesheet_link_tag "weixin", :media => "all" 
+    %title= content_for?(:title) ? yield(:title) : "上街吧--帮你穿好看"
+  %body
+    = yield
+    .wrapper2
+    %br
+    %p{:style => "text-align:center"}
+      %span{ :style => "font-family:宋体;color:#0070c0;background-color:#f861b0;"}
+        %a{:href=>"weixin://addfriend/shangjiezhushou"}
+          点我点我-关注上街吧每日搭配
+    %br
+    %p{:style => "text-align:center"}
+      %span{:style => "font-family:宋体;color:#0070c0"}
+        点击右上角“…”可分享至朋友圈
+    %p{:style => "text-align:center"}
+      %span{ :style => "font-family:宋体;color:#0070c0"}
+        %a{:href=> "http://www.shangjieba.com/api/redirect?from=weixin&url=https://itunes.apple.com/us/app/shang-jie-ba/id657031277?ls=1" }
+          苹果用户专有app下载链接>>
+    %p{:style => "text-align:center"}
+      %span{ :style => "font-family:宋体;color:#0070c0"}
+        %a{:href=> "http://www.shangjieba.com/shangjieba.apk?from=wx" }
+          安卓用户专有app下载链接>>
+
+    #analysis{:style => "display:none"}
+      %script{:language => "JavaScript", :src => "http://s6.cnzz.com/stat.php?id=5253391&web_id=5253391&show=pic"} 

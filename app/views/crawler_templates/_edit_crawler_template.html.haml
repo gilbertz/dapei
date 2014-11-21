@@ -1,0 +1,87 @@
+# encoding: utf-8
+
+.recom-p.clearfix.perfect_info
+  =render "left_bar"
+  .right_content
+    %h1 修改资料
+    #warning
+      提交失败，缺乏必要信息， 请参考下面提示补齐信息！
+    .process
+      .add_info
+        修改店铺信息
+        %b
+      -#.arrow
+      -#.legalize
+        店铺认证
+        %b
+      -#.direction "店铺认证"后可以让你的店铺排序更靠前，让用户更容易的看到
+    .master_c
+      -#.hd
+        %ul
+          %li.selected
+            %a{:href => "#"} 填写资料
+          %li
+            %a{:href => "#"} 认证
+      .bd
+        .direction
+          %p
+            填写更全、更准确的资料可以让顾客更方便的找到店铺
+            -#%a{:href => "#"} 什么是贡献值和D币?
+          %p 发布更清晰、更吸引人的店铺宣传图片可以让店铺排名更加靠前，吸引更多的顾客
+        .info_bd
+          -form_id= (meth=="post" ? "create_crawler_template_form" :"put_crawler_template_form")
+          = simple_form_for(@crawler_template, :validate=>true, :html => { :method =>meth, :id=>form_id , :multipart => true }) do |f|
+            %ul
+              -#%li
+                =f.input :brand_name, :label=>"<s>*</s>品牌名称：".html_safe,  :input_html=>{:class=>"txt", :style=>"width:250px;"}
+              %li
+                -if current_user.can_be_admin
+                  %label
+                    品牌：
+                  %select{:name => "crawler_template[brand_id]", :id=>"brand"}
+                    %option{ :value => "0"} 无品牌
+                    - @brands.each do |brand|
+                      - if @crawler_template.brand_id == brand.id
+                        %option{ :selected=>"selected", :value => "#{brand.id}"} #{brand.name}
+                      - else
+                        %option{ :value => "#{brand.id}"} #{brand.name}
+              
+              %li
+                -if current_user.can_be_admin
+                  %label
+                    商场：
+                  %select{:name => "crawler_template[mall_id]", :id=>"mall"}
+                    %option{ :value => "0"} 无商场
+                    - @malls.each do |mall|
+                      - if @crawler_template.mall_id == mall.id
+                        %option{ :selected=>"selected", :value => "#{mall.id}"} #{mall.name}
+                      - else
+                        %option{ :value => "#{mall.id}"} #{mall.name}
+
+
+              %li
+                =f.input :source, :label=>"来源ID：",  :input_html=>{:class=>"txt", :style=>"width:250px;"}
+              %li
+                %label
+                  来源：
+                %select{:name => "crawler_template[template]", :id=>"template"}
+                  %option{ :value => "weibo"} weibo
+                  %option{ :value => "weixin"} weixin
+                  %option{ :value => "homepage"} 官网
+              %li
+                %label
+                  类型：
+                %select{:name => "crawler_template[t]", :id=>"t"}
+                  %option{ :value => "Item"} item
+                  %option{ :value => "Discount"} discount
+                  %option{ :value => "Shop"} shop
+ 
+              %li
+                =f.input :pattern, :label=>"模板：",  :placeholder=>"2013|新款", :input_html=>{:class=>"txt", :style=>"width:250px;"}
+              -if meth=="post"
+                %li#create_crawler_template_btn
+                  = f.button :submit, '提交店铺', :class => 'submit_btn_01'
+              -else
+                %li
+                  = f.button :submit, '提交店铺', :class => 'submit_btn_01'
+

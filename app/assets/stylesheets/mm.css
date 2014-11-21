@@ -1,0 +1,5 @@
+/*
+*= require ./m/app.min
+*= require ./m/hack
+*= require_self
+*/

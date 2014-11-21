@@ -1,0 +1,52 @@
+<%= search_form_for [:manage, @q], html: {class: 'form-inline',role: 'form',style: 'margin-top:30px;'} do |f| %>
+  <div class="form-group" style="width:25%;">
+    <label class="sr-only">FlinkName</label>
+    <%= f.text_field :brand_name_cont, class: 'form-control', placeholder: '品牌名' %>
+  </div>
+  <%= f.submit '搜索', class: 'btn btn-primary btn-sm'%> 
+  <%= total_span @crawler_templates %>
+  <div class="form-group pull-right">
+    <%= link_to  [:new,:manage,:crawler_template], class: 'btn btn-primary btn-sm', id: 'a_obj' do %>
+      <span class="glyphicon glyphicon-plus"></span>新建爬虫模板
+    <% end %>
+  </div>
+<% end %>
+<table class="table table-bordered table-hover">
+  <thead>
+    <tr class="success">
+      <th width="6%">ID</th>
+      <th width="20%">品牌名</th>
+      <th width="7%">来源</th>
+      <th width="7%">类型</th>
+      <th width="7%">来源ID</th>
+      <th>模板</th>
+      <th style="min-width:53px;">商场</th>
+      <th width="15%">创建时间</th>
+      <th width="12%">操作</th>
+    </tr>
+  </thead>
+  <tbody>
+    <% @crawler_templates.each do |temp| %>
+      <tr>
+        <td>
+          <span class="badge">
+            <%= temp.id %>
+          </span>
+        </td>
+        <td><%= link_to temp.brand.try(:name), '#' %></td>
+        <td><%= temp.template %></td>
+        <td><%= temp.t %></td>
+        <td><%= temp.source %></td>
+        <td><%= temp.pattern %></td>
+        <td><%= temp.mall.try(:name) %></td>
+        <td><%= to_local temp.created_at %></td>
+        <td> 
+          <%= link_to '编辑', [:edit,:manage,temp], class: :e_obj %> | 
+          <%= link_to '删除', [:manage,temp], remote: true, method: :delete,  
+          confirm: 'Are you sure?', class: 'ajaxd' %>
+        </td>
+      </tr>
+    <% end %>
+  </tbody>
+</table>
+<%= paginate @crawler_templates %>  

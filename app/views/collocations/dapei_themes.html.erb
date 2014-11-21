@@ -1,0 +1,85 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="target-densitydpi=320,width=640,user-scalable=no">
+  <title>每日主题</title>
+
+  <style>
+    body{
+        background: #fafafa;
+        margin: 0 auto;
+        padding: 0;
+    }
+    #main{
+        width: 640px;
+        margin: 0 auto;
+        padding: 0;
+    }
+    .item{
+        height: 341px;
+        margin: 10px 22px;
+        width: 600px;
+        background: url("http://1251008728.cdn.myqcloud.com/1251008728/2014/08/09/list.png") no-repeat;
+    }
+    .item .img{
+        padding: 15px 50px;
+    }
+    .item .date{
+        font-size: 22px;
+        color: rgb(128, 64, 122);
+        padding-left: 50px;
+        height: 35px;
+        line-height: 40px;
+    }
+    .item .img img{
+        width: 550px;
+    }
+  </style>
+
+</head>
+<body>
+
+
+<div id="main">
+
+
+</div>
+
+
+<script type="text/x-handlebars-template" id="waterfall-tpl">
+  {{#dapei_tags}}
+  <div class="item">
+    <div class="date">
+      {{date}}
+    </div>
+
+    <div class="img">
+      <a href="/dapeis/theme_view/{{id}}"><img src="{{img_url}}" alt=""/></a>
+    </div>
+  </div>
+  {{/dapei_tags}}
+</script>
+<script src="http://1251008728.cdn.myqcloud.com/1251008728/assets/javascripts/jquery-2.0.3.min.js"></script>
+<script src="http://1251008728.cdn.myqcloud.com/1251008728/assets/javascripts/zepto.min.js"></script>
+<script src="http://1251008728.cdn.myqcloud.com/1251008728/assets/javascripts/handlebars.js"></script>
+<script src="http://1251008728.cdn.myqcloud.com/1251008728/assets/javascripts/waterfall.js"></script>
+
+<script>
+    jQuery(function($){
+        $("#main").waterfall({
+            itemCls: 'item',
+            colWidth: 640,
+            gutterWidth: 0,
+            gutterHeight: 0,
+            checkImagesLoaded: true,
+            maxPage: <%= @total_page %>,
+            path: function(page) {
+                return '/info/dapei_themes.json?page=' + page;
+            }
+        });
+    });
+</script>
+
+</body>
+</html>

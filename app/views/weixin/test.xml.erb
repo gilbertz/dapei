@@ -1,0 +1,18 @@
+<xml>
+    <ToUserName><![CDATA[abc]]></ToUserName>
+    <FromUserName><![CDATA[def]]></FromUserName>
+    <CreateTime><%= Time.now.to_i %></CreateTime>
+    <MsgType><![CDATA[news]]></MsgType>
+    <ArticleCount><%= @res['total_found'].to_i>10?10:@res['total_found'] %></ArticleCount>
+    <Articles>
+    <% @res['shops'].each do |shop| %>
+    <item>
+    <Title><![CDATA[ <%= shop['name'] %> ]]></Title> 
+    <Description><![CDATA[ <%= shop['address'] %> ]]></Description>
+    <PicUrl><![CDATA[  <%= shop['img_wide_medium'] %>   ]]></PicUrl>
+    <Url><![CDATA[ <%= "http://www.shangjieba.com/" + shop['shop_id']  %> ]]></Url>
+    </item>
+    <% end %>
+    </Articles>
+    <FuncFlag>1</FuncFlag>
+</xml>

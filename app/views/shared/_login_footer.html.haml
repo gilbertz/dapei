@@ -1,0 +1,15 @@
+/ 5F  
+.clearfix.gjb_bottom
+  .login_bd
+    %p.slogan 登录上街吧 ，发现街上的漂亮衣服，点亮你的美丽...
+    .cooperation-logon
+      %a{:href => "/accounts/info/auth/qq_connect"}
+        %img{:height => "24", :src => "/assets/qq-login.jpg", :width => "120"}/
+      %a{:href => "/accounts/info/auth/weibo"}
+        %img{:height => "24", :src => "/assets/sina-login.jpg", :width => "120"}/
+      -#%a{:href => "#"}
+        %img{:height => "24", :src => "/assets/tb-login.jpg", :width => "120"}/
+    .login_bottom
+      %a{:href => "#{new_user_session_path}"}> 上街吧账号登录
+      |
+      %a{:href => "#{new_user_registration_path}"} 免费注册

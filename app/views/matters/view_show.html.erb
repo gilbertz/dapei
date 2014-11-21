@@ -1,0 +1,210 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="target-densitydpi=320,width=640,user-scalable=no">
+  <title><%= @matter.get_notify_title %></title>
+  <style>
+    body{
+        margin: 0 auto;
+        padding: 0;
+        background: #fafafa;
+        font-family: "Helvetica Neue",Helvetica,"Hiragino Sans GB","Segoe UI","Microsoft Yahei",Tahoma,Arial,STHeiti,sans-serif;
+        font-size: 14px;
+        line-height: 1.428571429;
+    }
+    #container{
+        margin: 0 auto;
+        padding: 0;
+        width: 640px;
+        padding-bottom: 55px;
+    }
+
+    .cell{
+        background: #ffffff;
+        margin: 28px 28px;
+        padding: 20px 10px;
+    }
+    .header{
+        background: #fff;
+    }
+
+    .userinfo{
+        border-bottom: 1px solid #dcdcdc;
+        padding-bottom: 20px;
+    }
+    .userinfo span{
+        display: inline-block;
+    }
+    .userinfo .avatar{
+        float: left;
+    }
+    .userinfo .avatar img{
+        height: 78px;
+        width: 78px;
+
+        border-radius: 39px;
+    }
+    .user{
+        padding-left: 20px;
+        display: inline-block;
+    }
+    .user .username{
+        height: 46px;
+        font-size: 26px;
+        line-height: 46px;
+    }
+    .like{
+        display: inline-block;
+        float: right;
+        height: 78px;
+        width: 100px;
+        color: #787878;
+        background: url(http://1251008728.cdn.myqcloud.com/1251008728/2014/08/01/like.png) no-repeat;
+    }
+    .like{
+        line-height: 78px;
+        text-align: right;
+        font-size: 20px;
+        padding-right: 20px;
+    }
+    .clearfixed{
+        clear: both;
+    }
+    .content .text{
+        font-size: 28px;
+        color: #5d5d5d;
+        line-height: 38px;
+        padding-top: 20px;
+    }
+    .matter-image{
+        margin: 10px 0;
+    }
+    .ask-info{
+        font-size: 20px;
+        color: #787878;
+    }
+    .ask-info .created_at{
+        float: right;
+    }
+    .ask-info .answer-count{
+        padding-left: 35px;
+    }
+    .ask-info .answer-count span{
+        color: #69c7fd;
+    }
+    #answer{
+        text-align: center;
+        font-size: 24px;
+        color: #b4b4b4;
+        margin-top: 85px;
+    }
+    #answer-question{
+        height: 96px;
+        width: 100%;
+        position: fixed;
+        bottom: 0;
+        left: 0;
+        margin: 0 auto;
+        padding: 0;
+        text-align: center;
+        background: rgba(0,0,0,0.1);
+    }
+    #answer-question span.answer{
+        display: inline-block;
+        width: 270px;
+        height: 55px;
+        background: #69c7fd;
+        color: #fff;
+        line-height: 55px;
+        font-size: 28px;
+        text-align: center;
+        margin: 0 auto;
+        border-radius: 10px;
+        margin-top: 20px;
+    }
+  </style>
+
+</head>
+<body>
+<div id="container">
+
+<div id="question">
+
+  <div class="cell">
+    <div class="header">
+      <div class="userinfo">
+        <span class="avatar">
+          <img src="<%= @matter.user.display_img_small %>" alt=""/>
+        </span>
+
+        <div class="user">
+          <span class="username">
+            <%= @matter.user.name %>
+          </span>
+
+          <div class="info">
+            <span><%= @matter.user.desc %></span>
+          </div>
+        </div>
+
+        <div class="clearfixed"></div>
+      </div>
+    </div>
+
+    <div class="content">
+
+      <div class="text">
+        <%= @matter.get_notify_title %>
+        
+        <div class="matter-image">
+          <img src="<%= @matter.get_big_png %>" alt=""/>
+        </div>
+      </div>
+
+    </div>
+
+    <div class="ask-info">
+      <span class="created_at">
+        <abbr class="timeago" title="<%= @matter.created_at.strftime("%Y-%m-%d %H:%M:%S") %>"><%= @matter.created_at.strftime("%Y-%m-%d %H:%M:%S") %></abbr>
+      </span>
+    </div>
+  </div>
+</div>
+
+<%#= render :partial => "layouts/m_download" %>
+
+<script src="http://1251008728.cdn.myqcloud.com/1251008728/assets/javascripts/jquery.min.js"></script>
+<script src="http://1251008728.cdn.myqcloud.com/1251008728/assets/javascripts/jquery.timeago.js"></script>
+
+<script>
+    // Simplified Chinese
+    jQuery.timeago.settings.strings = {
+        prefixAgo: null,
+        prefixFromNow: "从现在开始",
+        suffixAgo: "之前",
+        suffixFromNow: null,
+        seconds: "不到1分钟",
+        minute: "大约1分钟",
+        minutes: "%d分钟",
+        hour: "大约1小时",
+        hours: "大约%d小时",
+        day: "1天",
+        days: "%d天",
+        month: "大约1个月",
+        months: "%d月",
+        year: "大约1年",
+        years: "%d年",
+        numbers: [],
+        wordSeparator: ""
+    };
+</script>
+
+<script>
+    jQuery(document).ready(function() {
+        jQuery("abbr.timeago").timeago();
+    });
+</script>
+
+</body>
+</html>

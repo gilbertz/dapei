@@ -1,0 +1,80 @@
+/ 区域菜单
+.recom-p.clearfix.area_menu
+  .left
+    .wrapper
+      .head-select
+        %ul.brand.nav.nav-float
+          %li.first-li
+            品牌
+            %b.caret-x
+          %li 
+            %a{:href => "#{search_path(@index, @sort, @dp_id, @query, @cid,@street, "", "" )}" }不限
+          %li.select-area-list
+            %ul.nav.nav-float
+              - if @bg
+                - @bg.each do |s|
+                  %li{:class=>"#{li_class_brand(s['brand_name'])}"}
+                    %a{:href => "#{search_path(@index, @sort, @dp_id, @query, @cid, @street,"", s['brand_name'] )}"} #{s['brand_name']}
+          %li.area-more-li
+            %span.icon-more
+              更多
+        
+        - if true
+          %ul.category.nav.nav-float
+            %li.first-li
+              分类
+              %b.caret-x
+            %li
+              %a{:href => "#{search_path(@index, @sort, @dp_id, @query, "", @street,"", @brand )}"}不限
+            %li.select-area-list
+              %ul.nav.nav-float
+                %li{:class=>"#{li_class_cat("11")}"} 
+                  %a{:href => "#{search_path(@index, @sort, @dp_id, @query, "11", @street,"", @brand )}"} 上装
+                %li{:class=>"#{li_class_cat("12")}"}
+                  %a{:href => "#{search_path(@index, @sort, @dp_id, @query, "12", @street,"", @brand )}"} 裤装
+                %li{:class=>"#{li_class_cat("13")}"}
+                  %a{:href => "#{search_path(@index, @sort, @dp_id, @query, "13", @street,"", @brand )}"} 裙装
+                %li{:class=>"#{li_class_cat("14")}"}
+                  %a{:href => "#{search_path(@index, @sort, @dp_id, @query, "14", @street,"", @brand )}"} 内衣
+                %li{:class=>"#{li_class_cat("4")}"}
+                  %a{:href => "#{search_path(@index, @sort, @dp_id, @query, "4", @street,"", @brand )}"} 鞋子
+                %li{:class=>"#{li_class_cat("5")}"}
+                  %a{:href => "#{search_path(@index, @sort, @dp_id, @query, "5", @street,"", @brand )}"} 包包
+                %li{:class=>"#{li_class_cat("6")}"}
+                  %a{:href => "#{search_path(@index, @sort, @dp_id, @query, "6", @street,"", @brand )}"} 配饰
+                %li{:class=>"#{li_class_cat("7")}"}
+                  %a{:href => "#{search_path(@index, @sort, @dp_id, @query, "7", @street,"", @brand )}"} 男装
+                %li{:class=>"#{li_class_cat("8")}"}
+                  %a{:href => "#{search_path(@index, @sort, @dp_id, @query, "8", @street,"", @brand )}"} 童装
+          %ul.price.nav.nav-float
+            %li.first-li
+              价格
+              %b.caret-x
+            %li
+              ¥ 
+              %span.price-select-span
+                %input{:name => "low_price", :value =>"#{@low_price}",  :class => "price-input", :type => "text"}/
+                \-
+                %input{:name => "high_price", :value =>"#{@high_price}", :class => "price-input", :type => "text"}/
+                .cancel-submit
+                  %button{:class => "cancel-price"} 取消
+                  \-
+                  %button{:class => "submit-price", :onclick =>"goPriceSearch(); return false;"} 提交
+            -#%li
+              %span.filter-dis
+                %input{:type => "checkbox", :class => "price-checkbox"}/
+                带打折/优惠券的宝贝店铺
+      .items-num
+        .left-bar
+          .holder
+            = search_info
+          -#.change
+            = change_link
+        %ul.nav.nav-float.pull-right
+          %li{:class=>"#{li_class('new')}"}
+            %a{:href => "#{search_path(@index, "new", @dp_id, @query, @cid, @street, @mall, @brand)}"} 按时间排序
+          %li{:class=> "#{li_class('hot')}"}
+            %a{:href =>"#{search_path(@index, "hot", @dp_id, @query, @cid, @street, @mall, @brand)}"} 按热度排序 
+          -#%li
+            %a{:href => "#"} 相关度排序
+

@@ -1,0 +1,109 @@
+<html><head>
+<meta charset="utf-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="renderer" content="webkit">
+<meta name="keywords" content="美格时尚-上街吧,时尚,打折,优惠,搭配,搭配工具,女装,包包,鞋子,配饰,服饰,热店,品牌,女装,女包,女鞋,男装,童装,化妆品,app">
+<meta name="description" content="美格时尚-上街吧,帮助爱美女性发现时尚，创建自己的时尚范儿。是女性用户首选的时装购物平台,方便快捷获取最新款时尚女装、包包、鞋子、配饰及其周边热门
+品牌新品、打折、优惠信息，轻松制作搭配，分享搭配心得和美丽经验。">
+<title>美格时尚-上街吧-时尚品牌穿衣助手,美丽搭配DIY.</title>
+<script>
+    var is_iPd = navigator.userAgent.match(/(iPad|iPod|iPhone)/i) != null;
+    var is_mobi = navigator.userAgent.toLowerCase().match(/(ipod|iphone|android|coolpad|mmp|smartphone|midp|wap|xoom|symbian|j2me|blackberry|win ce)/i) != null;
+    if(is_mobi && window.location.search.indexOf("m=true")<0){
+        window.location.href="http://m.shangjieba.com";
+    }
+</script>
+<link rel="icon" href="/favicon.ico" type="image/x-icon">
+<link rel="shortcut icon" href="/favicon.ico" type="image/x-icon">
+<link href="/app_main_css/style.min.css" rel="stylesheet">
+<link href="/app_main_css/zh-skin.css" rel="stylesheet">
+<!--<%= stylesheet_link_tag "application_2013", :media => "all"%>-->
+<%= javascript_include_tag "basic"%>
+  <!--[if lte IE 6]>
+  <link rel="stylesheet" type="text/css" href="/app_main_css/ie6.min.css">
+  <link rel="stylesheet" type="text/css" href="/app_main_css/ie.css">
+  <![endif]-->
+<link rel="stylesheet" href="http://zhushou.360.cn/pop/style/pop_0411.css" id="zsp_css" media="all" type="text/css"></head>
+
+  <!--[if lte IE 6]>
+  <link rel="stylesheet" type="text/css" href="/app_main_css/ie6.min.css">
+  <link rel="stylesheet" type="text/css" href="/app_main_css/ie.css">
+  <![endif]-->
+</head>
+
+
+<body class="about" style="">
+
+  <div class="navbar-wrapper">
+    <div class="container">
+      <a href="/" class="navbar-logo pull-left"></a>
+
+      <ul class="navbar-menu nav nav-pills pull-right">
+        <li><a href="/">首页</a><span>|</span></li>
+        <li><a href="<%=app_about_path%>">关于我们</a><span>|</span></li>
+        <%- if user_signed_in? %>
+          <li><a href = "<%=user_path(current_user)%>">
+               已登录, <%= current_user.display_name%>
+          </a><span>|</span></li>
+        <%- else %>
+          <li><a href="<%=new_user_session_path%>" target="_blank">登录</a><span>|</span></li>
+        <%- end %>
+        <%- if user_signed_in? %>
+          <li><a href = "/dapeis/index_all" target="_blank"> +发布搭配</a></li>
+        <%-else%>
+          <li><a href = "<%=search_path('dapei')%>" target="_blank"> +发布搭配</a></li>
+        <%- end%>
+      </ul>
+    </div>
+  </div>
+
+<%= yield %>
+
+<%= render :partial=>"/layouts/footer"%>
+
+<!-- click-down -->
+<div class="modal fade downloadModal" id="click-down" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-body">
+        <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
+
+        <div class="btn-list">
+          <a href="https://itunes.apple.com/us/app/shang-jie-ba/id657031277?ls=1&mt=8" target="_blank" class="btn-download ios" title="App Store下载">App Store下载</a>
+          <a href="http://www.shangjieba.com/shangjieba.apk" target="_blank" class="btn-download android" title="下载APK安装包">下载APK安装包</a>
+          <div class="qr-code">
+            <p><img src="/assets/liantu.png"></p>
+          </div>
+          <div class="qr-code2">
+            <p><img src="/assets/android_app.png"></p>
+          </div>
+        </div>
+
+      </div>
+    </div>
+  </div>
+</div>
+<!-- end click-down -->
+
+<!-- click-wx -->
+<div class="modal fade downloadModal" id="click-wx" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-body">
+        <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
+
+            <img alt="" class="wx_img" src="/assets/banner/weixin.jpg" width="130" height="130">
+            <p> 或者搜索公众账号</p>
+            <p> 【上街吧】</p>
+      </div>
+    </div>
+  </div>
+</div>
+<!-- end click-wx -->
+
+<div style="display:none">
+   <script src="http://s6.cnzz.com/stat.php?id=5253391&web_id=5253391" language="JavaScript"></script>
+</div>
+
+
+</body></html>

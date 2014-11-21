@@ -1,0 +1,392 @@
+
+<% render :partial => 'shared/dapei_page_head', :locals => {:obj => @dapei} %>
+
+<% cache @dapei do %>
+
+  <script type="text/javascript">
+    var jjQuery = jQuery.noConflict();
+
+    jjQuery(document).on("click", ".lover_icon", function(){
+      click_target=jjQuery(".lover_icon");
+      var target_type = click_target.find("a:first").attr("liked_type");
+      var target_id = click_target.find("a:first").attr("liked_id");
+      var likes_count = click_target.find("a:first").attr("likes_count");
+      var elem = click_target.find("a:first")
+      jjQuery.ajax({url: "/social/likes",
+           type: 'POST',
+           data: { like: {target_type:target_type, target_id:target_id } },
+           success: function() {
+                 elem.text(elem.text().replace(/(\d+)/, function(match){ return parseInt(match) + 1; }));
+                 //elem.text(updated_count + "人喜欢")
+              }
+           });
+    });
+
+  </script>
+
+  <script>var _sf_startpt = (new Date()).getTime()</script>
+  <script type="text/javascript" src="/assets/polyvore/sxf6sew.js"></script>
+  <script type="text/javascript">try {
+      Typekit.load();
+  } catch (e) {}
+  </script>
+  <script>window._firstVisit = null;
+  window._shipRegion = "CN";
+  window._polyvoreHost = "127.0.0.1";
+  window._polyvoreLocale = "en";
+  window._xsrfToken = "ODQzNjU2MiwxMzc5Mzk4MDYy";
+  window._polyvoreGAURLParamWhitelist = {"price.from": 1, "price.to": 1, "sale": 1, ".mid": 1, "date": 1, "brand": 1, "tid": 1, "currency": 1, "price.currency": 1, "category_id": 1, "color": 1, "displayurl": 1, "id": 1, "impression": 1, "price_range": 1, "query": 1, "click": 1, "thing_details": 1};
+  window.polyvore_experiment_data = {"ga_test2": {"name": "50b", "data": ""}, "show_admin_links": {"name": "default", "data": ""}, "home_launch": {"name": "off", "data": ""}, "SEO::test_b": {"name": "off", "data": ""}, "test_1": {"name": "off", "data": ""}, "EMAIL::control": {"name": "a", "data": ""}, "SEO::bot_img": {"name": "new_hotness", "data": ""}, "shop_cpc": {"name": "int_cpc_off_large_image", "data": ""}, "EMAIL::test_a": {"name": "on", "data": ""}, "SEO::test_a": {"name": "off", "data": ""}, "test_2": {"name": "yes", "data": ""}, "SEO::metas": {"name": "test_b", "data": ""}, "launch": {"name": "off", "data": ""}, "SEO::xsrc": {"name": "off", "data": ""}, "pinterest": {"name": "off", "data": ""}, "test_3": {"name": "red", "data": ""}, "EMAIL::test_b": {"name": "off", "data": ""}, "ga_test1": {"name": "20a", "data": ""}};
+  window._polyvoreMode = "prodsjb";
+  window._buddyicon = null;
+  window._polyvoreTrackSize = {"collection": 45796, "thing": 15376};
+  window._defaultTemplateIDs = [];
+  </script>
+  <script type="text/javascript">
+      if (window._polyvoreMode == 'prodsjb') {
+          window.onerror = function (err, url, line) {
+              return true;
+          };
+      }
+  </script>
+
+  <script type="text/javascript">
+      (function () {
+          var start_ts = new Date().getTime();
+          window._sf_startpt = start_ts;
+          function replaceXsrc() {
+              var missing_ids = [];
+              if (window._xsrc_ids === undefined) {
+                  setTimeout(replaceXsrc, 100);
+                  return;
+              }
+              for (var i = 0; i < _xsrc_ids.length; ++i) {
+                  var id = _xsrc_ids[i];
+                  var img = document.getElementById(id);
+                  if (img) {
+                      var xsrc = img.getAttribute('xsrc');
+                      if (xsrc) {
+                          img.setAttribute('src', xsrc);
+                          img.removeAttribute('xsrc');
+                      }
+                  } else {
+                      missing_ids.push(id);
+                  }
+              }
+
+              // keep checking for ids we missed, perhaps still not in dom
+              _xsrc_ids = missing_ids;
+              if (missing_ids.length > 0) {
+                  setTimeout(replaceXsrc, 333);
+              }
+          }
+
+          window.replaceXsrc = replaceXsrc;
+
+          window.onload = function () {
+              var _end = new Date().getTime();
+
+              // load up the rest of the images
+              window.setTimeout(function () {
+                  replaceXsrc();
+                  window.Track && Track.logRenderTime(_end - start_ts);
+              }, 0);
+          };
+      })();
+  </script>
+  <link rel="stylesheet" href="/assets/polyvore/set.css" type="text/css"/>
+  <!--<link rel="stylesheet" href="/assets/shangjieba_2013.css" type="text/css"/>-->
+  <script src="/assets/polyvore/polyvore.js"></script>
+  <script type="text/javascript">
+
+
+  </script>
+
+<iframe name="polyvore_hidden_iframe" src="" style="position:absolute; top:-10000px; width:0px; height:0px; border:0px;"></iframe>
+<div id="progress"></div>
+<div id="polyvore_css_load_test" style="position:absolute; width: 0px; height: 0px; left: -1000px"></div>
+<div id="body">
+  <div class="page">
+    
+    <div id="left" class="w600">
+      <div id="" class="box collection" trackcontext="">
+        <div id="" class="bd">
+          <script>var cid = "71563390";</script>
+          <div class="main_img">
+            <a oncontextmenu="return Share.auto('<%= @dapei.dapei_info.spec_uuid %>', '','right_click')" hidefocus="hidefocus" href="#" ondragstart="return Share.auto('<%= @dapei.dapei_info.spec_uuid %>', '', 'drag')" trackcontext="set_image">
+              <img width="600" alt="<%= @dapei.title  %>搭配" title="<%= @dapei.title  %>搭配" src="<%= @dapei.img_url(nil) %>" title="<%= @dapei.title %>" id="main_image" class="main_img" height="600"/>
+            </a>
+
+          </div>
+        </div>
+      </div>
+      <div id="stream_carousel" class="box clearfix" trackcontext="">
+        <div id="" title="" class="hd">
+          <h3 id>
+            <% if @dapei.user %>
+            <%=link_to "#{@dapei.user.display_name} 发布的搭配", user_path(@dapei.user), class: "hover_clickable" %>
+            <% end %>
+          </h3>
+        </div>
+        <div id="" class="bd">
+          <div id="stream_sets"></div>
+          <script>
+              Carousel.create($('stream_sets'), {
+                  data: new MemDataSource([
+                    <% unless @dapeis_by_this_user.blank? %>
+                      <% @dapeis_by_this_user.each do |i| %>
+                        <% next unless i.dapei_info %>
+                        {
+                          "imgw": 124, 
+                          "clickurl": "<%= dapei_view_path(i) %>", 
+                          "penalty_score": 0, 
+                          "imgh": 124, 
+                          "object_class": "set", 
+                          "spec_uuid": "<%= i.dapei_info.spec_uuid %>", 
+                          "seo_title": "<%= i.title %> + 搭配", 
+                          "userurl": "../cgi/profile", 
+                          "imgurl": "<%= i.img_url('m') %>",
+                          "object_id": "71568812", 
+                          "id": "<%= i.id %>", 
+                          "title": "<%= i.title.gsub(/\s+/, ' ') %> 搭配",
+                          "createdby": null},
+                      <% end %>
+                    <% end %>
+                  ]),
+                  className: 'thin_carousel',
+                  cellDim: new Dim(141, 140),
+                  renderer: function (item) {
+                      var img = UI.setRender(item, 's2');
+                      img.alt = item.title;
+                      var className = 'hoverborder item';
+                      // if (item.id == 71563390) {
+                      //     className += ' current';
+                      // }
+                      return createNode('a', {
+                          title: item.title,
+                          href: item.clickurl,
+                          className: className
+                      }, null, img);
+                  },
+                  size: 4
+              }).jumpTo(0);
+          </script>
+        </div>
+      </div>
+      <a name="comments" style="text-decoration:none"></a>
+
+      <div id="comment_box" class="box" trackcontext="">
+        <div id="" title="" class="hd">
+          <h3 id><%=@item.comments_count %>个评论</h3>
+        </div>
+          <div id="" class="bd">
+            <div id="" class="box" trackcontext="">
+              <div id="" class="bd">
+                <div class="dapei_comment_form">
+                  <%= render :partial => 'comments/form', :locals => {:commentable => @item} %>
+                </div>
+              </div>
+            </div>
+          </div>
+      </div>
+      <div id="comment_sink" class="box" trackcontext="">
+        <div id="" class="bd">
+          <div class="layout_list content_t2 comments_list" id="53985ef8">
+          <% unless @comments.blank? %>
+            <% @comments.each do |c| %>
+                <div id="comment_<%= c.id %>" class="clearfix list_item ">
+                  <div class="list_item_icon">
+                    <a href="<%= user_path(c.user) %>" class=" buddy_icon" trackcontext="image">
+                      <img width="42" trackelement="" alt="<%= c.user.name %>" src="<%= c.user.display_img_small %>" class="img_size_t2 hoverborder " title="<%= c.user.name%>" height="42">
+                    </a>
+                  </div>
+                  <div class="filling_block">
+                    <div class="title">
+                      <a href="<%= user_path(c.user) %>"><%= c.user.display_name %></a>
+
+                    </div>
+                    <%if current_user and current_user.can_be_admin %>
+                      <%= link_to 'delete', c, :method => :delete, :data => { :confirm => 'Are you sure?' } %>
+                    <%end%>
+
+                    <div class="meta">
+                      <%= c.created_at %>
+                    </div>
+                    <div id="<%= c.id %>c" class="tease_container description">
+                      <div style="max-height: none;" class="tease" id="151244c_text">
+                        <%= c.comment %>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+                <hr>
+            <% end %>
+          <% end %>
+          </div>
+        </div>
+      </div>
+      <!--<hr>-->
+      <a name="fans" style="text-decoration:none"></a>
+
+      <div id="" class="box" trackcontext="">
+        <div id="" title="" class="hd"><h3 id><%= @dapei.likes_count %> 喜欢</h3></div>
+        <div id="" class="bd">
+          <ul class="layout_n set_fans" id="set_fans" trackcontext="">
+            <% unless @like_users.blank? %>
+              <% @like_users.each do |lu| %>
+                <li class="size_t2">
+                  <a href="<%= user_path(lu) %>" trackcontext="image">
+                    <img width="42" alt="topaciogarcia" src="<%= lu.display_img_small %>" height="42" trackelement title="<%= lu.display_name %>" class="img_size_t2"/>
+                  </a>
+                </li>
+              <% end %>
+            <% end %>
+          </ul>
+        </div>
+      </div>
+    </div>
+
+    <div id="right" trackcontext="right" class="w300">
+      <div id="set_title" class="unit">
+        <div id="set_editor">
+          <div class="dp_title" title="WWWW">
+            <%=@dapei.title%>
+          </div>
+        </div>
+      </div>
+      <div id="" class="box" trackcontext="">
+        <div id="" class="bd">
+          <div class="createdby">
+            <% if @dapei.user %> 
+              <%= link_to user_path(@dapei.user), class: "buddy_icon", trackcontext: "image" do %>
+                <img width="42" trackelement alt="<%= @dapei.user.display_name %>" src="<%= @dapei.user.display_img_medium %>" class="img_size_t2" title="<%= @dapei.user.display_name %>" height="42"/>
+              <% end %>
+            <% end %>
+
+            <div class="filling_block">
+              <div class="meta">
+				  <div>作者：
+                  <%if @dapei.user %>
+                  <%= link_to @dapei.user.display_name, user_path(@dapei.user), rel: "author", class: "hover_clickable" %>
+                  <% end %>
+                </div>
+                <div><%= time_ago_in_words(@dapei.created_at.strftime("%Y-%m-%d %H:%M:%S")) %>前</div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div id="set_description" class="box" trackcontext="">
+        <div id="" class="bd">
+          <div class="tease_container actual_set_description">
+            <div style="max-height:96px;" class="tease">
+              <%= raw @dapei.desc %>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="lover_icon dapei_lover">
+          <%- if user_signed_in? %>
+            <a href="javascript:void(0)" title="加入收藏列表" likes_count="<%= @dapei.likes_count %>" liked_type="Item" liked_id="<%= @dapei.url %>">
+                +<%= @dapei.likes_count %>人收藏
+            </a>
+          <%- else %>
+              <a title="加入收藏列表" href="<%= new_user_session_path %>">
+                  +<%= @dapei.likes_count %>人收藏
+              </a>
+          <%- end %>
+      </div>
+
+      <hr>
+      <div id="items" class="box" trackcontext="">
+        <div id="" class="bd">
+          <ul class="layout_n mod_inline_save" id="" trackcontext="">
+          <% j = 1 %>
+          <% @dapei_get_items.each do |i| %>
+            <li class="size_s2 <%= "last" if j%2 == 0 %>">
+              <div class="item btn_container size_s2">
+                <a href="<%= i.shop.blank? ? brand_baobei_path(i.brand, i.sku) : shop_item_path(i.shop, i) %>" trackcontext="image">
+                  <img width="124" trackelement alt="<%= i.title %>" src="<%= i.get_matter_img %>" class="img_size_s2" title="<%= i.title %>" height="124"/>
+                </a>
+
+                <div class="item_meta size_s2">
+                  <div class="price_and_link">
+                    <span class="price"><%= i.get_currency %><%= i.get_num_price %></span>
+                  </div>
+                  <div class="name">
+                    <a href="<%= i.shop.blank? ? "#" : shop_item_path(i.shop, i) %>" class="hover_clickable"><%= i.title %></a>
+                  </div>
+                </div>
+              </div>
+            </li>
+            <% j = j + 1 %>
+          <% end %>
+            <li class="size_s2 last last_row"></li>
+          </ul>
+        </div>
+      </div>
+
+    </div>
+  </div>
+
+  <script>window._xsrc_ids = [];</script>
+  <script id="inlinescripts">
+  Event.trigger(document, 'available');
+  checkMainImg("img.main_img");
+
+  CollectionActions.setInfo({"groups": [], "category": "fashion", "title": "hello", "id": "98813660", "description": "hi", "available_groups": [], "tags": []});
+  new Overlay("main_image", [
+    <% @dapei_item_infos.each do |i| %>
+      {
+        "w": <%= i.w.to_i %>,
+        "imgw": 250,
+        "thing_id": "<%= i.thing_id %>",
+        "x": <%= i.x.to_i %>,
+        "clickurl": "<%= i.get_item(@city_id).blank? ? "#" : shop_item_path(i.get_item(@city_id).shop, i.get_item(@city_id)) %>",
+        "imgh": 250,
+        "y": <%= i.y.to_i %>,
+        "instock": 1,
+        "h": <%= i.h.to_i %>,
+        "url": "<%= i.get_item(@city_id).blank? ? "#" : i.get_item(@city_id).get_buy_url %>",
+        "displayurl": "<%= i.get_item(@city_id).blank? ? "#" : i.get_item(@city_id).get_buy_domain %>",
+        "fav_context": {"type": "collection", "id": "<%= i.thing_id %>"},
+        "shop_link": {"anchor": "<%= i.get_brand_name %>", "brand_only": null, "url": "<%= (i.get_item(@city_id).present? and i.get_item(@city_id).shop.present?) ? shop_path(i.get_item(@city_id).shop) : "#" %>"},
+        "seo_title": "<%= @dapei_info.title.gsub(/\s+/, ' ') %>",
+        "imgurl": "<%= i.get_small_img %>",
+        "title": "<%= i.get_item_title.gsub(/\s+/, ' ') %>", "type": "image", "z": "<%= i.z %>"
+      },
+    <% end %>
+  ], 
+  {"clickThrough": "item"});
+  new TrackKeyStroke("txt_comment");
+  HighlightingTextarea.init("txt_comment", {"attachments": 1});
+  Comment.activatePosting("post_btn", "txt_comment", "53985ef8");
+  InputHint.add("txt_comment", "Mention people by typing @username or add a #topic", "comment_form");
+  Follow.init("follow53986ef8", {"no_button": 0, "unfollow_label": "Unfollow", "reject_node": "", "action_class": "", "src_id": "71563390", "follower_count": null, "count_node": "", "contact_list_name": null, "user_name": "samimalik", "stat": "", "toggle_class": null, "is_following": 0, "user_id": "5665059", "src_class": "set", "following_label": "Following", "follow_label": "Follow"});
+  UI.activateLinks("53987ef8");
+  UI.setupRenderMore({"containerNode": "53987ef8", "contentNode": "53987ef8_text", "moreNode": "53987ef8_more"});
+  GAM.render({
+              "id": "ca-pub-9756700606219053",
+              "slots": ["Set_RHS_IABMediumRect"],
+              "passthrough": {},
+              "targeting": {"contest_id": 0, "id": "71563390", "logged_in": 0}
+          });
+
+  if (window.replaceXsrc) {
+      setTimeout(replaceXsrc, 2000);
+  }
+  </script>
+</div>
+<script>
+    (function () {
+        var node = document.getElementById('polyvore_css_load_test');
+        if (getStyle(node, 'display') != 'none') {
+            Beacon.log('error', { data: 'loadcss' });
+        }
+    })();
+</script>
+
+
+<% end %>

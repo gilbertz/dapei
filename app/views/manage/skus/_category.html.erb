@@ -1,0 +1,6 @@
+<% unless @categories.blank? %>
+<option value="">无</option>
+<% @categories.each do |c| %>
+<option value="<%= c.id %>"><%= c.name %></option>
+<% end %>
+<% end %>

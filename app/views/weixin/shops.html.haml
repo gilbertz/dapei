@@ -1,0 +1,54 @@
+.wrapper
+  = render 'tabs'
+
+- @objs.each do |shop|
+  .wrapper
+    %h3
+      = shop['name']
+    %p
+      %font{:face => "icon"} 3
+      %font{:face => "微软雅黑"} #{show_distance(shop)} 地址：#{ shop['address'] }
+    - if shop['discount'] and shop['discount']['title']
+      %a{:href=>"/weixin/discount?id=#{shop['discount']['discount_id']}"}
+        %p{:align => "center", :style => " background-color:#f861b0; background-position:center; color:#fff"}
+          #{shop['discount']['title']}>>
+
+    - if @page
+      .grids
+        .grid-12.grid
+          %a{:href => "/weixin/shop?id=#{shop['shop_id']}&#{@lbs_params}"}
+            %img{:src => "#{shop['img_wide_medium']}"}/
+          %p{:style => "margin-top:5px; color:#666"}
+            %font{:face => "icon", :size => "2"} 1
+            %font{:face => "微软雅黑"} #{shop['likes_count']}人喜欢
+            \ 
+            %font{:face => "icon", :size => "2"} 
+            %font{:face => "微软雅黑"} #{shop['dispose_count']}人在逛
+      / end of grids
+/ end of wrapper
+
+= render 'footer'
+
+- if @shops
+  .wrapper
+    %h3
+      推荐店铺
+  - @shops.each do |shop|
+    .wrapper
+      %h3
+        = shop.shop_name
+      %p
+        %font{:face => "icon"} 3
+        %font{:face => "微软雅黑"} 地址：#{ shop.address }
+      .grids
+        .grid-12.grid
+          %a{:href => "/weixin/shop?id=#{shop.url}"}
+            %img{:src => "#{shop.img_url(:wide_medium)}"}/
+          %p{:style => "margin-top:5px; color:#666"}
+            %font{:face => "icon", :size => "2"} 1
+            %font{:face => "微软雅黑"} #{shop.likes_count}人喜欢
+            \ 
+            %font{:face => "icon", :size => "2"}
+            %font{:face => "微软雅黑"} #{shop.get_dispose_count}人在逛
+      / end of grids
+/ end of wrapper

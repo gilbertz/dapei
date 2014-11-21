@@ -1,0 +1,11 @@
+<% unless @dapei_tag_group.blank? %>
+
+<% @dapei_tag_group.each do |doc| %>
+<ul id="dapei_tags_ul">
+ <% doc['tags'].each do |dt| %>
+    <li><%= dt.name %></li>
+  <% end %>
+</ul>
+<% end %>
+
+<% end %>

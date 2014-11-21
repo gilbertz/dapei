@@ -1,0 +1,19 @@
+.nav_area
+  .l 附近逛逛：
+  .c
+    %ul
+      -num=0
+      -@dists.each do |dist|
+        -num=num+1
+        %li.nav_b
+          / 添加hover后显示层
+          .showChaoyangCounts.menu
+            %a.menu-hd{:href => "#{search_path('shop', '', dist.dp_id)}", :num=>"#{num}", :dp_id=>"#{dist.dp_id}"}
+              #{dist.name}
+              %b
+    #chaoyangCounts.area-layer{:style => "display:none"}
+      %ul.panel
+  -#.r
+    -#%span 
+      %b
+    -#%span >>

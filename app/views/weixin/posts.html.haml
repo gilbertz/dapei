@@ -1,0 +1,17 @@
+-if current_user and current_user.can_be_admin
+  .wrapper
+    %a{:href => "/users/#{current_user.url}/posts/new"} +发布文章
+
+.wrapper
+  %h3
+    文章列表 
+
+- @objs.each do |post|
+  .wrapper
+    %h3
+      %a{:href => "/weixin/posts/#{post.id}" }
+        = post.title
+      - if current_user and current_user.can_be_admin
+        = link_to "delete", post, :method=>:delete, :data => { :confirm => "确定删除吗?" }
+
+= render 'footer'

@@ -1,0 +1,22 @@
+#feedback_div label{
+    display: block;
+    margin-bottom: 5px;
+}
+
+#feedback_div input{
+    height: 20px;
+    border: 1px solid #cccccc;
+    padding: 4px 6px;
+}
+
+#feedback_div textarea{
+    border: 1px solid #cccccc;
+    padding: 4px 6px;
+    font-size: 14px;
+    line-height: 20px;
+    color: #555555;
+}
+
+#feedback_div input[name=commit]{
+    height: 30px;
+}

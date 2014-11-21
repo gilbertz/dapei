@@ -1,0 +1,175 @@
+#header{
+    background: #f4f4f4;
+    height: 126px;
+    font-size: 26px;
+    line-height: 106px;
+    margin-bottom: 10px;
+}
+
+#header a{
+    color: #111111;
+}
+
+.item-images img.item-image{
+    width: 300px;
+    margin: 2px;
+}
+.item-images img.item-image.selected{
+    border: 2px solid #1abc9c;
+}
+
+.upload-img{
+    margin: 3em 0;
+    margin-bottom: 5em;
+}
+
+#new-matter{
+    width: 100%;
+    height: auto;
+    border: 1px solid #535b79;
+    border-radius: 5px;
+}
+
+.encode-div{
+    border-bottom: 1px solid #535b79;
+    padding-bottom: 2em;
+}
+
+.encode-div .form-group{
+    padding: 2em 2em;
+}
+
+#item-url{
+    margin-top: 2em;
+    /*height: 3em;*/
+    /*line-height: 2em;*/
+    /*font-size: 2em;*/
+    /*background: #eaeaea;*/
+    /*border: 1px solid #a9adbc;*/
+}
+
+.button-encode{
+    text-align: center;
+}
+
+#encode-url{
+    background: #1abc9c;
+    margin: 0 auto;
+    padding: 0;
+    color: #fff;
+    font-size: 2em;
+    padding: 0.5em 3em;
+    margin-top: 1em;
+}
+.taobao-item-info{
+    padding-top: 1.5em;
+}
+.taobao-item-info .form-group{
+    padding: 0.4em 2em;
+}
+
+#matter-list{
+    color: #1a1a1a;
+    margin-top: 50px;
+}
+
+#matter-list tr th{
+    background: #89c39b;
+    padding: 4px;
+    font-weight: normal;
+
+}
+
+#matter-list tr th{
+    /*text-align: center;*/
+}
+
+#matter-list tr td, #matter-list tr th{
+    border-top: 1px solid #89c39b;
+    vertical-align: middle;
+}
+
+#matter-list tr td a{
+    color: #1a1a1a;
+}
+
+.form-group .form-control{
+    height: 3em;
+    line-height: 2em;
+    font-size: 2em;
+    background: #eaeaea;
+    border: 1px solid #a9adbc;
+}
+.a-upload{
+    margin-top: 1em;
+    display: inline-block;
+    width: 180px;
+    height: 40px;
+    border: 1px solid #1abc9c;
+    border-radius: 3px;
+    line-height: 40px;
+    text-align: center;
+    color: #1abc9c;
+    text-decoration: none;
+}
+.a-upload:hover{
+    color: #1abc9c;
+    text-decoration: none;
+    cursor: pointer;
+}
+.a-upload input{
+    position: absolute;
+    height: 40px;
+    width: 180px;
+    line-height: 40px;
+    margin-top: -40px;
+    opacity: 0;
+    filter: alpha(opacity=0);
+    cursor: pointer
+}
+
+#dapei-list{
+    color: #1a1a1a;
+    margin-top: 50px;
+}
+
+#dapei-list tr th{
+    background: #89c39b;
+    padding: 4px;
+    font-weight: normal;
+
+}
+
+#dapei-list tr th{
+    /*text-align: center;*/
+}
+
+#dapei-list tr td, #dapei-list tr th{
+    border-top: 1px solid #89c39b;
+    vertical-align: middle;
+}
+
+#dapei-list tr td a{
+    color: #1a1a1a;
+}
+
+#new-matter legend{
+    padding: 1em 1em;
+}
+
+.lists ul{
+    margin: 0 auto;
+    padding: 0;
+    position: absolute;
+    width: 151px;
+}
+
+.lists ul li{
+    list-style-type: none;
+    width: 151px;
+}
+
+.lists ul li a{
+    display: inline-block;
+    padding: 10px 15px;
+}

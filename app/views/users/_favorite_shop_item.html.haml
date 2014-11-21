@@ -1,0 +1,103 @@
+-#%li{:id=>"#{dis_class}",:class=>"infli"}
+  %ul.nav.nav-float
+    %li.shop-list-first
+      .shop-logo
+        %a.pic{:href => "#{shop_path(shop)}", :target=>"_blank"}
+          %img{:alt => "", :src => "#{shop.wide_avatar_url}"}/
+      .shop-address
+        %a.pic{:href => "#{shop_path(shop)}", :target=>"_blank"}
+          #{shop.street}店
+      .shop-discount
+        -discount=shop.get_current_discount
+        -unless discount.blank?
+          .discount-frame
+            %a{:href => "#{shop_discount_path(shop, discount)}" } #{discount.title}
+      .shop-tool
+        -if user_signed_in?
+          %span.shoucang.black-b
+            %img{:src => "/assets/newweb/shoucang.png"}
+          %a{:href=>"javascript:void(0)", :title=>"点击进行收藏", :likes_count=>"#{shop.likes_count}", :liked_type=>"Shop", :liked_id=>"#{shop.url}" }
+            +#{shop.likes_count}人收藏
+        -else
+          %span.shoucang.black-b
+            %img{:src => "/assets/newweb/shoucang.png"}
+          %a{:href=>"#{layer_sign_in_path}", :title=>"点击进行收藏",  :rel => "facebox[.about]" }
+            +#{shop.likes_count}人收藏
+      .shop-tool
+        -if user_signed_in?
+          %span.comments.black-b
+            %img{:src => "/assets/newweb/comments.png "}
+          %a{:href=>"#{shop_path(shop)}", :target=>"_blank", :title=>"点击进行评论"}
+            #{shop.comments_count}人评论
+        -else
+          %span.comments.black-b
+            %img{:src => "/assets/newweb/comments.png "}
+          %a{:href => "#{layer_sign_in_path}", :title=>"点击进行评论",  :rel => "facebox[.about]"}
+            #{shop.comments_count}人评论
+      .shop-tool
+        %span.guanging.black-b
+          %img{:src => "/assets/newweb/guanging.png "}
+        #{shop.get_dispose_count}人在逛
+    %li.shop-list-second
+      %ul.nav.nav-float
+        %li
+          %a.pic{:href => "#{shop_path(shop)}", :target=>"_blank"}
+            %img{:alt => "", :src => "#{shop.showing_img_urls_web[0]}"}
+        %li.mg-left
+          %a.pic{:href => "#{shop_path(shop)}", :target=>"_blank"}
+            %img{:alt => "", :src => "#{shop.showing_img_urls_web[1]}"}
+        %li.mg-top
+          %a.pic{:href => "#{shop_path(shop)}", :target=>"_blank"}
+            %img{:alt => "", :src => "#{shop.showing_img_urls_web[2]}"}
+        %li.mg-top.mg-left
+          %a.pic{:href => "#{shop_path(shop)}", :target=>"_blank"}
+            %img{:alt => "", :src => "#{shop.showing_img_urls_web[3]}"}
+  .border-b
+
+
+-#.infli
+  %li{:style=>"list-style:none;", :class=>"shopli"}
+    -if shop and shop.photos and shop.photos.length >=1
+      %a.pic{:href => "#{shop_path(shop)}", :target=>"_blank"}
+        %img{:height => "180", :src => "#{shop.get_display_photo.url(:wide_medium)}", :width => "484"}/
+      -if(user_signed_in? and current_user==@user)
+        .x
+          =link_to "", "/social/likes/#{shop.like_id}", :method=>:delete, :data => { :confirm => "确定取消喜欢吗?" }
+    -else
+      %a.pic{:href => "javascript:void(0)"}
+        %img{:height => "180", :src => "/assets/img.jpg", :width => "484"}/
+    %h4
+      -if shop
+        %a{:href => "#{shop_path(shop)}", :target=>"_blank"} #{shop.name}
+      -else
+        %a{:href => "javascript:void(0)"} xxxxxx xxx
+    -if shop and shop.address and shop.address!=""
+      %p.address #{shop.address}
+    -else
+      %p.address xxxxxxx xxxxxxxxxxxxxx
+    .shop_properties
+      -#.attention
+        165已关注
+        %b
+      .commentary
+        -if shop 
+          %a{:href=>"#{shop_path(shop)}", :target=>"_blank", :title=>"点击进行评论"}#{shop.comments_count}评论
+          %b{:href=>"#{shop_path(shop)}", :target=>"_blank", :title=>"点击进行评论"}
+        -else
+          %a{:href=>"javascript:void(0)", :title=>"点击进行评论"}xx评论
+          %b{:href=>"javascript:void(0)", :title=>"点击进行评论"}
+      .lover_icon
+        -if shop
+          %a{:href=>"javascript:void(0)", :title=>"点击进行收藏", :likes_count=>"#{shop.likes_count}", :liked_type=>"Shop", :liked_id=>"#{shop.url}" }#{shop.likes_count}人喜欢
+          %b{:href=>"javascript:void(0)", :title=>"点击进行收藏"}
+        -else
+          %a{:href=>"javascript:void(0)", :title=>"点击进行收藏"}xx人喜欢
+          %b{:href=>"javascript:void(0)", :title=>"点击进行收藏"}
+      .shopping_icon
+        -if shop
+          #{shop.dispose_count}人在逛
+          %b
+        -else
+          xx人在逛
+          %b
+  -#.promotions-label 全场五折起！

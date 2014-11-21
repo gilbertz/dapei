@@ -1,0 +1,2 @@
+module Shangou::UsersControllerHelper
+end

@@ -1,0 +1,316 @@
+<html>
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+<meta charset="utf-8">
+<meta http-equiv="pragma" content="no-cache">
+<meta http-equiv="Cache-Control" content="no-store, must-revalidate">
+<meta http-equiv="expires" content="0">
+<title>App 下载</title>
+<meta name="viewport"
+      content="width=device-width,initial-scale=1, minimum-scale=1.0, maximum-scale=1, user-scalable=no">
+<style>
+    @charset "utf-8";
+    body, h1, h2, h3, h4, h5, h6, hr, p, pre, dl, dt, dd, ul, ol, li, th, td, form, fieldset, legend, button, input, textarea, figure, figcaption, menu {
+        margin: 0;
+        padding: 0
+    }
+
+    h1, h2, h3, h4, h5, h6 {
+        font-size: 100%;
+        font-weight: normal
+    }
+
+    address, em, i, b {
+        font-style: normal
+    }
+
+    a, a:hover {
+        color: #333;
+        text-decoration: none
+    }
+
+    ul, ol, li {
+        list-style: none
+    }
+
+    fieldset, img {
+        border: 0
+    }
+
+    button, input, select, textarea {
+        font: 15px \5FAE\8F6F\96C5\9ED1, Helvetica;
+        outline: none
+    }
+
+    body {
+        background: #ededed;
+        font: 15px \5FAE\8F6F\96C5\9ED1, Helvetica;
+        color: #333;
+        overflow: visible
+    }
+
+    html {
+        -webkit-text-size-adjust: none
+    }
+
+    .content {
+        width: 100%;
+        background-color: #ededed;
+        overflow: hidden;
+        z-index: 1;
+    }
+
+    .btn {
+        min-width: 68px;
+        display: inline-block;
+        height: 35px;
+        font-size: 14px;
+        line-height: 33px;
+        color: #fff !important;
+        text-align: center;
+    }
+
+
+    .btn-g {
+        height: 24px;
+        line-height: 22px;
+        background-color: #f6ad00;
+        border-radius: 2px;
+        margin-top: 35px;
+    }
+
+    /*artinfo*/
+    .mod-app-intro {
+        width: 100%;
+        overflow: hidden
+    }
+
+    .mod-app-intro li {
+        position: relative;
+        padding: 10px 10px;
+        border-bottom: 1px solid #e4e4e4
+    }
+
+    .mod-app-intro figure {
+        display: -webkit-box;
+        -webkit-box-align: center
+    }
+
+    .mod-app-intro figcaption {
+        -webkit-box-flex: 1;
+        display: block
+    }
+
+    .mod-app-intro figure img {
+        display: block;
+        width: 60px;
+        height: 60px;
+        margin: 0 10px 0 0;
+        border-radius: 8px;
+        background: url(data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAFoAAABaCAYAAAA4qEECAAAAAXNSR0IArs4c6QAAAARnQU1BAACxjwv8YQUAAAAJcEhZcwAADsMAAA7DAcdvqGQAAA/+SURBVHhe7dwFjyW3EgVg//QwMzMzMzMzbZgZN6Qw9tPnpzNyHN+ZubNzR5psRzrqbrddrjoFrr67mzLN/+3If+Xvv/+eZqweM9E7hPLXX39NM1aP8ueff04zVo+Z6B1C+eOPP6YZq0f5/fffpxmrR/ntt9+mGatH+fXXX6cZq0f55ZdfphmrR/n555+nGatH+emnn6YZq0f58ccfpxmrR/nhhx+mGatH+f7776ftwN69e6f3339/euGFF6Z33nlnOGd/Rvnuu++mfcHXX389vfXWW9ODDz44XXvttdONN944ffDBB8O5+zPKt99+O20Vn3zyyfT4449P11133XTbbbdVkp977rnh3P0d5Ztvvpm2gjfeeKOSe/31108PPPDAdOedd05333339MUXXwzn7+8oauuyePHFF2uZuPXWW6eXX365RrXnV199dTh/xt6pfPXVV9MycNhdddVVNYLffffd6eOPP55uv/32is8//3y45u23356effbZ6eGHH57uv//+Clng+cknn6wy1fnPPvtsuP6/gPLll19Om8Urr7yyRvJ7771Xi7yabAyR/XzlRTlRw3NQcoj1ys7NN99cx5SfG264oWaIQ1WWqP+9vN2MIgo3A9GLMOQgULfx6aefTvfee28l6aOPPqrzPvzww/oeYVdffXVdI4Jfeuml2v6JWnXcXOtff/316aGHHqoOIOeKK66YLr/88irX/FaH3YzC8I0guu65555KnAhGkPE333yzEi8SEXnfffdNN910U41wc6157bXXqkc5pj0cbC4L7rjjjumaa66pDnGvpCgne/bsqc7rddmtKEjbCIy+7LLLKpEiW5+MhOeff3668sorp0svvbReQ5YIVXdFt/okgrOhe4cDmZwiei+88MJaPhymav5Ih92OwrD1gCz1VI0VzWqzSJbWjz32WI1eddbBhjxfhZwgC7IejHk2bmPPysYTTzxRa7aolgVKTg7Z/xIKg9eDA1DUOdSUAeS46hKQhBgEcwDyXREVeAZZECAe4cqHiKeIlhHhskN023ekz25FaQkYAZGIfuSRR2pqI1VXEDj4kM4B4FnEg3Gt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) 0 0 no-repeat;
+        -webkit-background-size: 60px 60px
+    }
+
+    .mod-app-intro figure.label-daily-red:before,
+    .mod-app-intro figure.label-weekly-red:before,
+    .mod-app-intro figure.label-monthly-red:before,
+    .mod-app-intro figure.label-zhuanxiang-red:before,
+    .mod-app-intro figure.label-daily-blue:before,
+    .mod-app-intro figure.label-weekly-blue:before,
+    .mod-app-intro figure.label-monthly-blue:before,
+    .mod-app-intro figure.label-zhuanxiang-blue:before {
+        position: relative;
+        display: block;
+        width: 40px;
+        height: 60px;
+        margin-right: -40px;
+        content: "";
+        background: url(/img/icon_label.png) 0 0 no-repeat;
+        -webkit-background-size: 327px 35px
+    }
+
+    .mod-app-intro figure.label-daily-red:before {
+        background-position: 0 0
+    }
+
+    .mod-app-intro figure.label-weekly-red:before {
+        background-position: -41px 0
+    }
+
+    .mod-app-intro figure.label-monthly-red:before {
+        background-position: -82px 0
+    }
+
+    .mod-app-intro figure.label-zhuanxiang-red:before {
+        background-position: -123px 0
+    }
+
+    .mod-app-intro figure.label-daily-blue:before {
+        background-position: -164px 0
+    }
+
+    .mod-app-intro figure.label-weekly-blue:before {
+        background-position: -204px 0
+    }
+
+    .mod-app-intro figure.label-monthly-blue:before {
+        background-position: -245px 0
+    }
+
+    .mod-app-intro figure.label-zhuanxiang-blue:before {
+        background-position: -286px 0
+    }
+
+    .mod-app-intro li .tit {
+        height: 22px;
+        line-height: 22px;
+        overflow: hidden;
+        white-space: nowrap;
+        text-overflow: ellipsis
+    }
+
+    .mod-app-intro li em {
+        color: #f23900
+    }
+
+    .mod-app-intro li p {
+        height: 22px;
+        line-height: 22px;
+        font-size: 12px;
+        color: #666
+    }
+
+    .mod-app-intro li p.type {
+        font-size: 15px;
+        color: #333;
+    }
+
+    .mod-app-intro li p.type-time {
+        color: #000;
+        font-size: 15px;
+        font-weight: bolder;
+    }
+
+    _list li p span:after {
+        content: "|";
+        color: #cfcfcf;
+        margin: 0 5px;
+    }
+
+    .game_list li .btn-g {
+        margin-top: 10px;
+    }
+
+    .game_list li .game_mea {
+        text-align: center;
+    }
+
+    .mod-app-intro li p span:last-child:after {
+        display: none
+    }
+
+    .mod-app-intro li:last-child {
+        border-bottom: none
+    }
+
+    .mod-app-intro li p span i {
+        color: #f6ad00;
+    }
+
+    .gm-summary .btn {
+        height: 32px;
+        line-height: 30px
+    }
+
+    .gift-intro li p {
+        height: auto;
+        overflow: hidden
+    }
+
+    .gm-info {
+        -webkit-box-flex: 1
+    }
+
+    .gm-info h1 {
+        height: 20px;
+        line-height: 16px;
+        overflow: hidden;
+        white-space: nowrap
+    }
+
+    .gm-info p {
+        height: 21px;
+        line-height: 21px;
+        font-size: 12px;
+        color: #666
+    }
+
+    .gm-info p span {
+        display: inline-block;
+        width: 50%;
+        height: 21px;
+        vertical-align: top;
+        overflow: hidden
+    }
+
+    .gm-info p i {
+        margin-right: 10px
+    }
+</style>
+
+</head>
+<body screen_capture_injected="true">
+<article class="content">
+  <section class="app-intro">
+    <ul class="mod-app-intro game_list" id="j_game_list">
+
+      <% unless @friend_apps.blank? %>
+
+        <% @friend_apps.each do |fa| %>
+
+                <li data-id="<%= fa.id %>" url="<%= fa.download_url %>">
+                  <figure><img src="<%= fa.icon_url %>">
+                    <figcaption>
+                      <h3 class="tit">
+                        <%= fa.app_name %>
+                      </h3>
+
+                      <p>
+                        <%= fa.description %>
+                      </p>
+
+                      <!--<p><span></span></p>-->
+                    </figcaption>
+                    <span class="btn btn-g">下载</span>
+                  </figure>
+                </li>
+
+        <% end %>
+
+      <% end %>
+
+    </ul>
+  </section>
+</article>
+
+<script src="http://1251008728.cdn.myqcloud.com/1251008728/assets/javascripts/jquery-2.0.3.min.js"></script>
+
+<script>
+
+  $(function(){
+      $("#j_game_list li").click(function(){
+
+          var id = $(this).attr("data-id");
+          var url = $(this).attr("url");
+          $.post("/welcome/go_download", {aid: id}, function(){
+
+          }).always(function() {
+              window.location.href = url;
+          });
+
+      });
+  })
+</script>
+
+</body>
+</html>

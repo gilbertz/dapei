@@ -1,0 +1,141 @@
+<!-- 
+<% if @falg == 1 %>
+  <%= link_to '新建自拍', new_manage_selfy_path %>
+<% end %> -->
+<table class="table table-bordered table-hover">
+  <thead>
+  <tr class="success">
+    <th class="col-md-1">ID</th>
+    <th class="">标题</th>
+    <th class="">tags</th>
+    <th style="width:77px;">图片</th>
+    <th style="width:77px;">模板图片</th>
+    <th width="17%">设定时间</th>
+    <th width="10%">评级</th>
+    <th width="13%">状态</th>
+    <th width="13%">所属主题</th>
+    <th width="13%">编辑评语</th>
+    <th width="13%">相关单品</th>
+    <th width="17%">ooxx</th>
+    <th width="13%">操作</th>
+  </tr>
+  </thead>
+  <tbody>
+  <% @items.each do |item| %>
+      <% next unless item %>
+      <% next if item.user.blank? %>
+      <tr>
+        <td>
+          <span class="badge">
+            <%= item.id %> 
+          </span>
+        </td>
+        <td><%= link_to item.title, dapei_view_path(item), target: true %></td>
+        <td><%= item.dapei_info.tag_list.to_s if item.dapei_info %> </td>
+        <td style="padding:2px;">
+          <% if item.user_id == 1 %>
+            <% if item.type == "Selfie" %>
+              <%= link_to item.img_url(:wide_half), class: 'preview' do %>
+                <img src="<%= item.img_url(:wide_half) %>" alt="" style="width:300px;height:300;"/>
+              <% end %>
+            <%else%>
+              <a href = "<%= item.cover_image %>" ,class:'preview'>
+                <img src="<%= item.cover_image %>" alt="" style="width:300px;height:300;"/>
+              </a>
+            <% end %>     
+          <%else%>
+            <%= link_to item.img_url(:wide_half), class: 'preview' do %>
+                <img src="<%= item.img_url(:wide_half) %>" alt="" style="width:300px;height:300;"/>
+            <% end %>
+          <%end%>
+        </td>       
+        <td style="padding:2px;">
+          <% if template = item.get_template %>
+              <!-- from <%= template.get_user_name %> -->
+              <img src="<%= template.img_url(:wide_half) %>" alt="" style="width:300px;height:300;"/>
+          <% end %>
+        </td>
+        <td>
+          <% if item.instance_of?(Dapei) %>
+              <%= item.dapei_info.try(:start_date) %>
+              <hr style="margin:2px 0 2px 0;">
+              <%= item.dapei_info.try(:end_date) %>
+          <% end %>
+        </td>
+        <td style="text-align:center; padding:5px 0 1px 0;">
+          <%= item.level || '无' %>
+          <hr
+          / style="margin:2px 0 2px 0;">
+          <% if item.level.to_i >= 2 %>
+              (审核通过)
+          <% elsif item.level.to_i <= 0 %>
+              <% if 1.days.since(item.created_at) > Time.now %>
+                  (审核中...)
+              <% else %>
+                  (审核未通过)
+              <% end %>
+          <% end %>
+          <% key = "level_#{item.url}" %>
+          <% if $redis.get(key) and item.level.to_i <= 0 %>
+              待评级: <%= $redis.get(key) %>
+          <% end %>
+        </td>
+        <td>
+          <%= item.likes_count %>人喜欢
+          <hr style="margin:2px 0 2px 0;">
+          <%= item.comments_count %>人评论
+        </td>
+
+        <td>
+          <% if item.is_a?(Dapei) && item.get_dapei_tag %>
+              <a href="/manage/items?theme_id=<%= item.get_dapei_tag.id %>">
+                <%= item.get_dapei_tag.name %>
+              </a>
+          <% end %>
+        </td>
+
+        <td>
+          <%= item.dapei_info.comment if item.dapei_info %>
+        </td>
+
+        <td>
+          <a href="/manage/skus/recommends?dapei_id=<%= item.url %>">
+            包含单品
+          </a>
+        </td>
+
+        <td>
+          <%= to_local item.created_at %>
+          <hr style="margin:2px 0 2px 0; color:red;">
+          <span style="color:red;">by <%= link_to item.user.try(:name), user_path(item.user), target: true %></span>
+        </td>
+        <td>
+          <%= link_to '编辑', edit_manage_dapei_path(item), :class => 'e_obj' %>
+          <%#= link_to '编辑', [:edit,:manage,item], class: :e_obj %>
+          <hr
+          / style="margin:2px 0 2px 0;">
+          <%= link_to '评论', "/manage/dapeis/#{item.url}/new_comment", class: :e_obj %>
+          <hr
+          / style="margin:2px 0 2px 0;">
+          <%= link_to '删除', manage_dapei_path(item), method: :delete, remote: true, confirm: 'Are you sure ?' %>
+          <%#= link_to '删除', [:manage,item], method: :delete, remote: true, confirm: 'Are you sure ?' %>
+          <hr style="margin:2px 0 2px 0;">
+          <%= link_to '置顶', "/items/#{item.id}/promote", class: :e_obj %>
+          <hr style="margin:2px 0 2px 0;">          
+           
+          <span id="<%= item.id %>">
+          <% if item.dapei_info %>
+            <% if item.dapei_info.is_star == 1 %>
+              <%= link_to '取消推荐', unrecommend_star_manage_dapei_path(item), method: :post, class: "", remote: true, confirm: 'Are you sure ?' %>
+                    <%#= link_to '取消推荐', [:unrecommend_star, :manage, item], method: :post, class: "", remote: true, confirm: 'Are you sure ?' %>
+            <% else %>
+              <%= link_to '推荐', recommend_star_manage_dapei_path(item), method: :post, class: "", remote: true, confirm: 'Are you sure ?' %>
+                    <%#= link_to '推荐', [:recommend_star, :manage, item], method: :post, class: "", remote: true, confirm: 'Are you sure ?' %>
+            <% end %>
+          <% end %>
+          </span>
+        </td>
+      </tr>
+  <% end %>
+  </tbody>
+</table>

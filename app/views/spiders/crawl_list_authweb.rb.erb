@@ -1,0 +1,19 @@
+# encoding: utf-8
+#!/usr/bin/env ruby
+
+require "rubygems"
+
+<% num = 1%>
+
+<% @spiders.each do |s| %>
+    <% next if s.brand.nil? %>
+    begin
+      <% id = s.brand.id %>
+      p "<%=num %>"
+      <% num += 1%> 
+      `wget http://www.shangjieba.com/spiders/crawler/<%=id %>.rb -O c_<%=id %>.rb`
+     `ruby c_<%=id %>.rb`
+    rescue =>e
+      p e.to_s
+    end
+<% end %>

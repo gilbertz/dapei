@@ -1,0 +1,32 @@
+<% if @user_token%>
+<h2>User <%=@user.name%></h2>
+<table class="table table-bordered table-hover">
+  <thead>
+    <tr class="success">
+      <th style="text-align:center;width:15%;">时间</th>
+      <th style="text-align:center;width:40%;">路径</th>
+      <th style="text-align:center;width:15%;">IP</th>
+      <th style="text-align:center;width:6%;">Controller</th>
+      <th style="text-align:center;width:6%;">Action</th>
+      <th style="text-align:center;width:6%;">Method</th>
+      <th style="text-align:center;width:6%;">Format</th>
+      <th style="text-align:center;width:6%;">Status</th>
+    </tr>
+  </thead>
+  <tbody>
+    <% @user_behaviours.each do |user_behaviour| %>
+      <tr>
+        <td><%=user_behaviour[:request_time]%> </td>
+        <td><%=link_to user_behaviour[:request_url], user_behaviour[:request_url] %></td>
+        <td><%=user_behaviour[:ip_address] %></td>
+        <td style="text-align:center;"><%= user_behaviour[:request_controller] %></td>
+        <td style="text-align:center;"><%= user_behaviour[:request_action] %></td>
+        <td style="text-align:center;"><%= user_behaviour[:request_method] %></td>
+        <td><%= user_behaviour[:request_format] %></td>
+        <td><%= user_behaviour[:request_status] %></td>
+      </tr>
+    <% end %>
+  </body>
+</table>
+<%=will_paginate @user_behaviours%>
+<%end%>

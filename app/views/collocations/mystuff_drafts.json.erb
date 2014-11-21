@@ -1,0 +1,32 @@
+{ "status": {
+    "ok": 1
+}, "result": {
+    "page": <%= @current_page %>,
+    "limit": <%= @limit %>,
+    "total_count": <%= @drafts.total_entries %>,
+    "more_pages": <%= @drafts.total_pages.to_i - @drafts.current_page.to_i %>,
+    "items": [
+        <% unless @drafts.blank? %>
+        
+        <% first  = true %>
+        <% @drafts.each do |d| %>
+        <% unless first%>
+          ,
+        <% end %>
+        <% first = false %> 
+
+        {
+            "spec_uuid": "<%= d.spec_uuid %>",
+            "user_id": "<%= d.user_id %>",
+            "type": "d",
+            <% unless d.basedon_tid.blank? %>
+            "basedon_tid": "<%= d.basedon_tid %>",
+            <% end %>
+            "id": "-<%= d.id %>",
+            "img": "<%= d.img_url('m') %>",
+            "img_big": "<%= d.img_url('y') %>"
+        }
+          <% end %>
+        <% end %>
+    ]
+}}

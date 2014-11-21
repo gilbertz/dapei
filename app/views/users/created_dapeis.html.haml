@@ -1,0 +1,41 @@
+=render :partial=>"/users/top_bar", :locals=>{:user=>@user, :nav_class=>"main"}
+
+.wrapper
+  .dapei-body
+    -if @dapeis.blank?
+      .resort
+        %h2 还没有发布过任何搭配，赶快行动起来， 秀出你的上街范儿吧!
+    %ul.nav.nav-float.stream
+      -#-i=1
+      -@dapeis.each  do |d|
+        -#-if i%3==0
+          =render :partial=>"/dapeis/dapei_list_item", :locals=>{:dapei=>d, :dis_class=>"ul-last-li"}
+        -#-else
+        =render :partial=>"/dapeis/dapei_list_item", :locals=>{:dapei=>d, :dis_class=>"holder"}
+        -#-i=i+1
+    #page_nav
+      = paginate @dapeis
+
+-#=render :partial=>"/users/top_bar", :locals=>{:user=>@user, :nav_class=>"favorite"}
+/ 菜单
+-#.menu01
+  .bd
+    %ul
+      %li
+        %a{:href => "#{favorite_shops_path(@user)}"} 店铺
+      %li.vertical
+      %li.Current
+        %a{:href => "#{favorite_items_path(@user)}"} 宝贝
+-#-if @items.blank?
+  .clearfix.gjb_friends
+    .friends_bd
+      %h2 还没有进行任何喜欢，赶快行动起来吧
+-#.clearfix.gjb_product
+  .gjb_product_bd.stream{:style=>"width:1010px;"}
+    %ul{:style=>"width:1010px;"}
+      - @items.each do |item|
+        =render :partial=>"/users/favorite_baobei_item", :locals=>{:item=>item, :shop=>item.shop}
+  #page_nav
+    = paginate @items
+
+

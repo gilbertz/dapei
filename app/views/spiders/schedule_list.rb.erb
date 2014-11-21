@@ -1,0 +1,19 @@
+# encoding: utf-8
+#!/usr/bin/env ruby
+
+require "rubygems"
+
+<% num = 1%>
+
+<% @spiders.each do |s| %>
+    <% next if s.brand.nil? %>
+    begin
+      <% id = s.id %>
+      p "<%=num %>"
+      <% num += 1%> 
+     `wget http://www.shangjieba.com/spiders/spider_scheduler/<%=id %>.rb -O ss_<%=id %>.rb`
+     `ruby ss_<%=id %>.rb `
+   rescue => e
+     p e.to_s
+   end
+<% end %>

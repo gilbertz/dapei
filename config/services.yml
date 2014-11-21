@@ -1,0 +1,18 @@
+common: &common
+  weibo:
+    api_key: "1485201157"
+    api_secret: "1e080c6a5465838dc5bb54d710d7992a"
+    redirect_uri: "http://www.shangjieba.com/accounts/users/auth/weibo/callback"
+  qq_connect:
+    api_key: "100407222"
+    api_secret: "77c62095ab684fcc0cde4c619d2a949c"
+    redirect_uri: "http://www.shangjieba.com/accounts/users/auth/qq_connect/callback"
+
+production:
+  <<: *common
+
+development:
+  <<: *common
+
+test:
+  <<: *common

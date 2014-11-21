@@ -1,0 +1,18 @@
+.more-like-btn {
+  margin-left: 0.05rem;
+  display: none;
+  width: 0.64rem;
+  height: 0.64rem;
+  border-radius: 0.64rem;
+  background: #aaa;
+  color: #fff;
+  text-align: center;
+  line-height: 0.64rem;
+  overflow: hidden;
+  float: left;
+  letter-spacing: -0.2rem;
+}
+
+.more-like-dot {
+  margin-left: 0.5rem;
+}

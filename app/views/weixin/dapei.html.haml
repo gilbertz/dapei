@@ -1,0 +1,41 @@
+= render :partial => 'shared/dapei_page_head', :locals => {:obj => @dapei}
+
+- if @dapei
+  .head_wrapper
+    .holder
+      .grid-7.grid
+        %a{:href => "/weixin/dapei?id=#{@dapei.url}"}
+          %p{:align => "center"}
+            %img{:src => "#{@dapei.img_url(:scaled_large)}"}/
+      .title
+        .avatar
+          %img{ :src => "#{@dapei.get_user.display_img_medium}"}/
+        .name
+          .list_title
+            =@dapei.title
+          .list_name
+            by #{@dapei.get_user.name}
+        .like
+          %font{:face => "icon", :size => "2"} 1
+          %font{:face => "微软雅黑"} #{@dapei.likes_count.blank?  ? 0 : @dapei.likes_count}
+  -#.grids
+    .grid-12.grid
+      %p
+        %a{:href=>"/weixin/search?index=dapei&#{@lbs_params}"}查看其他搭配>>
+      %p
+        搭配用到的宝贝如下>>          
+-if @dapei
+  .items_list
+    - @dapei.get_items.each do |item|
+      .item_wrapper
+        .avatar
+          - item_url = "#"
+          - item_url = "/weixin/sku?id=#{item.sku.id}&#{@lbs_params}" if item.sku
+          %a{:href => "#{item_url}"}
+            %img{:src => "#{item.first_photo.url(:normal_medium)}"}/
+        .title
+          .brand_name
+            #{item.brand_name}
+          .price
+            #{item.get_show_price}
+  =render :partial=>"/shared/report", :locals=>{:type=>"item", :id=>@dapei.url }
