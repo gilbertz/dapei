@@ -1048,7 +1048,7 @@ class CollocationsController < ApplicationController
       if File.size(to_image_root) > 512
         need_mask = false
 
-        redirect_to  "http://img.shangjieba.com" + "/uploads/cgi/img-thing/mask/1/size/orig/tid/#{new_name_png}"
+        redirect_to  AppConfig[:remote_image_domain] + "/uploads/cgi/img-thing/mask/1/size/orig/tid/#{new_name_png}"
         return
         #data=File.new(to_image_root, "rb").read
         #send_data(data, :filename => new_name_png, :type => "image/png", :disposition => "inline")
@@ -1100,7 +1100,7 @@ class CollocationsController < ApplicationController
         mask_spec = MaskSpec.new(:matter_id => matter.id, :mask_spec => tspec, :mask_spec_image_name => new_str)
         mask_spec.save
 
-        redirect_to "http://img.shangjieba.com" + "/uploads/cgi/img-thing/mask/1/size/orig/tid/#{new_name_png}"
+        redirect_to AppConfig[:remote_image_domain] + "/uploads/cgi/img-thing/mask/1/size/orig/tid/#{new_name_png}"
         return
 
         #data=File.new(to_image_root, "rb").read
@@ -1488,7 +1488,7 @@ class CollocationsController < ApplicationController
     else
       image_root = "#{Photo::Sjb_root}/public/cgi/img-thing/mask/1/size/orig/tid/#{field["thing_id"]}.png"
       if not FileTest::exist?(image_root)
-         url = "http://img.shangjieba.com" + "/uploads/cgi/img-thing/mask/1/size/orig/tid/#{field["thing_id"]}.png"
+         url = AppConfig[:remote_image_domain] + "/uploads/cgi/img-thing/mask/1/size/orig/tid/#{field["thing_id"]}.png"
          p "wget #{url} -O #{image_root}"
          `wget #{url} -O #{image_root}`
       end
@@ -1497,7 +1497,7 @@ class CollocationsController < ApplicationController
       if field["bkgd"].to_i == 1 or ( not FileTest::exist?(image_root) )
         image_root = "#{Photo::Sjb_root}/public/cgi/img-thing/size/orig/tid/#{field["thing_id"]}.jpg"
         if not FileTest::exist?(image_root)
-           url = "http://img.shangjieba.com" + "/uploads/cgi/img-thing/size/orig/tid/#{field["thing_id"]}.jpg"
+           url = AppConfig[:remote_image_domain] + "/uploads/cgi/img-thing/size/orig/tid/#{field["thing_id"]}.jpg"
            `wget #{url} -O #{image_root}`
         end
         

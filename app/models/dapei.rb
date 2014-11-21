@@ -105,7 +105,7 @@ class Dapei < Item
           temp[:img_url] = get_domain + self.get_img_path + "m.jpg"
         end
       else
-        temp[:img_url] = "http://img.shangjieba.com/assets/img.jpg"
+        temp[:img_url] =  AppConfig[:remote_image_domain] + "/assets/img.jpg"
       end
       unless small
         temp[:width] = 600
