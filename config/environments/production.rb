@@ -120,7 +120,7 @@ Shangjieba::Application.configure do
   # config.active_record.auto_explain_threshold_in_seconds = 0.5
 end
 SPHINX_HOST = 'localhost'
-REDIS_HOST = '10.221.32.87'
+REDIS_HOST = 'localhost'
 REDIS_CRAWLER_HOST = '114.80.100.12'
 SG_DOMAIN = "http://sg.wanhuir.com:7777"
 COLOR_EXTRACTOR_URL='http://wx.shangjieba.com:7777/service/dapei/get_color'

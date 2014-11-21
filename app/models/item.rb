@@ -660,9 +660,7 @@ class Item < ActiveRecord::Base
   end
 
   def get_dispose_count
-    if self.sku
-      self.sku.get_dispose_count.to_i
-    else
+    if true
       if $redis.get("item_#{self.url}")
         $redis.get("item_#{self.url}").to_i * 10 + rand(10)
       else
@@ -898,11 +896,7 @@ class Item < ActiveRecord::Base
 
 
   def get_desc
-    if self.sku
-      self.sku.desc.to_s
-    else
-      ""
-    end
+    ""
   end
 
   def get_buy_url
