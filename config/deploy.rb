@@ -10,36 +10,22 @@ require 'mina/rvm' # for rvm support. (http://rvm.io)
 #   repository   - Git repo to clone from. (needed by mina/git)
 #   branch       - Branch name to deploy. (needed by mina/git)
 
-ENV["to"] ||= 'sjb'
+ENV["to"] ||= 'dp'
 case ENV["to"]
-  when 'sjb'
-    set :domain, '203.195.196.54'
-    set :user, 'ubuntu'
-    set :deploy_to, '/data/www/apps/shangjieba'
+  when 'dp'
+    set :domain, '121.42.47.121'
+    set :user, 'root'
+    set :password, 'bNg42mjv'
+    set :deploy_to, '/data/www/apps/dapeimishu'
     ENV['port'] = '7000'
     ENV['data_path'] = '/data'
-  when 'app'
-    set :domain, '203.195.196.54'
-    set :user, 'ubuntu'
-    set :deploy_to, '/data/www/apps/shangjieba_app'
-    ENV['port'] = '8000'
-    ENV['data_path'] = '/data'
-  when 'app2'
-    set :domain, '203.195.191.203'
-    set :deploy_to, '/data/www/apps/shangjieba_app'
-    set :user, 'ubuntu'
-    ENV['port'] = '8001'
-    ENV['data_path'] = '/remote_data'
-  when 'job'
-    set :domain, '203.195.186.54'
-    set :deploy_to, '/data/www/apps/shangjieba_job'
-    set :user, 'ubuntu'
-    ENV['data_path'] = '/remote_data'
 end
+
+set :rvm_path, '/usr/local/rvm/bin/rvm'
 
 # set :deploy_to, '/var/www/shangjeiba.com'
 # set :repository, 'git@git.wanhuir.com:shangjieba.git'
-set :repository, 'git@203.195.186.54:shangjieba.com/shangjieba.git'
+set :repository, 'git@git.dapeimishu.com:wps/dapeimishu.git'
 
 # set :branch, 'sidekiq'
 set :branch, 'master'
@@ -62,7 +48,7 @@ task :environment do
   # invoke :'rbenv:load'
 
   # For those using RVM, use this to load an RVM version@gemset.
-  invoke :'rvm:use[ruby-2.0.0-p451@global]'
+  invoke :'rvm:use[ruby-2.0.0-p481]'
 
 end
 
@@ -88,7 +74,7 @@ task :deploy => :environment do
     invoke :'git:clone'
     invoke :'deploy:link_shared_paths'
     invoke :'bundle:install'
-    invoke :'rails:db_migrate' if ENV['to'] == 'sjb'
+    #invoke :'rails:db_migrate' if ENV['to'] == 'dp'
     invoke :'rails:assets_precompile'
 
     # invoke :'deploy:cleanup'
@@ -98,11 +84,9 @@ task :deploy => :environment do
       # invoke :'cp_file'
       # queue "touch #{deploy_to}/tmp/restart.txt"
       # invoke :assets_precompile
-      invoke :'passenger' if ENV['to'] != 'job'
-      invoke :'whenever' if ENV['to'] == 'job'
-       if ENV['to'] == 'job'
-         invoke :'sidekiq'
-       end
+      invoke :'passenger'
+      #invoke :'whenever'
+      invoke :'sidekiq'
       invoke :'deploy:cleanup'
     end
   end
@@ -127,9 +111,10 @@ task :passenger_stop => :environment do
   queue "cd #{deploy_to}/#{current_path} && passenger stop -p #{ENV['port']} --pid-file #{deploy_to}/#{shared_path}/passenger.#{ENV['port']}.pid"
 end
 
-task :whenever => :environment do
-  queue! %[cd #{deploy_to}/#{current_path} && bundle exec whenever --update-crontab sjb]
-end
+#task :whenever => :environment do
+#  queue! %[cd #{deploy_to}/#{current_path} && bundle exec whenever --update-crontab sjb]
+#end
+
 task :cp_file => :environment do
   # queue! %[cp #{deploy_to}/#{shared_path}/config/database.yml #{deploy_to}/#{current_path}/config/]
 end
