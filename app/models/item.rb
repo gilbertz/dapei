@@ -28,7 +28,7 @@ class Item < ActiveRecord::Base
   belongs_to :brand
   has_one :relation, :class_name => "Relation"
   # has_one :relation_sku , :class_name => 'Sku',:through => :relation,:source => :target ,:source_type =>  'Sku'
-  has_many :relation_skus, :class_name => 'Sku', :through => :relations, :source_type => "Sku", :source => :target
+  #has_many :relation_skus, :class_name => 'Sku', :through => :relations, :source_type => "Sku", :source => :target
 
   has_many :likes ,:as => :target
   acts_as_commentable
@@ -383,9 +383,6 @@ class Item < ActiveRecord::Base
   end
 
   def brand
-    if self.sku
-      self.sku.brand
-    end
   end
 
 
@@ -474,68 +471,6 @@ class Item < ActiveRecord::Base
     end
   end
 
-  def shop_name
-    if self.shop
-      self.shop.shop_name
-    elsif self.sku and self.sku.brand
-      self.sku.brand.name
-    else
-      ""
-    end
-  end
-
-  def shop_address
-    if self.shop
-      self.shop.address
-    else
-      ""
-    end
-  end
-
-  def shop_city
-    self.shop.shop_city
-  end
-
-  def shop_dist
-    self.shop.shop_dist
-  end
-
-  def shop_display_name
-    if self.shop
-      self.shop.shop_display_name
-    else
-      self.brand_name
-    end
-  end
-
-  def shop_street
-    if self.shop and self.shop.street
-      self.shop.street
-    else
-      ""
-    end
-  end
-
-  def shop_mall
-    self.shop.mall
-  end
-
-  def jindu
-    self.shop.jindu
-  end
-
-  def weidu
-    self.shop.weidu
-  end
-
-  def shop_avatar_url
-    if self.shop
-      self.shop.shop_avatar_url
-    else
-      "http://www.shangjieba.com/assets/img.jpg"
-    end
-  end
-
   def get_display_price
     self.price.sub("￥", "")
   end
@@ -550,11 +485,7 @@ class Item < ActiveRecord::Base
 
   def like_id
     return 0 if not User.current_user
-    if self.sku
-      like=Like.find_by_user_id_and_target_id_and_target_type(User.current_user.id, self.sku.id, "Sku")
-    else
-      like=Like.find_by_user_id_and_target_id_and_target_type(User.current_user.id, self.id, "Item")
-    end
+    like=Like.find_by_user_id_and_target_id_and_target_type(User.current_user.id, self.id, "Item")
     if like
       like.id
     else
