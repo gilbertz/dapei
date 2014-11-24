@@ -3,7 +3,7 @@
 class Manage::FeedbacksController < Manage::BaseController
 
   def index
-    params[:side] = 'manage/areas/sidebar'
+    params[:side] = 'manage/users/sidebar'
     @feedbacks = Feedback.order("created_at desc")
   end
 

@@ -3,6 +3,7 @@
 class Manage::MattersController < Manage::BaseController
 
   def index
+    params[:side] = 'manage/dapeis/sidebar'
     @matters = Matter
     if params[:sku_id]
       @matters =Matter.where(:sku_id => params[:sku_id])

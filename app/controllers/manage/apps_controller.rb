@@ -3,7 +3,7 @@
 class Manage::AppsController < Manage::BaseController
 
   def index
-    params[:side] = 'manage/areas/sidebar'
+    params[:side] = 'manage/categories/sidebar'
     @apps = App.all
     @app_infos = AppInfo.all
   end

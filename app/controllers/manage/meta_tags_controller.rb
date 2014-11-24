@@ -42,7 +42,7 @@ class Manage::MetaTagsController < Manage::BaseController
 	private
 
 		def set_param_side
-		    params[:side] = 'manage/areas/sidebar'
+		    params[:side] = 'manage/categories/sidebar'
 		end
 	  
 end

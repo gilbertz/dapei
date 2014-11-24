@@ -89,6 +89,6 @@ class Manage::DapeiTagsController < Manage::BaseController
 
   private
   def set_param_side
-    @param_side = 'manage/matters/sidebar'
+    @param_side = 'manage/categories/sidebar'
   end
 end

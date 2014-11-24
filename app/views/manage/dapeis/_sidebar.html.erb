@@ -12,19 +12,10 @@
         <li class="<%= ac_active('matters','recommends') %>"> 
           <%= link_to '推荐素材', [:recommends,:manage,:matters] %> 
         </li>
-        <li class="<%= ac_active('matter_tags','index') %>"> 
-          <%= link_to '素材标签', [:manage,:matter_tags] %> 
-        </li>
-        <li class="<%= ac_active('dapei_tags','index') %>"> 
-          <%= link_to '搭配标签', [:manage,:dapei_tags] %> 
-        </li>
         <li class="<%= ac_active('dapeis','index') %>"> 
           <%= link_to '所有搭配', [:manage,:dapeis] %> 
         </li>
        
-        <li class="<%= ac_active('dapeis','index') %>">
-          <%= link_to '近义词二级分类', "/manage/synonyms" %>
-        </li>
       </ul>
     </li>
   </ul>

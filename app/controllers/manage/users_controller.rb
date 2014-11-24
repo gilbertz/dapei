@@ -50,6 +50,6 @@ class Manage::UsersController < Manage::BaseController
 
   private
   def set_param_side
-    params[:side] = 'manage/areas/sidebar'
+    params[:side] = 'manage/users/sidebar'
   end
 end

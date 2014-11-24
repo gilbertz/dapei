@@ -291,6 +291,6 @@ class Manage::DapeisController < Manage::BaseController
 
   private
   def set_param_side
-    @param_side = 'manage/matters/sidebar'
+    @param_side = 'manage/dapeis/sidebar'
   end
 end

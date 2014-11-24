@@ -21,23 +21,14 @@
         <li class="<%= ac_active('dapei_tags','index') %>">
           <%= link_to '搭配标签', [:manage,:dapei_tags] %>
         </li>
+
+        <li class="<%= ac_active('dapeis','index') %>">
+          <%= link_to '近义词二级分类', "/manage/synonyms" %>
+        </li>
+
          
-        <li class="<%= ac_active('user_behaviours', 'xml_index') %>"> 
-          <%= link_to '用户行为', [:manage,:user_behaviours] %> 
-        </li>
-        <li class="<%= ac_active('users', 'index') %>"> 
-          <%= link_to '用户列表', [:manage,:users] %> 
-        </li>
-        
-       <li class="<%= ac_active('flinks', 'index') %>"> 
-          <%= link_to '友链列表', [:manage, :flinks] %> 
-        </li>
-        
         <li class="<%= '' %>">
           <%= link_to '活动管理', [:manage, :lotteries] %>
-        </li>
-        <li class="<%= '' %>">
-          <%= link_to '用户反馈', [:manage, :feedbacks] %>
         </li>
         
         <li>
