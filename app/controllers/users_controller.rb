@@ -593,9 +593,6 @@ class UsersController < ApplicationController
     @user=nil
     @user=Authentication.find_from_hash_remote(auth)
     if(@user)
-      print @user
-      print "!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!"
-      #print @user.authentications
       respond_to do |format|
         format.html{
           #sign_in_and_redirect(:user, @user)
@@ -607,8 +604,8 @@ class UsersController < ApplicationController
       end
       #redirect_to "/"
     else
-      @username="sjb"+Devise.friendly_token[0,20]
-      @email=@username+"@shangjieba.com"
+      @username="dpms"+Devise.friendly_token[0,20]
+      @email=@username+"@dapeimishu.com"
       @password=Devise.friendly_token[0,20]
       @authinfo={:name=>auth["name"], :email=>@email, :password=>@password, :remember_me=>1, :desc=>auth["description"],
         :profile_img_url=>auth["image_url"]}
@@ -649,8 +646,8 @@ class UsersController < ApplicationController
 
         @is_new = 1
 
-        username="sjb"+Devise.friendly_token[0,20]
-        email=username+"@shangjieba.com"
+        username="dpms"+Devise.friendly_token[0,20]
+        email=username+"@dapeimishu.com"
         password=Devise.friendly_token[0,20]
 
         @user = User.new
@@ -676,6 +673,26 @@ class UsersController < ApplicationController
     unless @user.blank?
       if params[:code] == $redis.get(mobile)
         $redis.del(mobile)
+        @user.mobile_verified(mobile)
+        render_state('success')
+      else
+        render :json => {error: "验证码错误"}
+        return
+      end
+    else
+      render :json => {error: "用户不存在"}
+      return
+    end
+  end
+
+
+  def verify_with_mobile
+    mobile = params[:mobile].strip
+
+    if current_user
+      if params[:code] == $redis.get(mobile)
+        $redis.del(mobile)
+        current_user.mobile_verified(mobile)
         render_state('success')
       else
         render :json => {error: "验证码错误"}

@@ -1063,6 +1063,12 @@ class User < ActiveRecord::Base
     $redis.zincrby("user_ctags_#{self.id}", 1, name)
   end
 
+  def mobile_verified(mobile)
+    self.mobile = mobile
+    self.mobile_state = 1
+    self.save
+  end
+
   private
   def get_pod_url
     pod_url = AppConfig[:pod_url].dup

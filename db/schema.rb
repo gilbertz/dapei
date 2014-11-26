@@ -11,7 +11,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20141120062634) do
+ActiveRecord::Schema.define(:version => 20141126085457) do
 
   create_table "all_tags", :force => true do |t|
     t.string   "name"
@@ -1906,6 +1906,7 @@ ActiveRecord::Schema.define(:version => 20141120062634) do
     t.string   "mobile"
     t.string   "xingzuo"
     t.integer  "coin",                   :default => 0
+    t.integer  "mobile_state"
   end
 
   add_index "users", ["authentication_token"], :name => "index_users_on_authentication_token", :unique => true
