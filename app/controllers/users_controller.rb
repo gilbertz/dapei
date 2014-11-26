@@ -696,4 +696,12 @@ class UsersController < ApplicationController
     User.current_user = current_user 
   end
 
+  def build_and_send_code
+    mobile = params[:mobile].strip
+    @token = sprintf("%04d", rand(9999))
+    $redis.set mobile, @token
+    $redis.expire(mobile, 600)
+    ChinaSMS.to(mobile, "注册验证码:#{@token} 【#{$app_name}】") 
+ end
+
 end
