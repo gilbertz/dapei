@@ -828,6 +828,9 @@ Shangjieba::Application.routes.draw do
   get 'users/posts/:id' => "posts#show"
   get 'info/current_user' => "users#get_user_info"
 
+  get 'users/send_code' =>'Users#send_code'
+  get 'users/resend_code' => 'Users#resend_code'
+
   resources :photos, :except => [:index] do
     put :make_profile_photo
   end

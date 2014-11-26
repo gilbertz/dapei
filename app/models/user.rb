@@ -31,7 +31,6 @@ class User < ActiveRecord::Base
   has_many :likes, :dependent => :destroy
   has_many :items, :dependent => :destroy
   has_many :selfies, :class_name => "Item", :conditions => "type = 'Selfie'"
-  has_one :shop, :dependent => :destroy
   #validates :preurl, :presence=>true
   validates :email, :presence => true, :on => :update
   validates :email, :uniqueness => true, :on => :update
@@ -52,14 +51,7 @@ class User < ActiveRecord::Base
   has_many :user_behaviours
 
   has_one :userinfo
-  delegate :shangou_id, :shangou_token, to: :userinfo, :allow_nil => true, prefix: true
-
-  has_one :cart
-  has_many :orders
-
   has_many :daren_applies
-
-  has_many :flash_buy_coin_logs # 用户的闪币收入支出日志
 
   def my_cart
     if self.cart.blank?
@@ -111,9 +103,6 @@ class User < ActiveRecord::Base
     #t.add lambda { |user| user.get_honour_images }, :as => :honour_images
     t.add :checked
     t.add :check_times
-    t.add :level_bg_img
-    t.add lambda { |user| user.get_money.to_s }, :as => :money
-    t.add lambda { |user| user.get_money_url }, :as => :money_url
   end
 
 
@@ -138,32 +127,7 @@ class User < ActiveRecord::Base
     t.add lambda { |user| user.dapei_count.to_s }, :as => :dapei_count
     t.add lambda { |user| user.followers_count.to_s }, :as => :followers_count
     t.add lambda { |user| user.get_level.to_s }, :as => :level
-    #t.add lambda { |user| user.show_fashion_level.to_s }, :as => :fashion_level
   end
-
-
-  api_accessible :level, :cache => 60.minutes do |t|
-    t.add :url, :as => :user_id
-    t.add :display_name
-    t.add :display_name, :as => :name
-    t.add lambda { |user| user.get_desc }, :as => :desc
-    t.add :is_following, :if => :can_following?
-    t.add :display_img_small, :as => :avatar_img_small
-    t.add :display_img_medium, :as => :avatar_img_medium
-    t.add :get_bg_img, :as => :bg_img
-    t.add :checked
-    t.add :check_times
-    t.add :level_bg_img
-
-    t.add lambda { |user| user.get_level.to_s }, :as => :level
-    t.add lambda { |user| user.get_experience }, :as => :experience
-    t.add lambda { |user| user.get_honour }, :as => :honour
-    t.add lambda { |user| user.get_honour_images }, :as => :honour_images
-    t.add lambda { |user| user.get_intro_url }, :as => :intro_url
-    t.add lambda { |user| user.get_money.to_s }, :as => :money
-    t.add lambda { |user| user.get_money_url }, :as => :money_url
-  end
-
 
   api_accessible :fast, :cache => 60.minutes do |t|
     t.add :url, :as => :user_id
@@ -174,22 +138,6 @@ class User < ActiveRecord::Base
 
     t.add lambda { |user| user.get_level.to_s }, :as => :level
   end
-
-  # 是否绑定了闪购
-  def is_bind_flash_buy?
-    self.userinfo.shangou_id.present?
-  end
-
-  def get_money
-    Rails.cache.fetch "u_#{self.id}_money", :expires_in => 10.minutes do
-      self.is_bind_flash_buy? ? FlashBuy::Api.get_coin(self) : self.coin
-    end
-  end
-
-  def get_money_url
-    "http://1251008728.cdn.myqcloud.com/1251008728/shangjieba/shanbi.html"
-  end
-
 
   def last_dapei
     dp = Dapei.where(:user_id => self.id).last
@@ -209,7 +157,6 @@ class User < ActiveRecord::Base
         :is_following => self.is_following,
         :avatar_img_small => self.display_img_small,
         :level => self.get_level.to_s,
-        :fashion_level => self.show_fashion_level.to_s,
         :followers_count => self.followers_count.to_s,
         :dapei_count => self.dapei_count.to_s
     }
@@ -294,12 +241,6 @@ class User < ActiveRecord::Base
     else
       return false
     end
-  end
-
-  def level_bg_img
-    #"http://www.shangjieba.com/app_main_images/logo.png"
-    #"http://qingchao.qiniudn.com/daren_bg.png"
-    "http://qingchao1.qiniudn.com/level_bg.png"
   end
 
   def level_names
@@ -395,9 +336,6 @@ class User < ActiveRecord::Base
       end
       honours << honour
     end
-    #honours << {:active => "0", :name => "搭配之星勋章", :img => "http://qingchao.qiniudn.com/dp_star_1.png", :url => "http://m.shangjieba.com/m" }
-    #honours << {:active => "0", :name => "蜜蜂勋章", :img => "http://qingchao.qiniudn.com/mifeng_1.png", :url => "http://m.shangjieba.com/m" }
-    #honours << {:active => "0", :name => "热心勋章", :img => "http://qingchao.qiniudn.com/rexin_1.png", :url => "http://m.shangjieba.com/m" }
 
     honours
   end
@@ -496,7 +434,7 @@ class User < ActiveRecord::Base
 
   def get_desc
     if self.desc.blank?
-      "爱MAKE, 爱生活"
+      "爱搭配, 爱生活"
     else
       self.desc.to_s
     end
@@ -743,19 +681,6 @@ class User < ActiveRecord::Base
     comments_count
   end
 
-
-  def dapei_responses_count
-    DapeiResponse.where(:user_id => self.id).count
-  end
-
-  def v_dapei_responses_count
-    DapeiResponse.where('dapei_id is not null').where(:user_id => self.id).count
-  end
-
-  def dapei_requests_count
-    AskForDapei.where(:user_id => self.id).count
-  end
-
   before_save :downcase_email
 
   def downcase_email
@@ -849,7 +774,6 @@ class User < ActiveRecord::Base
     end
   end
 
-
   def dislike!(target_type, target_id)
     target = target_type.constantize
     if (target_type == "Post" or target_type == "Matter")
@@ -935,7 +859,7 @@ class User < ActiveRecord::Base
   end
 
   def get_name
-    return 'MAKE用户' unless self.name
+    return '匿名天使' unless self.name
 
     pat = /^u\d+$/
     if pat.match(self.name)
@@ -962,7 +886,7 @@ class User < ActiveRecord::Base
     if self.level.to_i == 1
       "申请中"
     elsif self.level.to_i >=2
-      "#{self.level}级达人"
+      "#{self.level}级商家"
     else
       "普通"
     end
@@ -1106,20 +1030,6 @@ class User < ActiveRecord::Base
       end
     end
     user.query_notify_done
-  end
-
-  def connect_to_shangou(shangou_id, shangou_token)
-    unless self.userinfo.blank?
-      self.userinfo.update_attributes(:shangou_id => shangou_id, :shangou_token => shangou_token)
-    else
-      self.build_userinfo(:shangou_id => shangou_id, :shangou_token => shangou_token)
-    end
-    # 同步到闪币
-    FlashBuy::Api.sync_coin(self)
-  end
-
-  def cancel_connect_to_shangou
-    self.userinfo.update_attributes(:shangou_id => nil, :shangou_token => nil)
   end
 
 

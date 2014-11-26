@@ -170,7 +170,7 @@ gem 'grape-jbuilder'
 gem 'jbuilder'
 # gem 'rack-contrib'
 
-
+gem 'china_sms'
 
 #http
 gem 'mechanize'
