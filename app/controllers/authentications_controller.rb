@@ -18,8 +18,8 @@ class AuthenticationsController < Devise::OmniauthCallbacksController
       sign_in_and_redirect(:user, @user)
       #redirect_to "/"
     else
-      @username="sjb"+Devise.friendly_token[0,20]
-      @email=@username+"@shangjieba.com"
+      @username="dpms"+Devise.friendly_token[0,20]
+      @email=@username+"@dapeimishu.com"
       @password=Devise.friendly_token[0,20]
       @authinfo={:name=>auth["info"]["name"], :email=>@email, :password=>@password, :remember_me=>1, :desc=>auth["info"]["description"], 
         :profile_img_url=>auth["info"]["image"]}
@@ -50,8 +50,8 @@ class AuthenticationsController < Devise::OmniauthCallbacksController
       sign_in_and_redirect(:user, @user)
       #redirect_to "/"
     else
-      @username="sjb"+Devise.friendly_token[0,20]
-      @email=@username+"@shangjieba.com"
+      @username="dpms"+Devise.friendly_token[0,20]
+      @email=@username+"@dapeimishu.com"
       @password=Devise.friendly_token[0,20]
       #@authinfo={:email=>@email, :password=>@password, :remember_me=>1, :preurl=>@username}
       @authinfo={:name=>auth["info"]["nickname"], :email=>@email, :password=>@password, :remember_me=>1, :desc=>auth["info"]["msg"],  

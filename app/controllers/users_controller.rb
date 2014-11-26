@@ -3,10 +3,7 @@
 class UsersController < ApplicationController
   layout "new_app"
   before_filter :authenticate_user!, :only=>[:update, :destroy, :unread_notification_count, :get_user_info]
-  #load_and_authorize_resource :find_by => :url
-  #authorize_resource :class => false, :find_by=>:url
   before_filter :get_user, :except=>[:index_all]
-  #before_filter :set_current, :except=>[:index_all]
 
   def index_all
     authorize! :index, @user, :message => 'Not authorized as an administrator.'
@@ -640,7 +637,6 @@ class UsersController < ApplicationController
       mobile = params[:mobile].strip
 
       @is_new = 0
-
       @user = User.find_by_mobile(mobile)
       if @user.blank?
 
