@@ -599,11 +599,11 @@ class User < ActiveRecord::Base
 
 
   def self.default_head_img
-    "http://www.shangjieba.com/assets/tou.png"
+    "/img/tou.gif"
   end
 
   def self.default_bg_img
-    "http://www.shangjieba.com/assets/tou_bg.png"
+    "/img/tou_bg.png"
   end
 
 

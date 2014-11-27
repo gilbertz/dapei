@@ -21,10 +21,10 @@
               %span.desc #{@user.desc}
             -else
               %span 自我介绍：
-              %span.desc 爱时尚，爱上街
+              %span.desc 恭喜发财,万事如意
           %li.user-desc
             %span 上街记录：
-            %span.desc 已发布 #{@user.dapei_count} 搭配, &nbsp; 已上街#{@user.v_dapei_count} 搭配, &nbsp; 共获得#{@user.dapei_likes_count}赞
+            %span.desc 已发布 #{@user.dapei_count} 搭配, &nbsp; &nbsp; 共获得#{@user.dapei_likes_count}赞
           -if user_signed_in?
             %li.follow-this
               -if user_signed_in? and user==current_user
@@ -52,16 +52,6 @@
               %span.icon-plus
               %span.data 
                 %a{:href => "#{user_path(@user)}"}发布的搭配
-          -if nav_class=="shangjie"
-            %li.active
-              %span.icon-plus
-              %span.data
-                %a{:href => "#{shangjie_dapeis_path(@user)}"}已上街搭配
-          -else
-            %li.first
-              %span.icon-plus
-              %span.data
-                %a{:href => "#{shangjie_dapeis_path(@user)}"}已上街搭配
           -if nav_class=="likes"
             %li.active
               %span.icon-love
@@ -94,131 +84,4 @@
                 %a{:href => "#{followers_path(@user)}"} TA的粉丝( #{user.followers_count})
 
   .my-home-main
-    -#%ul.nav.nav-float.my-home-main-nav
-      -if nav_class=="main"
-        %li.active
-          %a{:href => "#{user_path(@user)}"}
-            搭配志
-      -else
-        %li
-          %a{:href => "#{user_path(@user)}"}
-            搭配志
-      -if nav_class=="likes"
-        %li.active
-          %a{:href => "#{favorite_shops_path(@user)}"}
-            收藏中心
-      -else
-        %li
-          %a{:href => "#{favorite_shops_path(@user)}"}
-            收藏中心
-      -if nav_class=="followings" 
-        %li.active
-          %a{:href => "#{followings_path(@user)}"} 
-            关注的人
-      -else
-        %li
-          %a{:href => "#{followings_path(@user)}"}
-            关注的人
-      -if nav_class=="followers"
-        %li.active
-          %a{:href => "#{followers_path(@user)}"} 
-            粉丝
-      -else
-        %li
-          %a{:href => "#{followers_path(@user)}"}
-            粉丝
-    -#.my-home-main-body
-      %ul.nav
-        %li
-          %ul.nav.nav-float
-            %li.user-friend-avatar
-              %img{:alt => "", :src => ""}/
-            %li.user-friend-desc
-              .user-friend-name
-                Laday Gaga
-              .user-friend-from
-                %span.from 来自：
-                %span Shanghai
-              .user-friend-info
-                424人关注 290人喜欢
-            %li#pull-right
-              %span.follow-me
-                +关注
-        %li
-
-/ 个人主页菜单
--#.recom-p.clearfix.profile_menu
-  .info
-    .left
-      %img{:height => "150", :src => "#{user.display_img_medium}", :width => "150"}/
-      -if user_signed_in? and user==current_user
-        .Operating
-          %a.Modify_data{:href => "#{edit_user_registration_path}"} 修改资料
-      -else
-        .Operating2
-          = render :partial => "/shared/follow", :locals => {:followable => user}
-    .right
-      %h2.Alias 
-        .name 
-          %a{:href => "#{user_path(@user)}"} #{user.display_name}
-        -#.button
-          -if user_signed_in? and user==current_user
-            .Operating
-              %a.Modify_data{:href => "#{edit_user_registration_path}"} 修改资料
-          -else
-            .Operating2
-              = render :partial => "/shared/follow", :locals => {:followable => user}
-
-      -if user.city and user.city!=""
-        .Come_from 来自：#{user.city}
-      -else
-        .Come_from 来自：还不知道，虽然地球人都知道。
-      -if user.desc!=""
-        .Self-introduction 自我介绍: #{user.desc}
-      -else
-        .Self-introduction 自我介绍: 有点懒，还没有做过任何介绍！
-          
-      .Data
-        %ul
-          %li.Attention_value
-            #{user.following_count}
-            %br/
-            %a{:href => "#{followings_path(@user)}"} 关注
-          %li.Fans_value
-            #{user.followers_count}
-            %br/
-            %a{:href => "#{followers_path(@user)}"} 粉丝
-          %li.Journal_value
-            #{user.posts_count.blank? ? 0 :user.posts_count}
-            %br/
-            %a.Current{:href => "#{user_posts_path(@user)}"} 日志
-      .profile_nav
-        %ul
-          %li.All
-            -if nav_class=="all"
-              %a.Current{:href => "#{user_path(@user)}"} 主页
-            -else
-              %a{:href => "#{user_path(@user)}"} 主页
-          %li.Like
-            -if nav_class=="favorite"
-              %a.Current{:href => "#{favorite_shops_path(@user)}"} 喜欢
-            -else
-              %a{:href => "#{favorite_shops_path(@user)}"} 喜欢
-          %li.Comment
-            -if nav_class=="commented"
-              %a.Current{:href => "#{commented_shops_path(@user)}"} 评论
-            -else
-              %a{:href => "#{commented_shops_path(@user)}"} 评论
-          %li.Journal
-            -if nav_class=="posts"
-              %a.Current{:href => "#{user_posts_path(@user)}"} 日志
-            -else
-              %a{:href => "#{user_posts_path(@user)}"} 日志
-          %li.Friends
-            -if nav_class=="follow" 
-              %a.Current{:href => "#{followings_path(@user)}"} 好友
-            -else
-              %a{:href => "#{followings_path(@user)}"} 好友             
-
-
 

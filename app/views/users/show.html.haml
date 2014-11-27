@@ -7,18 +7,12 @@
         %a{:href => "/collocations"} +发布搭配
       -else
         %a{:href => "#{layer_sign_in_path}", :rel => "facebox[.about]"} +发布搭配
-    %li
-      记录自己的创意搭配，让街头的你一天天变的更加美丽。
-    %li
-      -if @user.can_be_admin
-        %a{:href => "/users/#{@user.url}/posts/new"} +发布文章
-        %a{:href=> "/users/#{@user.url}/site_helps/admin_help"} +管理帮助
 
 .wrapper
   .dapei-body
     -if @dapeis.blank?
       .resort
-        %h2 还没有发布过任何搭配，赶快行动起来， 秀出你的上街范儿吧!
+        %h2 还没有发布过任何搭配，赶快行动起来!
     %ul.nav.nav-float.stream
       -#-i=1
       -@dapeis.each do |d|
@@ -29,51 +23,4 @@
         -#-i=i+1
     #page_nav
       = paginate @dapeis
-
-
-/ 菜单
--#.menu01
-  .bd
-    %ul
-      %li
-        %a{:href => "javascript:void(0)"} 喜欢/评论过的店铺
--#.f-dividing-line2
--#-if @shops.blank?
-  .clearfix.gjb_friends
-    .friends_bd
-      %h2
-        <p>喜欢/评论某个店铺就相当于收藏喽。</p> 
-        <p>还没有喜欢/评论过任何内容，赶快行动起来吧。</p>
-        <p>可以方便的回味，朋友们也能分享到这份品味。</p>
--#-else
-  .clearfix.gjb_shop
-    .gjb_shop_bd.stream{:style=>"width:1010px;"}
-      %ul{:style=>"width:1010px;"}
-        - @shops.each do |shop|
-          =render :partial=>"/users/shop_comment_item", :locals=>{:shop=>shop}
--#-unless @items.blank?
-  .menu01
-    .bd
-      %ul
-        %li
-          %a{:href => "javascript:void(0)"}喜欢/评论过的宝贝
-  .f-dividing-line2
--#.clearfix.gjb_faxian
-  .gjb_faxian_bd.stream{:style=>"width:1010px;"}
-    %ul{:style=>"width:1010px;"}
-      -@items.each do |item|
-        =render :partial=>"/shops/baobei_list_item", :locals=>{:item=>item, :shop=>item.shop}
--#-unless @posts.blank?
-  .menu01
-    .bd
-      %ul
-        %li
-          %a{:href => "javascript:void(0)"}发表的上街日志
-  .f-dividing-line2
--#.clearfix.gjb_faxian
-  .gjb_faxian_bd.stream{:style => "width:1010px;"}
-    %ul{ :style => "width:1010px;"}
-      -@posts.each  do |i|
-        =render :partial=>"/posts/post_list_item", :locals=>{:post=>i}
-
 
