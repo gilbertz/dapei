@@ -691,7 +691,6 @@ Shangjieba::Application.routes.draw do
   get "notifications/index_new" => "notifications#index1"
   get "notifications/index_notify" => "notifications#notify"
   #get ':id'=>'shops#show', :constraints => { :id => /[A-Za-z0-9\-_]+/ }
-  get ':city_pinyin' => "home#index", :constraints => {:city_pinyin => /[a-z]+/}
 
   post 'shops/:id/update' => "shops#update"
   post 'devices/register' => "devices#register"
