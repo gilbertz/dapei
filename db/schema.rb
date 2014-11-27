@@ -11,7 +11,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20141126085457) do
+ActiveRecord::Schema.define(:version => 20141127160137) do
 
   create_table "all_tags", :force => true do |t|
     t.string   "name"
@@ -436,9 +436,16 @@ ActiveRecord::Schema.define(:version => 20141126085457) do
     t.integer  "photo2_id"
     t.integer  "photo3_id"
     t.integer  "status"
-    t.datetime "created_at", :null => false
-    t.datetime "updated_at", :null => false
+    t.datetime "created_at",          :null => false
+    t.datetime "updated_at",          :null => false
     t.string   "career"
+    t.string   "contact"
+    t.string   "phone"
+    t.integer  "apply_type"
+    t.integer  "production_type"
+    t.string   "site"
+    t.string   "matter_display_name"
+    t.integer  "brand_id"
   end
 
   create_table "data_analyses", :force => true do |t|

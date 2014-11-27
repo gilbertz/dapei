@@ -80,7 +80,6 @@ class User < ActiveRecord::Base
     t.add lambda { |user| user.age.to_s }, :as => :age
     t.add lambda { |user| user.city.to_s }, :as => :city
     t.add lambda { |user| user.district.to_s }, :as => :district
-    t.add lambda { |user| user.xingzuo.to_s }, :as => :xingzuo
     t.add lambda { |user| user.get_desc }, :as => :desc
     t.add :display_img_small, :as => :avatar_img_small
     t.add :display_img_medium, :as => :avatar_img_medium
@@ -103,6 +102,7 @@ class User < ActiveRecord::Base
     #t.add lambda { |user| user.get_honour_images }, :as => :honour_images
     t.add :checked
     t.add :check_times
+    t.add lambda { |user| user.mobile_state.to_s }, :as => :mobile_state
   end
 
 

@@ -379,19 +379,19 @@ Shangjieba::Application.routes.draw do
     get "dapei/cut_templates" => "dapei#cut_templates"
   end
 
+  resources :daren_applies do
+    collection do
+      get "about_daren"
+      get "user_help"
+      get "daren_info"
+      get "medal_info"
+    end
+  end  
+
   scope "sjb" do
     resources :relations
 
     resources :labels
-
-    resources :daren_applies do
-      collection do
-        get "about_daren"
-        get "user_help"
-        get "daren_info"
-        get "medal_info"
-      end
-    end
 
     resources :policies
 
@@ -796,6 +796,7 @@ Shangjieba::Application.routes.draw do
 
   post 'users/send_code' => "users#send_code"
   post 'users/login_with_mobile' => "users#login_with_mobile"
+  post 'users/verify_with_mobile' => "users#verify_with_mobile"
 
   get 'users/:id/favorite_items' => 'users#favorite_items', :as => "favorite_items"
   get 'users/:id/favorite_dapeis' => 'users#favorite_dapeis', :as => "favorite_dapeis"
