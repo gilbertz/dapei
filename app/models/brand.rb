@@ -14,6 +14,7 @@ class Brand < ActiveRecord::Base
   has_many :crawler_templates
   has_many :spiders
   has_many :items
+  has_many :matters
   belongs_to :category
 
 
@@ -297,15 +298,15 @@ class Brand < ActiveRecord::Base
 
 
   def new_skus_count
-    self.skus.where("level >= ?", self.level).where("created_at > ?", Time.now.midnight - 7.days).count.to_s
+    self.matters.where("level >= ?", self.level).where("created_at > ?", Time.now.midnight - 7.days).count.to_s
   end
 
   def spiders_count
-    self.skus.where("level >= ?", self.level).where("level >= ?", 5).where("created_at > ?", Time.now.midnight - 1.days).count
+    self.matters.where("level >= ?", self.level).where("level >= ?", 5).where("created_at > ?", Time.now.midnight - 1.days).count
   end
 
   def seasonal_skus_count
-    self.skus.where("skus.category_id < 100").where("created_at > ?", Time.now.midnight - 90.days).count
+    self.matters.where("matters.category_id < 100").where("created_at > ?", Time.now.midnight - 90.days).count
   end
 
   def get_skus_count(cid=nil)
@@ -684,7 +685,7 @@ class Brand < ActiveRecord::Base
   end
 
   def matters_count
-    Matter.joins("left join skus on skus.id = matters.sku_id").where("skus.brand_id = #{self.id}").length
+    Matter.where("brand_id = #{self.id}").length
   end
 
   # api 所有品牌

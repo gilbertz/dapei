@@ -26,31 +26,13 @@ common: &common
   <<: *mysql
   #<<: *postgres
 
-wx_database:
-  adapter: mysql2
-  host: "180.150.166.57"
-  port: 3306
-  username: "wx_admin"
-  password: "shangjieba123"
-  database: wx_shangjieba
-  charset: utf8
-  collation: utf8_bin
-
-sg_database:
-  adapter: mysql2
-  encoding: utf8
-  username: root
-  password: wan123
-  host: "203.195.197.31"
-  database: flash_buy
-
 # Normally you don't need to touch anything here
 development:
   <<: *common
-  database: sjb
+  database: dpms
 production:
   <<: *common
-  database: sjb
+  database: dpms
 test:
   <<: *common
   database: "sjb_test<%= ENV['TEST_ENV_NUMBER'] %>"

@@ -11,7 +11,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20141127160832) do
+ActiveRecord::Schema.define(:version => 20141130020045) do
 
   create_table "all_tags", :force => true do |t|
     t.string   "name"
@@ -66,57 +66,6 @@ ActiveRecord::Schema.define(:version => 20141127160832) do
 
   add_index "apps", ["weight"], :name => "index_apps_on_weight"
 
-  create_table "areas", :force => true do |t|
-    t.string   "name"
-    t.string   "city"
-    t.integer  "city_id"
-    t.string   "t"
-    t.string   "jindu"
-    t.string   "weidu"
-    t.string   "parent"
-    t.integer  "parent_dp_id"
-    t.integer  "dp_id"
-    t.boolean  "on"
-    t.datetime "created_at",   :null => false
-    t.datetime "updated_at",   :null => false
-    t.integer  "bd_id"
-    t.string   "pinyin"
-  end
-
-  add_index "areas", ["city_id", "t", "on"], :name => "index_areas_on_city_id_and_t_and_on"
-  add_index "areas", ["city_id", "t"], :name => "index_areas_on_city_id_and_t"
-  add_index "areas", ["dp_id"], :name => "index_areas_on_dp_id"
-  add_index "areas", ["name"], :name => "index_areas_on_name"
-  add_index "areas", ["parent_dp_id"], :name => "index_areas_on_parent_dp_id"
-  add_index "areas", ["pinyin"], :name => "index_areas_on_pinyin"
-
-  create_table "ask_for_dapeis", :force => true do |t|
-    t.integer  "user_id"
-    t.integer  "matter_id"
-    t.integer  "level"
-    t.integer  "dapei_id"
-    t.integer  "dapeis_count"
-    t.integer  "status"
-    t.integer  "likes_count"
-    t.integer  "comments_count"
-    t.integer  "dispose_count"
-    t.integer  "reward"
-    t.datetime "created_at",     :null => false
-    t.datetime "updated_at",     :null => false
-    t.text     "title"
-    t.integer  "answers_count"
-    t.string   "digest"
-    t.string   "url"
-    t.string   "tag"
-  end
-
-  add_index "ask_for_dapeis", ["digest"], :name => "index_ask_for_dapeis_on_digest"
-  add_index "ask_for_dapeis", ["level"], :name => "index_ask_for_dapeis_on_level"
-  add_index "ask_for_dapeis", ["matter_id"], :name => "index_ask_for_dapeis_on_matter_id"
-  add_index "ask_for_dapeis", ["reward"], :name => "index_ask_for_dapeis_on_reward"
-  add_index "ask_for_dapeis", ["status"], :name => "index_ask_for_dapeis_on_status"
-  add_index "ask_for_dapeis", ["user_id"], :name => "index_ask_for_dapeis_on_user_id"
-
   create_table "authentications", :force => true do |t|
     t.integer  "user_id"
     t.string   "provider"
@@ -126,8 +75,6 @@ ActiveRecord::Schema.define(:version => 20141127160832) do
     t.datetime "created_at",   :null => false
     t.datetime "updated_at",   :null => false
   end
-
-  add_index "authentications", ["user_id"], :name => "index_authentications_on_user_id"
 
   create_table "brand_tags", :force => true do |t|
     t.string   "name"
@@ -192,7 +139,6 @@ ActiveRecord::Schema.define(:version => 20141127160832) do
   end
 
   add_index "brands", ["c_name"], :name => "index_brands_on_c_name"
-  add_index "brands", ["category_id"], :name => "index_brands_on_category_id"
   add_index "brands", ["e_name"], :name => "index_brands_on_e_name"
   add_index "brands", ["level"], :name => "index_brands_on_level"
   add_index "brands", ["priority"], :name => "index_brands_on_priority"
@@ -230,7 +176,6 @@ ActiveRecord::Schema.define(:version => 20141127160832) do
   end
 
   add_index "categories", ["abb"], :name => "index_categories_on_abb"
-  add_index "categories", ["parent_id"], :name => "index_categories_on_parent_id"
   add_index "categories", ["user_id"], :name => "index_categories_on_user_id"
 
   create_table "cell_types", :force => true do |t|
@@ -289,11 +234,7 @@ ActiveRecord::Schema.define(:version => 20141127160832) do
     t.string   "source"
     t.datetime "created_at",      :null => false
     t.datetime "updated_at",      :null => false
-    t.integer  "mall_id"
   end
-
-  add_index "crawler_templates", ["brand_id"], :name => "index_crawler_templates_on_brand_id"
-  add_index "crawler_templates", ["mall_id"], :name => "index_crawler_templates_on_mall_id"
 
   create_table "currency_rates", :force => true do |t|
     t.string   "name"
@@ -370,25 +311,6 @@ ActiveRecord::Schema.define(:version => 20141127160832) do
   add_index "dapei_item_infos", ["sku_id"], :name => "index_dapei_item_infos_on_sku_id"
   add_index "dapei_item_infos", ["thing_id"], :name => "index_dapei_item_infos_on_thing_id"
 
-  create_table "dapei_responses", :force => true do |t|
-    t.integer  "request_id"
-    t.integer  "user_id"
-    t.text     "response_text"
-    t.string   "dapei_id"
-    t.integer  "likes_count"
-    t.integer  "comments_count"
-    t.integer  "dispose_count"
-    t.string   "response_image"
-    t.datetime "created_at",     :null => false
-    t.datetime "updated_at",     :null => false
-    t.string   "digest"
-  end
-
-  add_index "dapei_responses", ["dapei_id"], :name => "index_dapei_responses_on_dapei_id"
-  add_index "dapei_responses", ["digest"], :name => "index_dapei_responses_on_digest"
-  add_index "dapei_responses", ["request_id"], :name => "index_dapei_responses_on_request_id"
-  add_index "dapei_responses", ["user_id"], :name => "index_dapei_responses_on_user_id"
-
   create_table "dapei_tags", :force => true do |t|
     t.string   "name"
     t.integer  "tag_type"
@@ -440,7 +362,6 @@ ActiveRecord::Schema.define(:version => 20141127160832) do
     t.integer  "status"
     t.datetime "created_at",          :null => false
     t.datetime "updated_at",          :null => false
-    t.string   "career"
     t.string   "contact"
     t.string   "phone"
     t.integer  "apply_type"
@@ -510,53 +431,6 @@ ActiveRecord::Schema.define(:version => 20141127160832) do
   add_index "devices", ["udid"], :name => "index_devices_on_udid"
   add_index "devices", ["user_id"], :name => "index_devices_on_user_id"
 
-  create_table "dfties", :force => true do |t|
-    t.integer  "user_id"
-    t.string   "name"
-    t.string   "tel"
-    t.string   "address"
-    t.string   "ship_name"
-    t.string   "ship_address"
-    t.string   "invite_name1"
-    t.string   "invite_name2"
-    t.string   "invite_name3"
-    t.string   "invite_name4"
-    t.string   "invite_name5"
-    t.datetime "created_at",   :null => false
-    t.datetime "updated_at",   :null => false
-  end
-
-  add_index "dfties", ["name"], :name => "index_dfties_on_name"
-  add_index "dfties", ["tel"], :name => "index_dfties_on_tel"
-  add_index "dfties", ["user_id"], :name => "index_dfties_on_user_id"
-
-  create_table "discounts", :force => true do |t|
-    t.string   "title"
-    t.string   "description"
-    t.date     "start_date"
-    t.date     "end_date"
-    t.integer  "discountable_id"
-    t.string   "discountable_type"
-    t.datetime "created_at",                       :null => false
-    t.datetime "updated_at",                       :null => false
-    t.string   "reason"
-    t.integer  "dispose_count"
-    t.integer  "likes_count",       :default => 0
-    t.integer  "parent_id"
-    t.boolean  "deleted"
-    t.string   "docid"
-    t.string   "from"
-    t.string   "source"
-    t.integer  "brand_discount_id"
-    t.integer  "city_id"
-    t.integer  "comments_count"
-  end
-
-  add_index "discounts", ["brand_discount_id"], :name => "index_discounts_on_brand_discount_id"
-  add_index "discounts", ["created_at"], :name => "index_discounts_on_created_at"
-  add_index "discounts", ["discountable_id"], :name => "index_discounts_on_discountable_id"
-  add_index "discounts", ["discountable_type"], :name => "index_discounts_on_discountable_type"
-
   create_table "feedbacks", :force => true do |t|
     t.integer  "user_id"
     t.text     "content"
@@ -572,17 +446,6 @@ ActiveRecord::Schema.define(:version => 20141127160832) do
     t.integer  "lucky_code"
     t.datetime "created_at", :null => false
     t.datetime "updated_at", :null => false
-  end
-
-  create_table "flash_buy_coin_logs", :force => true do |t|
-    t.integer  "user_id"
-    t.string   "relatable_type"
-    t.integer  "relatable_id"
-    t.string   "coin_type"
-    t.integer  "coin",           :default => 0
-    t.boolean  "direction"
-    t.datetime "created_at",                    :null => false
-    t.datetime "updated_at",                    :null => false
   end
 
   create_table "flinks", :force => true do |t|
@@ -687,35 +550,6 @@ ActiveRecord::Schema.define(:version => 20141127160832) do
     t.datetime "updated_at",  :null => false
   end
 
-  add_index "game_materials", ["category_id"], :name => "index_game_materials_on_category_id"
-
-  create_table "honours", :force => true do |t|
-    t.integer  "user_id"
-    t.integer  "honour_id"
-    t.string   "name"
-    t.string   "img"
-    t.string   "url"
-    t.boolean  "active"
-    t.datetime "created_at",  :null => false
-    t.datetime "updated_at",  :null => false
-    t.string   "img_1"
-    t.string   "small_image"
-  end
-
-  add_index "honours", ["honour_id"], :name => "index_honours_on_honour_id"
-  add_index "honours", ["user_id", "honour_id", "active"], :name => "index_honours_on_user_id_and_honour_id_and_active"
-  add_index "honours", ["user_id", "honour_id"], :name => "index_honours_on_user_id_and_honour_id"
-  add_index "honours", ["user_id"], :name => "index_honours_on_user_id"
-
-  create_table "inquiries", :force => true do |t|
-    t.string   "name"
-    t.string   "mobile"
-    t.string   "city"
-    t.string   "will"
-    t.datetime "created_at", :null => false
-    t.datetime "updated_at", :null => false
-  end
-
   create_table "items", :force => true do |t|
     t.string   "title"
     t.string   "price"
@@ -737,7 +571,6 @@ ActiveRecord::Schema.define(:version => 20141127160832) do
     t.string   "buy_url"
     t.boolean  "deleted"
     t.string   "publish"
-    t.string   "from"
     t.integer  "city_id"
     t.string   "origin_price"
     t.integer  "off_percent"
@@ -756,7 +589,6 @@ ActiveRecord::Schema.define(:version => 20141127160832) do
   add_index "items", ["brand_id", "sku_id"], :name => "index_items_on_brand_id_and_sku_id"
   add_index "items", ["brand_id"], :name => "index_items_on_brand_id"
   add_index "items", ["category_id"], :name => "index_items_on_category_id"
-  add_index "items", ["created_at"], :name => "index_items_on_created_at"
   add_index "items", ["deleted"], :name => "index_items_on_deleted"
   add_index "items", ["level", "category_id"], :name => "index_items_on_level_and_category_id"
   add_index "items", ["level"], :name => "index_items_on_level"
@@ -767,24 +599,6 @@ ActiveRecord::Schema.define(:version => 20141127160832) do
   add_index "items", ["url"], :name => "index_items_on_url"
   add_index "items", ["user_id", "level", "category_id", "deleted"], :name => "index_items_on_user_id_and_level_and_category_id_and_deleted"
   add_index "items", ["user_id"], :name => "index_items_on_user_id"
-
-  create_table "join_lotteries", :force => true do |t|
-    t.integer  "user_id"
-    t.integer  "lottery_id"
-    t.integer  "result"
-    t.string   "qq"
-    t.string   "tel"
-    t.string   "name"
-    t.string   "email"
-    t.integer  "app_market_id"
-    t.datetime "created_at",       :null => false
-    t.datetime "updated_at",       :null => false
-    t.string   "app_market_token"
-  end
-
-  add_index "join_lotteries", ["lottery_id"], :name => "index_join_lotteries_on_lottery_id"
-  add_index "join_lotteries", ["user_id", "lottery_id"], :name => "index_join_lotteries_on_user_id_and_lottery_id"
-  add_index "join_lotteries", ["user_id"], :name => "index_join_lotteries_on_user_id"
 
   create_table "labels", :force => true do |t|
     t.string   "name"
@@ -835,22 +649,6 @@ ActiveRecord::Schema.define(:version => 20141127160832) do
 
   add_index "line_items", ["cart_id"], :name => "index_line_items_on_cart_id"
   add_index "line_items", ["order_id"], :name => "index_line_items_on_order_id"
-  add_index "line_items", ["sku_id"], :name => "index_line_items_on_sku_id"
-
-  create_table "lotteries", :force => true do |t|
-    t.string   "title"
-    t.text     "desc"
-    t.date     "start_date"
-    t.date     "end_date"
-    t.string   "award"
-    t.integer  "type_id"
-    t.datetime "created_at",                :null => false
-    t.datetime "updated_at",                :null => false
-    t.string   "link"
-    t.string   "img_url"
-    t.integer  "wait",       :default => 1, :null => false
-    t.boolean  "on"
-  end
 
   create_table "main_colors", :force => true do |t|
     t.string "color_value"
@@ -858,35 +656,6 @@ ActiveRecord::Schema.define(:version => 20141127160832) do
     t.string "color_g"
     t.string "color_b"
   end
-
-  create_table "malls", :force => true do |t|
-    t.string   "name"
-    t.string   "abs"
-    t.string   "jindu"
-    t.string   "weidu"
-    t.string   "introduction"
-    t.integer  "area_id"
-    t.integer  "likes_count"
-    t.integer  "dispose_count"
-    t.integer  "shops_count"
-    t.datetime "created_at",    :null => false
-    t.datetime "updated_at",    :null => false
-    t.string   "url"
-    t.integer  "level"
-    t.string   "weixin"
-    t.string   "weibo"
-    t.string   "homepage"
-    t.integer  "avatar_id"
-    t.string   "address"
-    t.string   "phone_number"
-    t.string   "open_hours"
-    t.integer  "items_count"
-    t.string   "tags"
-    t.integer  "city_id"
-    t.string   "pattern"
-  end
-
-  add_index "malls", ["name"], :name => "index_malls_on_name"
 
   create_table "mask_specs", :force => true do |t|
     t.integer "template_item_id"
@@ -941,7 +710,7 @@ ActiveRecord::Schema.define(:version => 20141127160832) do
   create_table "matters", :force => true do |t|
     t.integer  "user_id"
     t.integer  "source_type"
-    t.integer  "rule_category_id"
+    t.integer  "category_id"
     t.integer  "color_one_id"
     t.integer  "color_two_id"
     t.integer  "color_three_id"
@@ -977,12 +746,11 @@ ActiveRecord::Schema.define(:version => 20141127160832) do
   end
 
   add_index "matters", ["brand_id"], :name => "index_matters_on_brand_id"
+  add_index "matters", ["category_id"], :name => "index_matters_on_rule_category_id"
   add_index "matters", ["color_one_id"], :name => "index_matters_on_color_one_id"
   add_index "matters", ["color_three_id"], :name => "index_matters_on_color_three_id"
   add_index "matters", ["color_two_id"], :name => "index_matters_on_color_two_id"
   add_index "matters", ["image_name"], :name => "index_matters_on_image_name"
-  add_index "matters", ["level"], :name => "index_matters_on_level"
-  add_index "matters", ["rule_category_id"], :name => "index_matters_on_rule_category_id"
   add_index "matters", ["sjb_photo_id"], :name => "index_matters_on_sjb_photo_id"
   add_index "matters", ["sku_id"], :name => "index_matters_on_sku_id"
   add_index "matters", ["spider_id"], :name => "index_matters_on_spider_id"
@@ -1001,9 +769,6 @@ ActiveRecord::Schema.define(:version => 20141127160832) do
     t.datetime "created_at", :null => false
     t.datetime "updated_at", :null => false
   end
-
-  add_index "messages", ["accept_id"], :name => "index_messages_on_accept_id"
-  add_index "messages", ["sender_id"], :name => "index_messages_on_sender_id"
 
   create_table "meta_tags", :force => true do |t|
     t.string   "tag"
@@ -1073,26 +838,6 @@ ActiveRecord::Schema.define(:version => 20141127160832) do
     t.datetime "updated_at", :null => false
   end
 
-  create_table "orders", :force => true do |t|
-    t.string   "number"
-    t.integer  "user_id"
-    t.text     "mark"
-    t.decimal  "item_total",      :precision => 10, :scale => 2, :default => 0.0
-    t.decimal  "shipment_total",  :precision => 10, :scale => 2, :default => 0.0
-    t.decimal  "total",           :precision => 10, :scale => 2, :default => 0.0
-    t.decimal  "payment_total",   :precision => 10, :scale => 2, :default => 0.0
-    t.integer  "ship_address_id"
-    t.integer  "pay_type"
-    t.string   "pay_number"
-    t.integer  "state",                                          :default => 0
-    t.datetime "created_at",                                                      :null => false
-    t.datetime "updated_at",                                                      :null => false
-    t.integer  "is_delete",                                      :default => 0
-  end
-
-  add_index "orders", ["ship_address_id"], :name => "index_orders_on_ship_address_id"
-  add_index "orders", ["user_id"], :name => "index_orders_on_user_id"
-
   create_table "payments", :force => true do |t|
     t.integer  "order_id"
     t.integer  "user_id"
@@ -1130,7 +875,6 @@ ActiveRecord::Schema.define(:version => 20141127160832) do
     t.boolean  "dp"
   end
 
-  add_index "photos", ["author_id"], :name => "index_photos_on_author_id"
   add_index "photos", ["created_at"], :name => "index_photos_on_created_at"
   add_index "photos", ["digest"], :name => "index_photos_on_digest"
   add_index "photos", ["is_send", "target_id", "target_type"], :name => "index_photos_on_is_send_and_target_id_and_target_type"
@@ -1166,9 +910,6 @@ ActiveRecord::Schema.define(:version => 20141127160832) do
     t.string   "desc",           :default => ""
   end
 
-  add_index "posts", ["category_id"], :name => "index_posts_on_category_id"
-  add_index "posts", ["user_id"], :name => "index_posts_on_user_id"
-
   create_table "properties", :force => true do |t|
     t.string   "name"
     t.datetime "created_at", :null => false
@@ -1190,19 +931,6 @@ ActiveRecord::Schema.define(:version => 20141127160832) do
   add_index "property_property_values", ["line_item_id", "property_id", "property_value_id"], :name => "property_lpp", :unique => true
   add_index "property_property_values", ["line_item_id"], :name => "index_property_property_values_on_line_item_id"
   add_index "property_property_values", ["property_id"], :name => "index_property_property_values_on_property_id"
-
-  create_table "rails_admin_histories", :force => true do |t|
-    t.text     "message"
-    t.string   "username"
-    t.integer  "item"
-    t.string   "table"
-    t.integer  "month",      :limit => 2
-    t.integer  "year",       :limit => 8
-    t.datetime "created_at",              :null => false
-    t.datetime "updated_at",              :null => false
-  end
-
-  add_index "rails_admin_histories", ["item", "table", "month", "year"], :name => "index_rails_admin_histories"
 
   create_table "receipts", :force => true do |t|
     t.integer  "receiver_id"
@@ -1272,26 +1000,6 @@ ActiveRecord::Schema.define(:version => 20141127160832) do
   add_index "relations", ["item_id"], :name => "index_relations_on_item_id"
   add_index "relations", ["target_type", "target_id"], :name => "index_relations_on_target_type_and_target_id"
 
-  create_table "roles", :force => true do |t|
-    t.string   "name"
-    t.integer  "resource_id"
-    t.string   "resource_type"
-    t.datetime "created_at",    :null => false
-    t.datetime "updated_at",    :null => false
-  end
-
-  add_index "roles", ["name"], :name => "index_roles_on_name"
-
-  create_table "salers", :force => true do |t|
-    t.integer  "user_id",          :null => false
-    t.string   "access_token"
-    t.string   "refresh_token"
-    t.string   "taobao_user_nick"
-    t.string   "taobao_user_id"
-    t.datetime "created_at",       :null => false
-    t.datetime "updated_at",       :null => false
-  end
-
   create_table "set_cells", :force => true do |t|
     t.integer  "typeset_id"
     t.integer  "cell_type_id"
@@ -1304,122 +1012,6 @@ ActiveRecord::Schema.define(:version => 20141127160832) do
   add_index "set_cells", ["cell_type_id"], :name => "index_set_cells_on_cell_type_id"
   add_index "set_cells", ["tag_id"], :name => "index_set_cells_on_tag_id"
   add_index "set_cells", ["typeset_id"], :name => "index_set_cells_on_typeset_id"
-
-  create_table "ship_addresses", :force => true do |t|
-    t.string   "name"
-    t.integer  "user_id"
-    t.string   "area",       :default => ""
-    t.string   "address",    :default => ""
-    t.string   "phone",      :default => ""
-    t.integer  "is_default", :default => 0,  :null => false
-    t.datetime "created_at",                 :null => false
-    t.datetime "updated_at",                 :null => false
-    t.string   "postcode"
-  end
-
-  add_index "ship_addresses", ["user_id"], :name => "index_ship_addresses_on_user_id"
-
-  create_table "shipments", :force => true do |t|
-    t.string   "tracking_url"
-    t.string   "name"
-    t.string   "number"
-    t.decimal  "price",        :precision => 8, :scale => 2
-    t.datetime "shipped_at"
-    t.integer  "order_id"
-    t.integer  "address_id"
-    t.integer  "state"
-    t.datetime "created_at",                                 :null => false
-    t.datetime "updated_at",                                 :null => false
-    t.string   "shipname"
-  end
-
-  add_index "shipments", ["number"], :name => "index_shipments_on_number"
-  add_index "shipments", ["order_id"], :name => "index_shipments_on_order_id"
-
-  create_table "shipping_methods", :force => true do |t|
-    t.string   "name"
-    t.integer  "state",                                       :default => 0
-    t.boolean  "default",                                     :default => false
-    t.decimal  "price",        :precision => 10, :scale => 0
-    t.string   "tracking_url"
-    t.string   "admin_name"
-    t.datetime "created_at",                                                     :null => false
-    t.datetime "updated_at",                                                     :null => false
-  end
-
-  add_index "shipping_methods", ["default"], :name => "index_shipping_methods_on_default"
-  add_index "shipping_methods", ["state", "default"], :name => "index_shipping_methods_on_state_and_default"
-
-  create_table "shops", :force => true do |t|
-    t.string   "name"
-    t.string   "city"
-    t.string   "district"
-    t.string   "town"
-    t.string   "street"
-    t.string   "house_number"
-    t.string   "jindu"
-    t.string   "weidu"
-    t.string   "address"
-    t.integer  "rating"
-    t.string   "open_hours"
-    t.string   "product"
-    t.string   "tags"
-    t.string   "type"
-    t.integer  "dp_id"
-    t.integer  "area_id"
-    t.integer  "level",                :default => 0
-    t.integer  "likes_count",          :default => 0
-    t.integer  "comments_count",       :default => 0
-    t.integer  "dispose_count",        :default => 0
-    t.integer  "user_id"
-    t.integer  "items_count"
-    t.string   "url"
-    t.boolean  "activated",            :default => true
-    t.boolean  "apply_authenticate",   :default => false
-    t.boolean  "approve_authenticate", :default => false
-    t.string   "phone_number"
-    t.datetime "created_at"
-    t.datetime "updated_at"
-    t.integer  "avatar_id"
-    t.integer  "crawled"
-    t.integer  "city_id"
-    t.string   "mall"
-    t.integer  "brand_id"
-    t.string   "alias"
-    t.string   "price_level"
-    t.string   "brand_intro"
-    t.string   "brand_name"
-    t.integer  "mall_id"
-    t.integer  "low_price"
-    t.integer  "high_price"
-    t.integer  "discounts_count",      :default => 0
-    t.integer  "average_price"
-    t.integer  "category_id"
-    t.string   "bd_uid"
-    t.integer  "priority"
-    t.integer  "shop_type"
-    t.string   "weibo"
-    t.string   "weixin"
-  end
-
-  add_index "shops", ["apply_authenticate"], :name => "index_shops_on_apply_authenticate"
-  add_index "shops", ["approve_authenticate"], :name => "index_shops_on_approve_authenticate"
-  add_index "shops", ["area_id"], :name => "index_shops_on_area_id"
-  add_index "shops", ["bd_uid"], :name => "index_shops_on_bd_uid"
-  add_index "shops", ["brand_id"], :name => "index_shops_on_brand_id"
-  add_index "shops", ["category_id"], :name => "index_shops_on_category_id"
-  add_index "shops", ["city"], :name => "index_shops_on_city"
-  add_index "shops", ["city_id"], :name => "index_shops_on_city_id"
-  add_index "shops", ["created_at"], :name => "index_shops_on_created_at"
-  add_index "shops", ["district"], :name => "index_shops_on_district"
-  add_index "shops", ["level"], :name => "index_shops_on_level"
-  add_index "shops", ["mall_id"], :name => "index_shops_on_mall_id"
-  add_index "shops", ["name"], :name => "index_shops_on_name"
-  add_index "shops", ["shop_type"], :name => "index_shops_on_shop_type"
-  add_index "shops", ["street"], :name => "index_shops_on_street"
-  add_index "shops", ["town"], :name => "index_shops_on_town"
-  add_index "shops", ["url"], :name => "index_shops_on_url"
-  add_index "shops", ["user_id"], :name => "index_shops_on_user_id"
 
   create_table "site_helps", :force => true do |t|
     t.string   "name"
@@ -1445,9 +1037,6 @@ ActiveRecord::Schema.define(:version => 20141127160832) do
     t.integer  "sku_id"
   end
 
-  add_index "sku_promotions", ["item_id", "promotion_id"], :name => "index_sku_promotions_on_item_id_and_promotion_id", :unique => true
-  add_index "sku_promotions", ["sku_id"], :name => "index_sku_promotions_on_sku_id"
-
   create_table "sku_properties", :force => true do |t|
     t.integer  "sku_id"
     t.integer  "property_id"
@@ -1461,83 +1050,9 @@ ActiveRecord::Schema.define(:version => 20141127160832) do
   add_index "sku_properties", ["property_id"], :name => "index_sku_properties_on_property_id"
   add_index "sku_properties", ["sku_id"], :name => "index_sku_properties_on_sku_id"
 
-  create_table "skus", :force => true do |t|
-    t.string   "title"
-    t.string   "price"
-    t.integer  "brand_id"
-    t.datetime "created_at",                          :null => false
-    t.datetime "updated_at",                          :null => false
-    t.string   "properties"
-    t.string   "property_keys"
-    t.integer  "likes_count"
-    t.integer  "comments_count"
-    t.integer  "dispose_count"
-    t.string   "url"
-    t.integer  "category_id"
-    t.string   "from"
-    t.integer  "items_count"
-    t.integer  "level"
-    t.string   "desc"
-    t.string   "docid"
-    t.string   "buy_url"
-    t.boolean  "deleted"
-    t.string   "publish"
-    t.string   "origin_price"
-    t.integer  "store_count"
-    t.integer  "sold_count"
-    t.string   "tags"
-    t.string   "pno"
-    t.string   "sizes"
-    t.text     "color"
-    t.string   "color_url"
-    t.integer  "off_percent"
-    t.integer  "last_off_percent"
-    t.string   "currency"
-    t.string   "raw_imgs"
-    t.string   "s_price"
-    t.integer  "priority"
-    t.integer  "color_one_id"
-    t.integer  "color_two_id"
-    t.integer  "color_three_id"
-    t.string   "head"
-    t.integer  "spider_id"
-    t.integer  "sub_cat_id"
-    t.boolean  "has_discount",     :default => false
-    t.integer  "sub_category_id",  :default => 0,     :null => false
-    t.float    "rate_score"
-    t.integer  "is_checked",       :default => 0
-    t.string   "origin_platform"
-    t.integer  "view_count",       :default => 0
-    t.boolean  "is_agent"
-    t.boolean  "is_guide"
-    t.float    "freight"
-    t.float    "refer_price"
-  end
-
-  add_index "skus", ["brand_id"], :name => "index_skus_on_brand_id"
-  add_index "skus", ["buy_url"], :name => "index_skus_on_buy_url"
-  add_index "skus", ["category_id"], :name => "index_skus_on_category_id"
-  add_index "skus", ["created_at"], :name => "index_skus_on_created_at"
-  add_index "skus", ["docid"], :name => "index_skus_on_docid"
-  add_index "skus", ["from"], :name => "index_skus_on_type"
-  add_index "skus", ["level"], :name => "index_skus_on_level"
-  add_index "skus", ["pno"], :name => "index_skus_on_pno"
-  add_index "skus", ["spider_id"], :name => "index_skus_on_spider_id"
-  add_index "skus", ["sub_category_id"], :name => "index_skus_on_sub_category_id"
-  add_index "skus", ["url"], :name => "index_skus_on_url"
-
   create_table "skus_labels", :force => true do |t|
     t.integer "sku_id"
     t.integer "label_id"
-  end
-
-  create_table "sph_counter", :primary_key => "counter_id", :force => true do |t|
-    t.integer "max_doc_id", :null => false
-  end
-
-  create_table "sph_timer_counter", :primary_key => "counter_id", :force => true do |t|
-    t.integer  "max_doc_id", :null => false
-    t.datetime "current"
   end
 
   create_table "spiders", :force => true do |t|
@@ -1589,7 +1104,6 @@ ActiveRecord::Schema.define(:version => 20141127160832) do
     t.string   "dp_img_attr"
     t.boolean  "available"
     t.text     "sold_out"
-    t.string   "prate"
     t.string   "crop"
     t.string   "matter_crop"
     t.boolean  "is_agent"
@@ -1604,27 +1118,14 @@ ActiveRecord::Schema.define(:version => 20141127160832) do
     t.text     "now_price"
   end
 
-  add_index "spiders", ["brand_id"], :name => "index_spiders_on_brand_id"
-
   create_table "streets", :force => true do |t|
     t.string   "name"
     t.integer  "area_id"
     t.string   "jindu"
     t.string   "weidu"
-    t.datetime "created_at",    :null => false
-    t.datetime "updated_at",    :null => false
-    t.string   "introduction"
-    t.integer  "likes_count"
-    t.integer  "dispose_count"
-    t.integer  "level"
-    t.integer  "avatar_id"
-    t.string   "address"
-    t.string   "url"
-    t.integer  "city_id"
+    t.datetime "created_at", :null => false
+    t.datetime "updated_at", :null => false
   end
-
-  add_index "streets", ["area_id"], :name => "index_streets_on_area_id"
-  add_index "streets", ["name"], :name => "index_streets_on_name"
 
   create_table "synonyms", :force => true do |t|
     t.integer "category_id"
@@ -1652,7 +1153,6 @@ ActiveRecord::Schema.define(:version => 20141127160832) do
   end
 
   add_index "taggings", ["tag_id", "taggable_id", "taggable_type", "context", "tagger_id", "tagger_type"], :name => "taggings_idx", :unique => true
-  add_index "taggings", ["tagger_id", "tagger_type"], :name => "index_taggings_on_tagger_id_and_tagger_type"
 
   create_table "tags", :force => true do |t|
     t.string  "name"
@@ -1716,17 +1216,8 @@ ActiveRecord::Schema.define(:version => 20141127160832) do
     t.string   "display_price"
   end
 
-  add_index "template_items", ["dapei_template_id"], :name => "index_template_items_on_dapei_template_id"
-
   create_table "thumb_photos", :force => true do |t|
     t.text     "image"
-    t.datetime "created_at", :null => false
-    t.datetime "updated_at", :null => false
-  end
-
-  create_table "tracks", :force => true do |t|
-    t.integer  "user_id"
-    t.string   "appid"
     t.datetime "created_at", :null => false
     t.datetime "updated_at", :null => false
   end
@@ -1865,8 +1356,6 @@ ActiveRecord::Schema.define(:version => 20141127160832) do
     t.integer  "following_count", :default => 0
     t.datetime "created_at",                     :null => false
     t.datetime "updated_at",                     :null => false
-    t.integer  "shangou_id"
-    t.string   "shangou_token"
   end
 
   add_index "userinfos", ["user_id"], :name => "index_userinfos_on_user_id", :unique => true
@@ -1921,23 +1410,13 @@ ActiveRecord::Schema.define(:version => 20141127160832) do
   add_index "users", ["authentication_token"], :name => "index_users_on_authentication_token", :unique => true
   add_index "users", ["comments_count"], :name => "index_users_on_comments_count"
   add_index "users", ["confirmation_token"], :name => "index_users_on_confirmation_token", :unique => true
-  add_index "users", ["created_at"], :name => "index_users_on_created_at"
-  add_index "users", ["current_sign_in_at"], :name => "index_users_on_current_sign_in_at"
   add_index "users", ["dapei_score"], :name => "index_users_on_dapei_score"
   add_index "users", ["dapeis_count"], :name => "index_users_on_dapeis_count"
   add_index "users", ["email"], :name => "index_users_on_email", :unique => true
-  add_index "users", ["level"], :name => "index_users_on_level"
   add_index "users", ["mobile"], :name => "index_users_on_mobile"
   add_index "users", ["name"], :name => "index_users_on_name"
   add_index "users", ["reset_password_token"], :name => "index_users_on_reset_password_token", :unique => true
   add_index "users", ["url"], :name => "index_users_on_url"
-
-  create_table "users_roles", :id => false, :force => true do |t|
-    t.integer "user_id"
-    t.integer "role_id"
-  end
-
-  add_index "users_roles", ["user_id", "role_id"], :name => "index_users_roles_on_user_id_and_role_id"
 
   create_table "winners", :force => true do |t|
     t.integer  "user_id"
