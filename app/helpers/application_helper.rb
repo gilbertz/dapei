@@ -285,10 +285,10 @@ end
 
 def search_path(index="shop", sort="", dp_id="", q="", cid="", street="", mall="", brand="")
   q = q.sub('/','') if q
-  index = "item" if index == ""
+  index = "dapei" if index == ""
   sort = "" if sort== "hot" 
   cid_op = ""
-  city_pinyin = "/#{@current_city.pinyin}"
+  city_pinyin = ''
   city_pinyin = "" if index == "dapei"
 
   if cid != "" and index_dict.include?(cid)

@@ -169,17 +169,17 @@ class Category < ActiveRecord::Base
 
   def img_url
       unless self.image_thing.blank?
-        AppConfig[:remote_image_domain] + "/uploads//cgi/img-thing/size/s/tid/#{self.image_thing}.jpg"
+        AppConfig[:qiniu_image_domain] + "/uploads//cgi/img-thing/size/s/tid/#{self.image_thing}.jpg"
       else
-        AppConfig[:remote_image_domain] + "/uploads//cgi/img-thing/size/s/tid/2013092106.jpg"
+        AppConfig[:qiniu_image_domain] + "/uploads//cgi/img-thing/size/s/tid/2013092106.jpg"
       end
   end
 
   def thing_img_url
     unless self.thing_img_id.blank?
-      AppConfig[:remote_image_domain] + "/uploads//cgi/img-thing/size/s/tid/#{self.thing_img_id}.jpg"
+      AppConfig[:qiniu_image_domain] + "/uploads//cgi/img-thing/size/s/tid/#{self.thing_img_id}.jpg"
     else
-      AppConfig[:remote_image_domain] + "/uploads//cgi/img-thing/size/s/tid/2013092106.jpg"
+      AppConfig[:qiniu_image_domain] + "/uploads//cgi/img-thing/size/s/tid/2013092106.jpg"
     end
   end
 

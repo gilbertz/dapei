@@ -196,7 +196,7 @@ class Brand < ActiveRecord::Base
   end
 
   def category_skus
-    category_count = self.skus.where { (created_at>1.week.ago)&(category_id<100) }.group { category_id }.count
+    category_count = self.matters.where { (created_at>1.week.ago)&(category_id<100) }.group { category_id }.count
     return category_count
   end
 

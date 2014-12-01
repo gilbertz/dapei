@@ -833,23 +833,6 @@ class SearchController < ApplicationController
       else
         @dp_id = params[:dp_id]
       end
-      area = Area.find_by_dp_id(@dp_id)
-      if area
-        if area.city_id
-          @city_id = area.city_id
-        end
-        if area.jindu and area.weidu
-          @lng = area.jindu
-          @lat = area.weidu
-          @use_lnglat = true
-        end
-        if area.t == 'district'
-          @use_lnglat  =false
-        end
-        if area.name
-          @dist_name = area.name
-        end
-      end
      end
      
      if params[:lng] and params[:lat] and params[:lng].to_f > 0.00001 and params[:lat].to_f > 0.00001
