@@ -36,7 +36,7 @@ class Dapei < Item
     m = Matter.new
     m.source_type = 4
     m.is_cut = 0
-    m.rule_category_id = 101
+    m.category_id = 101
     m.local_photo_path = local_path
     m.local_photo_name = local_file_name
     m.image_name = new_str

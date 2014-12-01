@@ -12,7 +12,7 @@ class Manage::MattersController < Manage::BaseController
     elsif params[:sub_category_id]
       @matters = Matter.joins("left join skus on skus.id = matters.sku_id").where("skus.sub_category_id = #{params[:sub_category_id]}")
     elsif params[:category_id]
-      @matters = Matter.where("rule_category_id = #{params[:category_id]}")
+      @matters = Matter.where("category_id = #{params[:category_id]}")
     elsif params[:user_id]
       @matters = Matter.where(:user_id => params[:user_id])
     end
@@ -44,8 +44,8 @@ class Manage::MattersController < Manage::BaseController
       @matter.level = 5
       sku = Sku.find(params[:sid])
       sku_category_id = sku.category_id
-      rule_category_id = sku_category_id
-      @matter.rule_category_id = rule_category_id
+      category_id = sku_category_id
+      @matter.category_id = category_id
 
       if @matter.save
         photo.is_send = 1
@@ -81,9 +81,9 @@ class Manage::MattersController < Manage::BaseController
             #上传
             m.source_type = 4
             m.is_cut = 0
-            # m.rule_category_id = 100
+            # m.category_id = 100
 
-            m.rule_category_id = params[:matter][:rule_category_id]
+            m.category_id = params[:matter][:category_id]
 
             unless params[:matter_tags].blank?
               m.tags = params[:matter_tags].join(" ")

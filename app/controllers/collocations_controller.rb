@@ -288,10 +288,10 @@ class CollocationsController < ApplicationController
     @hot_recommend = Matter.where("is_cut = 1").order("id desc").limit(30)
 
     shangzhuang_categories = RuleCategory.where("father_id = 1").all.collect{|rc| rc.id }
-    @shangzhuang = Matter.where("is_cut = 1 and rule_category_id in (#{shangzhuang_categories.join(',')})").limit(30)
+    @shangzhuang = Matter.where("is_cut = 1 and category_id in (#{shangzhuang_categories.join(',')})").limit(30)
 
     xiazhuang_categories = RuleCategory.where("father_id = 2").all.collect{|rc| rc.id }
-    @xiazhuang = Matter.where("is_cut = 1 and rule_category_id in (#{xiazhuang_categories.join(',')})").limit(30)
+    @xiazhuang = Matter.where("is_cut = 1 and category_id in (#{xiazhuang_categories.join(',')})").limit(30)
     render :layout => "home_2013"
   end
 
@@ -409,7 +409,7 @@ class CollocationsController < ApplicationController
           ms = true if cat and cat.id > 100 and ( cat.parent_id.to_i > 20 and cat.parent_id != 1140 )
           if ms 
             matter = Matter.find_by_id( r["category_id"] )
-            r["category_id"] = matter.rule_category_id if matter and matter.rule_category_id
+            r["category_id"] = matter.category_id if matter and matter.category_id
             r["sub_category_id"] = matter.sku.sub_category_id if matter and matter.sku and matter.sku.sub_category_id and matter.sku.sub_category_id != 0
             r["color"] = matter.get_first_color if matter 
           else

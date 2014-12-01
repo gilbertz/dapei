@@ -34,30 +34,30 @@ class MattersController < ApplicationController
 
   def index
     if params[:no_category].to_i == 1
-      cond = "is_cut = 1 and (rule_category_id = 0 or rule_category_id is null)"
+      cond = "is_cut = 1 and (category_id = 0 or category_id is null)"
     else
-      unless params[:rule_category_id].blank?
+      unless params[:category_id].blank?
 
-        rule_categories = Category.where("parent_id = ?", params[:rule_category_id]).all.collect{|rc| rc.id }
+        rule_categories = Category.where("parent_id = ?", params[:category_id]).all.collect{|rc| rc.id }
 
-        rule_categories_all = rule_categories.push(params[:rule_category_id])
+        rule_categories_all = rule_categories.push(params[:category_id])
 
-        cond = "is_cut = 1 and rule_category_id in (#{rule_categories_all.join(',')})"
+        cond = "is_cut = 1 and category_id in (#{rule_categories_all.join(',')})"
       else
-        cond = "is_cut = 1 and rule_category_id not in (123, 124, 125, 126, 127, 128, 129)"
+        cond = "is_cut = 1 and category_id not in (123, 124, 125, 126, 127, 128, 129)"
       end
    end
 
-   cat = Category.find_by_id( params[:rule_category_id]  )
+   cat = Category.find_by_id( params[:category_id]  )
    user_cat = false
    if cat and cat.parent_id == 1140
       use_cat = true
    end
 
-    if not params[:rule_category_id] or use_cat
+    if not params[:category_id] or use_cat
       @matters = Matter.where(cond).paginate(:order => "id desc", :page => params[:page], :per_page => 50)
     else
-      @matters = Matter.category_search(params[:rule_category_id], params[:page], 100)
+      @matters = Matter.category_search(params[:category_id], params[:page], 100)
     end
 
     #@rule_categories_for_select = RuleCategory.all_for_select
@@ -131,9 +131,9 @@ class MattersController < ApplicationController
 
        sku_category_id = sku.category_id
 
-       rule_category_id = sku_category_id
+       category_id = sku_category_id
 
-       @matter.rule_category_id = rule_category_id
+       @matter.category_id = category_id
 
        puts @matter.inspect
 

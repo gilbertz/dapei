@@ -4,7 +4,7 @@ class Matter < ActiveRecord::Base
   belongs_to :photo
   belongs_to :user
   has_one :matter_info
-  belongs_to :category, foreign_key: 'rule_category_id'
+  belongs_to :category
 
   include Sjb::Likeable
 
@@ -222,7 +222,7 @@ class Matter < ActiveRecord::Base
     {
       "object_id" => self.id.to_s,  
       "name" => self.image_name.to_s,
-      "category_id" => self.rule_category_id.to_s,
+      "category_id" => self.category_id.to_s,
       "thing_id" => self.image_name.to_s,
       "url" => self.img_url.to_s,
       "thumbnail_url" => self.img_url.to_s,
@@ -317,7 +317,7 @@ class Matter < ActiveRecord::Base
     matter.source_type = 1
     matter.sjb_photo_id = photo_id
     matter.sku_id = sku.id
-    matter.rule_category_id = sku.category_id
+    matter.category_id = sku.category_id
     matter.save
     return matter
  end
