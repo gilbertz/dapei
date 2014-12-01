@@ -328,7 +328,7 @@ class Matter < ActiveRecord::Base
     #上传
     m.source_type = 4
     m.is_cut = 0
-    m.rule_category_id = 100
+    m.category_id = 100
     m.user_id = user_id
 
     unless file_data
