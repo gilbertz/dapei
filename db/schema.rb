@@ -11,7 +11,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20141130020045) do
+ActiveRecord::Schema.define(:version => 20141202130253) do
 
   create_table "all_tags", :force => true do |t|
     t.string   "name"
@@ -89,9 +89,9 @@ ActiveRecord::Schema.define(:version => 20141130020045) do
     t.string   "name"
     t.string   "e_name"
     t.text     "des"
-    t.datetime "created_at",                      :null => false
-    t.datetime "updated_at",                      :null => false
-    t.integer  "skus_count",       :default => 0
+    t.datetime "created_at",                                   :null => false
+    t.datetime "updated_at",                                   :null => false
+    t.integer  "skus_count",                    :default => 0
     t.integer  "shops_count"
     t.string   "properties"
     t.string   "property_keys"
@@ -126,8 +126,13 @@ ActiveRecord::Schema.define(:version => 20141130020045) do
     t.string   "black_avatar_url"
     t.string   "domain"
     t.string   "display_name"
+    t.string   "wide_banner_url"
+    t.string   "rails"
+    t.string   "g"
+    t.string   "migration"
+    t.string   "add_wide_banner_url_to_brands"
     t.string   "currency"
-    t.integer  "priority",         :default => 0
+    t.integer  "priority",                      :default => 0
     t.integer  "brand_type"
     t.integer  "brand_type_1"
     t.integer  "brand_type_2"
@@ -135,10 +140,10 @@ ActiveRecord::Schema.define(:version => 20141130020045) do
     t.integer  "img_quality"
     t.datetime "last_updated"
     t.string   "campaign_img_url"
-    t.integer  "dapei_count"
   end
 
   add_index "brands", ["c_name"], :name => "index_brands_on_c_name"
+  add_index "brands", ["category_id"], :name => "index_brands_on_category_id"
   add_index "brands", ["e_name"], :name => "index_brands_on_e_name"
   add_index "brands", ["level"], :name => "index_brands_on_level"
   add_index "brands", ["priority"], :name => "index_brands_on_priority"
@@ -172,11 +177,10 @@ ActiveRecord::Schema.define(:version => 20141130020045) do
     t.string   "thumb_url",                      :default => ""
     t.float    "min_price"
     t.float    "max_price"
-    t.integer  "user_id"
   end
 
   add_index "categories", ["abb"], :name => "index_categories_on_abb"
-  add_index "categories", ["user_id"], :name => "index_categories_on_user_id"
+  add_index "categories", ["parent_id"], :name => "index_categories_on_parent_id"
 
   create_table "cell_types", :force => true do |t|
     t.integer "type_num"
@@ -1104,6 +1108,7 @@ ActiveRecord::Schema.define(:version => 20141130020045) do
     t.string   "dp_img_attr"
     t.boolean  "available"
     t.text     "sold_out"
+    t.string   "prate"
     t.string   "crop"
     t.string   "matter_crop"
     t.boolean  "is_agent"
@@ -1117,6 +1122,8 @@ ActiveRecord::Schema.define(:version => 20141130020045) do
     t.string   "size_types"
     t.text     "now_price"
   end
+
+  add_index "spiders", ["brand_id"], :name => "index_spiders_on_brand_id"
 
   create_table "streets", :force => true do |t|
     t.string   "name"
@@ -1405,6 +1412,16 @@ ActiveRecord::Schema.define(:version => 20141130020045) do
     t.string   "xingzuo"
     t.integer  "coin",                   :default => 0
     t.integer  "mobile_state"
+    t.string   "address"
+    t.integer  "apply_type"
+    t.integer  "product_type"
+    t.integer  "brand_id"
+    t.string   "site"
+    t.integer  "apply_status"
+    t.string   "contact"
+    t.integer  "photo1_id"
+    t.integer  "photo2_id"
+    t.integer  "photo3_id"
   end
 
   add_index "users", ["authentication_token"], :name => "index_users_on_authentication_token", :unique => true
