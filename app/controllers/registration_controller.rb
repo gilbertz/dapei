@@ -65,10 +65,10 @@ class RegistrationController <  Devise::RegistrationsController
     #end  
      respond_to do |format|
       if @user.save
-        if params[:avatar_image] and !Photo.correct_img_type?(params[:avatar_image_type])
+        if params[:avatar_image] and !Photo.correct_img_type?(params[:image_type])
            format.json { render :json=>{:result=>"1", :error=>"wrong format of image format"} }
         else
-          Photo.build_user_avatar(current_user, params[:photo],params[:avatar_image], params[:avatar_image_type], @user.id, "User")
+          Photo.build_user_avatar(current_user, params[:photo],params[:avatar_image], params[:image_type], @user.id, "User")
           if params[:bg_image] and params[:bg_image_type]
             bg_photo_id = Photo.build_avatar(current_user, params[:bg_image], params[:bg_image_type])
             @user.bg_photo_id = bg_photo_id
