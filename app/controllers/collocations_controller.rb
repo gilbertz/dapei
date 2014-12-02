@@ -758,7 +758,7 @@ class CollocationsController < ApplicationController
       if current_user.name
         pr["title"] = current_user.name
       else
-        pr["title"] = "美格时尚"
+        pr["title"] = "搭配秘书"
       end
     end
 

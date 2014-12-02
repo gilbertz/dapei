@@ -1,6 +1,6 @@
 .login
   .wrapper.login-wrapper
-    %h2.login-h1 登录美格时尚
+    %h2.login-h1 登录搭配秘书
     .login-main
       .login-main-center
         %ul.nav.nav-float
@@ -23,9 +23,9 @@
           %li
             = simple_form_for(resource, :as => resource_name, :validate=>false, :url => session_path(resource_name)) do |f|
               %ul.nav.login-sjb
-                %li.login-type 使用美格时尚账号登录
+                %li.login-type 使用搭配秘书账号登录
                 %li
-                  =f.input :email, :label=>"邮箱：",  :input_html=>{:class=>"login-email"}
+                  =f.input :mobile, :label=>"手机：",  :input_html=>{:class=>"login-email"}
                 %li
                   =f.input :password, :label=>"密码：",  :input_html=>{:class=>"login-password"}
                 %li.login-tool
@@ -39,119 +39,3 @@
                     没账号？
                     %a{:href => "#{new_user_registration_path}"} 快注册
 
-          -#%li
-            %form{:action => "#"}
-              %ul.nav.login-sjb
-                %li.login-type 使用上街吧账号登陆
-                %li
-                  %label 邮箱：
-                  %input.login-email{:name => "email", :type => "text"}/
-                %li
-                  %label 密码：
-                  %input.login-password{:name => "password", :type => "password"}/
-                %li.login-tool
-                  %input.login-auto-box{:name => "login-auto", :type => "checkbox"}>/
-                  自动登陆
-                  %span.forget-password
-                    %a{:href => "#"} 忘记密码？
-                %li
-                  %input.login-submit{:type => "submit", :value => "登 陆"}/
-                  %span.no-account
-                    没有账号？
-                    %a{:href => "#"} 赶快注册
-
-
-  -#.wrapper
-    .we-good-at
-      .good-at-head
-        .good-at-head-center
-          发现上街吧的好处
-      .good-at-content
-        %ul.nav.nav-float
-          %li.border-bottom.border-right.float-left
-            .content-li-center
-              .content-li-center-head
-                周边逛??基于地理位置
-              .content-li-center-main
-                上街吧APP应用，内置最新的基于手机地图技术的地理位置服务引擎，上街吧会员随时随地都能轻松掌握周边品牌店铺信息，轻松逛街购物.
-          %li.border-bottom.border-right.float-center
-            .content-li-center
-              .content-li-center-head
-                享优惠??专属上街吧会员
-              .content-li-center-main
-                上千款的品牌商品的优惠券、代金券，上街吧会员尽在掌握，同时还能获得上街吧独有的多重优惠政策和活动惊喜
-          %li.border-bottom.float-right
-            .content-li-center
-              .content-li-center-head
-                齐分享??随时随地分享
-              .content-li-center-main
-                手机随手拍，随时就能分享您的发现，就将与上街吧网的广大会员共同分享您的惊喜；分享有礼，等您挖掘，上街吧网让您的分享更有趣
-          %li.border-top.border-right.float-left
-            .content-li-center
-              .content-li-center-head
-                有保障??多重消费保重机制
-              .content-li-center-main
-                三重保障机制，贴心购物服务，全方位信息支撑，让您每时每刻的消费体验舒心、安心、放心
-          %li.border-top.border-right.float-center
-            .content-li-center
-              .content-li-center-head
-                很方便??信息随身走
-              .content-li-center-main
-                手机、平板电脑、PC电脑、微信、微博？不管你在哪里，我们都能通过适合你的方式将最新信息传送到你的眼前，让你不错过机会
-          %li.border-top.float-right
-            .content-li-center
-              .content-li-center-head
-                随心配??穿衣搭配有章法
-              .content-li-center-main
-                轻松搭配美丽：随心所欲搭配属于您的那份美丽心情，您不但可以自己自由搭配，也可以参考上街吧网根据你需求推荐的多款搭配方案，总能有一个适合您的选择
-
-
-
-
-
-/ 登录
--#.clearfix.recom-p.LoginRegister
-  .hd
-    %h2 登录
-  .bd
-    .left{:style=>"margin-top:60px;"}
-      %h3
-        推荐合作网站一键登录
-        %span 无需繁琐注册，快捷又方便
-      .clearfix.cooperation_login_bd
-        %ul
-          %li
-            %a{:href => "/accounts/info/auth/qq_connect"}
-              %img{:height => "24", :src => "/assets/qq-login.jpg", :width => "120"}/
-          %li
-            %a{:href => "/accounts/info/auth/weibo"}
-              %img{:height => "24", :src => "/assets/sina-login.jpg", :width => "120"}/
-    .right{:style => "margin-top:40px;"}
-      .directions
-        -if flash
-          - flash.each do |name, msg|
-            - if msg.is_a?(String)
-              %p
-                =msg
-                %a.close{"data-dismiss" => "alert"} ×
-
-      %h3 使用上街吧账号登录
-      .clearfix.login_w_bd
-        = simple_form_for(resource, :as => resource_name, :validate=>false, :url => session_path(resource_name)) do |f|
-          -#- if f.error :base
-            = f.error :base
-          %ul
-            %li
-              =f.input :email, :label=>"邮箱：",  :input_html=>{:class=>"txt", :style=>"width:200px;"}
-            %li
-              =f.input :password, :label=>"密码：",  :input_html=>{:class=>"txt", :style=>"width:200px;"}
-            %li.clause
-              = f.input :remember_me, :label=>false, :as => :boolean if devise_mapping.rememberable?
-              下次自动登录 
-            %li.submit
-              = f.button :submit, "登录", :class=>"submit_btn"
-        .No_account
-          = link_to "忘记密码?  ", new_password_path(resource_name),  :rel=>"facebox", :style=>"margin-left:-20px;"
-          &nbsp &nbsp没有帐号？
-          %a{:href => "/accounts/sign_up"} 赶快注册
-                                               

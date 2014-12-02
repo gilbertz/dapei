@@ -1,17 +1,7 @@
--#%h2 Sign up
--#= simple_form_for(resource, :as => resource_name, :url => registration_path(resource_name), :html => {:class => 'form-vertical' }) do |f|
-  = f.error_notification
-  = f.input :name, :autofocus => true
-  = f.input :email, :required => true
-  = f.input :password, :required => true
-  = f.input :password_confirmation, :required => true
-  = f.button :submit, 'Sign up', :class => 'btn-primary'
--#= render "devise/shared/links"
-
 
 .login
   .wrapper.login-wrapper
-    %h2.login-h1 注册上街吧
+    %h2.login-h1 注册搭配秘书
     .login-main
       .login-main-center
         %ul.nav.nav-float
@@ -34,9 +24,9 @@
           %li
             = simple_form_for(resource, :as => resource_name, :validate=>true, :url => registration_path(resource_name)) do |f|
               %ul.nav.login-sjb
-                %li.login-type 新建上街吧账号
+                %li.login-type 新建搭配秘书账号
                 %li
-                  =f.input :email, :label=>"邮箱：",  :input_html=>{:class=>"login-email"}
+                  =f.input :mobile, :label=>"手机：",  :input_html=>{:class=>"login-email"}
                 %li
                   =f.input :password, :label=>"密码：",  :input_html=>{:class=>"login-password"}
                 %li
@@ -91,7 +81,7 @@
                 =msg
                 %a.close{"data-dismiss" => "alert"} ×
 
-      %h3 新建上街吧账号
+      %h3 新建搭配秘书账号
       .clearfix.login_w_bd
         = simple_form_for(resource, :as => resource_name, :validate=>true, :url => registration_path(resource_name)) do |f|
           -#- if f.error :base

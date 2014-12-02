@@ -45,8 +45,8 @@ class NotificationsController < ApplicationController
     @notifications.each do |n|
       if n.notified_object.instance_of?(User)
         created_at =  n.notified_object.created_at
-        uid = 1 #上街吧小编用户
-        n.notified_object = Post.new(:user_id => uid, :title => '欢迎加入美格时尚 点下面查看搭配帮助', :link => 'http://www.shangjieba.com/sjb/daren_applies/user_help')
+        uid = 1 
+        n.notified_object = Post.new(:user_id => uid, :title => '欢迎加入搭配秘书, 点下面查看搭配帮助', :link => 'http://www.shangjieba.com/sjb/daren_applies/user_help')
         n.notified_object.created_at = created_at
         n.notified_object.image_url = "http://1251008728.cdn.myqcloud.com/1251008728/2014/05/29/dapei.png"
         @gnotifications << n
