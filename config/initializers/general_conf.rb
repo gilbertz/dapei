@@ -1,6 +1,6 @@
 # -*- encoding : utf-8 -*-
 #if Rails.env.eql? "development"
-ChinaSMS.use :smsbao, username: '搭配秘书', password: 'dapei123'
+ChinaSMS.use :smsbao, username: 'dapeimishu', password: 'dapei123'
 #else
   #nil
 #end
