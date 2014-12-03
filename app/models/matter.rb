@@ -295,16 +295,17 @@ class Matter < ActiveRecord::Base
       m = Matter.find_by_sjb_photo_id(p.id)
       unless m
         m = Matter.new
-        m.sjb_photo_id = p.id
-        m.title = doc['title']
-        m.desc = doc['desc']
-        m.category_id = doc['category_id']
-        m.brand_id = doc['brand_id']
-        m.spider_id = doc['spider_id']
-        m.sub_category_id = doc['sub_category_id']
-        m.save
-        p m
       end
+      m.sjb_photo_id = p.id
+      m.title = doc['title']
+      m.desc = doc['desc']
+      m.category_id = doc['category_id']
+      m.brand_id = doc['brand_id']
+      m.spider_id = doc['spider_id']
+      m.sub_category_id = doc['sub_category_id']
+      m.link = doc['link']
+      m.docid = doc['docid']
+      m.save
     end
   end
  
