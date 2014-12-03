@@ -601,12 +601,8 @@ class Item < ActiveRecord::Base
   end
 
   def show_title
-    dr = DapeiResponse.find_by_dapei_id(self.get_url)
-    if dr and dr.user_id == self.user_id and self.get_user and dr.get_request
-      return "#{self.get_user.name}回答了#{dr.get_request.user.name }的问题"
-    end
     if self.title =="hello title"
-      return "爱MAKE,爱生活"
+      return "我的搭配秘书"
     else
       return self.title.to_s
     end

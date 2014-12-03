@@ -36,7 +36,7 @@ class Manage::SpidersController < Manage::BaseController
 
   def update
     spider = Spider.find params[:id]
-    params[:spider][:size_types] = params[:spider][:size_types].reject{|size_type| size_type.strip.empty?}.join(",")
+    #params[:spider][:size_types] = params[:spider][:size_types].reject{|size_type| size_type.strip.empty?}.join(",")
     spider.update_attributes params[:spider]
     redirect_to spiders_manage_brand_path(spider.brand)
   end
