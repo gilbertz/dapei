@@ -311,22 +311,27 @@ class Photo < ActiveRecord::Base
     true
   end
 
-  def self.attach(img_url, obj, dp=false)
+  def self.attach(img_url, obj=nil, dp=false)
       img_url = "http://" + img_url unless img_url =~ /http:\/\/|https:\/\//
 
       return if not img_url or img_url == ""
       pid = Digest::MD5.hexdigest( img_url )
-      return if Photo.find_by_digest(pid)
+      p = Photo.find_by_digest(pid)
+      return p if p
 
       photo_params={:image_url=>img_url }
       user = User.find_by_id(1)
       photo = user.build_post(:photo, photo_params)
-      photo.target_id = obj.id
       photo.digest = Digest::MD5.hexdigest( img_url )
-      photo.target_type=obj.class.name
+      
+      if obj
+        photo.target_id = obj.id
+        photo.target_type=obj.class.name
+      end
       
       photo.dp = dp if dp
       photo.save!
+      return photo
   end
 
 

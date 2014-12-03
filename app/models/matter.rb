@@ -162,7 +162,13 @@ class Matter < ActiveRecord::Base
       return "000000"
     end
   end
-  
+ 
+  def origin_img
+    if self.sjb_photo_id
+      p = Photo.find_by_id(self.sjb_photo_id)
+      p.url if p
+    end
+  end
 
   def img_url
 
@@ -273,14 +279,35 @@ class Matter < ActiveRecord::Base
 
 
   def get_small_jpg
-      AppConfig[:remote_image_domain] + "/uploads//cgi/img-thing/size/s/tid/#{self.image_name}.jpg" 
-    
+    AppConfig[:remote_image_domain] + "/uploads//cgi/img-thing/size/s/tid/#{self.image_name}.jpg" 
   end
 
   def get_big_png
-      AppConfig[:remote_image_domain] + "/uploads//cgi/img-thing/mask/1/size/orig/tid/#{self.image_name}.png" 
+    AppConfig[:remote_image_domain] + "/uploads//cgi/img-thing/mask/1/size/orig/tid/#{self.image_name}.png" 
   end
 
+
+  def self.create_from_hash(doc)
+    imgs = doc["dp_imgs"]+doc["imgs"]
+    imgs.each do |img|
+      p = Photo.attach(img)
+      next unless p
+      m = Matter.find_by_sjb_photo_id(p.id)
+      unless m
+        m = Matter.new
+        m.sjb_photo_id = p.id
+        m.title = doc['title']
+        m.desc = doc['desc']
+        m.category_id = doc['category_id']
+        m.brand_id = doc['brand_id']
+        m.spider_id = doc['spider_id']
+        m.sub_category_id = doc['sub_category_id']
+        m.save
+        p m
+      end
+    end
+  end
+ 
 
   def self.from_sku(sku, spider)
     pic_index = spider.pic_index

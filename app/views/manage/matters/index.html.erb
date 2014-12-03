@@ -21,6 +21,7 @@
       <th class="">level</th>  
       <th class="">SKU标题</th>
       <th class="">SJB ID</th>
+      <th class="">原图</th>
       <th>PNG图</th>
       <th>JPG图</th>
       <th>颜色</th>
@@ -60,6 +61,12 @@
 
         <td><%= matter.try(:title) %></td>
         <td><%= matter.sjb_photo_id %></td>
+   
+        <td style="padding:2px; width:74px;">
+          <%= image_tag matter.origin_img, style: "width:70px; height:56px;" %>
+        </td>
+         
+
         <td style="padding:2px; width:74px;"> 
           <% img_url = matter.matter_img_url %>
           <%= link_to img_url, class: 'preview', title: matter.try(:title) do %>
