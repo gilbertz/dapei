@@ -3,6 +3,9 @@ class Matter < ActiveRecord::Base
   #belongs_to :sku
   belongs_to :photo
   belongs_to :user
+  belongs_to :brand
+  belongs_to :spider
+
   has_one :matter_info
   belongs_to :category
 
@@ -39,6 +42,14 @@ class Matter < ActiveRecord::Base
   def get_user
     if self.user_id
       User.find_by_id( self.user_id )
+    end
+  end
+
+  def brand_name
+    if self.brand
+      self.brand.name
+    else
+      ''
     end
   end
 
