@@ -62,14 +62,13 @@ Shangjieba::Application.configure do
 
 end
 
-SPHINX_HOST = '114.80.100.12'
-REDIS_HOST = '127.0.0.1'
+#SPHINX_HOST = '114.80.100.12'
+#REDIS_HOST = '127.0.0.1'
 #REDIS_CRAWLER_HOST = '127.0.0.1'
 #SG_DOMAIN = 'http://127.0.0.1:3001'
 #COLOR_EXTRACTOR_URL='http://wx.shangjieba.com:7777/service/dapei/get_color'
 
-#SPHINX_HOST = 'localhost'
-#REDIS_HOST = 'localhost'
-REDIS_CRAWLER_HOST = '114.80.100.12'
-SG_DOMAIN = "http://sg.wanhuir.com:7777"
+SPHINX_HOST = 'localhost'
+REDIS_HOST = 'localhost'
+REDIS_CRAWLER_HOST='114.215.120.243'
 COLOR_EXTRACTOR_URL='http://wx.shangjieba.com:7777/service/dapei/get_color'  

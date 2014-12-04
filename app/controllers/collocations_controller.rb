@@ -398,20 +398,20 @@ class CollocationsController < ApplicationController
     @cache_key = r.to_s
     @sub_categories = []
 
-    res_dict = Rails.cache.fetch "k_#{@cache_key}", :expires_in => 15.minutes do 
+    #res_dict = Rails.cache.fetch "k_#{@cache_key}", :expires_in => 15.minutes do 
       result_dict = {}
       if r["category_id"]
         @sub_categories = []
         unless r["category_id"] == "10000"
           cat  = Category.find_by_id(r["category_id"])
           ms = false
-          ms = true unless cat
-          ms = true if cat and cat.id > 100 and ( cat.parent_id.to_i > 20 and cat.parent_id != 1140 )
+          #ms = true unless cat
+          #ms = true if cat and cat.id > 100 and ( cat.parent_id.to_i > 20 and cat.parent_id != 1140 )
           if ms 
-            matter = Matter.find_by_id( r["category_id"] )
-            r["category_id"] = matter.category_id if matter and matter.category_id
-            r["sub_category_id"] = matter.sku.sub_category_id if matter and matter.sku and matter.sku.sub_category_id and matter.sku.sub_category_id != 0
-            r["color"] = matter.get_first_color if matter 
+            #matter = Matter.find_by_id( r["category_id"] )
+            #r["category_id"] = matter.category_id if matter and matter.category_id
+            #r["sub_category_id"] = matter.sku.sub_category_id if matter and matter.sku and matter.sku.sub_category_id and matter.sku.sub_category_id != 0
+            #r["color"] = matter.get_first_color if matter 
           else
             @current_category_name = cat.name
             if Category.is_sub(cat.id)
@@ -423,9 +423,6 @@ class CollocationsController < ApplicationController
         else
           user_id = current_user.id
         end
-        unless r["sub_category_id"]
-          all_ids = r["category_id"].to_i
-        end
       end
 
       unless r["price_int"].blank?
@@ -436,13 +433,14 @@ class CollocationsController < ApplicationController
         q = r["query"]
         l = r["length"]
         p = r["page"]
-        s = Searcher.new("", "matter", query = q, nil, limit = l, page = p, cid=all_ids)
+        s = Searcher.new("matter", query = q, nil, limit = l, page = p)
+        s.set_category_id(r['category_id']) if r['category_id']
         s.set_color(r["color"]) if r["color"]
         s.set_brand(r["brand_id"]) if r["brand_id"]
         s.set_sub_category_id(r["sub_category_id"]) if r["sub_category_id"] and  r["sub_category_id"].to_i != 0
         s.set_user_id(user_id) if user_id
-        s.remove_level(1)
-        s.set_level(0)
+        #s.remove_level(1)
+        #s.set_level(0)
 
         unless price.blank?
           s.set_price(price[0], price[1])
@@ -462,8 +460,8 @@ class CollocationsController < ApplicationController
         result_dict[:sub_categories] = @sub_categories  
         result_dict[:current_category_name] = @current_category_name
       end
-      return result_dict
-    end
+    #  return result_dict
+    #end
     res_dict = result_dict
     
     @matters = res_dict[:matters]

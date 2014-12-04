@@ -542,7 +542,7 @@ class WeixinController < ApplicationController
   end
 
   def set_city_by_lnglat
-     $sphinx2.ResetFilters
+     $sphinx.ResetFilters
      if  params[:city_id]
        session[:city_id] =  params[:city_id]
      end
@@ -557,10 +557,10 @@ class WeixinController < ApplicationController
        @lat = params[:lat]
        lat = to_anchor( @lat.to_f )
        lng = to_anchor( @lng.to_f )
-       $sphinx2.SetGeoAnchor('lat_radians', 'long_radians', lat, lng)
-       $sphinx2.SetSortMode(Sphinx::Client::SPH_SORT_EXTENDED, '@geodist ASC, @relevance DESC')
+       $sphinx.SetGeoAnchor('lat_radians', 'long_radians', lat, lng)
+       $sphinx.SetSortMode(Sphinx::Client::SPH_SORT_EXTENDED, '@geodist ASC, @relevance DESC')
        
-       results =  $sphinx2.Query("", "shop")
+       results =  $sphinx.Query("", "shop")
        if results and results['matches']
          results['matches'].each do |doc|
            @area = Area.city( doc['attrs']['city_id'] ).first
