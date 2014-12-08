@@ -129,20 +129,21 @@ class Manage::DapeisController < Manage::BaseController
       dapei_info.tag_list.add(params[:tags])
     end
 
-    @once = false
+    @once = true
     @once = true if params[:once] == "1"
     level_before = dapei.level.to_i
     level_now = params[:dapei][:level].to_i
-    unless @once
-      current_level = params[:dapei][:level].to_i
-      $redis.set('level_' + dapei.url, params[:dapei][:level])
-      params[:dapei].delete :level
-      if dapei.category_id == 1001
-        $redis.lpush('dp_to_be_shown', dapei.url)
-      else
-        $redis.lpush('col_to_be_shown', dapei.url)
-      end
-    end
+    
+    #unless @once
+    #  current_level = params[:dapei][:level].to_i
+    # $redis.set('level_' + dapei.url, params[:dapei][:level])
+    # params[:dapei].delete :level
+    #  if dapei.category_id == 1001
+    #    $redis.lpush('dp_to_be_shown', dapei.url)
+    #  else
+    #    $redis.lpush('col_to_be_shown', dapei.url)
+    #  end
+    #end
 
     prev_level = dapei.level.to_i
     if dapei.update_attributes params[:dapei] and dapei_info
@@ -184,10 +185,7 @@ class Manage::DapeisController < Manage::BaseController
       end
       dapei.dapei_info.save
     end
-    if dapei.level && dapei.level >= 2
-      FlashBuy::Api.add_coin(dapei, 'push_homepage')
-    end
-    dapei.find_brands
+    #dapei.find_brands
     if level_before != level_now
       dapei.show_date = dapei.updated_at
     end

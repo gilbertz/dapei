@@ -27,41 +27,17 @@ class DapeiInfo < ActiveRecord::Base
     end
   end
 
-  def get_skus(page=1, limit=12)
-    skus = []
+  def get_matters(page=1, limit=12)
     dis = self.dapei_item_infos.page(page).per(limit)
-    sku_ids = []
+    matters = []
     dis.each do |i|
-      if i.sku and not i.sku.deleted
-        unless sku_ids.include?(i.sku.id)
-          skus << i.sku
-          sku_ids << i.sku.id
-        end
-      end
+      matters << i.get_matter
     end
-    skus
+    matters
   end
 
   def get_dapei_items(page=1, limit=12)
-    items = self.get_skus(page, limit).map{ |s|s.wrap_item }
-    
-    #sku_ids = []
-    #searcher = Searcher.new(city_id, "item", nil,  "near", limit = 20, page= "1", nil, nil, lng, lat, nil, sku_ids)
-    #items = searcher.search()
-    #item_ids = []
-    #if items
-    #  items.each do |id|
-    #    item_ids << id 
-    #  end
-    #end
-
-    #skus.each do |sku|
-    #  items << sku.wrap_item unless sku_ids.include?(sku.id)
-    #  sku_ids << sku.id
-    #end
-
-    items
-    #self.sku.wrap_item
+    self.get_matters
   end
 
   

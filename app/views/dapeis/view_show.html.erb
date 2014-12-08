@@ -307,16 +307,16 @@
           <% @dapei_get_items.each do |i| %>
             <li class="size_s2 <%= "last" if j%2 == 0 %>">
               <div class="item btn_container size_s2">
-                <a href="<%= i.shop.blank? ? brand_baobei_path(i.brand, i.sku) : shop_item_path(i.shop, i) %>" trackcontext="image">
-                  <img width="124" trackelement alt="<%= i.title %>" src="<%= i.get_matter_img %>" class="img_size_s2" title="<%= i.title %>" height="124"/>
+                <a href="<%= i.link %>" trackcontext="image">
+                  <img width="124" trackelement alt="<%= i.title %>" src="<%= i.img_url %>" class="img_size_s2" title="<%= i.title %>" height="124"/>
                 </a>
 
                 <div class="item_meta size_s2">
                   <div class="price_and_link">
-                    <span class="price"><%= i.get_currency %><%= i.get_num_price %></span>
+                    <span class="price">￥<%= i.price %></span>
                   </div>
                   <div class="name">
-                    <a href="<%= i.shop.blank? ? "#" : shop_item_path(i.shop, i) %>" class="hover_clickable"><%= i.title %></a>
+                    <a href="<%= i.link %>" class="hover_clickable"><%= i.title %></a>
                   </div>
                 </div>
               </div>

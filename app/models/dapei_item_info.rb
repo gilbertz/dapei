@@ -2,54 +2,20 @@
 class DapeiItemInfo < ActiveRecord::Base
 
   belongs_to :dapei_info
-  belongs_to :item, :foreign_key => "sjb_item_id"
-  belongs_to :sku
   has_one :matter
 
   attr_accessible :x, :y, :w, :h, :z, :item_type, :thing_id, :sjb_item_id, :sku_id, :bkgd, :transform, :mask_spec, :matter_id
 
 
-  def get_item(city_id=1, lng=nil, lat=nil)
-    if self.sku.blank?
-      return nil
-    end
-
-    if lng == nil and lat == nil
-      cur_city = Area.city(city_id).first
-      lng = cur_city.jindu if cur_city
-      lat = cur_city.weidu if cur_city
-    end
-
-    #if self.sku.items.length > 0
-    #   self.sku.items.first
-    #else
-    #   nil
-    #end
-
-    searcher = Searcher.new(city_id, "item", nil,  "near", limit=1, page= "1", nil, nil, lng, lat, nil, self.sku.id)
-    
-    items = searcher.search()
-    if items
-       items.first
-    else
-       self.sku.wrap_item
-    end
+  def get_item
+    self.get_matter
   end
 
   def get_brand_name
-    if self.get_item.blank? or self.get_item.shop.blank?
-      ""
-    else
-      self.get_item.shop.brand_name
-    end
+    self.get_matter.brand_name
   end
 
   def get_item_title
-    unless self.sku.blank?
-      self.sku.title
-    else
-      ""
-    end
   end
 
   def get_small_img
@@ -67,8 +33,6 @@ class DapeiItemInfo < ActiveRecord::Base
 
   def get_matter
       m = Matter.find_by_image_name(self.thing_id) 
-      m =  Matter.find_by_sku_id(self.sku_id) if not m and self.sku_id
-      m = Matter.new(:image_name => self.thing_id) if not m and ( self.item_type == 'text' or self.item_type == 'image64' or self.item_type == 'image_url' )
       m
   end
 

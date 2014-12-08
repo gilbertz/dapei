@@ -418,7 +418,7 @@ class DapeisController < ApplicationController
         @dapei_item_infos = @dapei_info.dapei_item_infos
         @dapei_item_infos = DapeiItemInfo.where("dapei_info_id = ? and sku_id != null", @dapei_info.id).all
 
-        @dapei_get_items = @dapei.get_items(@city_id)
+        @dapei_get_items = @dapei.get_items
 
         @dapeis_by_this_user = Dapei.where("level >= 0").where(:user_id => @dapei.user_id, :category_id => 1001).limit(20)
         @comments = @dapei.comments.order('updated_at DESC').paginate(:page => params[:page], :per_page => 5)

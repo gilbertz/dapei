@@ -1002,7 +1002,7 @@ Shangjieba::Application.routes.draw do
   end
 
   #root :to => "home#index"
-  root :to => "dapeis#index_all"
+  root :to => "dapeis#index"
 
   resources :dapeis do
     resources :comments, :only => [:index, :create, :destroy], :name_prefix => "item_"

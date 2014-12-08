@@ -58,8 +58,8 @@ class Dapei < Item
 
   def find_brands
     brands = Array.new 
-    self.get_skus.each do |sku|
-      brands << sku.brand.display_name
+    self.get_matters.each do ||
+      brands << m.brand.display_name
     end
     self.btag_list = brands
     if self.dapei_info
