@@ -1,7 +1,7 @@
 # -*- encoding : utf-8 -*-
 #encoding: utf-8
 class RegistrationController <  Devise::RegistrationsController
-  layout "new_app"
+  layout "dpms"
   #skip_before_filter :verify_authenticity_token
 
   def change_password

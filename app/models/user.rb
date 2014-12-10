@@ -25,19 +25,20 @@ class User < ActiveRecord::Base
 
   # Setup accessible (or protected) attributes for your model
   #attr_accessible :role_ids, :as => :admin
-  attr_accessible :name, :email, :qq, :real, :password, :password_confirmation, :remember_me, :is_girl, :url, :preurl,
+  attr_accessible :name, :email, :qq, :real, :password, :password_confirmation, :remember_me, :is_girl, :url, :preurl, :mobile,
                   :level,:birthday, :age, :city, :district, :xingzuo, :getting_started, :avatar, :avatar_cache, :desc, :profile_img_url, :dapeis_count
   has_many :comments, :dependent => :destroy
   has_many :likes, :dependent => :destroy
   has_many :items, :dependent => :destroy
   has_many :selfies, :class_name => "Item", :conditions => "type = 'Selfie'"
   #validates :preurl, :presence=>true
+  validates :mobile, :presence => true, :on => :update
   validates :email, :presence => true, :on => :update
   validates :email, :uniqueness => true, :on => :update
   validates_format_of :email, :with => /\w+([-+.]\w+)*@\w+([-.]\w+)*\.\w+([-.]\w+)*/
 
-  #validates :password, :length => { :minimum => 6,:message=>"密码太短了"}
-  #validates :password, :presence=>true, :confirmation=>true, :on=>:update
+  validates :password, :length => { :minimum => 6,:message=>"密码太短了"}
+  validates :password, :presence=>true, :confirmation=>true, :on=>:update
   validates_length_of :name, :maximum => 160
   #has_many :photos, :foreign_key => :author_id, :dependent => :destroy # This person's own photos
   has_many :posts, :dependent => :destroy
