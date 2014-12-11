@@ -670,8 +670,8 @@ class UsersController < ApplicationController
       if params[:code] == $redis.get(mobile)
         $redis.del(mobile)
         @user.mobile_verified(mobile)
-        render_state('success')
-      else
+        render :status => 200, :json => {:result=>"0",  :session => @user.login_json }
+       else
         render :json => {error: "验证码错误"}
         return
       end
@@ -689,7 +689,7 @@ class UsersController < ApplicationController
       if params[:code] == $redis.get(mobile)
         $redis.del(mobile)
         current_user.mobile_verified(mobile)
-        render_state('success')
+        render :status => 200, :json => {:result=>"0",  :session => current_user.login_json }
       else
         render :json => {error: "验证码错误"}
         return

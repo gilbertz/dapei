@@ -33,13 +33,13 @@ class User < ActiveRecord::Base
   has_many :selfies, :class_name => "Item", :conditions => "type = 'Selfie'"
   #validates :preurl, :presence=>true
   
-  validates :mobile, :presence => true, :length =>{:is => 11}, :on => :update
+  #validates :mobile, :presence => true, :length =>{:is => 11}, :on => :update
   validates :email, :presence => true, :on => :update
   validates :email, :uniqueness => true, :on => :update
   validates_format_of :email, :with => /\w+([-+.]\w+)*@\w+([-.]\w+)*\.\w+([-.]\w+)*/
 
-  validates :password, :length => { :minimum => 6,:message=>"密码太短了"}
-  validates :password, :presence=>true, :confirmation=>true, :on=>:update
+  #validates :password, :length => { :minimum => 6,:message=>"密码太短了"}
+  #validates :password, :presence=>true, :confirmation=>true, :on=>:update
   validates_length_of :name, :maximum => 160
   #has_many :photos, :foreign_key => :author_id, :dependent => :destroy # This person's own photos
   has_many :posts, :dependent => :destroy
@@ -601,11 +601,11 @@ class User < ActiveRecord::Base
 
 
   def self.default_head_img
-    "/img/tou.gif"
+    AppConfig[:qiniu_image_domain]  + "/img/tou.gif"
   end
 
   def self.default_bg_img
-    "/img/tou_bg.png"
+    AppConfig[:qiniu_image_domain]  +  "/img/tou_bg.png"
   end
 
 
@@ -962,7 +962,7 @@ class User < ActiveRecord::Base
   end
 
   def login_json
-    {:error => "0", :level => self.get_level.to_s, :age => self.age.to_s, :birthday => self.birthday.to_s, :city => self.city.to_s, :bg_img => self.get_bg_img, :is_girl => self.is_girl.to_s, :avatar_img_medium => self.display_img_medium, :display_name => self.display_name.to_s, :user_id => self.url.to_s, :token => self.authentication_token}
+    {:error => "0", :apply_type => self.apply_type.to_s, :mobile_state => self.mobile_state.to_s, :level => self.get_level.to_s, :age => self.age.to_s, :birthday => self.birthday.to_s, :city => self.city.to_s, :bg_img => self.get_bg_img, :is_girl => self.is_girl.to_s, :avatar_img_medium => self.display_img_medium, :display_name => self.display_name.to_s, :user_id => self.url.to_s, :token => self.authentication_token}
   end
 
   def fix_name

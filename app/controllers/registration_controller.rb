@@ -72,17 +72,9 @@ class RegistrationController <  Devise::RegistrationsController
       #respond_with resource, :location => after_update_path_for(resource)
     else
       clean_up_passwords resource
-      #respond_with resource
     end
 
-    #user = User.find_by_email( params[:user][:email] )
-    #if params[:photo]
-      #photo = Photo.find_by_id(params[:photo])
-      #photo.target_id = user.id
-      #photo.target_type = "User"
-      #photo.save!
-    #end  
-     respond_to do |format|
+    respond_to do |format|
       if @user.save
         if params[:avatar_image] and !Photo.correct_img_type?(params[:image_type])
            format.json { render :json=>{:result=>"1", :error=>"wrong format of image format"} }
@@ -94,7 +86,7 @@ class RegistrationController <  Devise::RegistrationsController
             @user.save
           end
           format.html { redirect_to (params[:start]=="1" ? root_path : user_path(current_user) ), notice: 'Post was successfully created.' }
-          format.json { render_for_api :public, json: @user, :meta=>{:result=>"0", :avatar_img_medium=>@user.display_img_medium} }
+          format.json { render_for_api :public, json: @user, :meta=>{:result=>"0"} }
         end
       else
         format.html { render action: "new" }
