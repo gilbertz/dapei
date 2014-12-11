@@ -24,16 +24,35 @@ class RegistrationController <  Devise::RegistrationsController
 
   def create
     #super
-    @user = User.new(params[:user])
-    respond_to do |format|
-      if @user.save
-        format.html { sign_in_and_redirect(:user, @user) }
-        format.json { render_for_api :public, :json => @user, :meta=>{:result=>"0"} }
+    if params[:code]
+      mobile = params[:user][:mobile].strip
+      @user = User.find_by_mobile(mobile)
+      
+      unless @user.blank?
+        if params[:code] == $redis.get(mobile)
+          $redis.del(mobile)
+          @user.mobile_verified(mobile)
+          render_for_api :public, :json => @user, :meta=>{:result=>"0"}
+        else
+          render :json => {error: "验证码错误"}
+          return
+        end
       else
-        error_message=@user.errors.full_messages.join(' ')
-        format.html { render :action => "new", :notice=>'用户创建失败!' }
-        #format.json { render_for_api :error, :json => @user, :meta=>{:result=>"1"} }
-        format.json{ render :status => 200, :json => {:error=>error_message} }
+        render :json => {error: "手机号码错误"}
+        return
+      end
+    else
+      @user = User.new(params[:user])
+      respond_to do |format|
+        if @user.save
+          format.html { sign_in_and_redirect(:user, @user) }
+          format.json { render_for_api :public, :json => @user, :meta=>{:result=>"0"} }
+        else
+          error_message=@user.errors.full_messages.join(' ')
+          format.html { render :action => "new", :notice=>'用户创建失败!' }
+          #format.json { render_for_api :error, :json => @user, :meta=>{:result=>"1"} }
+          format.json{ render :status => 200, :json => {:error=>error_message} }
+        end
       end
     end
   end

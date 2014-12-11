@@ -32,7 +32,8 @@ class User < ActiveRecord::Base
   has_many :items, :dependent => :destroy
   has_many :selfies, :class_name => "Item", :conditions => "type = 'Selfie'"
   #validates :preurl, :presence=>true
-  validates :mobile, :presence => true, :on => :update
+  
+  validates :mobile, :presence => true, :length =>{:is => 11}, :on => :update
   validates :email, :presence => true, :on => :update
   validates :email, :uniqueness => true, :on => :update
   validates_format_of :email, :with => /\w+([-+.]\w+)*@\w+([-.]\w+)*\.\w+([-.]\w+)*/

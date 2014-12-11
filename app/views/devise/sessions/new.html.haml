@@ -25,6 +25,8 @@
               %ul.nav.login-sjb
                 %li.login-type 使用搭配秘书账号登录
                 %li
+                  =f.input :email, :label=>"邮箱：",  :input_html=>{:class=>"login-email"}
+                %li
                   =f.input :mobile, :label=>"手机：",  :input_html=>{:class=>"login-email"}
                 %li
                   =f.input :password, :label=>"密码：",  :input_html=>{:class=>"login-password"}
