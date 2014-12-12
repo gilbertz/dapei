@@ -78,9 +78,9 @@ protected
 
   def render_user_json
     unless @user.is_shop
-      render_for_api :public, :json=>@user, :meta=>{:result=>"0"}
+      render_for_api :public, :json=>@user, :meta=>{:result=>"0", :apply_type => @user.get_type, :user_id => @user.url, :token => @user.get_token }
     else
-      render_for_api :user_shop, :json=>@user, :meta=>{:result=>"0"}
+      render_for_api :user_shop, :json=>@user, :meta=>{:result=>"0", :apply_type => @user.get_type, :token => @user.get_token }
     end
   end
 

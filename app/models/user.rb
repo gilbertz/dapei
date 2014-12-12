@@ -69,7 +69,7 @@ class User < ActiveRecord::Base
   api_accessible :public, :cache => 60.minutes do |t|
     t.add :url, :as => :user_id
     t.add :mobile
-    t.add lambda { |user| user.apply_type.to_i.to_s }, :as => :apply_type
+    t.add lambda { |user| user.get_type }, :as => :apply_type
     t.add :display_name
     t.add :display_name, :as => :name
     t.add :get_sex, :as => :is_girl
@@ -95,7 +95,7 @@ class User < ActiveRecord::Base
   api_accessible :user_shop, :cache => 60.minutes do |t|
     t.add :url, :as => :user_id
     t.add :mobile
-    t.add lambda { |user| user.apply_type.to_i.to_s }, :as => :apply_type
+    t.add lambda { |user| user.get_type }, :as => :apply_type
     t.add :name
     t.add :name, :as => :display_name
     t.add :email
@@ -149,6 +149,10 @@ class User < ActiveRecord::Base
     t.add :display_img_medium, :as => :avatar_img_medium
 
     t.add lambda { |user| user.get_level.to_s }, :as => :level
+  end
+
+  def get_type
+    self.apply_type.to_i.to_s
   end
 
   def last_dapei
