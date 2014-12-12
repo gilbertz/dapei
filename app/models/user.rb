@@ -37,7 +37,6 @@ class User < ActiveRecord::Base
   #validates :password, :length => { :minimum => 6,:message=>"密码太短了"}
   #validates :password, :presence=>true, :confirmation=>true, :on=>:update
   validates_length_of :name, :maximum => 160
-  #has_many :photos, :foreign_key => :author_id, :dependent => :destroy # This person's own photos
   has_many :posts, :dependent => :destroy
   has_many :photos, :as => :target, :dependent => :destroy
   has_many :authentications

@@ -33,6 +33,14 @@ class RegistrationController <  Devise::RegistrationsController
           $redis.del(mobile)
           @user.mobile_verified(mobile)
           @user.update_attributes( params[:user] )
+          if params[:avatar_image]
+             Photo.build_user_avatar(current_user, params[:avatar_image], params[:image_type], @user.id, "User")
+          end
+          if params[:upload_images]
+             params[:upload_images].each do |img_dat|
+                Photo.build_photo(current_user, nil, img_dat, params[:image_type], @user.id, "UserShop")
+             end
+          end
           render_user_json 
         else
           render :json => {error: "验证码错误"}
@@ -83,6 +91,11 @@ class RegistrationController <  Devise::RegistrationsController
             bg_photo_id = Photo.build_avatar(current_user, params[:bg_image], params[:bg_image_type])
             @user.bg_photo_id = bg_photo_id
             @user.save
+          end
+          if params[:upload_images]
+             params[:upload_images].each do |img_dat|
+                Photo.build_photo(current_user, nil, img_dat, params[:image_type], @user.id, "UserShop")
+             end
           end
           format.html { redirect_to (params[:start]=="1" ? root_path : user_path(current_user) ), notice: 'Post was successfully created.' }
           format.json { render_for_api :public, json: @user, :meta=>{:result=>"0"} }
