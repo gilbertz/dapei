@@ -32,7 +32,8 @@ class RegistrationController <  Devise::RegistrationsController
         if params[:code] == $redis.get(mobile)
           $redis.del(mobile)
           @user.mobile_verified(mobile)
-          render_for_api :public, :json => @user, :meta=>{:result=>"0"}
+          @user.update_attributes( params[:user] )
+          render_user_json 
         else
           render :json => {error: "验证码错误"}
           return
@@ -46,11 +47,10 @@ class RegistrationController <  Devise::RegistrationsController
       respond_to do |format|
         if @user.save
           format.html { sign_in_and_redirect(:user, @user) }
-          format.json { render_for_api :public, :json => @user, :meta=>{:result=>"0"} }
+          format.json { render_for_api :public, :json => @user, :meta=>{:result=>"0", :token=>@user.get_token } }
         else
           error_message=@user.errors.full_messages.join(' ')
           format.html { render :action => "new", :notice=>'用户创建失败!' }
-          #format.json { render_for_api :error, :json => @user, :meta=>{:result=>"1"} }
           format.json{ render :status => 200, :json => {:error=>error_message} }
         end
       end
@@ -60,7 +60,6 @@ class RegistrationController <  Devise::RegistrationsController
   def update
     #super
     self.resource = resource_class.to_adapter.get!(send(:"current_#{resource_name}").to_key)
-
     if resource.update_with_password(resource_params)
       if is_navigational_format?
         if resource.respond_to?(:pending_reconfirmation?) && resource.pending_reconfirmation?

@@ -5,7 +5,6 @@ class User < ActiveRecord::Base
   acts_as_follower
   acts_as_messageable
   acts_as_api
-  #acts_as_url :preurl, :scope => :id, :sync_url => true
   mount_uploader :avatar, AvatarUploader
 
   after_create :send_notifications
@@ -24,14 +23,11 @@ class User < ActiveRecord::Base
   attr_accessor :password_confirmation
 
   # Setup accessible (or protected) attributes for your model
-  #attr_accessible :role_ids, :as => :admin
-  attr_accessible :name, :email, :qq, :real, :password, :password_confirmation, :remember_me, :is_girl, :url, :preurl, :mobile,
-                  :level,:birthday, :age, :city, :district, :xingzuo, :getting_started, :avatar, :avatar_cache, :desc, :profile_img_url, :dapeis_count
+  attr_accessible :name, :email, :qq, :real, :password, :password_confirmation, :weixin, :address, :apply_type, :production_type, :phone, :brand_id, :site, :display_name, :remember_me, :is_girl, :url, :preurl, :mobile, :contact, :product_type, :level,:birthday, :age, :city, :district, :getting_started, :avatar, :avatar_cache, :desc, :profile_img_url, :dapeis_count
   has_many :comments, :dependent => :destroy
   has_many :likes, :dependent => :destroy
   has_many :items, :dependent => :destroy
   has_many :selfies, :class_name => "Item", :conditions => "type = 'Selfie'"
-  #validates :preurl, :presence=>true
   
   #validates :mobile, :presence => true, :length =>{:is => 11}, :on => :update
   validates :email, :presence => true, :on => :update
@@ -72,39 +68,53 @@ class User < ActiveRecord::Base
 
   api_accessible :public, :cache => 60.minutes do |t|
     t.add :url, :as => :user_id
-    t.add :email
+    t.add :mobile
+    t.add lambda { |user| user.apply_type.to_i.to_s }, :as => :apply_type
     t.add :display_name
-    t.add lambda { |user| user.birthday.to_s }, :as => :birthday
     t.add :display_name, :as => :name
     t.add :get_sex, :as => :is_girl
     t.add lambda { |user| user.birthday.to_s }, :as => :birthday
-    t.add lambda { |user| user.qq.to_s }, :as => :qq
     t.add lambda { |user| user.age.to_s }, :as => :age
     t.add lambda { |user| user.city.to_s }, :as => :city
-    t.add lambda { |user| user.district.to_s }, :as => :district
     t.add lambda { |user| user.get_desc }, :as => :desc
     t.add :display_img_small, :as => :avatar_img_small
     t.add :display_img_medium, :as => :avatar_img_medium
     t.add :get_bg_img, :as => :bg_img
-    #t.add :following_count
     t.add lambda { |user| user.following_count.to_s }, :as => :following_count
     t.add lambda { |user| user.followers_count.to_s }, :as => :followers_count
-    #t.add :followers_count
-    t.add :posts_count_s, :as => :posts_count
-    #t.add lambda{|user| user.unread_notifications_count.to_s}, :as => :unread_notifications_count
-    #t.add :unread_notifications_count
     t.add :is_following, :if => :can_following?
     t.add lambda { |user| user.dapei_count.to_s }, :as => :dapei_count
     t.add :v_dapei_count
     t.add :dapei_likes_count
     t.add lambda { |user| user.get_level.to_s }, :as => :level
-    #t.add lambda{|user| user.dapei_score.to_s}, :as => :dapei_score
-    #t.add lambda { |user| user.get_experience }, :as => :experience
-    #t.add lambda { |user| user.get_active_honour }, :as => :honour
-    #t.add lambda { |user| user.get_honour_images }, :as => :honour_images
     t.add :checked
     t.add :check_times
     t.add lambda { |user| user.mobile_state.to_s }, :as => :mobile_state
+  end
+
+  api_accessible :user_shop, :cache => 60.minutes do |t|
+    t.add :url, :as => :user_id
+    t.add :mobile
+    t.add lambda { |user| user.apply_type.to_i.to_s }, :as => :apply_type
+    t.add :name
+    t.add :name, :as => :display_name
+    t.add :email
+    t.add :weixin
+    t.add :qq
+    t.add :contact
+    t.add :phone
+    t.add :city
+    t.add :address
+    t.add lambda { |user| user.get_desc }, :as => :desc
+    t.add :display_img_small, :as => :avatar_img_small
+    t.add :display_img_medium, :as => :avatar_img_medium
+    t.add :get_bg_img, :as => :bg_img
+    t.add :is_following, :if => :can_following?
+    t.add lambda { |user| user.followers_count.to_s }, :as => :followers_count
+    t.add lambda { |user| user.dapei_count.to_s }, :as => :dapei_count
+    t.add :v_dapei_count
+    t.add :dapei_likes_count
+    t.add lambda { |user| user.get_level.to_s }, :as => :level
   end
 
 
@@ -1069,6 +1079,14 @@ class User < ActiveRecord::Base
     self.mobile = mobile
     self.mobile_state = 1
     self.save
+  end
+
+  def get_token
+    self.authentication_token.to_s
+  end
+
+  def is_shop
+    (self.apply_type.to_i > 0 )
   end
 
   private

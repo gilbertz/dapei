@@ -199,8 +199,7 @@ class UsersController < ApplicationController
         #@items=@favorite_items
         #@posts=@user.posts.order("created_at desc").limit(12)
         @dapeis=Dapei.dapeis_by(@user).page(params[:page]).per(10)
-        format.json{render_for_api :public, :json=>@user, :api_cache => 30.minutes, :meta=>{:result=>"0"}}
-        # format.json {render :json =>  @user.as_json(:only => :coin)}
+        format.json{ render_user_json }
       else
         format.json{render :json=>{:result=>"1"}}
       end
@@ -345,45 +344,6 @@ class UsersController < ApplicationController
     end
   end
 
-
-  def favorite_shops
-    @where = "喜欢店铺"
-    @number= Shop.liked_by(@user).uniq.count
-    @shops=Shop.liked_by(@user).uniq.page(params[:page]).per(10)
-    @shops.each do |s|
-      s.distance = "-1"
-    end 
-    respond_to do |format|
-      format.html
-      if @user
-        format.json{render_for_api :public, :json=>@shops, :api_cache => 30.minutes, :meta=>{:result=>"0", :total_count=>@number.to_s}}
-      else
-        format.json{render :json=>{:result=>"1"}}
-      end
-    end
-  end
-
-  def favorite_discounts
-    @where = "剪下优惠"
-    if(@user)
-      @discounts=Discount.liked_by(@user).uniq.page(params[:page]).per(10)
-      
-      @ds = []
-      @discounts.each do |d|
-        @ds << d if d.is_current?
-      end
-      @number = @ds.length
-      respond_to do |format|
-        format.html
-        format.json{render_for_api :public, :json=>@ds, :meta=>{:result=>"0", :total_count=>@number.to_s}}
-      end
-    else
-      respond_to do |format|
-        format.html
-        format.json{render :json=>{:result=>"1"}}
-      end
-    end
-  end
 
   def commented_items
     @where = "评论宝贝"
@@ -596,10 +556,9 @@ class UsersController < ApplicationController
           redirect_to "/"
         }
         format.json {
-          render :status => 200, :json => {:result=>"0",  :session => @user.login_json }
+          render_user_json
         }
       end
-      #redirect_to "/"
     else
       @username="dpms"+Devise.friendly_token[0,20]
       @email=@username+"@dapeimishu.com"
@@ -609,15 +568,12 @@ class UsersController < ApplicationController
       @user = User.new(@authinfo)
       if @user.save
         @user=Authentication.create_from_hash_remote(auth, @user)
-        #print @user
-        #print @user.errors.full_messages
         respond_to do |format|
           format.html{
-            #sign_in_and_redirect @user
             redirect_to "/"
           }
           format.json {
-            render :status => 200, :json => {:result=>"0",  :session => @user.login_json  }
+            render_user_json
           }
         end
       else
@@ -670,8 +626,8 @@ class UsersController < ApplicationController
       if params[:code] == $redis.get(mobile)
         $redis.del(mobile)
         @user.mobile_verified(mobile)
-        render :status => 200, :json => {:result=>"0",  :session => @user.login_json }
-       else
+        render_user_json
+      else
         render :json => {error: "验证码错误"}
         return
       end

@@ -10,19 +10,16 @@ class Shop < ActiveRecord::Base
   #validates :street, :presence=>true
   #validates :house_number, :presence =>true
   #validates_format_of :house_number, :with => /\A[0-9]+\z/
-  validates :url, :uniqueness=>true, :format=>{:with => /^[a-z0-9\-_]+$/}, :allow_blank => true ##, :presence=>true
+  #validates :url, :uniqueness=>true, :format=>{:with => /^[a-z0-9\-_]+$/}, :allow_blank => true ##, :presence=>true
   #validates :address, :presence=>true
   #validates_format_of :jindu  #need to be specified later
   #validates_format_of :weidu
    
   has_many :items, :inverse_of => :shop, :dependent=>:destroy, :order=>'updated_at DESC'
-  has_many :discounts, :as => :discountable, :dependent=>:destroy
   has_many :photos, :as => :target#, :dependent=>:destroy
 
-  belongs_to :mall
   belongs_to :user
   belongs_to :brand, :inverse_of=>:shops, :counter_cache => true
-  belongs_to :category
   
   attr_accessible :shop_type, :weibo, :brand_id, :category_id, :mall_id, :price_level, :brand_intro, :name, :url, :city, :city_id, :level, :district, :crawled, :town, :street, :phone_number, :product, :house_number, :address, :area_id, :jindu, :weidu, :level, :user_id, :activated, :item_ids, :open_hours, :avatar_id, :likes_count, :comments_count, :items_count, :dispose_count, :mall, :alias, :dp_id, :tags, :average_price, :bd_uid, :priority
   
@@ -31,7 +28,7 @@ class Shop < ActiveRecord::Base
   acts_as_commentable
   acts_as_followable
 
-  before_destroy :change_role
+  #before_destroy :change_role
 
   acts_as_api
   api_accessible :public, :cache => 180.minutes do |t|
@@ -159,7 +156,7 @@ class Shop < ActiveRecord::Base
     joins("INNER JOIN recommends ON recommends.recommended_id = shops.id").where('recommends.recommended_type' => "Shop").where("shops.city_id=#{city_id}").order("recommends.updated_at desc").limit(10)
   }
 
-  before_validation :auto_url
+  #before_validation :auto_url
   def auto_url
     if self.url.blank?
       if !self.name.blank?
@@ -259,27 +256,6 @@ class Shop < ActiveRecord::Base
     img_urls
   end
 
-  def showing_img_urls_web(cid=nil)
-    img_urls=Array.new
-    default_url=get_pod_url+"/assets/img.jpg"
-    count = 0
-    if self.brand
-      self.brand.get_rand_skus(cid).each do |sku|
-        if not sku.deleted
-           img_urls<< sku.img_url(:normal_medium)
-           count += 1
-           break if count >=4
-        end
-      end
-    end
-    if count<4
-      for i in 1..4-count do
-        img_urls<<default_url
-      end
-    end
-    img_urls
-  end
-  
   def img_url(size)
     img_url=get_pod_url+"/assets/img.jpg"
     if self.photos and self.photos.length>0
@@ -345,30 +321,6 @@ class Shop < ActiveRecord::Base
     photo
   end
 
-  def get_last_discount
-    unless self.discounts.blank?
-      self.discounts.sort_by{|discount| discount.created_at}
-      self.discounts.last
-    end
-  end
-
-
-  def get_current_discount
-    discount = nil
-    unless self.discounts.blank?
-      self.discounts.sort_by{|discount| discount.updated_at}
-      discount=self.discounts.last
-    end
-    if discount == nil or ( discount.end_date and discount.end_date < Date.today )
-      if self.brand
-        self.brand.discounts.sort_by{|discount| discount.updated_at}
-        discount=self.brand.discounts.last
-      end
-    end
-    if discount and not discount.deleted and discount.end_date and discount.end_date >= Date.today
-      return discount
-    end
-  end
 
   def get_likers
     @likers=Like.where("target_type='Shop' and target_id=#{self.id}").collect {|l| l.user }
@@ -431,81 +383,8 @@ class Shop < ActiveRecord::Base
     end
   end
 
-  def get_dist_name
-    area = Area.find_by_id(self.area_id)
-    if area == nil
-       return ""
-    end
-    if area.t == 'district'
-       return area.name
-    else
-       area1 = Area.find_by_dp_id(area.parent_dp_id)
-       if area1.t == 'district'
-          return area1.name
-       end
-    end
-    return ''
-  end
-
-  def shop_dist
-    self.get_dist_name
-  end
-
-  def get_address
-    dist_name = self.get_dist_name
-    self.address = self.address.gsub(dist_name, '') 
-    address =  "#{self.address}"
-    m = address.force_encoding("ASCII-8BIT").match(/#{$street_pat}/)
-    #if m and m.length >=5
-    #    @dist_name = m[1].force_encoding("UTF-8")
-    #    area = Area.find_by_name(@dist_name)
-    #    if area and area.id != self.area_id
-    #      self.area_id = area.id
-    #      self.save! 
-    #    end
-    #end
-    address = self.address
-    if not m and self.address.index(dist_name) == nil
-       p dist_name + self.address
-       address =  dist_name + self.address
-    end
-
-    # just for lnglat parse 
-    #p address
-    #address = address.sub("南桥百联购物中心1楼", "")
-    #address = address.sub("南桥百联购物中心2楼", "")
-    #address = address.sub("莲花广场", "")
-    #address = address.sub("南桥百联购物中心", "")
-    #address = address.sub("太平洋百货1楼", "")
-    address
-  end
-  
-  def get_street
-    if self.mall
-      self.mall.name
-    elsif self.shop_type == 11
-      self.name
-    elsif self.street
-      self.street
-    else
-      ""
-    end
-  end
-
-  def get_mall
-    self.mall
-  end
-
   def get_max_id
     Shop.maximum('id')
-  end
-
-  def address_tel
-    if self.phone_number != ""
-       self.address.to_s + "  #{self.phone_number}"
-    else
-       self.address.to_s
-    end
   end
 
   def brand_name
@@ -528,126 +407,10 @@ class Shop < ActiveRecord::Base
     end
   end
 
-  def sync_discount
-    brand_discount = nil
-    if self.brand
-        self.brand.discounts.sort_by{|discount| discount.updated_at}
-        brand_discount=self.brand.discounts.last
-    else
-        return
-    end 
-
-    if not brand_discount
-        return
-    end
-   
-    discount = nil
-    unless self.discounts.blank?
-      self.discounts.sort_by{|discount| discount.updated_at}
-      discount=self.discounts.last
-    end
-    if discount == nil or 1.days.since(discount.end_date) < brand_discount.start_date
-      self.discounts.create(:title =>brand_discount.title, :reason =>brand_discount.reason, :discountable_type => "Shop", :brand_discount_id =>brand_discount.id, 
-      :description => brand_discount.description, :start_date=>brand_discount.start_date, :end_date=>brand_discount.end_date)
-    end
-    if discount and discount.start_date == brand_discount.start_date and discount.end_date == brand_discount.end_date
-      discount.update_attributes(:title =>brand_discount.title, :reason =>brand_discount.reason, :discountable_type => "Shop", :brand_discount_id =>brand_discount.id,
-      :description => brand_discount.description, :start_date=>brand_discount.start_date, :end_date=>brand_discount.end_date)
-    end
-  end
-  
-
-  def sync_brand_sku(num=5)
-    if self.level and self.level > 2 and self.brand_id and brand = Brand.find_by_id(self.brand_id) and brand.level.to_i >= 3
-       idx = 0
-       skus = brand.skus.sort_by{rand}
-       for sku in skus
-          if not sku.deleted and sku.category_id < 100 and 60.days.since(sku.created_at) > Time.now and sku.level.to_i >= 3
-             next if sku.photos.length <= 0
-             item  = Item.find_by_shop_id_and_sku_id(self.id, sku.id)
-             unless item
-                idx = idx + 1 
-                if idx > num
-                   break
-                end 
-                print "!!!new sku:", sku.level, sku.title, sku.id, " for ", self.url, "\n"
-                i = Item.create(:shop_id=>self.id, :sku_id=>sku.id, :level=>sku.level, :title => self.id.to_s + "_" + sku.id.to_s)
-                p i.id
-             end
-          end
-       end
-    end
-  end 
-
-  def sync_all_sku()
-    if not self.brand or self.brand_id == 0
-       items  = self.items
-       items.each do |item|
-          if item.sku
-             p "delete item with", self.url, "/" ,item.url
-             item.destroy        
-          end
-       end 
-    end
-
-    if self.brand
-       brand_id  = self.brand.id
-       if brand_id != 0 
-         items  = self.items
-         items.each do |item|
-           if item.sku and item.sku.brand_id != brand_id
-             p self.brand.name, "vs", item.sku.brand.name 
-             p "delete bad barnd item with", self.url, "/" ,item.url
-             item.destroy
-           end
-         end
-       end
-    end
-
-    if self.level and self.level >=1 and self.brand_id and self.brand_id != 0 and brand = Brand.find_by_id(self.brand_id)
-       idx = 0
-       for sku in brand.skus
-          item  = Item.find_by_shop_id_and_sku_id(self.id, sku.id)
-          if item and sku.deleted
-            #item.destroy
-            item.deleted = true
-            item.save
-          elsif not sku.deleted 
-            if not item
-            #    self.items.create(:sku_id=>sku.id, :title=>sku.title, :category_id=>sku.category_id, :price => sku.price)
-            else
-              #item.title = sku.title  
-              #item.category_id = sku.category_id
-              #item.price = sku.price
-              #item.origin_price = sku.origin_price
-              #item.off_percent = sku.off_percent
-              #item.from = sku.from
-              #item.tags = sku.tags
-              #item.color = sku.color
-              item.level = sku.level  
-              item.save
-              print item.level, ":", item.shop.url, "/", item.url, " : ", item.from, sku.created_at, sku.level, "\n" 
-            end
-          end
-       end
-    end
-  end 
-
-  def sync_mall
-    if self.mall_id
-      m = Mall.find_by_id(self.mall_id)
-      self.address = m.address if m.address and self.address == ""
-      self.street = m.name
-      self.alias = self.display_name + "(#{self.street}店)" 
-      self.save 
-    end
-  end
-
   def incr_dispose
      key = "shop_#{self.url}"
      $redis.incr(key) 
   end
-
 
   def get_brand_intro
     if self.brand_intro and self.brand_intro != ""
@@ -656,158 +419,6 @@ class Shop < ActiveRecord::Base
       if self.brand
         self.brand.brand_intro
       end
-    end
-  end
-
-  def get_price_level
-    if self.price_level and self.price_level!=""
-      self.price_level
-    else
-      if self.brand
-        self.brand.price_level
-      end
-    end
-  end
-
-  def get_low_price
-    if self.low_price
-      self.low_price
-    elsif self.brand and self.brand.low_price
-      self.brand.low_price
-    else
-      #print "ppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppp"
-      price_level=get_price_level
-      #print price_level
-      #print "^^^^"
-      if price_level
-        get_low_price_from_level(price_level)
-      else
-        -1
-      end
-    end
-  end
-
-  def get_low_price_s
-    low_price=self.get_low_price
-    low_price.to_s
-  end
-
-  def get_high_price
-    if self.high_price
-      self.high_price
-    elsif self.brand and self.brand.high_price
-      self.brand.high_price
-    else
-      #print "ppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppp"
-      price_level=get_price_level
-      #print price_level
-      #print "^^^^"
-      if price_level
-        get_high_price_from_level(price_level)
-      else
-        -1
-      end
-    end
-  end
-
-  def get_high_price_s
-    high_price=self.get_high_price
-    high_price.to_s
-  end
-
-
-  def activate_from_dp
-      last_comment_at  = nil
-      s = self
-      if s.comments and s.comments.length > 0
-        last_comment_at = s.comments.last.created_at
-        return if 30.days.since(last_comment_at) > Time.now
-      end
-      if s.dp_id and s.dp_id != "" and s.level.to_i >= 2
-        dp_reviews = Dianping.new.get_reviews(s.dp_id)
-        dp_reviews["reviews"].each do |r|
-          p r
-          name = r['user_nickname']
-          content = r['text_excerpt']
-          ct = r['created_time']
-          ti = Time.parse(ct)
-          if 180.days.since(ti) > Time.now and ( last_comment_at == nil or ti > last_comment_at )
-            uname = "sjb#{Digest::MD5.hexdigest(name)}"
-            email = "#{uname}@shangjieba.com"
-            cu = User.find_by_email(email)
-            cu = User.create(:name=>name, :email=>email, :password=>"fakeuser123", :real=>false ) unless cu
-            print email, cu, "\n"
-            c = s.comments.create(:commentable_type=>"Shop", :commentable_id=>s.id, :comment=>content, :user_id=>cu.id)
-            print s.url, "\t", s.id, "\t", s.shop_name, "\n"
-
-            if not s.level or s.level == 0
-              s.level = 4
-            end
-            s.save!
-          end
-        end
-      end
-  end
-
-  def get_distance
-    if self.distance and self.distance.to_s != "-1"
-      self.distance.to_s
-    else
-      ""
-    end
-  end
-
-  def self.cache_recommend_shops_by_city_id(city_id)
-    Rails.cache.fetch "recommend/shops/#{city_id}", :expires_in => 3.minutes do
-      Shop.recommended(city_id).entries
-    end
-  end
-
-private
-
-  def get_low_price_from_level(price_level)
-    res=price_level.match(/[a-z0-9\-]+/)
-    if res
-      low_price=-1
-      res_array=res[0].split("-")
-      if res_array.length>0
-        low_price=res_array[0]
-      end
-      #print "@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@"
-      #print low_price
-      low_price
-    else
-      -1
-    end
-  end
-
-  def get_high_price_from_level(price_level)
-    res=price_level.match(/[a-z0-9\-]+/)
-    if res
-      high_price=-1
-      res_array=res[0].split("-")
-      if res_array.length>1
-        high_price=res_array[1]
-      end
-      #print "@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@"
-      #print low_price
-      high_price
-    else
-      -1
-    end
-  end
-
-  def get_pod_url
-     pod_url = AppConfig[:pod_url].dup
-     pod_url.chop! if AppConfig[:pod_url][-1,1] == '/'
-     pod_url
-  end
-
-  def change_role
-    if self.user
-      #self.user.roles.each do |role|
-      #  role.destroy
-      #end
     end
   end
 

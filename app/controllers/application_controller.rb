@@ -45,6 +45,13 @@ protected
     if params[:token]
       current_user = User.find_by_authentication_token(params[:token])
       User.current_user = current_user if current_user 
+    elsif params[:mobile] and params[:code]
+      mobile = params[:mobile].strip
+      user = User.find_by_mobile(mobile)
+      if user and params[:code] == $redis.get(mobile)
+        current_user = user
+        User.current_user = current_user if current_user 
+      end
     else
       User.current_user = current_user if current_user
     end
@@ -68,6 +75,15 @@ protected
   def remove_token
     params.delete :token 
   end
+
+  def render_user_json
+    unless @user.is_shop
+      render_for_api :public, :json=>@user, :meta=>{:result=>"0"}
+    else
+      render_for_api :user_shop, :json=>@user, :meta=>{:result=>"0"}
+    end
+  end
+
 
 private
   def current_user_redirect_path
