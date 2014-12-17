@@ -11,7 +11,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20141212062439) do
+ActiveRecord::Schema.define(:version => 20141216103608) do
 
   create_table "all_tags", :force => true do |t|
     t.string   "name"
@@ -1066,6 +1066,18 @@ ActiveRecord::Schema.define(:version => 20141212062439) do
   create_table "sph_timer_counter", :primary_key => "counter_id", :force => true do |t|
     t.integer  "max_doc_id", :null => false
     t.datetime "current"
+  end
+
+  create_table "spider_pages", :force => true do |t|
+    t.string   "name"
+    t.string   "link"
+    t.integer  "category_id"
+    t.integer  "parent_id"
+    t.integer  "brand_id"
+    t.integer  "user_id"
+    t.datetime "created_at",  :null => false
+    t.datetime "updated_at",  :null => false
+    t.integer  "spider_id"
   end
 
   create_table "spiders", :force => true do |t|

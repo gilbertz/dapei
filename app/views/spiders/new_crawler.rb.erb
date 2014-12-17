@@ -1,0 +1,206 @@
+<%="#encoding:utf-8"%>
+require 'headless'
+require 'rubygems'
+require 'selenium-webdriver'
+require 'yaml'
+require 'json'
+require 'redis'
+
+headless = Headless.new(:reuse => false)
+headless.start
+
+$redis =  Redis.new(:host => 'localhost', :port => 6379)
+ 
+driver = Selenium::WebDriver.for :chrome
+#driver.manage.timeouts.implicit_wait = 30
+driver.manage.timeouts.script_timeout = 120
+driver.manage.timeouts.page_load = 60
+
+links = []
+docs = []
+next_link = ""
+npage = 0
+
+def parse(driver)
+  doc = {}
+  doc["title"] =  driver.find_element(:xpath, "<%=raw @spider.ptitle %>").text
+
+  <% if @spider.pprice && @spider.pprice != "" %>
+    doc["price"] =  driver.find_element(:xpath, "<%=raw @spider.pprice %>").text
+  <% end %>
+
+  <% if @spider.freight && @spider.freight > 0 %>
+    doc["freight"] =  "<%=raw @spider.freight %>"
+  <% end %>
+
+  <% if @spider.is_agent %>
+    doc["is_agent"] = 1
+  <% end %>
+
+  <% if @spider.is_guide %>
+    doc["is_guide"] = 1
+  <% end %>
+
+  <% if @spider.pdesc && @spider.pdesc != "" %>
+    doc["desc"] =  driver.find_element(:xpath, "<%=raw @spider.pdesc %>").text
+  <% end %>
+
+  doc["brand_id"] = "<%=raw @brand_id %>"
+  imgs = []
+  <% if @spider.pimg_attr.nil? || @spider.pimg_attr.strip.empty? %>
+     <%   @spider.pimg_attr = "src" %>
+  <% end %>
+  <% if @spider.dp_img_attr.nil? || @spider.dp_img_attr.strip.empty? %>
+     <%   @spider.dp_img_attr = "src" %>
+  <% end %>
+
+  simgs = []
+  <% if @spider.pshow_img && @spider.pshow_img != "" %>  
+    driver.find_elements(:xpath, "<%=raw @spider.pshow_img %>").each do |e|
+      img = e.attribute("src")
+      if img && !(img =~ /http:\/\/|https:\/\//)
+        img = "<%=raw @domain%>/" + img
+      end
+      simgs << img
+    end 
+  <% end %>
+  doc["simg"] = simgs
+  driver.find_elements(:xpath, "<%=raw @spider.pimgs %>").each do |e|
+    img = e.attribute("<%=raw @spider.pimg_attr %>")
+    <% if @spider.img_rule != "" %>
+      img = img<%=raw @spider.img_rule %> unless img.nil?
+    <% end %>
+    if img && !(img =~ /http:\/\/|https:\/\//)
+      img = "<%=raw @domain%>/" + img
+    end
+    imgs << img
+  end
+
+  dp_imgs = []
+  <% if @spider.dp_img && @spider.dp_img != "" %> 
+    arr_dp_img = "<%=raw @spider.dp_img%>".split("|")
+    arr_dp_img.each_with_index do |single_dp_img, i|
+      driver.find_elements(:xpath, single_dp_img).each do |e|
+        img = (i==0) ? e.attribute( "<%=raw @spider.dp_img_attr %>"  ) : e.attribute("src")
+        <% if @spider.dp_img_rule && @spider.dp_img_rule != "" %>
+          img = img<%=raw @spider.dp_img_rule %> unless img.nil?
+        <% end %>
+        if img && !(img =~ /http:\/\/|https:\/\//)
+          img = "<%=raw @domain%>/" + img
+        end
+        case img
+        when /ikea.com/
+          img = ["http://www.ikea.com", "PIAimages", img.split("__").last].join("/")
+        else
+        end
+        dp_imgs << img
+      end
+    end
+    doc["dp_imgs"] = dp_imgs
+  <% end %>
+
+  doc["url"] = driver.current_url
+  doc["imgs"] = imgs
+  doc["time"] = Time.new.to_s
+  doc["spider_id"] = <%=raw @ospider.id %>
+  <% if @spider.pcode && !@spider.pcode.strip.empty? %>
+    doc["pno"] = driver.find_element(:xpath, "<%=raw @spider.pcode %>").text
+  <% end %>
+  <% if @spider.pstore_count && @spider.pstore_count != "" %>
+    doc["store_count"] = driver.find_element(:xpath, "<%=raw @spider.pstore_count %>").text
+  <% end %>
+  <% if @spider.psold_count && @spider.psold_count != "" %>
+    doc["sold_count"] = driver.find_element(:xpath, "<%=raw @spider.psold_count %>").text
+  <% end %>
+   <% if @spider.phot && @spider.phot != "" %>
+    doc["hot"] = driver.find_element(:xpath, "<%=raw @spider.phot %>").text
+  <% end %>
+ <% if @spider.porigin_price && @spider.porigin_price != "" %>
+    begin
+      driver.find_elements(:xpath, "<%=raw @spider.porigin_price %>").each do |e|
+        unless e.nil?
+          doc["origin_price"] = e.text
+          break 
+        end
+      end
+    rescue => e
+      p e.to_s
+      return doc
+    end
+  <% end %>
+  doc
+end
+
+def make_docid(url)
+  case url
+  when /tmall.com|mango.com|tmall.hk/
+    url = url.gsub(/\?(.*)(id=\d+)(.*)/, '?\2')
+  when /daphne.cn/
+    url = url.gsub(/&c=\d+/, '')
+  when /net-a-porter.com/
+    url_arr = url.split("/")
+    if url_arr.size == 7
+      str_to_replace = url_arr.last(2).join("\/")
+      str_to_sub = "\/#{str_to_replace}"
+      url = url.gsub( /#{Regexp.escape(str_to_sub)}/, "")
+    end
+  when /swarovski.com.cn/
+    url = url.split(";").first
+  when /jumei.com/
+    url = url.split("?").first
+  when /yintai.com/
+    url = url.split("?").first
+    url = "#{url}?source=shangjie"
+  else
+  end
+  Digest::MD5.hexdigest( url )
+end
+
+def parse_links(driver, docs, page_id)
+  pkey = "brand_<%=raw @brand_id %>_spider_<%= @spider_id%>_spider_pages_#{page_id}"
+  lks = $redis.lrange(pkey, 0, -1)
+  brand_cat_list_length = lks.length
+  p "key=" + pkey
+  p "list len=#{brand_cat_list_length}"
+  return if brand_cat_list_length == 0
+
+  lks.each do |link|
+    next unless link.include?("<%=raw @domain_without_www %>")
+    key = make_docid(link)
+
+    <% unless params[:cache] %>
+    if $redis.get(key)
+      <% else %>
+    if false
+    <% end %>
+    $redis.del(key)
+    end
+
+    begin
+      if link.include?("javascript:")
+        driver.execute_script link
+        sleep 1
+        doc = parse(driver)
+        driver.navigate.back
+      else
+        driver.get link
+        doc = parse(driver)
+      end
+      doc["page_id"] = page_id
+      $redis.set(key, doc.to_yaml)
+      $redis.expire key, 3600*24*15
+      p doc
+      docs << doc
+    rescue=>e
+      p e.to_s
+    end
+  end
+end
+
+<% @ospider.get_spider_pages.each do |p| %>
+  parse_links(driver, docs, <%= p.id %> )
+<% end %>
+
+driver.quit
+
+headless.destroy

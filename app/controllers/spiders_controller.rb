@@ -11,6 +11,8 @@ class SpidersController < ApplicationController
   def initialize
     @categories = Category.where{(id >= 3)&(id < 15)}
   end
+
+
   # GET /spiders
   # GET /spiders.json
   def index
@@ -25,80 +27,6 @@ class SpidersController < ApplicationController
         @spiders = Spider.where("brand_id > 1")
         @spiders = @spiders.sort{|s|s.brand.updated_at.to_i}  
         render "list", :layout => false
-      }
-    end
-  end
-
-  def schedule_spiders_authweb
-    @spiders = Spider.where{(brand_id > 1)&-(template_id>>[89, 111, 65])&(stop==false)}.order{last_updated.desc} 
-  end
- 
-  def crawl_index_authweb
-    schedule_spiders_authweb
-       
-    respond_to do |format|
-      format.rb {
-        render "crawl_list_authweb", :layout => false
-      }
-    end
-
-  end
-
-  def schedule_index_authweb
-    schedule_spiders_authweb
-       
-    respond_to do |format|
-      format.rb {
-        render "schedule_list_authweb", :layout => false
-      }
-    end
-
-  end
-
-
-  def schedule_spiders_tmall
-    @spiders = Spider.where{(brand_id > 1)&(template_id==89)&(stop==false)}.order{last_updated.desc} 
-  end
- 
-  def crawl_index_tmall
-    schedule_spiders_tmall
-       
-    respond_to do |format|
-      format.rb {
-        render "crawl_list_tmall", :layout => false
-      }
-    end
-
-  end
-
-  def schedule_index_tmall
-    schedule_spiders_tmall
-       
-    respond_to do |format|
-      format.rb {
-        render "schedule_list_tmall", :layout => false
-      }
-    end
-
-  end
-
-  def soldout_index_tmall
-    schedule_spiders_tmall
-       
-    respond_to do |format|
-      format.rb {
-        render "soldout_list_tmall", :layout => false
-      }
-    end
-
-  end
-
-  def soldout_index
-    schedule_spiders(params[:templateid].to_i)
-       
-    respond_to do |format|
-      format.rb {
-        render "soldout_list", :layout => false
       }
     end
   end
@@ -214,24 +142,18 @@ class SpidersController < ApplicationController
     end
   end
 
+  def new_scheduler
+    @spider_id = params[:spider_id]
+    scheduler_common(@spider_id, CRAWL_TYPE[:spider])
+    respond_to do |format|
+      format.rb { render "new_scheduler", :layout => false }
+    end
+  end
+
   def soldout    
     @origin_spider = Spider.where( :brand_id => params[:brand_id] ).includes(:brand).order{created_at.desc}.first
     @spider = @origin_spider.template_spider
     @links = @origin_spider.brand.skus.where{(buy_url!=nil)&((deleted==nil)|(deleted==false))}.map{|sku| [sku.buy_url, sku.docid]}
-    respond_to do |format|
-      format.rb { render "soldout", :layout => false }
-    end
-  end
-  def yintai_spider_soldout    
-    spider_id = params[:spider_id]
-    @origin_spider = Spider.find(spider_id)
-    start_page = start_page_all(@origin_spider)
-    domain = get_domain(start_page)
-
-    domain_without_www = get_domain_without_www(domain)
-    
-    @spider = @origin_spider.template_spider
-    @links = @origin_spider.brand.skus.where{((buy_url!=nil)&(buy_url=~"%#{domain_without_www}%"))}.map{|sku| [sku.buy_url, sku.docid]}
     respond_to do |format|
       format.rb { render "soldout", :layout => false }
     end
@@ -249,36 +171,6 @@ class SpidersController < ApplicationController
     @links = @origin_spider.brand.skus.where{((buy_url!=nil)&(buy_url=~"%#{domain_without_www}%"))&((deleted==nil)|(deleted==false))}.map{|sku| [sku.buy_url, sku.docid]}
     respond_to do |format|
       format.rb { render "soldout", :layout => false }
-    end
-  end
-  def spider_sizes_color    
-    spider_id_p = params[:spider_id]
-    @origin_spider = Spider.find(spider_id_p)
-    start_page = start_page_all(@origin_spider)
-    domain = get_domain(start_page)
-
-    domain_without_www = get_domain_without_www(domain)
-    
-    @spider = @origin_spider.template_spider
-    matter_sku_ids = Matter.all.map(&:sku_id).compact
-    @links = Sku.where{(spider_id==spider_id_p)&(id>>matter_sku_ids)&(deleted==nil)}.map{|sku| [sku.buy_url, sku.docid]}
-    respond_to do |format|
-      format.rb { render "sizes_color", :layout => false }
-    end
-  end
-
-  def spider_price    
-    spider_id_p = params[:spider_id]
-    @origin_spider = Spider.find(spider_id_p)
-    start_page = start_page_all(@origin_spider)
-    domain = get_domain(start_page)
-
-    domain_without_www = get_domain_without_www(domain)
-    
-    @spider = @origin_spider.template_spider
-    @links = Sku.where{(spider_id==spider_id_p)&((price=="0")|(price==nil))&(deleted==nil)}.map{|sku| [sku.buy_url, sku.docid]}
-    respond_to do |format|
-      format.rb { render "price", :layout => false }
     end
   end
 
@@ -352,6 +244,15 @@ class SpidersController < ApplicationController
       format.rb { render "crawler", :layout => false }
     end
   end
+
+  def new_crawler
+    @spider_id = params[:spider_id]
+    crawler_common(@spider_id, CRAWL_TYPE[:spider])
+    respond_to do |format|
+      format.rb { render "new_crawler", :layout => false }
+    end  
+  end
+
 
   # GET /spiders/new
   # GET /spiders/new.json

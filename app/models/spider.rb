@@ -2,6 +2,11 @@
 
 class Spider < ActiveRecord::Base
   belongs_to :brand, :inverse_of=>:spiders
+  has_many :spider_pages
+
+  def get_spider_pages
+    SpiderPages.where(:spider_id => self.id)
+  end
 
   def invert_state
     if self.stop
@@ -19,20 +24,6 @@ class Spider < ActiveRecord::Base
       '活动'
     end
   end
-
-  def check_sku
-    if self.stop
-      #p self
-      Sku.where(:spider_id => self.id).each do |sku|
-        unless sku.deleted
-	  sku.deleted = true
-          sku.save
-          print sku.created_at, sku.id, sku.buy_url, sku.brand_name, sku.deleted, "\n"
-	end
-      end
-    end
-  end
-  
 
   def get_crawled_status(cat_id)
      redis =  $redis_crawler
@@ -169,10 +160,6 @@ class Spider < ActiveRecord::Base
         ndoc[:category_id] = 6
       end
     end
-
-    #if ndoc[:title].index( "lookbook" )
-    #    ndoc[:category_id] = 101
-    #end
 
     imgs = []
     doc["imgs"].each do |img|

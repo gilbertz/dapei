@@ -1,0 +1,18 @@
+{
+  "code": "1234",
+  "user": {
+    "name": "GEN",
+    "qq": "1234567",
+    "weixin": "leapcliff",
+    "city": "sh",
+    "address": "sh minhang",
+    "mobile": "13818904081",
+    "apply_type": "2",
+      "contact": "abc",
+      "phone": "0213466444",
+      "product_type": "2",
+      "brand_id": "33",
+      "site": "dapeimishu.com",
+      "desc": "desc"
+  }
+}

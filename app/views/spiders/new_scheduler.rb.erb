@@ -1,0 +1,94 @@
+<%="#encoding:utf-8"%>
+require 'headless'
+require 'rubygems'
+require 'selenium-webdriver'
+require 'yaml'
+require 'json'
+require 'redis'
+
+headless = Headless.new(:reuse => false)
+headless.start
+
+$redis =  Redis.new(:host => 'localhost', :port => 6379)
+driver = Selenium::WebDriver.for :chrome
+#driver.manage.timeouts.implicit_wait = 30
+driver.manage.timeouts.script_timeout = 10
+driver.manage.timeouts.page_load = 20
+ 
+links = []
+docs = []
+next_link = ""
+npage = 0
+
+def make_url(url)
+  case url 
+  when /tmall.com|tmall.hk/
+    url = url.gsub(/\?(.*)(id=\d+)(.*)/, '?\2')
+  when /swarovski.com.cn/
+    url = url.split(";").first
+  when /jumei.com/
+    url = url.split("?").first
+  when /yintai.com/
+    url = url.split("?").first
+    url = "#{url}?source=shangjie"
+  else
+  end
+  url
+end
+
+def parse_links(driver, links, docs, page_id)
+  links.reverse.uniq.each do |link|
+    next if link.nil?
+    link = make_url(link)
+    p link 
+    pkey = "brand_<%= @brand_id%>_spider_<%= @spider_id%>_spider_pages_#{page_id}"
+    p "key=" + pkey
+    lks = $redis.lrange(pkey, 0, -1)
+    p lks.length
+    if !lks.include?(link)
+       $redis.lpush(pkey, link)
+    end
+  end
+end
+
+<% @ospider.get_spider_pages.each do |p| %>
+  pkey = "brand_<%= @brand_id %>_spider_<%= @spider_id%>_spider_pages_<%= p.id %>"
+  p "process " + pkey
+  $redis.del pkey
+  lks = $redis.lrange(pkey, 0, -1)
+
+  page = "<%= p.link %>"
+  p page
+
+  begin
+    driver.navigate.to page
+  rescue => e
+    p e.to_s
+  end
+  for i in (1..6) do
+    <% if @spider.product_page and @spider.product_page !=""  %>
+      elements = driver.find_elements(:xpath, "<%=raw @spider.product_page %>")
+      elements.each do |e|
+        links << e.attribute("href")
+      end
+    <% else %>
+      break
+    <% end %>
+    <% if @spider.next_page and  @spider.next_page != "" %>
+    begin
+      next_page = driver.find_element(:xpath, "<%=raw @spider.next_page %>").attribute("href")
+      driver.get(next_page)
+    rescue=>e
+      p e.to_s
+      break
+    end
+    <% else %>
+      break
+    <% end %>
+  end
+  parse_links(driver, links, docs, <%= p.id %>)
+  links = []
+<% end %>
+driver.quit
+
+headless.destroy

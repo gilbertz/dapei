@@ -57,87 +57,7 @@ Shangjieba::Application.routes.draw do
   get "/welcome/friend_weixins" => "welcome#friend_weixins"
   post "/welcome/go_download" => "welcome#go_download"
 
-  get "/events/flower" => "events#flower"
-  get "/events/flower_new" => "events#flower"
-  get "/events/flower_hd" => "events#flower"
-  get "/events/is_lucky" => "events#is_lucky"
-  get "/events/five_one" => "events#five_one"
-  get "/events/get_user_info" => "events#get_user_info"
-  get "/events/mother" => "events#mother"
-
-  get "/events/six_one" => "events#five_one"
-
-  get "/events/new_event" => "events#new_event"
-  get "/events/new_event_618" => "events#new_event"
-  post "/events/new_lucky" => "events#new_lucky"
-
-  get "/events/life_top" => "events#life_top"
-  post "/events/messages" => "events#messages"
-
-  get "/events/seven_eighteen" => "events#seven_eighteen"
-  get "/events/seven_nineteen" => "events#seven_nineteen"
-  get "/events/showing" => "events#showing"
-
-  get "/events/showing2" => "events#showing2"
-
-  get "/events/make_photo" => "events#make_photo"
-
-  get "/events/seven_eighteen_before" => "events#seven_eighteen_before"
-
-  get "/events/maked" => "events#maked"
-  post "/events/maked" => "events#maked"
-  get "/events/thumb_photos/:id" => "events#thumb_photos"
-
-  post "/events/upload" => "events#upload"
-
-  get "/events/seven_three" => "events#seven_three"
-
-  get "/events/qixi" => "events#qixi"
-
-  get "/events/qifu" => "events#qifu"
-  get "/events/qifu_result" => "events#qifu_result"
-  get "/events/eight_one_three" => "events#eight_one_three"
-  get "/events/make_avatar" => "events#make_avatar"
-  get "/events/make_avatar2" => "events#make_avatar2"
-
-  get "/events/choujiang" => "events#choujiang"
-  get "/events/choujiang_meiri" => "events#choujiang_meiri"
-  get "/events/choujiang_lucky" => "events#choujiang_lucky"
-
-  get "skus/recommends" => "skus#recommends"
-
   get "/users/:id/grow_info" => "users#info"
-
-  resources :carts do
-    collection do
-      post :add_to_cart
-      post :buy_now_show
-    end
-  end
-
-  resources :winners
-
-  resources :ship_addresses do
-    member do
-      post :set_default
-    end
-  end
-
-  resources :line_items
-  resources :orders do
-    member do
-      get :info
-      get :ship
-      get :help
-    end
-  end
-
-  resources :notify_pay, only: [] do
-    collection do
-      post :alipay
-      post :wxpay
-    end
-  end
 
   namespace :monitor do
     root to: "welcome#index"
@@ -155,36 +75,9 @@ Shangjieba::Application.routes.draw do
 
   namespace :manage do
     root to: "home#index"
-
-
-    post "shipments/update/:id" => "shipments#update"
-
-
-    #新主题 集合
-    resources :typesets
-    resources :typeset_types
-    resources :cell_types
-    resources :set_cells
-
     resources :friend_apps
-
-    #代购管理
-    resources :properties
-    resources :shipping_methods do
-      member do
-        get :invert_state
-        get :set_default
-      end
-    end
-
-    resources :orders do
-      member do
-        get :change
-      end
-    end
-
+    
     resources :synonyms
-
     resources :posts do
       member do
         get :photo
@@ -193,9 +86,6 @@ Shangjieba::Application.routes.draw do
     end
 
     post "/posts/:id" => "posts#update"
-
-    resources :main_colors
-
     resources :tags do
       member do
         get :get_desc
@@ -203,7 +93,6 @@ Shangjieba::Application.routes.draw do
     end
 
     resources :all_tags
-
     get '/dapeis/queue' => "dapeis#queue"
     get '/collections' => "dapeis#collections"
     get '/selfies' => "dapeis#selfies"
@@ -228,8 +117,6 @@ Shangjieba::Application.routes.draw do
         post 'unrecommend_star'
       end
     end
-    resources :areas, except: [:new, :create, :destroy]
-    resources :streets
 
     put "categories/set_app_photo" => "categories#set_app_photo"
 
@@ -257,31 +144,8 @@ Shangjieba::Application.routes.draw do
     get 'user_behaviours/:user_id' => "user_behaviours#index"
     get 'user_behaviours/xml_index/:user_token' => "user_behaviours#xml_index"
     resources :user_behaviours
-
-    get 'skus/sub_category' => "skus#sub_category"
-    get 'skus/sub_category_date' => "skus#sub_category_date"
-    get 'skus/get_sub_categories' => "skus#get_sub_categories"
-
-    resources :tshows
     resources :matter_tags
     resources :meta_tags
-
-    get 'skus/tag' => "skus#tag"
-
-    resources :skus do
-      collection do
-        get :recommends
-        get :check
-        get :ajax_update_edit
-        get :showing
-        get :add_tags_rake
-        get :add_categories_rake
-      end
-
-      member do
-        get :cancel
-      end
-    end
 
     resources :dapei_tags do
       member do
@@ -298,17 +162,13 @@ Shangjieba::Application.routes.draw do
         get "search_malls"
       end
     end
-    resources :users, only: [:index, :show] do
-
+    resources :users, except: :new do
       member do
         get :set_black
         get :set_v
       end
-
       resources :messages
-
     end
-
 
     resources :malls
     resources :discounts
@@ -318,22 +178,17 @@ Shangjieba::Application.routes.draw do
         get :start_soldout
         get :update_state
       end
+      resources :spider_pages
     end
+    post '/spiders/:spider_id/spider_pages' => 'spider_pages#create', :as => 'spider_spider_pages_index'
+
 
     resources :tshow_spiders, except: :new do
       member do
         get :start_crawl
       end
     end
-
-    resources :flowers, only: :index do
-      collection do
-        get :home
-      end
-    end
-
     resources :brand_tags
-
     resources :brands do
       resources :spiders, only: :new
       resources :tshow_spiders, only: :new
@@ -350,26 +205,9 @@ Shangjieba::Application.routes.draw do
     end
 
     resources :feedbacks
-
-    resources :daren_applies do
-      collection do
-        get "about_daren"
-        get "user_help"
-        get "daren_info"
-      end
-    end
-
     resources :lotteries
 
     get "update_category_photo/:category_id/:matter_id" => "categories#set_photo", :as => "update_category_photo"
-    post 'skus/recommend_sku/:id' => 'skus#recommend_sku', :as => "recommend_sku_manage"
-    get 'skus/recommend_sku/:id' => 'skus#recommend_sku', :as => "recommend_sku_manage"
-    get 'skus/with_or_without_data_brands/:with_or_without' => 'skus#with_or_without_data_brands'
-
-    resources :ask_for_dapeis
-    get "ask_for_dapeis/:id/undestroy" => 'ask_for_dapeis#undestroy'
-
-    resources :dapei_responses
   end
 
 
@@ -424,44 +262,10 @@ Shangjieba::Application.routes.draw do
   get "web/web_version" => "home#index", :as => "web_version"
 
 
-  get "games/info/marry" => "games#marry"
-  get "games/info/marry_phone" => "games#marry_phone"
-  get "games/info/marry_get" => "games#marry_get"
-  get "games/info/test_love" => "games#test_love"
-  get "games/info/test_result" => "games#test_result"
-
-  get "games/info/bbqnl" => "games#bbqnl"
-  get "games/info/bbqnl_get" => "games#bbqnl_get"
-
-  get "games/info/wish_r" => "games#wish_r"
-  get "games/info/wish_w" => "games#wish_w"
-
-  get "games/info/zhufu_r" => "games#zhufu_r"
-  get "games/info/zhufu_w" => "games#zhufu_w"
-
-
-  get "games/info/jindan_w" => "games#jindan_w"
-  get "games/info/jindan_r" => "games#jindan_r"
-
-
-  get "games/info/ms_r" => "games#ms_r"
-  get "games/info/ms_w" => "games#ms_w"
-
-  get "games/info/tc_r" => "games#tc_r"
-  get "games/info/tc_w" => "games#tc_w"
-
-  get "games/info/qc_r" => "games#qc_r"
-  get "games/info/qc_w" => "games#qc_w"
-
-  get "games/info/wx_share" => "games#wx_share"
-  get "games/info/app" => "games#wx_app"
   get "weixin/app" => "weixin#app"
   get "weixin/sg_app" => "weixin#sg_app"
-
-  get "games/info/gz" => "games#wx_gz"
   get "weixin/app" => "weixin#app"
   get "app/android" => "weixin#android_download"
-
 
   get "about/info/brand_all" => "about#brand_all"
 
@@ -572,83 +376,8 @@ Shangjieba::Application.routes.draw do
     resources :flinks
   end
 
-  scope "/brand_admin" do
-    resources :app_infos
-
-    resources :apps
-
-    resources :crawler_templates
-
-    resources :matters
-
-    resources :brands do
-      resources :skus
-      resources :discounts
-    end
-    resources :malls do
-      resources :discounts
-    end
-
-    get "skus/index_all" => "skus#index_all"
-    get "skus/lookbooks" => "skus#lookbooks"
-    get "discounts/admin_index" => "discounts#admin_index"
-
-    resources :streets
-
-    get "brands/:id/manage_skus" => "brands#manage_skus"
-    get "brands/:brand_id/sku/new_multi" => "skus#new_multi"
-    get "brands/:id/brand_skus" => "brands#brand_skus"
-    get "brands/:id/brand_items" => "brands#brand_items"
-    get "brands/:id/brand_discounts" => "brands#brand_discounts"
-    get "brands/:id/brand_discounts_new" => "brands#brand_discounts_new"
-
-    get "brands/:id/brand_shops" => "brands#brand_shops"
-    get "brands/:id/like_users" => "brands#like_users"
-    #get "brand_tags"=>"brands#brand_tags"
-
-    get "info/lookbooks" => "brands#brand_lookbooks"
-    get 'brands_recommended' => 'brands#recommended_brands', :as => "recommended_brands"
-
-    get "brands/info/admin_index" => "brands#admin_index"
-    get "brands/info/index" => "brands#index"
-    post 'brands/:id/update' => "brands#update"
-    get "brands/:id/manage_discounts" => "brands#manage_discounts"
-    get "brands/:id/shops" => "brands#shops"
-    get "brands/:id/open_shop" => "brands#open_shop"
-    post "brands/:id/create_shop" => "brands#create_shop"
-
-    get "malls/info/index" => "malls#index"
-    post 'malls/:id/update' => "malls#update"
-    get "malls/:id/manage_discounts" => "malls#manage_discounts"
-    get "malls/:id/shops" => "malls#shops"
-    get "malls/:id/open_shop" => "malls#open_shop"
-    post "malls/:id/create_shop" => "malls#create_shop"
-
-    get "streets/info/index" => "streets#index"
-    post 'streets/:id/update' => "streets#update"
-
-    resources :dapeis, :except => [:show]
-    post 'dapeis/:id/update' => "dapeis#update"
-
-    resources :spiders
-
-    post 'brands/upload' => "brands#upload"
-    get 'brands/info/check' => "brands#check"
-
-    resources :brand_tags
-
-  end
-
   get "brands/info/web_index" => "brands#web_index", :as => "brands_web_index_old"
   get "brands/info/:id" => "brands#web_show", :as => "brands_web_show_old"
-
-  get ":city_pinyin/brand/index.html" => "brands#web_index", :as => "brands_web_index"
-  get ":city_pinyin/brands/:id" => "brands#web_show", :as => "brands_web_show"
-
-
-  get "brands/:brand_id/baobeis/:sku_id" => "skus#web_show"
-  get "brands/:brand_id/baobeis/:sku_id/next" => "skus#next"
-  get "brands/:brand_id/baobeis/:sku_id/prev" => "skus#prev"
 
   resources :brands, :only => [:show]
 
@@ -656,17 +385,6 @@ Shangjieba::Application.routes.draw do
   get "recommends/info/recommended_streets" => "recommends#recommended_streets"
 
   get "recommends/info/index" => "recommends#index", :as => "recommends"
-  get "shop_admin/:id/warn_no_shop" => "shop_admin#warn_no_shop", :as => "warn_no_shop"
-  get "shop_admin/:id/warn_one_shop" => "shop_admin#warn_one_shop", :as => "warn_one_shop"
-  get "shop_admin/:id/success_open_shop" => "shop_admin#success_open_shop", :as => "success_open_shop"
-  get "shop_admin/:id/success_pub_item" => "shop_admin#success_pub_item", :as => "success_pub_item"
-  get "shop_admin/:id/success_pub_discount" => "shop_admin#success_pub_discount", :as => "success_pub_discount"
-  get "shop_admin/:id/success_update_info" => "shop_admin#success_update_info", :as => "success_update_info"
-  get "shop_admin/:id/manage_items" => "shop_admin#manage_items", :as => "manage_items"
-  get "shop_admin/:id/manage_discounts" => "shop_admin#manage_discounts", :as => "manage_discounts"
-  get "shop_admin/:id/show" => "shop_admin#show", :as => "shop_admin"
-  get "shop_admin/change_shop_photo/:shop_id/:id" => "items#set_as_shop_photo", :as => "edit_shop_photo"
-  get "shop_admin/change_brand_photo/:shop_id/:brand_id" => "shops#set_as_brand_shop_photo", :as => "edit_brand_shop_photo"
 
   get "categories/index"
   get "about/feedback" => "about#feedback", :as => "feedback"
@@ -678,7 +396,6 @@ Shangjieba::Application.routes.draw do
   get "about/info/about_me" => "about#about_me", :as => "about_me"
   get "about/apps" => "about#apps", :as => "abount_apps"
   get "about/download_app" => "about#download_app", :as => "download_app"
-
 
   get "/posts/new_index" => "posts#new_index"
   resources :posts do
@@ -709,13 +426,7 @@ Shangjieba::Application.routes.draw do
   get 'dapeis/recommend_dapei/:id' => "items#recommend_dapei", :as => "recommend_dapei"
   get 'dapeis/like_dapei/:id' => "dapeis#like_dapei", :as => "like_dapei"
   get 'dapeis/follow_dapei_author/:id' => "dapeis#follow_dapei_author", :as => "follow_dapei_author"
-
-  get 'lookbooks/recommend_lookbook/:id' => "skus#recommend_lookbook", :as => "recommend_lookbook"
-  get 'shops/info/admin_index' => "shops#admin_index", :as => "shop_admin_list"
-
-  get 'skus/recommend_sku/:id' => 'skus#recommend_sku', :as => "recommend_sku"
-
-
+  
   get 'dapeis/:dapei_id/get_dapei_detail' => "dapeis#get_dapei_detail", :as => "get_dapei_detail"
   get 'items/:item_id/get_item_detail' => "items#get_item_detail", :as => "get_item_detail"
 
@@ -744,22 +455,6 @@ Shangjieba::Application.routes.draw do
   resources :items do
     resources :comments, :only => [:index, :create, :destroy], :name_prefix => "item_"
     resources :discounts
-  end
-
-  resources :skus do
-    resources :comments, :only => [:index, :create, :destroy], :name_prefix => "sku_"
-    resources :discounts
-
-    member do
-      get :get_properties
-      get :help
-      get :redirect
-      get :info
-    end
-  end
-
-  resources :discounts do
-    resources :comments, :only => [:index, :create, :destroy], :name_prefix => "discount_"
   end
 
   devise_for :users, :path => "accounts/info", :controllers => {:sessions => "sessions", :passwords => "passwords", :registrations => "registration", :omniauth_callbacks => "authentications"}
@@ -836,50 +531,19 @@ Shangjieba::Application.routes.draw do
   end
 
   resources :categories, :only => [:index]
-  resources :areas
 
   scope "/social" do
     resources :likes, :only => [:create, :destroy]
     get "dislike" => "likes#dislike"
   end
   get 'items/:id/liked_users' => 'items#like_users', :as => "item_like_users"
-  get 'skus/:id/liked_users' => 'skus#like_users', :as => "sku_like_users"
-
   get 'items/:id/like_users' => 'items#like_users', :as => "item_like_users"
   get 'brands/:id/like_users' => 'brands#like_users', :as => "brand_like_users"
-  get 'skus/:id/like_users' => 'skus#like_users', :as => "sku_like_users"
 
   get 'items/recommend/index' => 'items#recommended_items', :as => "recommended_items"
   get 'posts/:id/liked_users' => 'posts#like_users', :as => "post_like_users"
   get 'brands/:id/liked_users' => 'brands#like_users', :as => "brand_like_users"
-
-  get 'areas/info/get_dist' => 'areas#get_dist', :as => "get_dist"
-  get 'areas/info/get_all_dist' => 'areas#get_all_dist', :as => "get_all_dist"
-  get 'areas/info/get_subdist' => 'areas#get_subdist', :as => "get_subdist"
-  get 'areas/info/get_cities' => 'areas#get_cities', :as => "get_cities"
-  get 'areas/info/recommended_cities' => 'areas#recommended_cities', :as => "recommended_cities"
-  get 'areas/recommend_city/:id' => 'areas#recommend_city', :as => "recommend_city"
-
-  #just for areas db inserting
-  get 'areas/info/test' => 'areas#index', :as => 'areas_index'
-
   get 'info/search' => 'search#index', :as => 'common_search'
-
-  #get 'street/:option.html' =>'search#index', :as=>'street_search'
-  #get 's/:option.html' => 'search#index', :as=>'q_search'
-  get ':index/:option.html' => 'search#index', :as => 'index_search'
-  get ':city_pinyin/:index/:option.html' => 'search#index', :as => 'index_search_1'
-
-  get ':index/info/search' => 'search#index', :as => "info_search"
-  get ':index/cat/:cid' => 'search#index', :as => "cat_search"
-  get ':index/info/group_by_street' => 'search#groupByStreet', :as => "info_group_search"
-  get ':index/info/group_by_mall' => 'search#groupByMall', :as => "mall_group_search"
-  get ':index/info/group_by_brand' => 'search#groupByBrand', :as => "brand_group_search"
-  #get 'search/:index/:dp_id' =>  'search#index', :as=>"area_search"
-  #get 'search/:index/:cid/:dp_id' =>   'search#index', :as=>"cat_area_search"
-  get 'info/auto_suggest' => 'search#auto_suggest', :as => "auto_suggest"
-  get 'info/search_suggest' => 'search#search_suggest', :as => "search_suggest"
-  get 'info/area_city' => 'search#area_city', :as => "area_city"
 
   post 'photos/parse_raw_url' => 'photos#parse_raw_url'
   post 'photos/get_pic' => 'photos#get_pic'
@@ -887,7 +551,6 @@ Shangjieba::Application.routes.draw do
   get 'stat/report' => 'stat#report', :as => "report"
   get 'shop/open' => 'shops#new'
   get ':shop_id/item/new' => 'items#new', :as => "items_new_path"
-
   get ":shop_id/:id.htm" => 'items#show', :as => "items_path"
   get "site/sitemap" => "sitemap#index"
   get "site/sitemap/:prefix" => "sitemap#index"
@@ -973,6 +636,11 @@ Shangjieba::Application.routes.draw do
   get 'tshow_spiders/spider_crawler/:spider_id' => 'tshow_spiders#spider_crawler'
   get 'tshow_spiders/crawler/:brand_id' => 'tshow_spiders#crawler'
 
+
+  get 'spiders/new_crawler/:spider_id' => 'spiders#new_crawler'
+  get 'spiders/new_scheduler/:spider_id' => 'spiders#new_scheduler'
+
+
   get 'spiders/list' => 'spiders#index'
   get 'spiders/schedule_list/:templateid' => 'spiders#schedule_index'
   get 'tshow_spiders/schedule_list/:templateid' => 'tshow_spiders#schedule_index'
@@ -992,7 +660,6 @@ Shangjieba::Application.routes.draw do
   get 'info/check_update_new' => 'home#check_update_new'
 
   get 'spiders/info/:brand_id' => 'spiders#show'
-
 
   #-------------------2013--------------
 
