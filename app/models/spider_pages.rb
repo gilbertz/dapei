@@ -11,4 +11,17 @@ class SpiderPages < ActiveRecord::Base
     end
   end
 
+  def get_category(user_id)
+    c = Category.find_by_name_and_user_id(self.name, user_id)
+    unless c
+      c = Category.new
+      c.user_id = user_id
+      c.parent_id = self.parent_id
+      c.name = self.name
+      c.save
+    end
+    c 
+  end
+
+
 end

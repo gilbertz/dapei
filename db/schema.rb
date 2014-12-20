@@ -11,7 +11,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20141216103608) do
+ActiveRecord::Schema.define(:version => 20141220102114) do
 
   create_table "all_tags", :force => true do |t|
     t.string   "name"
@@ -177,6 +177,7 @@ ActiveRecord::Schema.define(:version => 20141216103608) do
     t.string   "thumb_url",                      :default => ""
     t.float    "min_price"
     t.float    "max_price"
+    t.integer  "user_id"
   end
 
   add_index "categories", ["abb"], :name => "index_categories_on_abb"
@@ -750,6 +751,7 @@ ActiveRecord::Schema.define(:version => 20141216103608) do
     t.string   "docid"
     t.integer  "off_percent"
     t.integer  "origin_price"
+    t.integer  "page_id"
   end
 
   add_index "matters", ["brand_id"], :name => "index_matters_on_brand_id"

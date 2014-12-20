@@ -1092,6 +1092,27 @@ class User < ActiveRecord::Base
     (self.apply_type.to_i > 0 )
   end
 
+  def self.create_by_brand(brand_id)
+    brand = Brand.find_by_id brand_id
+    if brand
+      u = User.find_by_brand_id(brand.id)
+      unless u
+        username = brand.url + Devise.friendly_token[0,20]
+        email = username+"@dapeimishu.com"
+        password = Devise.friendly_token[0,20]
+        u = User.new
+        u.name = brand.display_name
+        u.email = email
+        u.password = password
+        u.brand_id = brand.id
+        u.remember_me = 1
+        u.save 
+      end
+      u
+    end
+  end
+
+
   private
   def get_pod_url
     pod_url = AppConfig[:pod_url].dup
