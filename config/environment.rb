@@ -23,5 +23,11 @@ require File.expand_path('../application', __FILE__)
 
 #RAILS_DEFAULT_LOGGER = Logger.new("#{RAILS_ROOT}/log/#{RAILS_ENV}.log", "daily")  
 
+
+SPIDER_USER = 'root'
+SPIDER_IP = '114.215.120.243'
+SPIDER_PASS = '449e1fb5' 
+
+
 # Initialize the rails application
 Shangjieba::Application.initialize!

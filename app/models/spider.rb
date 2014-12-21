@@ -8,6 +8,12 @@ class Spider < ActiveRecord::Base
     SpiderPages.where(:spider_id => self.id)
   end
 
+
+  def crawler_command 
+    `sshpass -p '#{SPIDER_PASS}' ssh -o StrictHostKeyChecking=no #{SPIDER_USER}@#{SPIDER_IP} 'cd /data/spider/ && /bin/bash ./spider.sh #{self.id} > /tmp/spider_#{spider_id}.log'`
+
+  end
+
   def invert_state
     if self.stop
       self.stop = false

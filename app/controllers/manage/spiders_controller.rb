@@ -56,11 +56,14 @@ class Manage::SpidersController < Manage::BaseController
   end
 
   def start_crawl
-    spider_id = params[:id]
-    brand_id = Spider.find(spider_id).brand_id
-    prior_crawl_queue = $redis_crawler.lrange("prior_crawl_queue",0,-1)
-    $redis_crawler.rpush("prior_crawl_queue", spider_id ) unless prior_crawl_queue.include?(spider_id)
-    `cd /var/www/crawler/ && /bin/bash ./spider_crawler.sh #{spider_id} #{brand_id} > spider_crawler_#{spider_id}.log`
+    #spider_id = params[:id]
+    #brand_id = Spider.find(spider_id).brand_id
+    #prior_crawl_queue = $redis_crawler.lrange("prior_crawl_queue",0,-1)
+    #$redis_crawler.rpush("prior_crawl_queue", spider_id ) unless prior_crawl_queue.include?(spider_id)
+    #`cd /var/www/crawler/ && /bin/bash ./spider_crawler.sh #{spider_id} #{brand_id} > spider_crawler_#{spider_id}.log`
+    
+    sp  = Spider.find params[:id]
+    sp.crawler_command
     render nothing: true
   end
 
@@ -74,41 +77,6 @@ class Manage::SpidersController < Manage::BaseController
   private
   def set_param_side
     params[:side] = 'manage/brands/sidebar'
-  end
-
-  def load_cosmetic_house_subcats
-    @cosmetic_sub_cats = Category.where{parent_id==9}.collect do |sub_cat| 
-      [sub_cat.try(:name),sub_cat.id] 
-    end
-    @cosmetic_sub_cats = [ ["无", 0] ] + @cosmetic_sub_cats
-    @house_sub_cats = Category.where{parent_id==10}.collect do |sub_cat| 
-      [sub_cat.try(:name),sub_cat.id] 
-    end
-    @house_sub_cats = [ ["无", 0] ] + @house_sub_cats
-    @tops_sub_cats = Category.where{parent_id==11}.collect do |sub_cat| 
-      [sub_cat.try(:name),sub_cat.id] 
-    end
-    @tops_sub_cats = [ ["无", 0] ] + @tops_sub_cats
-    @shoes_sub_cats = Category.where{parent_id==4}.collect do |sub_cat| 
-      [sub_cat.try(:name),sub_cat.id] 
-    end
-    @shoes_sub_cats = [ ["无", 0] ] + @shoes_sub_cats
-    @bags_sub_cats = Category.where{parent_id==5}.collect do |sub_cat| 
-      [sub_cat.try(:name),sub_cat.id] 
-    end
-    @bags_sub_cats = [ ["无", 0] ] + @bags_sub_cats
-    @accs_sub_cats = Category.where{parent_id==6}.collect do |sub_cat| 
-      [sub_cat.try(:name),sub_cat.id] 
-    end
-    @accs_sub_cats = [ ["无", 0] ] + @accs_sub_cats
-    @pants_sub_cats = Category.where{parent_id==12}.collect do |sub_cat| 
-      [sub_cat.try(:name),sub_cat.id] 
-    end
-    @pants_sub_cats = [ ["无", 0] ] + @pants_sub_cats
-    @skirts_sub_cats = Category.where{parent_id==13}.collect do |sub_cat| 
-      [sub_cat.try(:name),sub_cat.id] 
-    end
-    @skirts_sub_cats = [ ["无", 0] ] + @skirts_sub_cats
   end
 
   def load_templates

@@ -138,41 +138,6 @@ class Manage::MattersController < Manage::BaseController
   end
 
   def recommends
-    @c_selects = { 
-      "3"  => "未分类", "4"  => "鞋子", "5"  => "包包",
-      "6"  => "配饰",   "7"  => "男装", "8"  => "童装",
-      "9"  => "美妆",   "10"  => "家居",  "11" => "上衣", "12" => "裤装",
-      "13" => "裙装",   "14" => "内衣"
-    }
-    @only_matter = false
-    @skip = false
-
-    cond = compose_conditional
-
-    params[:only_matter] && @only_matter = true
-    params[:skip] && @skip = true
-
-    @page = params[:page] || 1
-
-    offset = 500 * (@page.to_i - 1)
-
-    if params[:tagid].nil? || params[:tagid].strip.empty?
-      joins_str = "INNER JOIN skus on photos.target_id = skus.id"
-      where_cond = "photos.target_type = 'Sku' and #{cond}"
-      order_str = "skus.created_at desc"
-    else
-      joins_str = "INNER JOIN skus on photos.target_id = skus.id JOIN taggings ON taggings.taggable_id = skus.id"
-      where_cond = "photos.target_type = 'Sku' and taggings.taggable_type = 'Sku' and #{cond}"
-      order_str = "taggings.taggable_id desc"
-    end
-
-    #group_str = "photos.target_id"
-
-    text_values
-   
-    #@photos = Photo.joins("#{joins_str}").where("#{where_cond}").order("#{order_str}").group("#{group_str}").offset(offset).limit(500)
-    @photos = Photo.joins("#{joins_str}").where("#{where_cond}").order("#{order_str}").offset(offset).limit(500)
-    @photos_size = @photos.length
   end
 
   def edit
