@@ -3,7 +3,6 @@
 class Manage::SpidersController < Manage::BaseController
   before_filter :set_param_side
   before_filter :load_templates, only: [:new,:edit]
-  before_filter :load_cosmetic_house_subcats, only: [:new,:edit]
 
   def index
     cond = "1=1"

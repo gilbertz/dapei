@@ -5,12 +5,12 @@ class Manage::MattersController < Manage::BaseController
   def index
     params[:side] = 'manage/dapeis/sidebar'
     @matters = Matter
-    if params[:sku_id]
-      @matters =Matter.where(:sku_id => params[:sku_id])
+    if params[:docid]
+      @matters =Matter.where(:docid => params[:docid])
     elsif params[:brand_id]
-      @matters = Matter.joins("left join skus on skus.id = matters.sku_id").where("skus.brand_id = #{params[:brand_id]}")
+      @matters = Matter.where("brand_id = #{params[:brand_id]}")
     elsif params[:sub_category_id]
-      @matters = Matter.joins("left join skus on skus.id = matters.sku_id").where("skus.sub_category_id = #{params[:sub_category_id]}")
+      @matters = Matter.where("sub_category_id = #{params[:sub_category_id]}")
     elsif params[:category_id]
       @matters = Matter.where("category_id = #{params[:category_id]}")
     elsif params[:user_id]
@@ -138,6 +138,7 @@ class Manage::MattersController < Manage::BaseController
   end
 
   def recommends
+    @spider = Spider.find params[:spider_id]
   end
 
   def edit

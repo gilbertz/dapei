@@ -11,6 +11,7 @@
     <tr class="success">
       <th width="6%">ID</th>
       <th>品牌名</th>
+      <th>爬取数据</th>
       <th>品牌级别</th>
       <th>模板</th>
       <th width="10%">停止</th>
@@ -30,6 +31,7 @@
           </span>
         </td>
         <td><%= link_to spider.brand.try(:name), "/manage/spiders?bid=#{spider.brand.id}" %></td>
+        <td><%=link_to '爬取图片', "/manage/matters/recommends?spider_id=#{spider.id}" %></td> 
         <td><%= spider.brand.level %></td>
         <td>
           <% if spider.template_spider %>

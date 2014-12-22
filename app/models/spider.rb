@@ -8,6 +8,28 @@ class Spider < ActiveRecord::Base
     SpiderPages.where(:spider_id => self.id)
   end
 
+  def make_docid(url)
+    case url
+    when /tmall.com|tmall.hk/
+      url = url.gsub(/\?(.*)(id=\d+)(.*)/, '?\2')
+    when /net-a-porter.com/
+      url_arr = url.split("/")
+      if url_arr.size == 7
+        str_to_replace = url_arr.last(2).join("\/")
+        str_to_sub = "\/#{str_to_replace}"
+        url = url.gsub( /#{Regexp.escape(str_to_sub)}/, "")
+      end
+    when /swarovski.com.cn/
+      url = url.split(";").first
+    when /jumei.com/
+      url = url.split("?").first
+    when /yintai.com/
+      url = url.split("?").first
+      url = "#{url}?source=shangjie"
+    end
+    Digest::MD5.hexdigest( url )
+  end
+
 
   def get_docs
     doc_dict = {}
@@ -15,8 +37,11 @@ class Spider < ActiveRecord::Base
     spider_pages = self.get_spider_pages
     spider_pages.each do |c|
       page_id = c.id
+      brand_id = self.brand.id
+      spider_id = self.id
+
       pkey = "brand_#{brand_id}_spider_#{spider_id}_spider_pages_#{page_id}"
-      lks = @redis.lrange(pkey, 0, -1)
+      lks = $redis_crawler.lrange(pkey, 0, -1)
       brand_cat_list_length = lks.length
       p pkey,lks.length
 
@@ -27,7 +52,8 @@ class Spider < ActiveRecord::Base
         p link
         next if link.nil?
         link_docid = make_docid(link)
-        doc_yml = @redis.get link_docid
+        doc_yml = $redis_crawler.get link_docid
+
         next if doc_yml.nil?
         doc = YAML::load( doc_yml )
         doc['docid'] = link_docid
