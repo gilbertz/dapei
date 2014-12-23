@@ -816,7 +816,7 @@ class CollocationsController < ApplicationController
 
     @dapei.make_share_img
     #FlashBuy::Api.add_coin(@dapei,"publish_dapei")
-    @dapei.find_brands
+    #@dapei.find_brands
     respond_to do |format|
       if is_mobile
         format.json { render_for_api :dapei_detail, :json=>@dapei, :meta=>{:result=>"0"} }
