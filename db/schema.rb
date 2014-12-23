@@ -11,7 +11,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20141220102114) do
+ActiveRecord::Schema.define(:version => 20141222150808) do
 
   create_table "all_tags", :force => true do |t|
     t.string   "name"
@@ -1144,6 +1144,7 @@ ActiveRecord::Schema.define(:version => 20141220102114) do
     t.float    "max_bags_price"
     t.string   "size_types"
     t.text     "now_price"
+    t.string   "matter_rule"
   end
 
   add_index "spiders", ["brand_id"], :name => "index_spiders_on_brand_id"
