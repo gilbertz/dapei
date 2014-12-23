@@ -299,25 +299,37 @@ class Matter < ActiveRecord::Base
 
 
   def self.create_from_hash(doc)
-    imgs = doc["dp_imgs"]+doc["imgs"]
-    imgs.each do |img|
-      p = Photo.attach(img)
-      next unless p
-      m = Matter.find_by_sjb_photo_id(p.id)
-      unless m
-        m = Matter.new
-      end
-      m.sjb_photo_id = p.id
-      m.title = doc['title']
-      m.desc = doc['desc']
-      m.category_id = doc['category_id']
-      m.brand_id = doc['brand_id']
-      m.spider_id = doc['spider_id']
-      m.sub_category_id = doc['sub_category_id']
-      m.link = doc['link']
-      m.docid = doc['docid']
-      m.save
+    doc['dp_imgs'].each do |img|
+      self.by_img(img, doc)
     end
+    spider = Spider.find doc['spider_id']
+    matter_rule = spider.matter_rule 
+    
+    #the first img taken as 造型
+    if matter_rule.to_i == 1
+      self.by_img(doc['imgs'][0], doc)
+    end   
+
+  end
+
+  
+  def self.by_img(img, doc)
+    p = Photo.attach(img)
+    return unless p
+    m = Matter.find_by_sjb_photo_id(p.id)
+    unless m
+      m = Matter.new
+    end
+    m.sjb_photo_id = p.id
+    m.title = doc['title']
+    m.desc = doc['desc']
+    m.category_id = doc['category_id']
+    m.brand_id = doc['brand_id']
+    m.spider_id = doc['spider_id']
+    m.sub_category_id = doc['sub_category_id']
+    m.link = doc['link']
+    m.docid = doc['docid']
+    m.save
   end
  
 

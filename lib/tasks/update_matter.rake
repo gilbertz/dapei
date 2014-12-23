@@ -42,15 +42,16 @@ end
 
 namespace :matter do
 
-  task :import, [:brand_id] => :environment do |t, args|
+  task :import, [:spider_id] => :environment do |t, args|
      @redis =  Redis.new(:host => 'localhost', :port => 6379)
      
-     brand_id = args[:brand_id]
-     spiders = Brand.find(brand_id).spiders
-     spiders.each do |spider|
-      spider_id = spider.id
-      spider_pages = spider.get_spider_pages
-      spider_pages.each do |c|
+     spider_id = args[:spider_id]
+     spider = Spider.find spider_id
+     brand_id = spider.brand.id
+
+     if true 
+       spider_pages = spider.get_spider_pages
+       spider_pages.each do |c|
          page_id = c.id
          pkey = "brand_#{brand_id}_spider_#{spider_id}_spider_pages_#{page_id}"
          lks = @redis.lrange(pkey, 0, -1)
@@ -75,6 +76,7 @@ namespace :matter do
              u = User.create_by_brand(brand_id)
              doc['user_id'] = u.id
              doc['page_id'] = page_id
+             doc['spider_id'] = spider_id
              doc['sub_category_id'] = c.get_category(u.id).id
              #========
 
@@ -88,7 +90,7 @@ namespace :matter do
          end
 
        end
-      end
+    end
   end
 
   task :import_all => :environment do
