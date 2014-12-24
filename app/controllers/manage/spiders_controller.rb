@@ -62,7 +62,10 @@ class Manage::SpidersController < Manage::BaseController
     #`cd /var/www/crawler/ && /bin/bash ./spider_crawler.sh #{spider_id} #{brand_id} > spider_crawler_#{spider_id}.log`
     
     sp  = Spider.find params[:id]
-    sp.crawler_command
+    t = Thread.new do
+      sp.crawler_command
+    end
+    t.join
     render nothing: true
   end
 
