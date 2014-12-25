@@ -18,6 +18,7 @@ class SpiderPages < ActiveRecord::Base
       c.user_id = user_id
       c.parent_id = self.parent_id
       c.name = self.name
+      c.is_active = true
       c.save
     end
     c 

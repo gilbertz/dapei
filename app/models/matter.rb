@@ -299,21 +299,30 @@ class Matter < ActiveRecord::Base
 
 
   def self.create_from_hash(doc)
-    doc['dp_imgs'].each do |img|
-      self.by_img(img, doc)
+    if doc['dp_imgs']
+      doc['dp_imgs'].each do |img|
+        self.by_img(img, doc)
+      end
     end
+    p '1'
     spider = Spider.find doc['spider_id']
     matter_rule = spider.matter_rule 
     
-    #the first img taken as 造型
-    if matter_rule.to_i == 1
-      self.by_img(doc['imgs'][0], doc)
-    end   
+    if matter_rule == 'tmall'
+      Matter.by_img(doc['imgs'][0], doc)
+    end
+    p '2'   
+    if matter_rule == 'hm'
+      Matter.by_img(doc['imgs'][0], doc)
+      Matter.by_img(doc['imgs'][1], doc) 
+    end
+    p '3'
 
   end
 
   
   def self.by_img(img, doc)
+    p 'by_img'
     p = Photo.attach(img)
     return unless p
     m = Matter.find_by_sjb_photo_id(p.id)
