@@ -8,6 +8,7 @@ class Category < ActiveRecord::Base
   has_many :skus
   attr_accessible :abb, :name, :id, :parent_id, :weight, :is_active, :synonym, :thing_img_id, :image_thing, :desc, :app_icon_image, :is_active_for_app, :min_price, :max_price
   has_many :synonyms
+  belongs_to :user
 
   attr_accessor :tags
 
