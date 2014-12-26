@@ -297,17 +297,17 @@ class CollocationsController < ApplicationController
 
   def get_brands
     #@brands = Brand.where("level >= 4").order("url asc")
-    brands = []
-    s = Searcher.new("", "matter", "")
-    s.getBrandGroup
-    s.get_bg.each do |d|
-      brands << d['brand_id'] if d['brand_id'].to_i > 0
-    end
+    #brands = []
+    #s = Searcher.new("", "matter", "")
+    #s.getBrandGroup
+    #s.get_bg.each do |d|
+    #  brands << d['brand_id'] if d['brand_id'].to_i > 0
+    #end
 
     #注意brand_id 的数量 好像最多能查2000？ 以后如果品牌多的话会报错
 
-    @brands = Brand.find_all_by_id( brands)
-    @brands = @brands.sort_by{|b| b.url}
+    #@brands = Brand.find_all_by_id( brands)
+    #@brands = @brands.sort_by{|b| b.url}
   end
 
 
@@ -317,6 +317,14 @@ class CollocationsController < ApplicationController
     @rule_categories += Category.where("id = 3").where( :is_active => true )
 
     @sucai_categories = Category.where("id > 10 and parent_id = 1140").where(:is_active => true).order("weight desc")
+
+    @user_categories =  Category.where(:user_id => current_user.id).where(:is_active => true).order("weight desc")
+    
+    if params[:user_id]
+       @user = User.find(params[:user_id])
+    else
+       @user = current_user
+    end     
 
     get_brands
   end
@@ -329,8 +337,13 @@ class CollocationsController < ApplicationController
 
     @sucai_categories = Category.where("id > 10 and parent_id = 1140").where(:is_active => true).order("weight desc")
     @home_categories = Category.where("parent_id = 10").where(:is_active => true).order("weight desc")
-    
-    #get_brands
+    @user_categories =  Category.where(:user_id => current_user.id).where(:is_active => true).order("weight desc")   
+
+    if params[:user_id]
+       @user = User.find(params[:user_id])
+    else
+       @user = current_user
+    end
   end
 
 
@@ -420,6 +433,12 @@ class CollocationsController < ApplicationController
               @sub_categories = Category.sub(cat.id)
             end
           end
+
+          if cat.user
+            r["sub_category_id"] = r["category_id"]  
+            r["category_id"] = nil 
+          end
+
         else
           user_id = current_user.id
         end

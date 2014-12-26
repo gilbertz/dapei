@@ -237,5 +237,18 @@ class Category < ActiveRecord::Base
     end
     categories
   end
- 
+
+  def refresh_img
+    matter =  Matter.where(:sub_category_id => self.id).order('created_at desc').first
+    self.image_thing = matter.image_name
+    self.save
+  end
+
+  def get_image_thing
+    unless self.image_thing
+      self.refresh_img
+    end  
+    self.image_thing
+  end
+
 end

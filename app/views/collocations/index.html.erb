@@ -205,6 +205,21 @@
         "max_set_items": 50,
         "contest": null,
         "categories": {
+            "user": [
+                <% unless @user_categories.blank? %>
+                    <% @user_categories.each do |c| %>
+                        {
+                            "group_name": "<%= c.user.display_name %>",
+                            "thing_id": "<%= c.get_image_thing %>",
+                            "filters": [{"value": "<%= c.id %>", "name": "category_id"}],
+                            "type": "thing",
+                            "label": "<%= c.name %>"
+                        },
+                    <% end %>
+                <% end %>
+
+            ],
+
             "fashion": [
                 <% unless @rule_categories.blank? %>
                     <% @rule_categories.each do |c| %>

@@ -1,8 +1,32 @@
-<% cache("#{request.url}?fragment", :expires_in => 2.hour) do %>
+<% cache("1#{request.url}?fragment", :expires_in => 2.hour) do %>
 {
    "status":{"ok":1},
    "result":{ 
         "categories": [
+            {
+              "type": "user",
+              "name": "<%= @user.name %>",
+              "data": [
+                <% unless @user_categories.blank? %>
+                    <% first = true %>
+                    <% @user_categories.each do |c| %>
+                        <%if not first %>
+                        ,
+                        <% end %>
+                        <% first = false  %>
+                        {
+                            "group_name": "<%= @user.name %>",
+                            "thing_id": "<%= c.get_image_thing %>",
+                            "filters": [{"value": "<%= c.id %>", "name": "category_id"}],
+                            "type": "thing",
+                            "label": "<%= c.name %>"
+                        }
+                    <% end %>
+                <% end %>
+             ]
+            },
+
+
             {
               "type": "fashion",
               "name": "服饰",

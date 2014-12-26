@@ -3,6 +3,26 @@
    "status":{"ok":1},
    "result":{ 
         "categories": {
+            "user": [
+                <% unless @user_categories.blank? %>
+                    <% first = true %>
+                    <% @user_categories.each do |c| %>
+                        <%if not first %>
+                        ,
+                        <% end %>
+                        <% first = false  %>
+                        {
+                            "group_name": "<%= @user.display_name %>",
+                            "thing_id": "<%= c.get_image_thing %>",
+                            "filters": [{"value": "<%= c.id %>", "name": "category_id"}],
+                            "type": "thing",
+                            "label": "<%= c.name %>"
+                        }
+                    <% end %>
+                <% end %>
+            ],
+
+
             "fashion": [
                 <% unless @rule_categories.blank? %>
                     <% first = true %>

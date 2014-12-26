@@ -10,40 +10,15 @@ Shangjieba::Application.routes.draw do
     resources :users
   end
 
-  resources :dfties
 
   resources :honours
 
   resources :user_activities
 
-  resources :dapei_responses
-
-  resources :dapei_responses do
-    resources :comments, :only => [:index, :create, :destroy], :name_prefix => "dapei_response_"
-  end
-
-  resources :ask_for_dapeis do
-
-    member do
-      get :view_show
-    end
-
-    member do
-      get :stick
-      get :unstick
-    end
-
-  end
-
   get 'matters/:id/view_show' => 'matters#view_show'
   get 'matters/new_matter' => 'matters#new_matter'
 
-
-  get 'dapei_responses/:id/liked_users' => 'dapei_responses#like_users', :as => "dapei_response_like_users"
-
-  get 'ask_for_dapeis/:request_id/answers' => "dapei_responses#index"
-
-  get 'dapei_requests/main' => "ask_for_dapeis#main"
+  resources :matters
 
   namespace :m do
     root :to => "welcome#index"

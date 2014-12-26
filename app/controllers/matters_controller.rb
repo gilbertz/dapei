@@ -6,7 +6,6 @@ class MattersController < ApplicationController
   
   skip_before_filter :verify_authenticity_token, :only => [:create, :new_matter]
 
-
   def get_dapeis
     matter = Matter.find_by_id( params[:id] )
     @dapeis = []
