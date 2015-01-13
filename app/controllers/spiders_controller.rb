@@ -150,6 +150,13 @@ class SpidersController < ApplicationController
     end
   end
 
+  def category_scheduler
+    @spider = Spider.find params[:spider_id]
+    respond_to do |format|
+      format.rb { render "category_scheduler", :layout => false }
+    end
+  end
+
   def soldout    
     @origin_spider = Spider.where( :brand_id => params[:brand_id] ).includes(:brand).order{created_at.desc}.first
     @spider = @origin_spider.template_spider

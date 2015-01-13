@@ -1,0 +1,79 @@
+.like-item {
+  padding: 0.1rem 0;
+}
+
+.more-like-page .like-item {
+  border-bottom: solid 1px #ccc;
+}
+
+.like-avatar {
+  width: 0.64rem;
+  height: 0.64rem;
+  margin: 0 0.05rem;
+}
+
+.like-text-info {
+  font-size: 0.22rem;
+  line-height: 1.4;
+  float: right;
+  width: 82%;
+}
+.like-user-name {
+  float: left;
+  color: #000;
+  width: 50%;
+}
+
+.like-date {
+  float: right;
+  font-size: 0.2rem;
+  width: 30%;
+  color: rgb(150, 150, 150);
+  text-align: right;
+}
+
+.like-content {
+  float: left;
+  color: rgb(150, 150, 150);
+  width: 68%;
+}
+
+.intrest-item {
+  padding: 0.1rem 0;
+}
+
+.find-channel .intrest-item {
+  border-bottom: solid 1px #ccc;
+}
+
+.intrest-avatar {
+  width: 0.64rem;
+  height: 0.64rem;
+  margin: 0 0.05rem;
+}
+
+.intrest-text-info {
+  font-size: 0.22rem;
+  line-height: 1.4;
+  float: right;
+  width: 82%;
+}
+.intrest-user-name {
+  float: left;
+  color: #000;
+  width: 50%;
+}
+
+.intrest-date {
+  float: right;
+  font-size: 0.2rem;
+  width: 30%;
+  color: rgb(150, 150, 150);
+  text-align: right;
+}
+
+.intrest-content {
+  float: left;
+  color: rgb(150, 150, 150);
+  width: 68%;
+}

@@ -1,0 +1,484 @@
+<html>
+<head>
+  <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+  <meta charset="utf8">
+  <meta name="viewport" content="width=320, initial-scale=1.0, user-scalable=no, maximum-scale=1.0">
+  <meta name="msapplication-tap-highlight" content="no">
+  <meta content="yes" name="apple-mobile-web-app-capable">
+  <meta content="black" name="apple-mobile-web-app-status-bar-style">
+  <meta content="telephone=no" name="format-detection">
+  <link rel="stylesheet" href="css/base.css" type="text/css">
+  <link rel="stylesheet" href="css/index.css" type="text/css">
+  <link rel="stylesheet" href="css/like.css" type="text/css">
+  <link rel="stylesheet" href="css/comment.css" type="text/css">
+  <link rel="stylesheet" href="css/avatar.css" type="text/css">
+  <link rel="stylesheet" href="css/bottom_bar.css" type="text/css">
+  <script type="text/javascript" src="js/jquery-2.1.0.min.js"></script>
+  <script type="text/javascript" src="js/jquery.cookie.js"></script>
+  <script type="text/javascript" src="js/slip-min.js"></script>
+  <script type="text/javascript" src="js/base.js"></script>
+  <script type="text/javascript" src="js/index.js"></script>
+  <title>上街吧-时尚搭配DIY</title>
+  <script type="text/javascript" name="baidu-tc-cerfication" src="http://apps.bdimg.com/cloudaapi/lightapp.js#172a854e4a368f1373c63b8533a823c9"></script><script type="text/javascript">window.bd && bd._qdc && bd._qdc.init({app_id: '4c6c440a662903e894e8bc5e'});</script>
+</head>
+<body>
+
+<div class="page">
+  <div class="channel arrange-channel">
+    <!-- <div id="banner">
+      <div id="banner-img-container"></div>
+    </div> -->
+    <div width="93.75%" class="list">
+    </div>
+  </div>
+  <div class="channel single-channel">
+    <div class="list">
+      <div id="single-left-col"></div>
+      <div id="single-right-col"></div>
+      <ul class="clear"></ul>
+    </div>
+    <div class="scroll-loading">正在加载……</div>
+  </div>
+  <div class="channel find-channel">
+    <div class="search-zone">
+      <input onkeyup="SJBindex.channelInfo.find.changeToCancel(this)" class="search-input" type="text" placeholder="搜索你感兴趣的人吧">
+      <div onclick="SJBindex.channelInfo.find.search(this)" class="search-btn">搜索</div>
+      <div onclick="SJBindex.channelInfo.find.cancel(this)" class="cancel-btn">取消</div>
+      <ul class="clear"></ul>
+    </div>
+    <div class="list">
+      <div class="intrest-item template">  
+        <div class="avatar intrest-avatar">
+          <img width="100%" height="100%">
+        </div>
+        <div class="intrest-text-info">
+          <div class="intrest-user-name cut"></div>.
+          <div class="attention">加关注</div>
+          <div class="intrest-content cut"></div>
+          <!-- intrest-content 介绍改用户发布的搭配与粉丝数量 -->
+          <ul class="clear"></ul>
+        </div>
+        <ul class="clear"></ul>
+      </div>
+    </div>
+  </div>
+  <div class="channel mine-channel">
+    <div class="mine-list">
+      <div onclick="SJBindex.checkLogin();" class="mine-item login">
+        <img class="mine-item-logo" src="images/icons/app.png">
+        <div class="text">点击登录</div>
+        <img class="arrow" src="images/icons/arrow.png">
+        <ul class="clear"></ul>
+      </div>
+      <!-- <div onclick="SJBindex.goPubView();" class="mine-item pub-arrange">
+        <img class="mine-item-logo" src="images/icons/pub_arrange.png">
+        <div class="text">发布的搭配</div>
+        <img class="arrow" src="images/icons/arrow.png">
+        <ul class="clear"></ul>
+      </div> -->
+      <div onclick="SJBindex.pushNewPage(SJBindex.lcPage.createPage());" class="mine-item like_collect m-t-25">
+        <img class="mine-item-logo" src="images/icons/like3.png">
+        <div class="text">喜欢与收藏</div>
+        <img class="arrow" src="images/icons/arrow.png">
+        <ul class="clear"></ul>
+      </div>
+      <div class="hr"></div>
+      <!--
+      <div onclick="SJBindex.prompt('请下载应用申请达人！')" class="mine-item daren">
+        <img class="mine-item-logo" src="images/icons/star.png">
+        <div class="text">达人申请</div>
+        <img class="arrow" src="images/icons/arrow.png">
+        <ul class="clear"></ul>
+      </div>
+      -->
+      <div onclick="SJBindex.pushNewPage(SJBindex.setUpPage.createPage());" class="mine-item set-up  m-t-25">
+        <img class="mine-item-logo" src="images/icons/set_up.png">
+        <div class="text">通用设置</div>
+        <img class="arrow" src="images/icons/arrow.png">
+        <ul class="clear"></ul>
+      </div>
+    </div>
+    <!--
+    <div class="app-recommend-title">应用推荐</div>
+    <div class="app-recommend-list  m-t-25">
+      <a class="app-recommend-item template">
+        <img class="app-icon"><br>
+        <span class="app-name"></span>
+      </a>
+      <ul class="clear"></ul>
+    </div>
+    -->
+    <div onclick="SJBindex.logoutFn()" class="logout">退出登录</div>
+  </div>
+</div>
+<div id="bottom-channel">
+  <div id="arrange" class="channel-link">
+    <img src="images/icons/arrange.png"><br>
+  </div>
+  <div id="single" class="channel-link">
+    <img src="images/icons/single.png"><br>
+  </div>
+  <div id="find" class="channel-link">
+    <img src="images/icons/find.png"><br>
+  </div>
+  <div id="mine" class="channel-link">
+    <img src="images/icons/mine.png"><br>
+  </div>
+  <ul class="clear"></ul>
+</div>
+<div id="return-top"></div>
+<div class="templates">
+  <!-- page arrange-detail-->
+  <div class="page arrange-detail page-template">
+    <div class="page-content">
+      <div class="main-img">
+        <img width="100%">
+      </div>
+      <div class="main-img-info">
+        <div class="avatar a-d-avatar">
+          <img width="100%" height="100%">
+        </div>
+        <div class="a-d-m-sometext">
+          <div class="username"></div>
+          <div class="desc cut"></div>
+        </div>
+        <div class="attention">
+          加关注
+        </div>
+        <ul class="clear"></ul>
+      </div>
+      <div class="hr"></div>
+      <div class="arrange-zone">
+        <div class="arrange-head">
+          <div class="arrange-title cut"></div>
+          <div class="arrange-update"></div>
+          <ul class="clear"></ul>
+        </div>
+        <table border="1" cellspacing="0" cellpadding="0"></table>
+      </div>
+      <div class="comments">
+        <div class="hr"></div>
+        <div class="comments-head">
+          <img src="images/icons/like_solid.png">
+          <span class="like-count"></span>
+          <div class="placeholder1"></div>
+          <img src="images/icons/comment_solid.png">
+          <span class="comment-count"></span>
+        </div>
+        <div class="likes-user">
+          <div class="avatar a-d-avatar a-d-c-avatar template">
+            <img width="100%" height="100%">
+          </div>
+          <div class="more-like-btn">
+            <img width="100%" src="images/icons/more_like_btn.png">
+          </div>
+          <ul class="clear"></ul>
+        </div>
+        <div class="hr"></div>
+        <div class="comments-detail">
+          <div class="comment-item template">  
+            <div class="avatar comment-avatar">
+              <img width="100%" height="100%">
+            </div>
+            <div class="comment-text-info">
+              <div class="comment-user-name"></div>
+              <div class="comment-date"></div>
+              <div class="comment-content"></div>
+              <ul class="clear"></ul>
+            </div>
+            <ul class="clear"></ul>
+          </div>
+        </div>
+        <div class="more-comments-btn">更多评论</div>
+        <ul class="clear"></ul>
+      </div>
+    </div>
+    <div class="bottom-bar">
+      <div class="left-icon">
+        <img src="images/icons/comment2.png">
+      </div>
+      <div class="right-icon">
+        <img src="images/icons/like2.png">
+      </div>
+      <ul class="clear"></ul>
+    </div>
+  </div>
+  <!-- page single-detail-->
+  <div class="page single-detail page-template">
+    <div class="page-content">
+      <div class="main-img">
+        <img width="100%">
+      </div>
+      <div class="main-img-info">
+        <div class="s-d-m-sometext">
+          <div class="p-name cut"></div>
+          <div class="p-price"></div>
+          <div class="p-buy-domain"></div>
+          <div class="p-brand"></div>
+        </div>
+        <div class="p-gobuy">
+          去购买
+        </div>
+        <ul class="clear"></ul>
+      </div>
+      <div class="comments">
+        <div class="hr"></div>
+        <div class="comments-head">
+          <img src="images/icons/like_solid.png">
+          <span class="like-count"></span>
+          <div class="placeholder1"></div>
+          <img src="images/icons/comment_solid.png">
+          <span class="comment-count"></span>
+        </div>
+        <div class="likes-user">
+          <div class="avatar s-d-avatar s-d-c-avatar template">
+            <img width="100%" height="100%">
+          </div>
+          <div class="more-like-btn">
+            <img width="100%" src="images/icons/more_like_btn.png">
+          </div>
+          <ul class="clear"></ul>
+        </div>
+        <div class="hr"></div>
+        <div class="comments-detail">
+          <div class="comment-item template">  
+            <div class="avatar comment-avatar">
+              <img width="100%" height="100%">
+            </div>
+            <div class="comment-text-info">
+              <div class="comment-user-name"></div>
+              <div class="comment-date"></div>
+              <div class="comment-content"></div>
+              <ul class="clear"></ul>
+            </div>
+            <ul class="clear"></ul>
+          </div>
+        </div>
+        <div class="more-comments-btn">更多评论</div>
+        <ul class="clear"></ul>
+      </div>
+    </div>
+    <div class="bottom-bar">
+      <div class="left-icon">
+        <img src="images/icons/comment2.png">
+      </div>
+      <div class="right-icon">
+        <img src="images/icons/like2.png">
+      </div>
+      <ul class="clear"></ul>
+    </div>
+  </div>
+  <!-- page header -->
+  <div class="header">
+    <div class="icon header-left-icon">
+      <img width="60%">
+    </div>
+    <div class="icon header-right-icon">
+      <img width="60%">
+    </div>
+    <div class="header-title"></div>
+    <ul class="clear"></ul>
+  </div>
+  <div class="page set-up-page page-template">
+    <div class="bg-logo"></div>
+    <div class="set-list">
+      <div onclick="SJBindex.pushNewPage(SJBindex.helpPage.createPage());" class="set-item help">
+        <img class="set-item-logo" src="images/icons/help.png">
+        <div class="text">帮助教程</div>
+        <img class="arrow" src="images/icons/arrow.png">
+        <ul class="clear"></ul>
+      </div>
+      <div onclick="SJBindex.pushNewPage(SJBindex.suggestionPage.createPage());" class="set-item suggestion">
+        <!-- onclick="SJBindex.pushNewPage(SJBindex.suggestionPage.createPage());" -->
+        <img class="set-item-logo" src="images/icons/suggestion.png">
+        <div class="text">意见反馈</div>
+        <img class="arrow" src="images/icons/arrow.png">
+        <ul class="clear"></ul>
+      </div>
+      <div class="set-item evaluate">
+        <img class="set-item-logo" src="images/icons/support.png">
+        <div class="text">去给我一个评价吧</div>
+        <img class="arrow" src="images/icons/arrow.png">
+        <ul class="clear"></ul>
+      </div>
+      <div onclick="SJBindex.pushNewPage(SJBindex.aboutUsPage.createPage());" class="set-item about-us">
+        <img class="set-item-logo" src="images/icons/aboutus.png">
+        <div class="text">关于我们</div>
+        <img class="arrow" src="images/icons/arrow.png">
+        <ul class="clear"></ul>
+      </div>
+    </div>
+  </div>
+  <!-- arrange-item -->
+  <div class="arrange-item">
+    <div class="arrange-item-img">
+      <img width="100%">
+    </div>
+    <div class="arrange-item-info">
+      <div class="arrange-item-avatar">
+        <img width="100%">
+      </div>
+      <div class="arrange-item-name"></div>
+      <div class="arrange-item-like-count"></div>
+      <div class="arrange-item-like-heart">
+        <img src="images/icons/like.png">
+      </div>
+      <ul class="clear"></ul>
+    </div>
+  </div>
+  <!-- single-item -->
+  <div class="single-item">
+    <img width="100%"/>
+    <div class="single-item-info">
+      <span class="single-item-brand cut"></span>
+      <span class="single-item-price"></span>
+      <ul class="clear"></ul>
+    </div>
+  </div>
+  <!-- login page -->
+  <div class="page login-page page-template">
+    <div class="login-form">
+      <input id="une" type="text" placeholder="用户名">
+      <input id="pwd" type="password" placeholder="密码">
+      <div class="login-btn" onclick="SJBindex.loginFn()">登 录</div>
+      <div class="hr"></div>
+      <span class="other-login-title">用以下方式登录</span>
+      <div>
+        <a class="qq-login" href="/accounts/info/auth/qq_connect">
+          <img height="100%" src="images/icons/qq_icon.png">
+        </a>
+        <a class="sina-login" href="/accounts/info/auth/weibo">
+          <img height="100%" src="images/icons/sina_icon.png">
+        </a>
+        <ul class="clear"></ul>
+      </div>
+    </div>
+  </div>
+  <!-- prompt -->
+  <div class="prompt template">
+    <div class="prompt-text"></div>
+  </div>
+  <!-- help-page -->
+  <div class="page help-page page-template"></div>
+  <!-- buy-page -->
+  <div class="page buy-page page-template"></div>
+  <!-- suggestion-page -->
+  <div class="page suggestion-page page-template">
+    <textarea placeholder="您有什么想吐槽我们客户端的......"></textarea>
+  </div>
+  <!-- help-page -->
+  <div class="page about-us-page page-template">
+    <img class="app-logo" src="images/index/about_us.png"><br>
+    <span class="app-name">上街吧</span><br>
+    <span class="app-version">v1.0.0</span>
+    <div class="app-info">
+      官网：www.shangjieba.com<br>
+      微信号：上街吧<br>
+      上海舒微网络技术有限公司<br>
+      Copyright©2013-2014.All Rights Reserved
+    </div>
+  </div>
+  <!-- home-page -->
+  <div class="page home-page page-template">
+    <div class="home-bg">
+      <div class="home-avatar">
+        <img width="100%">
+      </div>
+    </div>
+    <div class="home-user-info">
+      <span class="home-username"></span><br>
+      <span class="home-user-desc"></span><br>
+      <div class="home-attention">加关注</div>
+      <table>
+        <tr>
+          <td><span class="home-following"></span></td>
+          <td><span class="home-follower"></span></td>
+          <td><span>个人资料</span></td>
+        </tr>
+      </table>
+      <div class="hr"></div>
+      <span class="home-pub-count"></span>
+      <span class="home-like-count"></span>
+    </div>
+    <div class="home-list"></div>
+  </div>
+  <!-- like&collection page -->
+  <div class="page lc-page page-template">
+    <div class="lc-nav">
+      <div>
+        <div onclick="SJBindex.lcPage.toggle(this)" class="lc-arrange lc-current-nav">搭配</div>
+      </div>
+      <div>
+        <div onclick="SJBindex.lcPage.toggle(this)" class="lc-single">宝贝</div>
+      </div>
+      <ul class="clear"></ul>
+    </div>
+    <div class="list lc-arrange-list"></div>
+    <div class="list lc-single-list">
+      <div id="single-left-col"></div>
+      <div id="single-right-col"></div>
+      <ul class="clear"></ul>
+    </div>
+  </div>
+  <!-- moreComment page -->
+  <div class="page more-comment-page page-template">
+    <div class="list">
+      <div class="comment-item template">  
+        <div class="avatar comment-avatar">
+          <img width="100%" height="100%">
+        </div>
+        <div class="comment-text-info">
+          <div class="comment-user-name"></div>.
+          <div class="comment-date"></div>
+          <div class="comment-content"></div>
+          <ul class="clear"></ul>
+        </div>
+        <ul class="clear"></ul>
+      </div>
+    </div>
+  </div>
+  <!-- moreLike page -->
+  <div class="page more-like-page page-templae">
+    <div class="list">
+      <div class="like-item template">  
+        <div class="avatar like-avatar">
+          <img width="100%" height="100%">
+        </div>
+        <div class="like-text-info">
+          <div class="like-user-name cut"></div>.
+          <div class="attention">加关注</div>
+          <div class="like-content"></div>
+          <!-- like-content 介绍改用户发布的搭配与粉丝数量 -->
+          <ul class="clear"></ul>
+        </div>
+        <ul class="clear"></ul>
+      </div>
+    </div>
+  </div>
+  <!-- 评论相关组件 -->
+  <div class="comment-text template">
+    <table>
+      <tr>
+        <td id="td1">
+          <div onclick="SJBindex.hideComment()" class="text-blur"></div>
+        </td>
+        <td id="td2">
+          <textarea id="comment-content" placeholder="说点什么呗……"></textarea>
+        </td>
+        <td id="td3">
+          <span onclick="SJBindex.comment(this)" class="send">发送</span>
+        </td>
+      </tr>
+    </table>
+  </div>
+  <div class="comment-delete template">
+    <span class="title">确定要删除该条评论</span>
+    <div class="delete-btn">删除</div>
+    <div class="cancel-btn">取消</div>
+  </div>
+</div>
+<div style="display: none;">
+  <script src="http://s6.cnzz.com/stat.php?id=5253391&web_id=5253391" language="JavaScript"></script>
+</div>
+</body>
+</html>

@@ -612,6 +612,7 @@ Shangjieba::Application.routes.draw do
   get 'tshow_spiders/crawler/:brand_id' => 'tshow_spiders#crawler'
 
 
+  get 'spiders/category_scheduler/:spider_id' => 'spiders#category_scheduler'
   get 'spiders/new_crawler/:spider_id' => 'spiders#new_crawler'
   get 'spiders/new_scheduler/:spider_id' => 'spiders#new_scheduler'
 
