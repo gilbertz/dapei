@@ -357,9 +357,6 @@ Shangjieba::Application.routes.draw do
   resources :brands, :only => [:show]
 
   resources :recommends, :except => [:index]
-  get "recommends/info/recommended_streets" => "recommends#recommended_streets"
-
-  get "recommends/info/index" => "recommends#index", :as => "recommends"
 
   get "categories/index"
   get "about/feedback" => "about#feedback", :as => "feedback"
@@ -387,16 +384,9 @@ Shangjieba::Application.routes.draw do
   post 'shops/:id/update' => "shops#update"
   post 'devices/register' => "devices#register"
 
-  get 'shops/info/recommended' => 'shops#recommended', :as => "recommended_shops"
-  get 'shops/info/index_all' => 'shops#index_all', :as => "shops_all"
-  get 'shops/:id/shop_items' => 'shops#shop_items'
-  get 'shops/:id/shop_discounts' => 'shops#shop_discounts'
   get 'items/index_all' => 'items#index_all', :as => "items_all"
   get 'items/recommend_item/:id' => 'items#recommend_item', :as => "recommend_item"
   get 'items/warn_no_right' => 'items#warn_no_right', :as => 'warn_no_right'
-  get 'discounts/index_all' => 'discounts#index_all', :as => "discounts_all"
-  get 'discounts/recommended' => 'discounts#recommended', :as => "recommended_discounts"
-  get 'discounts/recommend_discount/:id' => "discounts#recommend_discount", :as => "recommend_discount"
   get 'brands/recommend_brand/:id' => "brands#recommend_brand", :as => "recommend_brand"
   get 'dapeis/recommend_dapei/:id' => "items#recommend_dapei", :as => "recommend_dapei"
   get 'dapeis/like_dapei/:id' => "dapeis#like_dapei", :as => "like_dapei"
@@ -405,31 +395,13 @@ Shangjieba::Application.routes.draw do
   get 'dapeis/:dapei_id/get_dapei_detail' => "dapeis#get_dapei_detail", :as => "get_dapei_detail"
   get 'items/:item_id/get_item_detail' => "items#get_item_detail", :as => "get_item_detail"
 
-  get 'shops/info/search' => 'shops#search', :as => "search"
-  get 'shops/info/map_address' => 'shops#map_address', :as => "map_address"
-  get 'shops/info/search_by_map' => 'shops#search_by_map', :as => "search_by_map"
-  #get 'shop/:id/authenticate' => 'shops#authenticate', :as=>"authenticate_shop"
-  get 'shops/info/test' => 'shops#test', :as => 'shop_test'
-  get 'shops/info/test1' => 'shops#test1', :as => 'shop_test1'
-
   get 'info/item_categories' => "categories#group", :as => 'item_category'
   get 'info/brand_tags' => "brands#brand_tags", :as => 'info_brand_tags'
 
   get 'cat/search_dapei' => "categories#for_dapei", :as => 'category_dapei'
 
-  resources :shops do
-    resources :items do
-      get :next
-      get :prev
-    end
-    resources :follows, :only => [:create, :destroy]
-    resources :comments, :only => [:index, :create, :destroy], :name_prefix => "shop_"
-    resources :discounts
-  end
-
   resources :items do
     resources :comments, :only => [:index, :create, :destroy], :name_prefix => "item_"
-    resources :discounts
   end
 
   devise_for :users, :path => "accounts/info", :controllers => {:sessions => "sessions", :passwords => "passwords", :registrations => "registration", :omniauth_callbacks => "authentications"}
@@ -477,6 +449,9 @@ Shangjieba::Application.routes.draw do
   get 'users/:id/created_dapeis' => 'users#created_dapeis', :as => "created_dapeis"
   get 'users/:id/shangjie_dapeis' => 'users#shangjie_dapeis', :as => "shangjie_dapeis"
 
+  get 'users/:id/favorite_matters' => 'users#favorite_matters', :as => "favorite_matters"
+  get 'users/:id/upload_matters' => 'users#upload_matters', :as => "upload_matters"
+
   get 'users/:id/ssq' => 'users#ssq', :as => "ssq"
   get 'users/:user_id/my_ssq' => 'users#ssq', :as => "my_ssq"
   get 'users/:user_id/push' => 'users#push', :as => "push"
@@ -488,7 +463,6 @@ Shangjieba::Application.routes.draw do
   get 'users/:id/followers' => 'users#followers', :as => "followers"
   get 'users/:id/followings' => 'users#followings', :as => "followings"
   get 'users/info/recommended' => 'users#recommended'
-  get 'users/info/recommended_new' => 'users#recommended_new'
 
   get 'users/info/get_user_info' => "users#get_user_info"
   get 'users/info/index_all' => "users#index_all"
@@ -524,12 +498,8 @@ Shangjieba::Application.routes.draw do
   post 'photos/get_pic' => 'photos#get_pic'
 
   get 'stat/report' => 'stat#report', :as => "report"
-  get 'shop/open' => 'shops#new'
-  get ':shop_id/item/new' => 'items#new', :as => "items_new_path"
-  get ":shop_id/:id.htm" => 'items#show', :as => "items_path"
   get "site/sitemap" => "sitemap#index"
   get "site/sitemap/:prefix" => "sitemap#index"
-
 
   resources :notifications, :only => [:update] do
     collection do
@@ -579,10 +549,9 @@ Shangjieba::Application.routes.draw do
   get 'dapeis/:id/collection_items' => 'dapeis#collection_items'
 
   get 'dapeis/:id/share_selfie' => 'dapeis#share_selfie'
-  get 'dapeis/recommend' => 'dapeis#recommend'
+  get 'dapeis/recommended' => 'dapeis#recommended'
   get 'dapeis/get_dp_items/:url' => 'dapeis#get_dp_items'
   get 'dapeis/get_like_users/:url' => 'dapeis#get_like_users'
-  get 'dapeis/info/recommended' => 'dapeis#recommended'
 
   get 'dapeis/by_item' => 'dapeis#by_item'
   get 'matters/:id/dapeis' => 'matters#get_dapeis'
@@ -606,16 +575,10 @@ Shangjieba::Application.routes.draw do
   get 'spiders/spider_sizes_color/:spider_id' => 'spiders#spider_sizes_color'
   get 'spiders/crawler/:brand_id' => 'spiders#crawler'
   get 'spiders/soldout/:brand_id' => 'spiders#soldout'
-  get 'tshow_spiders/spider_scheduler/:spider_id' => 'tshow_spiders#spider_scheduler'
-  get 'tshow_spiders/scheduler/:brand_id' => 'tshow_spiders#scheduler'
-  get 'tshow_spiders/spider_crawler/:spider_id' => 'tshow_spiders#spider_crawler'
-  get 'tshow_spiders/crawler/:brand_id' => 'tshow_spiders#crawler'
-
 
   get 'spiders/category_scheduler/:spider_id' => 'spiders#category_scheduler'
   get 'spiders/new_crawler/:spider_id' => 'spiders#new_crawler'
   get 'spiders/new_scheduler/:spider_id' => 'spiders#new_scheduler'
-
 
   get 'spiders/list' => 'spiders#index'
   get 'spiders/schedule_list/:templateid' => 'spiders#schedule_index'
@@ -637,7 +600,13 @@ Shangjieba::Application.routes.draw do
 
   get 'spiders/info/:brand_id' => 'spiders#show'
 
-  #-------------------2013--------------
+  #-------------------2015--------------
+  get 'matters/:id/recommend' => 'matters#recommend'
+  get 'matters/:id/unrecommend' => 'matters#unrecommend'
+
+  get 'dapeis/:id/recommend' => 'dapeis#recommend'
+  get 'dapeis/:id/unrecommend' => 'dapeis#unrecommend'
+  #------------------------------------
 
   constraints subdomain: 'm' do
     #root :to => 'weixin#homepage'

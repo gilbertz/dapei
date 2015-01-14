@@ -37,20 +37,6 @@ class RecommendsController < ApplicationController
     end
   end
 
-  def recommended_streets
-    #@recommended_streets=Recommend.recommended_streets(@city_id)
-    searcher = Searcher.new(@city_id, "shop", "")
-    searcher.getStreetGroup()
-    @recommended_streets = []
-    searcher.get_sg.each do |s|
-      @recommended_streets << Recommend.new(:recommended_type =>"Street", :name =>s["street"] )     
-    end
-   
-    respond_to do |format|
-      format.json { render_for_api :public, json: @recommended_streets, :meta=>{:result=>"0"} }
-    end
-  end
-
   # GET /recommends/1/edit
   def edit
     @recommend = Recommend.find(params[:id])
@@ -61,10 +47,10 @@ class RecommendsController < ApplicationController
   def create
     if params[:recommend][:recommended_type] =="Item"
       @object_id=Item.find_by_url(params[:recommend][:recommended_id]).id
-    elsif params[:recommend][:recommended_type] =="Shop" 
-      @object_id=Shop.find_by_url(params[:recommend][:recommended_id]).id
+    elsif params[:recommend][:recommended_type] =="Matter" 
+      @object_id=Matter.find_by_id(params[:recommend][:recommended_id]).id
     elsif params[:recommend][:recommended_type] =="Brand"
-      @object_id=Brand.find_by_url(params[:recommend][:recommended_id]).id
+      @object_id=Brand.find_by_id(params[:recommend][:recommended_id]).id
     else
       @object_id=params[:recommend][:recommended_id].to_i
     end
@@ -75,10 +61,8 @@ class RecommendsController < ApplicationController
 
     respond_to do |format|
       if @recommend and @recommend.save
-        format.html { redirect_to shop_admin_list_path, notice: 'Recommend was successfully created.' }
         format.json { render json: @recommend, status: :created, location: @recommend }
       else
-        format.html { render action: "new" }
         format.json { render json: @recommend.errors, status: :unprocessable_entity }
       end
     end

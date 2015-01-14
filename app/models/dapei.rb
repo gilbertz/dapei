@@ -6,7 +6,6 @@ class Dapei < Item
   # has_one :dapei_info
 
   belongs_to :user, :counter_cache => :dapeis_count
-  has_many :flash_buy_coin_logs, :as => :relatable
 
   scope :showing, lambda {
     joins("INNER JOIN dapei_infos ON dapei_infos.dapei_id = items.id").where("items.category_id = 1001 and items.level >= 5").where("dapei_infos.start_date <= DATE('#{Date.today}') and dapei_infos.end_date >= DATE('#{Date.today}')").order("items.created_at desc").limit(10)
@@ -28,33 +27,17 @@ class Dapei < Item
   end
 
 
-  def to_wenwen
-    new_str = Time.now.to_i.to_s + ((100..999).to_a.shuffle[0].to_s)
-    local_path = Photo::Sjb_root + self.get_img_path
-    local_file_name = "y.jpg"
-
-    m = Matter.new
-    m.source_type = 4
-    m.is_cut = 0
-    m.category_id = 101
-    m.local_photo_path = local_path
-    m.local_photo_name = local_file_name
-    m.image_name = new_str
-    m.save
-    m.dump
-
-    dr = AskForDapei.create(:user_id => self.user_id, :matter_id => m.id, :dapei_id => self.id, :title => "【荐】大家帮看看我的搭配怎么样?")
-    dr
+  def recommend
+    self.level = 2
+    self.save
   end
 
 
-  def get_skus
-    if self.dapei_info
-      self.dapei_info.get_skus
-    else
-      []
-    end
+  def unrecommend
+    self.level = 0
+    self.save
   end
+
 
   def find_brands
     brands = Array.new 

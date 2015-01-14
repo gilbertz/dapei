@@ -191,13 +191,6 @@ class UsersController < ApplicationController
     respond_to do |format|
       format.html 
       if @user
-        #@favorite_shops=Shop.liked_by(@user).order("created_at desc").limit(4)
-        #@commented_shops=Shop.commented_by(@user).order("created_at desc").limit(4)
-        #@shops=@favorite_shops
-        #@favorite_items=Item.liked_by(@user).order("created_at desc").limit(4)
-        #@commented_items=Item.commented_by(@user).order("created_at desc").limit(4)      
-        #@items=@favorite_items
-        #@posts=@user.posts.order("created_at desc").limit(12)
         @dapeis=Dapei.dapeis_by(@user).page(params[:page]).per(10)
         format.json{ render_user_json }
       else
@@ -222,8 +215,6 @@ class UsersController < ApplicationController
   def favorite_items
     @where = "喜欢宝贝"
     if(@user)
-      #@number=Item.liked_by(@user).uniq.where( "category_id != 1001").count
-      #@items=Item.liked_by(@user).uniq.where( "category_id != 1001").page(params[:page]).per(10)
       @number = Sku.liked_by(@user).uniq.where( "category_id < 100").count
       @skus = Sku.liked_by(@user).uniq.where( "category_id < 100").page(params[:page]).per(10)
       @items = @skus.map{|sku| sku.wrap_item } 
@@ -345,6 +336,46 @@ class UsersController < ApplicationController
   end
 
 
+  def favorite_matters
+    @where = "喜欢单品"
+    if(@user)
+      @number = Matter.liked_by(@user).count
+      @matters = Matter.liked_by(@user).page(params[:page]).per(10)
+      respond_to do |format|
+        format.html
+        format.json{render_for_api :public, :json=>@matters, :api_cache => 30.minutes, :meta=>{:result=>"0", :total_count=>@number.to_s}}
+      end
+    else
+      respond_to do |format|
+        format.html
+        format.json{render :json=>{:result=>"1"}}
+      end
+    end
+  end
+
+
+  def upload_matters
+    @where = "上传单品"
+    if(@user)
+      @number = Matter.created_by(@user).count
+      @matters = Matter.created_by(@user).page(params[:page]).per(10)
+      respond_to do |format|
+        format.html
+        format.json{render_for_api :public, :json=>@matters, :api_cache => 30.minutes, :meta=>{:result=>"0", :total_count=>@number.to_s}}
+      end
+    else
+      respond_to do |format|
+        format.html
+        format.json{render :json=>{:result=>"1"}}
+      end
+    end
+  end
+
+
+
+
+
+
   def commented_items
     @where = "评论宝贝"
     if(@user)
@@ -357,20 +388,6 @@ class UsersController < ApplicationController
     else
       respond_to do |format|
         format.html
-        format.json{render :json=>{:result=>"1"}}
-      end
-    end
-  end
-
-  def commented_shops
-     @where = "评论店铺"
-    @number= Shop.commented_by(@user).uniq.count
-    @shops=Shop.commented_by(@user).uniq.page(params[:page]).per(10)
-    respond_to do |format|
-      format.html
-      if @user
-        format.json{render_for_api :public, :json=>@shops, :api_cache => 30.minutes,  :meta=>{:result=>"0", :total_count=>@number.to_s}}
-      else
         format.json{render :json=>{:result=>"1"}}
       end
     end

@@ -48,7 +48,7 @@ class Matter < ActiveRecord::Base
   }
 
   scope :created_by, lambda { |user|
-    joins(:likes).where("matters.user_id = #{user.id}").where(:likes => {:user_id => user.id}).order("likes.created_at desc")
+    where("user_id = #{user.id}").order("created_at desc")
   }
 
   def get_buy_status
@@ -65,6 +65,18 @@ class Matter < ActiveRecord::Base
       ""
     end
   end
+
+  def recommend
+    self.level = 2
+    self.save
+  end
+
+
+  def unrecommend
+    self.level = 0
+    self.save
+  end
+
 
   def share_img
     self.get_big_png

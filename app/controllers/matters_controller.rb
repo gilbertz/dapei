@@ -73,10 +73,34 @@ class MattersController < ApplicationController
   end
 
   def destroy
-    matter = Matter.find(params[:id])
-    matter.destroy
+    @matter = Matter.find(params[:id])
+    #matter.destroy
+    if @matter
+      @matter.deleted = true
+      @matter.save
+    end
+    respond_to do |format|
+      format.html { redirect_to :back }
+      format.json {render :json=>{:result=>"0"}}
+    end
+  end
 
-    redirect_to :back
+  def recommend
+    @matter = Matter.find(params[:id])
+    @matter.recommend
+    respond_to do |format|
+      format.html { redirect_to :back }
+      format.json {render :json=>{:result=>"0"}}
+    end
+  end
+
+  def unrecommend
+    @matter = Matter.find(params[:id])
+    @matter.unrecommend
+    respond_to do |format|
+      format.html { redirect_to :back }
+      format.json {render :json=>{:result=>"0"}}
+    end
   end
 
 

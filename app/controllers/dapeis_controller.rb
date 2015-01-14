@@ -64,7 +64,29 @@ class DapeisController < ApplicationController
     @dapeis = dps
   end
 
+
+  
   def recommend
+    @dapei = Dapei.find_by_url(params[:id])
+    @dapei.recommend
+    respond_to do |format|
+      format.html { redirect_to :back }
+      format.json {render :json=>{:result=>"0"}}
+    end
+  end
+
+  def unrecommend
+    @dapei = Dapei.find_by_url(params[:id])
+    @dapei.unrecommend
+    respond_to do |format|
+      format.html { redirect_to :back }
+      format.json {render :json=>{:result=>"0"}}
+    end
+  end
+
+
+
+  def recommended
     @page = 1
     @page = params[:page].to_i if params[:page]
     @limit = 8
@@ -490,13 +512,6 @@ class DapeisController < ApplicationController
     end
   end
 
-
-  def recommended
-    @dapeis = Item.recommended_all(1001)
-    respond_to do |format|
-      format.json { render_for_api :dapei_list, :json => @dapeis, :meta => {:result => "0"} }
-    end
-  end
 
   def recommended_star_dapeis
     # params
