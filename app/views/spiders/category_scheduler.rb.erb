@@ -1,0 +1,44 @@
+<%="#encoding:utf-8"%>
+require 'headless'
+require 'rubygems'
+require 'selenium-webdriver'
+require 'yaml'
+require 'json'
+require 'redis'
+
+headless = Headless.new(:reuse => false)
+headless.start
+
+$redis =  Redis.new(:host => 'localhost', :port => 6379)
+driver = Selenium::WebDriver.for :chrome
+#driver.manage.timeouts.implicit_wait = 30
+driver.manage.timeouts.script_timeout = 10
+driver.manage.timeouts.page_load = 20
+ 
+links = []
+
+<% @spider.get_spider_pages.each do |p| %>
+  page = "<%= p.link %>"
+  p page
+
+  begin
+    driver.navigate.to page
+  rescue => e
+    p e.to_s
+  end
+ 
+  link_info = {} 
+  <% unless @spider.category_page.blank? %>
+      elements = driver.find_elements(:xpath, "<%=raw @spider.category_page %>")
+      elements.each do |e|
+        link_info['text'] = e.text
+        link_info['link'] = e.attribute('href')
+        link_info['parent_id'] = <%= p.parent_id %>
+        links << link_info
+      end
+  <% end %>
+<% end %>
+driver.quit
+p links
+
+headless.destroy

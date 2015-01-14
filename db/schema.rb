@@ -11,7 +11,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20141229120534) do
+ActiveRecord::Schema.define(:version => 20150114012548) do
 
   create_table "all_tags", :force => true do |t|
     t.string   "name"
@@ -281,9 +281,11 @@ ActiveRecord::Schema.define(:version => 20141229120534) do
     t.datetime "start_time"
     t.integer  "start_date_hour"
     t.string   "dir"
+    t.string   "checksum"
   end
 
   add_index "dapei_infos", ["category_id"], :name => "index_dapei_infos_on_category_id"
+  add_index "dapei_infos", ["checksum"], :name => "index_dapei_infos_on_checksum"
   add_index "dapei_infos", ["dapei_id"], :name => "index_dapei_infos_on_dapei_id"
   add_index "dapei_infos", ["dapei_tags_id"], :name => "index_dapei_infos_on_dapei_tags_id"
   add_index "dapei_infos", ["end_date"], :name => "index_dapei_infos_on_end_date"
@@ -1172,7 +1174,11 @@ ActiveRecord::Schema.define(:version => 20141229120534) do
     t.boolean  "direction"
     t.datetime "created_at", :null => false
     t.datetime "updated_at", :null => false
+    t.integer  "dapei_id"
+    t.integer  "matter_id"
   end
+
+  add_index "tag_infos", ["dapei_id", "matter_id"], :name => "index_tag_infos_on_dapei_id_and_matter_id"
 
   create_table "taggings", :force => true do |t|
     t.integer  "tag_id"

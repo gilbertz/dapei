@@ -101,9 +101,17 @@ class Dapei < Item
       if self.dapei_info
         unless small
           temp[:img_url] = get_domain + self.get_img_path + "y.jpg"
+        
+          tags = []
+          self.dapei_info.get_tag_infos.each do |tag_info|
+            tags << {:type => tag_info.tag_type, :point_x => tag_info.point_x,
+                   :point_y => tag_info.point_y, :direction => tag_info.direction ? 1 : 0, :name => tag_info.name }
+          end
+          temp[:tags] = tags
         else
           temp[:img_url] = get_domain + self.get_img_path + "m.jpg"
         end
+
       else
         temp[:img_url] =  AppConfig[:remote_image_domain] + "/assets/img.jpg"
       end

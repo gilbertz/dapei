@@ -165,80 +165,6 @@ class Item < ActiveRecord::Base
   end
 
 
-  #use for dapei list
-  acts_as_api
-  api_accessible :theme_list do |t|
-    t.add :url, :as => :dapei_id
-    t.add :title
-    t.add lambda { |item| item.comments_count.to_s }, :as => :comments_count
-    t.add lambda { |item| item.likes_count.to_s }, :as => :likes_count
-    t.add lambda { |item| item.incr_and_get_dispose_count.to_s }, :as => :dispose_count
-    t.add lambda { |item| item.get_dpimg_urls() }, :as => :img_urls_large
-    t.add lambda { |item| item.dapei_img_url }, :as => :dapei_img_url
-    t.add lambda { |item| item.get_editor_desc.to_s }, :as => :desc
-    t.add lambda { |item| item.meta_tag }, :as => :meta_tag
-    t.add :created_at
-    t.add :updated_at
-    t.add :share_url
-    t.add :share_img
-    t.add :share_title
-    t.add :share_desc
-    t.add :get_user, :as => :user, :template => :light
-  end
-
-
-  acts_as_api
-  api_accessible :collection_list do |t|
-    t.add :url, :as => :dapei_id
-    t.add :title
-    t.add lambda { |item| item.comments_count.to_s }, :as => :comments_count
-    t.add lambda { |item| item.likes_count.to_s }, :as => :likes_count
-    t.add lambda { |item| item.incr_and_get_dispose_count.to_s }, :as => :dispose_count
-    t.add lambda { |item| item.get_dpimg_urls() }, :as => :img_urls_large
-    t.add lambda { |item| item.dapei_img_url }, :as => :dapei_img_url
-    t.add lambda { |item| item.desc.to_s }, :as => :desc
-    t.add lambda { |item| item.meta_tag }, :as => :meta_tag
-    t.add :like_id_s, :as => :like_id
-    t.add :created_at
-    t.add :updated_at
-    t.add :share_url
-    t.add :share_img
-    t.add :share_title
-    t.add :share_desc
-    t.add :get_items_count, :as => :dapei_items_count
-    #t.add :desc
-    t.add :get_user, :as => :user, :template => :light
-    #t.add :like_users, :template => :light
-  end
-
-
-  acts_as_api
-  api_accessible :collection_detail do |t|
-    t.add :type
-    t.add :url, :as => :dapei_id
-    t.add :title
-    t.add lambda { |item| item.comments_count.to_s }, :as => :comments_count
-    t.add lambda { |item| item.incr_and_get_dispose_count.to_s }, :as => :dispose_count
-    t.add lambda { |item| item.likes_count.to_s }, :as => :likes_count
-    t.add lambda { |item| item.get_dpimg_urls() }, :as => :img_urls_large
-    t.add lambda { |item| item.get_user_name }, :as => :posted_by
-    t.add lambda { |item| item.dapei_img_url }, :as => :dapei_img_url
-    t.add lambda { |item| item.desc.to_s }, :as => :desc
-    t.add lambda { |item| item.meta_tag }, :as => :meta_tag
-    t.add :like_id_s, :as => :like_id
-    t.add :created_at
-    t.add :updated_at
-    t.add :get_items, :as => :dapei_items, :template => :public
-    t.add :get_items_count, :as => :dapei_items_count
-    t.add :share_url
-    t.add :share_img
-    t.add :share_title
-    t.add :share_desc
-    t.add :get_user, :as => :user, :template => :light
-    t.add :collection_like_users, :as => :like_users, :template => :fast
-  end
-
-
   def like_users
     Like.like_users(self, 1, 7)
     #self.likes.order('created_at desc').limit(8).map(&:user) 
@@ -253,13 +179,6 @@ class Item < ActiveRecord::Base
   before_validation :auto_url
 
   def auto_url
-    #if self.url.blank?
-    #if !self.title.blank?
-    #self.url=self.title + Item.maximum('id').to_s
-    #else
-    #self.url=Item.maximum('id').to_s
-    #end
-    #end
     if self.url.blank?
       self.url=Devise.friendly_token[0, 20]+Item.maximum('id').to_s
     end
@@ -297,13 +216,7 @@ class Item < ActiveRecord::Base
 
 
   scope :dapeis_by, lambda { |user|
-    #unless user.is_fake 
     joins("INNER JOIN dapei_infos ON dapei_infos.dapei_id = items.id").where("items.category_id=1001 and items.deleted is null").where(:user_id => user.id).order("items.created_at desc")
-    #else
-    #  mod = 1000
-    #  tid = user.id % mod
-    #  joins("INNER JOIN dapei_infos ON dapei_infos.dapei_id = items.id").where("mod(items.id, #{mod})=#{tid}").where( "dapei_infos.id < 2000").where("items.category_id=1001").order("items.created_at desc")
-    #end
   }
 
   scope :fake_by, lambda { |user|
@@ -347,13 +260,6 @@ class Item < ActiveRecord::Base
 
 
   def get_domain
-    #domain = "http://img.shangjieba.com"
-    #path = "#{Photo::Sjb_root}/public/uploads/cgi/img-set/cid/#{self.id}/id/#{self.dapei_info.spec_uuid}/size/y.jpg"
-    #if FileTest::exist?(path)
-    #  domain = "http://www.shangjieba.com"
-    #end  
-    #domain
-
     AppConfig[:remote_image_domain]
   end
 
@@ -931,7 +837,6 @@ class Item < ActiveRecord::Base
       if self.transform
         img = self.transform.img_url
       end
-      #img = self.transform.img_url + "?watermark/2/text/5LiK6KGX5ZCn/font/5a6L5L2T/fontsize/600/gravity/south"
     end
     if self.category_id == 1000
       if self.transform
@@ -1076,20 +981,15 @@ class Item < ActiveRecord::Base
     Item.find_by_url(id).update_attributes(:deleted =>1)
   end
 
-
-
   # api 精选
   def self.v4_api_choiceness
     Item.where('items.level >= 2').includes(:user,:likes => :user,:dapei_info => :dapei_item_infos).order("items.show_date desc")
   end
 
-
   # api 最新
   def self.v4_api_new
     @items = Item.where("(items.level >= 0 or items.level is null) and deleted is null and dapei_info_flag is null").includes(:user,:likes => :user,:dapei_info => :dapei_item_infos).order("items.created_at desc")
-    #Item.where("items.level >= 0 or items.level is null").includes(:user,:likes => :user,:dapei_info => :dapei_item_infos).order("items.created_at desc")
   end
-
 
   # api follow
   def self.v4_api_follow(cuid)
@@ -1139,34 +1039,16 @@ class Item < ActiveRecord::Base
   def send_notifications
     #author = self.user
     if self.category_id == 1000 or self.category_id == 1001
-      # Resque.enqueue(Jobs::DapeiNotify, self.url)
       begin
         DapeiNotifyJob.perform_async(self.url)
       rescue => e
         p e.to_s
       end
       self.rand_liked
-      #self.user.followers_by_type('User').each do |user|
-      #user.set_ssq_status(self)
-      #user.set_ssq_notify_img(self.user_img_small)
-      #user.query_notify
-      #end
-      #self.user.set_ssq_status(self)
     end
 
     if self.get_user
       self.get_user.update_dapei_counter
     end
-
-    #if self.shop
-    #  @likers=self.shop.get_likers
-    #  unless @likers.blank?
-    #    @likers.uniq.each do |user|
-    #      if user
-    #        user.notify("A new item", "Youre not supposed to see this", self)
-    #      end
-    #    end
-    #  end
-    #end
   end
 end

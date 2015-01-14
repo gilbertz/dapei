@@ -581,9 +581,10 @@ class CollocationsController < ApplicationController
       end
 
       spec_uuid = rand_str(20)
-
       original_id = pr["id"]
-
+      
+      #thing_ids = items.collect{|i|i["thing_id"]}
+      #checksum = "#{uid}:"+thing_ids.sort.join('_')      
       @dpi = DapeiInfo.new({category_id: pr["category_id"], dapei_id: dp_id,  user_id: uid, spec_uuid: spec_uuid, is_show: 0, original_id: original_id})
 
       unless pr["basedon_tid"].blank?
@@ -623,7 +624,7 @@ class CollocationsController < ApplicationController
       @dpi.dir = dir  
 
       @dpi.save
-
+     
       items.each_with_index do |i, index|
         if valid(i)
           if true
@@ -633,6 +634,9 @@ class CollocationsController < ApplicationController
             h = i["h"].to_f * resize_l
 
             image_root = get_img_path(i)
+            matter = Matter.find_by_image_name(i['thing_id'])
+            next unless matter
+            matter_id = matter.id
 
             unless i["mask_spec"].blank? and i['template_spec'].blank?
 
@@ -651,7 +655,6 @@ class CollocationsController < ApplicationController
                   tspec = "#{i['template_spec']['template_id']} #{i['template_spec']['x']} #{i['template_spec']['y']} #{i['template_spec']['scale']}"
               end
 
-              matter_id = Matter.find_by_image_name(i['thing_id'])
               mask_spec = MaskSpec.find_all_by_matter_id_and_mask_spec(matter_id, tspec).last
 
               unless mask_spec.blank?
@@ -694,24 +697,20 @@ class CollocationsController < ApplicationController
               p e.to_s
             end
 
-            matter = Matter.where("image_name = ?", i["thing_id"]).first
-
-            unless matter.blank?
-              sku_id = matter.sku_id
-            else
-              sku_id = ""
-            end
 
             if true
               matter_id = nil
               matter_id = matter.id if matter
-              i = @dpi.dapei_item_infos.build(x: i['ox'], y: i['oy'], w: i['ow'], h: i['oh'], z: i["z"], matter_id: matter_id, mask_spec: i["spec_str"].to_s, bkgd: i["bkgd"], item_type: i["type"], thing_id: i["thing_id"], sku_id: sku_id, transform: transform_str )
+              i = @dpi.dapei_item_infos.build(x: i['ox'], y: i['oy'], w: i['ow'], h: i['oh'], z: i["z"], matter_id: matter_id, mask_spec: i["spec_str"].to_s, bkgd: i["bkgd"], item_type: i["type"], thing_id: i["thing_id"], transform: transform_str )
               i.save
+              if matter.brand
+                @dpi.add_brand_tag(matter, (x+ 1/2*w).to_i, (y+1/2*h).to_i )
+              end
             end
           end
         end
       end
-   
+  
       if dp_id and dp_id.to_i > 0
         new_image_dir = "#{Photo::Sjb_root}/public/cgi/img-set/cid/#{dir}/#{dp_id}/id/#{spec_uuid}/size/"
 

@@ -7,8 +7,27 @@ class DapeiInfo < ActiveRecord::Base
   belongs_to :user
 
   has_many :dapei_item_infos
+  has_many :tag_infos, :as => :dapei
 
-  attr_accessible :did, :basedon_tid, :title, :description, :comment, :tags, :tagged, :by, :category_id, :post_share, :user_id, :dapei_id, :spec_uuid, :is_show, :color_one_id, :color_two_id, :color_three_id, :start_date, :end_date, :start_date_hour,  :is_star, :original_id
+  attr_accessible :did, :basedon_tid, :title, :description, :comment, :checksum, :tags, :tagged, :by, :category_id, :post_share, :user_id, :dapei_id, :spec_uuid, :is_show, :color_one_id, :color_two_id, :color_three_id, :start_date, :end_date, :start_date_hour,  :is_star, :original_id
+
+  
+  def add_brand_tag(matter, x, y)
+    unless tag_info = TagInfo.find_by_dapei_id_and_matter_id(self.id, matter)
+      tag_info = TagInfo.new
+    end
+    tag_info.name = matter.brand_name
+    tag_info.dapei_id = self.id
+    tag_info.matter_id = matter.id 
+    tag_info.tag_type = 'brand'
+    tag_info.coord = "#{x}_#{y}"
+    tag_info.direction = '0'
+    tag_info.save!
+  end
+
+  def get_tag_infos
+    TagInfo.where(:dapei_id =>  self.id)
+  end
 
   def get_ratio
     sz = self.width.to_i

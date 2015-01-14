@@ -47,7 +47,7 @@ class Matter < ActiveRecord::Base
 
   def brand_name
     if self.brand
-      self.brand.name
+      self.brand.display_name
     else
       ''
     end
