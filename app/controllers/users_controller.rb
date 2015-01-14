@@ -454,44 +454,9 @@ class UsersController < ApplicationController
     end
   end
 
-  def recommended
-    #@users=User.recommended(@city_id)
-    @page = 1
-    if params[:page]
-      @page = params[:page].to_i
-    end
-    @users = []
-
-    if current_user
-      user_following_ids = Follow.select(:followable_id).where(:followable_type => "User", :follower_id => current_user.id)
-      unless user_following_ids
-        user_following_ids = [0]
-      else
-        user_following_ids = user_following_ids.map(&:followable_id) 
-      end      
-
-      @users = User.where(["id not in (?)", user_following_ids]).order("dapei_score desc").page(params[:page]).per(20)
-    end    
-
-    if @users.length == 0
-      @users = Rails.cache.fetch "users/recommended/no_current_user/page/#{params[:page]}", :expires_in => 600.minutes do
-        User.order("dapei_score desc").page(params[:page]).per(20).entries
-      end
-    end
-
-    if @page > 10
-      @users = []
-    end
-
-    respond_to do |format|
-      #format.html
-      format.json{render_for_api :public, :json=>@users, :api_cache => 300.minutes, :meta=>{:result=>"0", :total_count=>@users.length.to_s}}
-    end
-  end
-
   
-  def recommended_new
-    @limit = 20
+  def recommended
+    @limit = 10
     @recommend_users = []
     if current_user
       user_following_ids = Follow.select(:followable_id).where(:followable_type => "User", :follower_id => current_user.id)
@@ -504,28 +469,24 @@ class UsersController < ApplicationController
     end
     
     if @recommend_users.length == 0  
-      @recommend_users = User.order("dapei_score desc").limit(@limit)
+      @recommend_users = User.where("apply_type >= 1").order("dapei_score desc").limit(@limit)
     end
 
-    star_dapeis = Dapei.where("level >=5 ").group('user_id').order('created_at desc').limit(@limit) 
     current_dapeis = Dapei.order('created_at desc').group('user_id').limit(@limit)  
-    @star_users = star_dapeis.map{|dp|dp.get_user} 
     @current_users = current_dapeis.map{|dp|dp.get_user}
 
     @user_dict = {}
     @user_dict['recommend'] = @recommend_users.map{|u|u.to_dict}
-    @user_dict['recommend_title'] = '推荐达人'
-    @user_dict['star'] = @star_users.map{|u|u.to_dict}
-    @user_dict['star_title'] = '搭配之星'
+    @user_dict['recommend_title'] = '推荐品牌'
     @user_dict['current'] = @current_users.map{|u|u.to_dict}
-    @user_dict['current_title'] = '她们正在搭配'
+    @user_dict['current_title'] = '推荐达人'
     
-    @invite_dict = {}
-    @invite_dict['app_url'] = 'http://a.app.qq.com/o/simple.jsp?pkgname=com.shangjieba.client.android&g_f=991653'; 
-    @invite_dict['app_img'] = 'http://www.shangjieba.com/app_main_images/phone.png'
-    @invite_dict['invite_title'] = 'MAKE时尚'
-    @invite_dict['invite_text'] = '拍件衣服照片，大神马上帮你搭！超赞！'
-    @user_dict['invite'] = @invite_dict
+    #@invite_dict = {}
+    #@invite_dict['app_url'] = 'http://a.app.qq.com/o/simple.jsp?pkgname=com.shangjieba.client.android&g_f=991653'; 
+    #@invite_dict['app_img'] = 'http://www.shangjieba.com/app_main_images/phone.png'
+    #@invite_dict['invite_title'] = 'MAKE时尚'
+    #@invite_dict['invite_text'] = '拍件衣服照片，大神马上帮你搭！超赞！'
+    #@user_dict['invite'] = @invite_dict
 
     respond_to do |format|
       #format.html

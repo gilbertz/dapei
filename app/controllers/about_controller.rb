@@ -10,10 +10,6 @@ class AboutController < ApplicationController
   layout "about"
 
   def about_me
-    # render "about_me"
-     # render :text=>"fdsf"   
-     # return false  
-    # @site_help = SiteHelp.find_by_url_action(action_name)
   end
 
   def shangou_option
@@ -32,23 +28,16 @@ class AboutController < ApplicationController
       datas <<  obj
     end
 
-    #ad = {}
-    #ad["type"] = "brand"
-    
-    #brand = Brand.find_by_id(2)
-    #ad["img_url"] = brand.wide_avatar_url
-    #ad["obj"] = brand
-    #datas << ad
-
     respond_to do |format|
+      formpond_to do |format|
       format.json { render_for_api :public, :json => datas, :meta=>{:result=>"0"} }
+    endt.json { render_for_api :public, :json => datas, :meta=>{:result=>"0"} }
     end
   end
 
 
   def app_banner_new
     datas = []
-    #dts = DapeiTag.where( :parent_id => 99 ).where( :is_hot => true ).order("created_at desc").limit(5)
     dts = DapeiTag.where( :parent_id => 99 ).where( :is_hot => true ).order("created_at desc").limit(3)
 
     if true #current_user
@@ -60,10 +49,6 @@ class AboutController < ApplicationController
         ad["img_url"] = lottery.img_url
         ad["click"] = lottery.link
         ad["wait"] = lottery.wait
-        #if current_user
-        #  token = current_user.authentication_token
-        #  #ad["click"] = ad["click"] + "?token=" + token
-        #end
         ad["obj"] = lottery
         datas << ad
       end
@@ -131,19 +116,6 @@ class AboutController < ApplicationController
   def dapei_tags
     tags = []
     
-    #top_tags = []
-    #top_tags << {:id => 1, :name => '轻熟', :img_url => "http://qingchao1.qiniudn.com/uploads/dapei_tags/qingshu_big.png"}
-    #top_tags << {:id => 2, :name => '少淑', :img_url => "http://qingchao1.qiniudn.com/uploads/dapei_tags/shaoshu_big.png"}
-    #top_tags << {:id => 204, :name => '男人志', :img_url => "http://qingchao1.qiniudn.com/uploads/dapei_tags/nanshen_big.png"}
-    #top_tags << {:id => 1, :name => '轻熟', :img_url => "http://qingchao1.qiniudn.com/uploads/dapei_tags/qingshu_big.png"}
-    #top_tags << {:id => 1, :name => '轻熟', :img_url => "http://qingchao1.qiniudn.com/uploads/dapei_tags/qingshu_big.png"}    
-
-    #top_dict = {}
-    #top_dict['type'] = 'top'
-    #top_dict['name'] = '推荐'
-    #top_dict['tag_num'] = '5'
-    #top_dict['tags'] = top_tags
-
     @typesets = Typeset.all
     @typesets.each do |ts|
       next if ts.is_active == 0 

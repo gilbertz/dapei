@@ -6,6 +6,14 @@ class MattersController < ApplicationController
   
   skip_before_filter :verify_authenticity_token, :only => [:create, :new_matter]
 
+  def show
+    @matter = Matter.find( params[:id] )
+    
+    respond_to do |format|
+      format.json { render_for_api :public, :json => @matter, :meta=>{:result=>"0"} }
+    end
+  end
+
   def get_dapeis
     matter = Matter.find_by_id( params[:id] )
     @dapeis = []
@@ -32,36 +40,12 @@ class MattersController < ApplicationController
   end
 
   def index
-    if params[:no_category].to_i == 1
-      cond = "is_cut = 1 and (category_id = 0 or category_id is null)"
-    else
-      unless params[:category_id].blank?
+    cond = '1=1'
+    @matters = Matter.where(cond).paginate(:page => params[:page], :per_page => 10)
 
-        rule_categories = Category.where("parent_id = ?", params[:category_id]).all.collect{|rc| rc.id }
-
-        rule_categories_all = rule_categories.push(params[:category_id])
-
-        cond = "is_cut = 1 and category_id in (#{rule_categories_all.join(',')})"
-      else
-        cond = "is_cut = 1 and category_id not in (123, 124, 125, 126, 127, 128, 129)"
-      end
-   end
-
-   cat = Category.find_by_id( params[:category_id]  )
-   user_cat = false
-   if cat and cat.parent_id == 1140
-      use_cat = true
-   end
-
-    if not params[:category_id] or use_cat
-      @matters = Matter.where(cond).paginate(:order => "id desc", :page => params[:page], :per_page => 50)
-    else
-      @matters = Matter.category_search(params[:category_id], params[:page], 100)
+    respond_to do |format|
+      format.json { render_for_api :public, :json => @matters, :meta=>{:result=>"0"} }
     end
-
-    #@rule_categories_for_select = RuleCategory.all_for_select
-
-    @rule_categories_for_select = [["无", ""]] + Category.all.collect{|rc| [rc.name, rc.id] }
   end
 
   def edit

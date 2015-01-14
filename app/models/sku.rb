@@ -295,8 +295,8 @@ class Sku < ActiveRecord::Base
   end
 
   def buy_domain
-    if self.buy_url
-      self.buy_url.gsub(/https?:\/\//, "").split("/")[0]
+    if self.link
+      self.link.gsub(/https?:\/\//, "").split("/")[0]
     else
       ""
     end

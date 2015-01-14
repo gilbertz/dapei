@@ -11,7 +11,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20150114012548) do
+ActiveRecord::Schema.define(:version => 20150114101155) do
 
   create_table "all_tags", :force => true do |t|
     t.string   "name"
@@ -754,6 +754,7 @@ ActiveRecord::Schema.define(:version => 20150114012548) do
     t.integer  "off_percent"
     t.integer  "origin_price"
     t.integer  "page_id"
+    t.boolean  "deleted"
   end
 
   add_index "matters", ["brand_id"], :name => "index_matters_on_brand_id"
@@ -761,6 +762,7 @@ ActiveRecord::Schema.define(:version => 20150114012548) do
   add_index "matters", ["color_one_id"], :name => "index_matters_on_color_one_id"
   add_index "matters", ["color_three_id"], :name => "index_matters_on_color_three_id"
   add_index "matters", ["color_two_id"], :name => "index_matters_on_color_two_id"
+  add_index "matters", ["deleted"], :name => "index_matters_on_deleted"
   add_index "matters", ["docid"], :name => "index_matters_on_docid"
   add_index "matters", ["image_name"], :name => "index_matters_on_image_name"
   add_index "matters", ["sjb_photo_id"], :name => "index_matters_on_sjb_photo_id"

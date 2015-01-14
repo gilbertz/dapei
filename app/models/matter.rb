@@ -13,6 +13,36 @@ class Matter < ActiveRecord::Base
 
   accepts_nested_attributes_for :matter_info
 
+  acts_as_api
+  api_accessible :public, :cache => 180.minutes do |t|
+    t.add :id, :as => :object_id
+    t.add :title, :as => :title
+    t.add :desc
+    t.add lambda { |item| item.price.to_s }, :as => :price
+    t.add lambda { |item| item.origin_price.to_s }, :as => :origin_price
+    t.add lambda { |item| item.brand_name.to_s }, :as => :brand_name
+    t.add lambda { |item| item.brand_id.to_s }, :as => :brand_id
+    t.add lambda { |item| item.category_id.to_s }, :as => :category_id
+    t.add lambda { |item| item.image_name.to_s }, :as => :thing_id
+    t.add lambda { |item| item.get_small_jpg.to_s }, :as => :small_jpg
+    t.add lambda { |item| item.get_big_png.to_s }, :as => :big_png
+    t.add lambda { |item| item.comments_count.to_i.to_s }, :as => :comments_count
+    t.add lambda { |item| item.likes_count.to_i.to_s }, :as => :likes_count
+    t.add lambda { |item| item.get_dispose_count.to_i.to_s }, :as => :dispose_count
+    t.add lambda { |item| item.like_id.to_s}, :as => :like_id
+    t.add lambda { |item| item.created_at.to_s }, :as => :created_at
+    t.add lambda { |item| item.updated_at.to_s }, :as => :updated_at
+    t.add :share_url
+    t.add :share_img
+    t.add :get_buy_status, :as => :buy_status
+    t.add lambda { |item| item.link.to_s }, :as => :buy_url
+    t.add :buy_domain, :as => :buy_domain
+    t.add lambda { |item| item.width.to_s }, :as => :w
+    t.add lambda { |item| item.height.to_s }, :as => :h
+    t.add lambda { |item| item.level.to_s }, :as => :level
+  end
+
+
   scope :liked_by, lambda { |user|
     joins(:likes).where(:likes => {:user_id => user.id}).order("likes.created_at desc")
   }
@@ -21,7 +51,25 @@ class Matter < ActiveRecord::Base
     joins(:likes).where("matters.user_id = #{user.id}").where(:likes => {:user_id => user.id}).order("likes.created_at desc")
   }
 
+  def get_buy_status
+    return '0' if self.deleted
+    return '0' if self.link.blank?
+    return '1'
+  end  
+ 
 
+  def buy_domain
+    if self.link
+      self.link.gsub(/https?:\/\//, "").split("/")[0]
+    else
+      ""
+    end
+  end
+
+  def share_img
+    self.get_big_png
+  end
+ 
   def sub_category
     if self.sub_category_id
       Category.find_by_id(self.sub_category_id) 
@@ -79,24 +127,14 @@ class Matter < ActiveRecord::Base
   end
 
 
-  def get_notify_title
-    dr = AskForDapei.find_by_user_id_and_matter_id(self.user_id, self.id)
-    if dr
-      '提了一个搭配问问:' + dr.title
-    else
-      '上传了宝贝'
-    end
-  end
-
-
   def share_url
-    dr = AskForDapei.find_by_user_id_and_matter_id(self.user_id, self.id)
-    if dr
-      dr.share_url
-    else
-      "http://m.shangjieba.com/matters/#{self.id}/view_show"
-    end 
+    "http://m.dapeimishu.com:9090/matters/#{self.id}/view_show"
   end
+
+  def share_img
+    self.get_big_png
+  end
+  
 
   def get_dapeis(limit=8, page=1)
     dapeis = []
@@ -284,8 +322,24 @@ class Matter < ActiveRecord::Base
     #end
   end
 
+  def incr_and_get_dispose_count
+    self.incr_dispose
+    self.get_dispose_count
+  end
+
+
+  def get_dispose_count
+    if $redis.get("matter_#{self.id}")
+      $redis.get("matter_#{self.id}")
+    else
+      self.dispose_count
+    end
+  end
+
+
   def incr_dispose
-    
+    key = "matter_#{self.id}"
+    $redis.incr(key)
   end
 
 
