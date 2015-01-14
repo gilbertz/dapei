@@ -93,9 +93,9 @@ class DapeisController < ApplicationController
     @limit = params[:limit].to_i if params[:limit]
 
     @dapeis = []
-    if params[:sku_id]
-      sku = Sku.find_by_id(params[:sku_id])
-      @dapeis = sku.get_dapeis(@limit, @page) if sku
+    if params[:matter_id]
+      matter = Matter.find_by_id(params[:matter_id])
+      @dapeis = matter.get_dapeis(@limit, @page) if matter
     elsif params[:brand_id]
       brand = Brand.find_by_id(params[:brand_id])
       @dapeis = brand.get_dapeis(@limit, @page) if brand
