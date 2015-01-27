@@ -1,6 +1,6 @@
 $(document).ready(function () {
   if (SJBindex.host.indexOf('localhost') != -1) {
-    SJBindex.host = 'www.dapeimishu.com:8080';
+    SJBindex.host = 'www.dapeimishu.com:9090';
   }
   SJBindex.setBaseSize();
   $(window).resize(function() {
@@ -736,7 +736,7 @@ var SJBindex = {
       var thisPage = $('.page.lc-page').clone().addClass('current-page');
       thisPage.prepend(SJBindex.setHeader(this.header));
         $.ajax({
-          url: SJBindex.protocol + '//' + SJBindex.host + '/users/' + SJBindex.user.user_id + '/favorite_items.json?page='+ this.nextSinglePage +'&token='+ SJBindex.user.token,
+          url: SJBindex.protocol + '//' + SJBindex.host + '/users/' + SJBindex.user.user_id + '/favorite_matters.json?page='+ this.nextSinglePage +'&token='+ SJBindex.user.token,
           data: {
             like: 1
           },
@@ -745,24 +745,24 @@ var SJBindex = {
           success: function(data) {
             SJBdataCache.singles = SJBdataCache.singles || {};
             var nextItem, whichCol;
-            for (var i = 0; i < data.items.length; i++) {
+            for (var i = 0; i < data.matters.length; i++) {
               nextItem = $('.templates>.single-item').clone();
               nextItem.children('img').attr({
-                'src': data.items[i].img_scaled_large,
+                'src': data.matters[i].big_png,
                 'min-height': '3rem',
-                'single_id': data.items[i].item_id
+                'single_id': data.matters[i].object_id
               }).click(function(i) {
                 var reali = i;
                 return function() {
-                  that.itemClickFn(data.items[reali].item_id);
+                  that.itemClickFn(data.matters[reali].object_id);
                 }
               }(i));
-              nextItem.find('.single-item-brand').text(data.items[i].shop_display_name);
-              nextItem.find('.single-item-price').text(data.items[i].price);
+              nextItem.find('.single-item-brand').text(data.matters[i].brand_name);
+              nextItem.find('.single-item-price').text(data.matters[i].price);
               whichCol = that.colHeight[0] < that.colHeight[1] ? 0 : 1;
-              that.colHeight[whichCol] += Number(data.items[i].height);
+              that.colHeight[whichCol] += Number(data.matters[i].h);
               nextItem.appendTo(thisPage.find('.lc-single-list').children().eq(whichCol));
-              SJBdataCache.singles[data.items[i].item_id] = data.items[i];
+              SJBdataCache.singles[data.matters[i].object_id] = data.matters[i];
             }
             this.nextSinglePage++;
           }
@@ -940,7 +940,7 @@ var SJBindex = {
       if (dapeiID) {
         url = SJBindex.protocol + '//' + SJBindex.host + '/items/' + dapeiID + '/comments.json?limit=20';
       } else if (danpinID) {
-        url = SJBindex.protocol + '//' + SJBindex.host + '/skus/' + danpinID + '/comments.json?limit=20';
+        url = SJBindex.protocol + '//' + SJBindex.host + '/matters/' + danpinID + '/comments.json?limit=20';
       }
       $.ajax({
         url: url, 
@@ -995,7 +995,7 @@ var SJBindex = {
       if (dapeiID) {
         url = SJBindex.protocol + '//' + SJBindex.host + '/items/' + dapeiID + '/liked_users.json?limit=20';
       } else if (danpinID) {
-        url = SJBindex.protocol + '//' + SJBindex.host + '/skus/' + danpinID + '/liked_users.json?limit=20';
+        url = SJBindex.protocol + '//' + SJBindex.host + '/matters/' + danpinID + '/liked_users.json?limit=20';
       }
       $.ajax({
         url: url,
