@@ -124,7 +124,7 @@ private
   end
 
   def transform(target_type, target_id)
-    if(target_type==Post or target_type==Sku or target_type==Discount or target_type==DapeiResponse)
+    if(target_type==Post or target_type==Matter)
       @target_id=target_id.to_i
     else
       if target_type==Item or target_type==Dapei

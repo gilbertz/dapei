@@ -10,6 +10,10 @@ class Matter < ActiveRecord::Base
   belongs_to :category
 
   include Sjb::Likeable
+  include Sjb::Commentable
+
+  acts_as_taggable
+  acts_as_commentable
 
   accepts_nested_attributes_for :matter_info
 

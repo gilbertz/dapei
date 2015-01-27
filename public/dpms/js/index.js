@@ -1,6 +1,6 @@
 $(document).ready(function () {
   if (SJBindex.host.indexOf('localhost') != -1) {
-    SJBindex.host = 'www.shangjieba.com:8080';
+    SJBindex.host = 'www.dapeimishu.com:8080';
   }
   SJBindex.setBaseSize();
   $(window).resize(function() {
@@ -290,7 +290,7 @@ var SJBindex = {
         var that = this;
         ajaxState = 0;
         $.ajax({
-          url: SJBindex.protocol + '//' + SJBindex.host + '/item/info/search.json',
+          url: SJBindex.protocol + '//' + SJBindex.host + '/matters.json',
           data: {
             page: that.nextPage,
             like: 0
@@ -301,24 +301,24 @@ var SJBindex = {
             ajaxState = 1;
             SJBdataCache.singles = SJBdataCache.singles || {};
             var nextItem, whichCol;
-            for (var i = 0; i < data.items.length; i++) {
+            for (var i = 0; i < data.matters.length; i++) {
               nextItem = $('.templates>.single-item').clone();
               nextItem.children('img').attr({
-                'src': data.items[i].img_scaled_large,
+                'src': data.matters[i].big_png,
                 'min-height': '3rem',
-                'single_id': data.items[i].item_id
+                'single_id': data.matters[i].object_id
               }).click(function(i) {
                 var reali = i;
                 return function() {
-                  that.itemClickFn(data.items[reali].item_id);
+                  that.itemClickFn(data.matters[reali].object_id);
                 }
               }(i));
-              nextItem.find('.single-item-brand cut').text(data.items[i].shop_display_name);
-              nextItem.find('.single-item-price').text(data.items[i].price);
+              nextItem.find('.single-item-brand cut').text(data.matters[i].brand_name);
+              nextItem.find('.single-item-price').text(data.matters[i].price);
               whichCol = that.colHeight[0] < that.colHeight[1] ? 0 : 1;
-              that.colHeight[whichCol] += Number(data.items[i].height);
+              that.colHeight[whichCol] += Number(data.matters[i].h);
               nextItem.appendTo($('.single-channel>.list').children().eq(whichCol));
-              SJBdataCache.singles[data.items[i].item_id] = data.items[i];
+              SJBdataCache.singles[data.matters[i].object_id] = data.matters[i];
             }
             that.nextPage++;
           }
@@ -488,10 +488,10 @@ var SJBindex = {
         success: function(data) {
           var tdStr;
           for (var i = 0; i < 6; i++) {
-            if (i < data.items.length) {
+            if (i < data.matters.length) {
               tdStr = '<td>'+
-              '<div class="item-img" style="background: url(' + data.items[i].img_normal_small + ') center center no-repeat; background-size: contain;"></div>'+
-              '<div class="item-brand">' + data.items[i].brand_name + '</div></td>';
+              '<div class="item-img" style="background: url(' + data.matters[i].small_jpg + ') center center no-repeat; background-size: contain;"></div>'+
+              '<div class="item-brand">' + data.matters[i].brand_name + '</div></td>';
             } else {
               tdStr = '<td></td>'
             }
@@ -598,7 +598,7 @@ var SJBindex = {
     },
     createPage: function(singleId) {
       $.ajax({
-        url: SJBindex.protocol + '//' + SJBindex.host + '/items/' + singleId + '/get_item_detail.json',
+        url: SJBindex.protocol + '//' + SJBindex.host + '/matters/' + singleId + '.json',
         dataType: 'JSON',
         data: {
           like: 0,
@@ -642,7 +642,7 @@ var SJBindex = {
       });
       var thisPage = $('.page.single-detail.page-template').clone().addClass('current-page');
       thisPage.prepend(SJBindex.setHeader(this.header));
-      thisPage.find('.main-img>img').attr('src', SJBdataCache.singles[singleId].img_urls_large[0].img_url);
+      thisPage.find('.main-img>img').attr('src', SJBdataCache.singles[singleId].big_png);
       thisPage.find('.p-name').text(SJBdataCache.singles[singleId].title);
       thisPage.find('.p-price').text(SJBdataCache.singles[singleId].price);
       thisPage.find('.p-buy-domain').text('来自：' + SJBdataCache.singles[singleId].buy_domain);
@@ -651,18 +651,18 @@ var SJBindex = {
       //   'onclick': 'SJBindex.pushNewPage(SJBindex.buyPage.createPage(\'' + SJBdataCache.singles[singleId].buy_url + '\'))' 
       // });
       thisPage.find('.p-gobuy').attr({
-        'onclick': 'SJBindex.prompt("请下载 APP上街吧 购买")'
+        'onclick': 'SJBindex.prompt("请下载搭配蜜书购买")'
       });
       thisPage.find('.bottom-bar .left-icon img').attr({
-        'onclick': 'SJBindex.showComment("' + singleId+ '", "Sku")'
+        'onclick': 'SJBindex.showComment("' + singleId+ '", "Matter")'
       });
       thisPage.find('.bottom-bar .right-icon img').attr({
-        'onclick': 'SJBindex.like("Sku", "' + singleId + '", this)'
+        'onclick': 'SJBindex.like("Matter", "' + singleId + '", this)'
       });
       if (Number(SJBdataCache.singles[singleId].like_id)) {
         thisPage.find('.bottom-bar .right-icon img').attr({
           'src': 'images/icons/liked2.png',
-          'onclick': 'SJBindex.like("Sku", "' + singleId + '", this, true)'
+          'onclick': 'SJBindex.like("Matter", "' + singleId + '", this, true)'
         });
       }
       return thisPage;
