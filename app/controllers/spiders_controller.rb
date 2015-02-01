@@ -16,16 +16,12 @@ class SpidersController < ApplicationController
   # GET /spiders
   # GET /spiders.json
   def index
-    @spiders_ntmall = Spider.where("template_id != 89 ").order("updated_at desc")
-    @spiders_tmall = Spider.where( "template_id = 89" ).order("updated_at desc")
-    @spiders = @spiders_ntmall + @spiders_tmall
+    @spiders = Spider.where(:stop => false)
     
     respond_to do |format|
       format.html # index.html.erb
       format.json { render json: @spiders }
       format.rb {
-        @spiders = Spider.where("brand_id > 1")
-        @spiders = @spiders.sort{|s|s.brand.updated_at.to_i}  
         render "list", :layout => false
       }
     end

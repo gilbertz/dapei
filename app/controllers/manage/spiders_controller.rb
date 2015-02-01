@@ -11,7 +11,7 @@ class Manage::SpidersController < Manage::BaseController
 
     query_str = params[:q].nil? ? nil : params[:q].to_downcase
     @q = Spider.where(cond).includes(:brand).ransack query_str
-    @spiders = @q.result.order('id desc').page(params[:page]).per(20)
+    @spiders = @q.result.order('stop asc').page(params[:page]).per(20)
   end
 
   def new

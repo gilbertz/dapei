@@ -189,7 +189,7 @@ def parse_links(driver, docs, page_id)
       doc["page_id"] = page_id
       $redis.set(key, doc.to_yaml)
       $redis.expire key, 3600*24*15
-      p doc
+      p key
       docs << doc
     rescue=>e
       p e.to_s
