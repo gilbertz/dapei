@@ -379,7 +379,7 @@ class Matter < ActiveRecord::Base
     matter_rule = spider.matter_rule 
     
     if matter_rule == 'tmall'
-      Matter.by_img(doc['imgs'][0], doc)
+    #  Matter.by_img(doc['imgs'][0], doc)
     end
     p '2'   
     if matter_rule == 'hm'

@@ -30,7 +30,7 @@
             <%= spider.id %>
           </span>
         </td>
-        <td><%= link_to spider.brand.try(:name), "/manage/spiders?bid=#{spider.brand.id}" %></td>
+        <td><%= link_to spider.brand.try(:name), "/manage/matters?brand_id=#{spider.brand.id}" %></td>
         <td><%=link_to '爬取图片', "/manage/matters/recommends?spider_id=#{spider.id}" %></td> 
         <td><%= spider.brand.level %></td>
         <td>
