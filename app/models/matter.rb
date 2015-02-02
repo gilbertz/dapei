@@ -386,6 +386,11 @@ class Matter < ActiveRecord::Base
       Matter.by_img(doc['imgs'][0], doc)
       Matter.by_img(doc['imgs'][1], doc) 
     end
+     
+    if matter_rule == 'ochirly'
+      Matter.by_img(doc['imgs'][0], doc)
+    end
+
     p '3'
 
   end
