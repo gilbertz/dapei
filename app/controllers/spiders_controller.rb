@@ -114,7 +114,7 @@ class SpidersController < ApplicationController
   def scheduler_common(id,crawl_type)
     crawl_common(id, crawl_type)
     @start_page = @spider.start_page
-    @domain = get_domain(@start_page)
+    #@domain = get_domain(@start_page)
     @ospider =  @spider
     if @spider.template_id  &&  @spider.template_id > 0
       @spider = Spider.find(@spider.template_id)
@@ -208,8 +208,8 @@ class SpidersController < ApplicationController
     crawl_common(id, crawl_type)
     
     @start_page = start_page_all(@spider)
-    @domain = get_domain(@start_page)
-    @domain_without_www = get_domain_without_www(@domain)
+    #@domain = get_domain(@start_page)
+    #@domain_without_www = get_domain_without_www(@domain)
 
     @ospider =  @spider
     spider_template_id = @spider.template_id

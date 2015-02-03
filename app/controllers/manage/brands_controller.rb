@@ -18,7 +18,7 @@ class Manage::BrandsController < Manage::BaseController
       end
     end
     order = 'id desc' 
-    params[:order] && params[:order] == 'hot' && order = 'likes_count desc'
+    params[:order] && params[:order] == 'hot' && order = 'updated_at desc'
 
     query_str = params[:q].nil? ? nil : params[:q].to_downcase
     @q = Brand.where(cond).ransack query_str

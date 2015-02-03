@@ -318,8 +318,10 @@ class CollocationsController < ApplicationController
 
     @sucai_categories = Category.where("id > 10 and parent_id = 1140").where(:is_active => true).order("weight desc")
 
-    @user_categories =  Category.where(:user_id => current_user.id).where(:is_active => true).order("weight desc")
-    
+    if current_user
+      @user_categories =  Category.where(:user_id => current_user.id).where(:is_active => true).order("weight desc")
+    end    
+
     if params[:user_id]
        @user = User.find(params[:user_id])
     else

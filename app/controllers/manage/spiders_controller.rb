@@ -17,11 +17,11 @@ class Manage::SpidersController < Manage::BaseController
   def new
     @size_types = SizeType.all
     @brand = Brand.find params[:brand_id]
-    @spider = @brand.spiders.new
+    @spider = @brand.spiders.new(:brand_id => params[:brand_id]) if @brand
   end
 
   def create
-    params[:spider][:size_types] = params[:spider][:size_types].reject{|size_type| size_type.strip.empty?}.join(",")
+    #params[:spider][:size_types] = params[:spider][:size_types].reject{|size_type| size_type.strip.empty?}.join(",")
     spider = Spider.new params[:spider]
     spider.save
     redirect_to [:spiders,:manage,spider.brand]

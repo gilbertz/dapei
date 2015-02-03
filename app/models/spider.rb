@@ -5,7 +5,18 @@ class Spider < ActiveRecord::Base
   has_many :spider_pages
 
   def get_spider_pages
-    SpiderPages.where(:spider_id => self.id)
+    if self.id
+      SpiderPages.where(:spider_id => self.id)
+    else
+      []
+    end
+  end
+
+  def last_updated
+    last_matter = Matter.where(:spider_id => self.id).last
+    if last_matter
+      last_matter.created_at
+    end
   end
 
   def make_docid(url)

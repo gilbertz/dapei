@@ -171,6 +171,7 @@ gem 'jbuilder'
 # gem 'rack-contrib'
 
 gem 'china_sms'
+gem 'qiniu', '~> 6.2.1'
 
 #http
 gem 'mechanize'
