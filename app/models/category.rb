@@ -16,9 +16,13 @@ class Category < ActiveRecord::Base
     where( :parent_id => cid  ).where(:is_active => true).order("weight desc")
   }
 
-  scope :active, 
+  scope :active, lambda {
     where(:is_active => true).order("weight desc")
-  
+  }
+
+  scope :by_user, lambda { |uid|
+    Category.where(:user_id => uid).where('image_thing is not null').where(:is_active => true).order("weight desc")   
+  }
 
   acts_as_api
   api_accessible :public,  :cache => 300.minutes do |t|
@@ -239,7 +243,7 @@ class Category < ActiveRecord::Base
   end
 
   def refresh_img
-    matter =  Matter.where(:sub_category_id => self.id).order('created_at desc').first
+    matter =  Matter.where(:sub_category_id => self.id).where('image_name is not null').order('created_at desc').first
     self.image_thing = matter.image_name if matter
     self.save
   end
