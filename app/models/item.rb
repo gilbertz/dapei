@@ -11,7 +11,7 @@ class Item < ActiveRecord::Base
   validates :title, :presence => true
   #validates :category_id, :presence=>true
   attr_accessible :title, :price, :discount, :display_area, :shop_id, :category_id, :discounts, \
-    :photos, :sku_id, :deleted, :from, :origin_price, :off_percent, :tags, :desc, :user_id, :level, :type, :index_info, :dapei_info_flag
+    :photos, :sku_id, :deleted, :from, :origin_price, :off_percent, :tags, :desc, :user_id, :suid, :level, :type, :index_info, :dapei_info_flag
   attr_accessor :distance, :get_dispose_count
 
   has_one :dapei_info, foreign_key: 'dapei_id'

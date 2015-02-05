@@ -770,14 +770,6 @@ class CollocationsController < ApplicationController
       end
     end
 
-    # tmp_desc=""
-    # pr["title"].match(/([.|,|，|;|!|！|。|．|。])+?/)
-    # if $1.present?
-    #    pr["title"], tmp_desc = pr["title"].split($1)
-    # end
-    # pr["description"]=tmp_desc unless tmp_desc.blank?
-    
-
     tmp_desc=""
     title = ""
     title = title +pr["title"]
@@ -795,7 +787,7 @@ class CollocationsController < ApplicationController
       uid = 0
     end 
 
-    @dapei = Dapei.new({title: pr["title"], desc: pr["description"].to_s, user_id: uid, category_id: "1001"})
+    @dapei = Dapei.new({title: pr["title"], desc: pr["description"].to_s, user_id: uid, suid: @su.id, category_id: "1001"})
     #@dapei = Dapei.new({user_id: uid, category_id: "1001"})
     if @dapei.save
       tags = ""

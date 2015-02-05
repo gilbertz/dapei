@@ -11,7 +11,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20150114101155) do
+ActiveRecord::Schema.define(:version => 20150205152248) do
 
   create_table "all_tags", :force => true do |t|
     t.string   "name"
@@ -591,6 +591,7 @@ ActiveRecord::Schema.define(:version => 20150114101155) do
     t.string   "index_info"
     t.integer  "dapei_info_flag"
     t.datetime "show_date"
+    t.integer  "suid"
   end
 
   add_index "items", ["brand_id", "sku_id"], :name => "index_items_on_brand_id_and_sku_id"
@@ -602,6 +603,7 @@ ActiveRecord::Schema.define(:version => 20150114101155) do
   add_index "items", ["shop_id", "sku_id"], :name => "index_items_on_shop_id_and_sku_id"
   add_index "items", ["shop_id"], :name => "index_items_on_shop_id"
   add_index "items", ["sku_id"], :name => "index_items_on_sku_id"
+  add_index "items", ["suid"], :name => "index_items_on_suid"
   add_index "items", ["title"], :name => "index_items_on_title"
   add_index "items", ["url"], :name => "index_items_on_url"
   add_index "items", ["user_id", "level", "category_id", "deleted"], :name => "index_items_on_user_id_and_level_and_category_id_and_deleted"
