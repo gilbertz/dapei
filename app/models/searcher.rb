@@ -86,6 +86,10 @@ class Searcher
     @sphinx.SetFilter('user_id', [uid.to_i])
   end
 
+  def set_exclude_user_id(uid)
+     @sphinx.SetFilter('user_id', [uid.to_i], true)
+  end
+
   def set_price(low_price, high_price)
     if high_price == "" or high_price == nil
       high_price = 10000000

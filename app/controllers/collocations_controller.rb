@@ -318,16 +318,11 @@ class CollocationsController < ApplicationController
 
     @sucai_categories = Category.where("id > 10 and parent_id = 1140").where(:is_active => true).order("weight desc")
 
-    if current_user
-      @user_categories =  Category.where(:user_id => current_user.id).where(:is_active => true).order("weight desc")
+    if @su
+      @user_categories =  Category.where(:user_id => @su.id).where(:is_active => true).order("weight desc")
     end    
 
-    if params[:user_id]
-       @user = User.find(params[:user_id])
-    else
-       @user = current_user
-    end     
-
+    @user = @su
     get_brands
   end
 
@@ -339,13 +334,9 @@ class CollocationsController < ApplicationController
 
     @sucai_categories = Category.where("id > 10 and parent_id = 1140").where(:is_active => true).order("weight desc")
     @home_categories = Category.where("parent_id = 10").where(:is_active => true).order("weight desc")
-    @user_categories =  Category.where(:user_id => current_user.id).where(:is_active => true).order("weight desc")   
+    @user_categories =  Category.where(:user_id => @su.id).where(:is_active => true).order("weight desc")   
 
-    if params[:user_id]
-       @user = User.find(params[:user_id])
-    else
-       @user = current_user
-    end
+    @user = @su
   end
 
 
@@ -419,15 +410,7 @@ class CollocationsController < ApplicationController
         @sub_categories = []
         unless r["category_id"] == "10000"
           cat  = Category.find_by_id(r["category_id"])
-          ms = false
-          #ms = true unless cat
-          #ms = true if cat and cat.id > 100 and ( cat.parent_id.to_i > 20 and cat.parent_id != 1140 )
-          if ms 
-            #matter = Matter.find_by_id( r["category_id"] )
-            #r["category_id"] = matter.category_id if matter and matter.category_id
-            #r["sub_category_id"] = matter.sku.sub_category_id if matter and matter.sku and matter.sku.sub_category_id and matter.sku.sub_category_id != 0
-            #r["color"] = matter.get_first_color if matter 
-          else
+          if true 
             @current_category_name = cat.name
             if Category.is_sub(cat.id)
               @sub_categories = Category.sub(cat.parent_id)
@@ -436,13 +419,16 @@ class CollocationsController < ApplicationController
             end
           end
 
+          #for specified shop user
           if cat.user
             r["sub_category_id"] = r["category_id"]  
-            r["category_id"] = nil 
+            r["category_id"] = nil
+          elsif @su.is_shop 
+            r['exclude_user_id'] = @su.id
           end
 
         else
-          user_id = current_user.id
+          user_id = @su.id
         end
       end
 
@@ -460,6 +446,7 @@ class CollocationsController < ApplicationController
         s.set_brand(r["brand_id"]) if r["brand_id"]
         s.set_sub_category_id(r["sub_category_id"]) if r["sub_category_id"] and  r["sub_category_id"].to_i != 0
         s.set_user_id(user_id) if user_id
+        s.set_exclude_user_id(r['exclude_user_id']) if r['exclude_user_id']
         #s.remove_level(1)
         #s.set_level(0)
 

@@ -179,13 +179,13 @@ class DapeisController < ApplicationController
       else
         cond = "items.level >= 2"
         cond = "items.level >= 0 or items.level is null" if @order == 'new'
-        if current_user and @order == "follow"
+        if @su and @order == "follow"
           user_ids = []
-          unless current_user.is_shop
-            @following_users = current_user.following_by_type('User')
+          unless @su.is_shop
+            @following_users = @su.following_by_type('User')
             user_ids = @following_users.map { |u| u.id }
           end
-          user_ids << current_user.id
+          user_ids << @su.id
           cond = {:user_id => user_ids}
         end
 

@@ -240,7 +240,7 @@ class Category < ActiveRecord::Base
 
   def refresh_img
     matter =  Matter.where(:sub_category_id => self.id).order('created_at desc').first
-    self.image_thing = matter.image_name
+    self.image_thing = matter.image_name if matter
     self.save
   end
 

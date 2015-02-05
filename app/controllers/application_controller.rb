@@ -3,6 +3,7 @@ class ApplicationController < ActionController::Base
   protect_from_forgery
   before_filter :set_current_user 
   before_filter :set_login_status
+  before_filter :set_su
 
   def after_sign_in_path_for(resource)
     if session[:pre_login_controller] and session[:pre_login_action]
@@ -41,6 +42,14 @@ class ApplicationController < ActionController::Base
 
 
 protected
+  def set_su
+    if params[:suid]
+      @su = User.find_by_url params[:suid]
+    elsif current_user
+      @su = current_user
+    end
+  end
+
   def set_current_user
     if params[:token]
       current_user = User.find_by_authentication_token(params[:token])
