@@ -409,6 +409,7 @@ class Matter < ActiveRecord::Base
     m.desc = doc['desc']
     m.category_id = doc['category_id']
     m.brand_id = doc['brand_id']
+    m.user_id = doc['user_id']
     m.spider_id = doc['spider_id']
     m.sub_category_id = doc['sub_category_id']
     m.link = doc['link']
