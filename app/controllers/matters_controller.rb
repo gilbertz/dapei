@@ -41,7 +41,17 @@ class MattersController < ApplicationController
 
   def index
     cond = '1=1'
-    @matters = Matter.where(cond).paginate(:page => params[:page], :per_page => 10)
+    @order = 'follow'
+    if current_user and @order == "follow"
+      user_ids = []
+      unless current_user.is_shop
+        @following_users = current_user.following_by_type('User')
+        user_ids = @following_users.map { |u| u.id }
+      end
+      user_ids << current_user.id
+      cond = {:user_id => user_ids}
+    end
+    @matters = Matter.where(cond).group(:docid).paginate(:page => params[:page], :per_page => 10)
 
     respond_to do |format|
       format.json { render_for_api :public, :json => @matters, :meta=>{:result=>"0"} }

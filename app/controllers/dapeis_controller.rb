@@ -158,7 +158,7 @@ class DapeisController < ApplicationController
     @limit = params[:limit].to_i if params[:limit]
     @updated_count = 0
 
-    @order = "hot"
+    @order = "follow"
     @order = params[:order] if params[:order]
 
     if true
@@ -180,13 +180,16 @@ class DapeisController < ApplicationController
         cond = "items.level >= 2"
         cond = "items.level >= 0 or items.level is null" if @order == 'new'
         if current_user and @order == "follow"
-          @following_users = current_user.following_by_type('User')
-          user_ids = @following_users.map { |u| u.id }
+          user_ids = []
+          unless current_user.is_shop
+            @following_users = current_user.following_by_type('User')
+            user_ids = @following_users.map { |u| u.id }
+          end
           user_ids << current_user.id
           cond = {:user_id => user_ids}
         end
 
-        @dapeis=Dapei.joins(:dapei_info).where(cond).where("`items`.category_id = 1001").order("created_at desc").page(params[:page]).per(@limit)
+        @dapeis=Dapei.joins(:dapei_info).where(cond).where("`items`.category_id = 1001").order("level desc,created_at desc").page(params[:page]).per(@limit)
         @count = Dapei.joins(:dapei_info).where(cond).count
         get_updated_count(get_max_id(@dapeis)) if @page == 1
         dup

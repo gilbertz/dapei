@@ -1112,6 +1112,9 @@ class User < ActiveRecord::Base
     end
   end
 
+  def self.by_brand(brand_id)
+    User.where(:brand_id => brand_id).last
+  end
 
   private
   def get_pod_url
