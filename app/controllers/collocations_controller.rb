@@ -1029,7 +1029,7 @@ class CollocationsController < ApplicationController
       tspec = "#{tid} #{x} #{y} #{scale}"
     end
 
-    if params[:spec]
+    unless params[:spec].blank?
       spec_json = JSON.parse(spec) if spec
       p spec_json
 
@@ -1100,7 +1100,7 @@ class CollocationsController < ApplicationController
         end
 
         if template_id
-          template_img = "/var/www/shangjieba/public/uploads/template_cut_new/#{params[:template_id]}.png" 
+          template_img = "/data/uploads/template_cut_new/#{params[:template_id]}.png" 
 
           `cd #{image_dispose_cut} && ./template_cut #{orign_image} #{template_img} #{to_image_root} #{x} #{y} #{scale}`
         else
