@@ -9,6 +9,6 @@ require "rubygems"
 <% @spiders.each do |s| %>
     p "<%=num %>"
     <% num += 1%> 
-    `cd /data/spider && /bin/bash spider.sh <%= s.id %>`
+    `cd /data/spider && /bin/bash spider.sh <%= s.id %> > /tmp/run_spider_<%= s.id %>.log`
 <% end %>
 #end

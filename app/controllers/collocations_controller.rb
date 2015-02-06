@@ -409,9 +409,11 @@ class CollocationsController < ApplicationController
 
     #res_dict = Rails.cache.fetch "k_#{@cache_key}", :expires_in => 15.minutes do 
       result_dict = {}
+
+      user_ids = []
       if r["category_id"]
         @sub_categories = []
-        unless r["category_id"] == "10000"
+        if true
           cat  = Category.find_by_id(r["category_id"])
           if true 
             @current_category_name = cat.name
@@ -429,9 +431,6 @@ class CollocationsController < ApplicationController
           elsif @su.is_shop 
             r['exclude_user_id'] = @su.id
           end
-
-        else
-          user_id = @su.id
         end
       end
 
@@ -448,8 +447,9 @@ class CollocationsController < ApplicationController
         s.set_color(r["color"]) if r["color"]
         s.set_brand(r["brand_id"]) if r["brand_id"]
         s.set_sub_category_id(r["sub_category_id"]) if r["sub_category_id"] and  r["sub_category_id"].to_i != 0
-        s.set_user_id(user_id) if user_id
         s.set_exclude_user_id(r['exclude_user_id']) if r['exclude_user_id']
+        s.set_user(@su) unless @su.is_shop
+
         #s.remove_level(1)
         #s.set_level(0)
 

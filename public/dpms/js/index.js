@@ -304,7 +304,7 @@ var SJBindex = {
             for (var i = 0; i < data.matters.length; i++) {
               nextItem = $('.templates>.single-item').clone();
               nextItem.children('img').attr({
-                'src': data.matters[i].big_png,
+                'src': data.matters[i].img_url,
                 'min-height': '3rem',
                 'single_id': data.matters[i].object_id
               }).click(function(i) {

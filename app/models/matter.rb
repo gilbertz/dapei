@@ -28,6 +28,7 @@ class Matter < ActiveRecord::Base
     t.add lambda { |item| item.brand_id.to_s }, :as => :brand_id
     t.add lambda { |item| item.category_id.to_s }, :as => :category_id
     t.add lambda { |item| item.image_name.to_s }, :as => :thing_id
+    t.add lambda { |item| item.img_url }, :as => :img_url
     t.add lambda { |item| item.get_small_jpg.to_s }, :as => :small_jpg
     t.add lambda { |item| item.get_big_png.to_s }, :as => :big_png
     t.add lambda { |item| item.comments_count.to_i.to_s }, :as => :comments_count

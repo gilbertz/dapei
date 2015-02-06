@@ -82,8 +82,10 @@ class Searcher
     @sphinx.SetFilter('brand_id', [brand_id.to_i])
   end
 
-  def set_user_id(uid)
-    @sphinx.SetFilter('user_id', [uid.to_i])
+  def set_user(su)
+    following_users = su.following_by_type('User')
+    user_ids = following_users.map { |u| u.id }
+    @sphinx.SetFilter('user_id', user_ids)
   end
 
   def set_exclude_user_id(uid)
