@@ -306,37 +306,20 @@ class Matter < ActiveRecord::Base
 
   
   def get_item_buy_domain
-    #unless self.sku.blank?
-    #  self.sku.buy_domain
-    #else
-    #  ""
-    #end
+    self.buy_domain.to_s
   end
 
   def get_item_buy_url
-    #unless self.sku.blank?
-    #  self.sku.buy_url
-    #else
-    #  ""
-    #end
+    self.link.to_s
   end
 
   def get_item_title
-    #unless sku.blank?
-    #  sku.title.gsub(/\s+/, " ").gsub('＆', '&').gsub(/d(.*)zzit\//, "d'zzit")
-    #else
-    #  unless matter_info.blank?
-    #    matter_info.title
-    #  end
-    #end
+    ''
+    #self.title.to_s
   end
 
   def get_item_price
-    #unless self.sku.blank?
-    #  self.sku.price.gsub(/\s+/, " ") unless self.sku.price.blank?
-    #else
-    #  ""
-    #end
+    self.price.to_s
   end
 
   def incr_and_get_dispose_count
