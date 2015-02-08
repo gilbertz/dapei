@@ -1,25 +1,9 @@
 .login
   .wrapper.login-wrapper
-    %h2.login-h1 登录搭配秘书
+    %h2.login-h1 登录搭配蜜书
     .login-main
       .login-main-center
         %ul.nav.nav-float
-          %li
-            %ul.nav.login-with
-              %li.login-type 推荐合作网站一键登录
-              %li
-                %a{:href=>"/accounts/info/auth/qq_connect"}
-                  .login-with-qq.login-with-other
-                    %span.icon-qq
-                      %img{:alt => "", :src => "/assets/newweb/qq.png"}/
-                    %b QQ账号登录
-              %li
-                %a{:href=>"/accounts/info/auth/weibo"}
-                  .login-with-weibo.login-with-other
-                    %span.icon-weibo
-                      %img{:alt => "", :src => "/assets/newweb/weibo-sina.png"}/
-                    %b 微博账号登录
-          %li#border-y
           %li
             = simple_form_for(resource, :as => resource_name, :validate=>false, :url => session_path(resource_name)) do |f|
               %ul.nav.login-sjb
@@ -27,17 +11,15 @@
                 %li
                   =f.input :email, :label=>"邮箱：",  :input_html=>{:class=>"login-email"}
                 %li
-                  =f.input :mobile, :label=>"手机：",  :input_html=>{:class=>"login-email"}
-                %li
                   =f.input :password, :label=>"密码：",  :input_html=>{:class=>"login-password"}
-                %li.login-tool
+                -#%li.login-tool
                   = f.input :remember_me, :label=>false, :input_html=>{:class=>"login-auto-box"}, :as => :boolean if devise_mapping.rememberable?
                   自动登录
                   %span.forget-password
                     %a{:href => "#{new_password_path(resource_name)}"} 忘记密码？ 
                 %li
                   = f.button :submit, "登录", :class=>"login-submit"
-                  %span.no-account
+                  -#%span.no-account
                     没账号？
                     %a{:href => "#{new_user_registration_path}"} 快注册
 
