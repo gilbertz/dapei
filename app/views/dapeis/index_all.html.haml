@@ -16,7 +16,14 @@
   .hot-dapei-tag
     .hot-dapei-tag-head
       %h2{:style => "float:left;"} 
-        热门搭配
+        搭配达人
+    .hot-dapei-tags
+      %ul.nav.nav-float
+        - @busers.each do |bu|
+          %li
+            %h5
+              %a{:href=>"/?suid=#{bu.url}"}
+                = bu.name
   .dapei-body
     - if @dapeis
       %ul.nav.nav-float.stream

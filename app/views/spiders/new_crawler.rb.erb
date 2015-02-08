@@ -29,18 +29,6 @@ def parse(driver)
     doc["price"] =  driver.find_element(:xpath, "<%=raw @spider.pprice %>").text
   <% end %>
 
-  <% if @spider.freight && @spider.freight > 0 %>
-    doc["freight"] =  "<%=raw @spider.freight %>"
-  <% end %>
-
-  <% if @spider.is_agent %>
-    doc["is_agent"] = 1
-  <% end %>
-
-  <% if @spider.is_guide %>
-    doc["is_guide"] = 1
-  <% end %>
-
   <% if @spider.pdesc && @spider.pdesc != "" %>
     doc["desc"] =  driver.find_element(:xpath, "<%=raw @spider.pdesc %>").text
   <% end %>
@@ -65,16 +53,19 @@ def parse(driver)
     end 
   <% end %>
   doc["simg"] = simgs
-  driver.find_elements(:xpath, "<%=raw @spider.pimgs %>").each do |e|
-    img = e.attribute("<%=raw @spider.pimg_attr %>")
-    <% if @spider.img_rule != "" %>
-      img = img<%=raw @spider.img_rule %> unless img.nil?
-    <% end %>
-    if img && !(img =~ /http:\/\/|https:\/\//)
-      img = "<%=raw @domain%>/" + img
+  
+  <% unless @spider.pimgs.blank? %>
+    driver.find_elements(:xpath, "<%=raw @spider.pimgs %>").each do |e|
+      img = e.attribute("<%=raw @spider.pimg_attr %>")
+      <% if @spider.img_rule != "" %>
+        img = img<%=raw @spider.img_rule %> unless img.nil?
+      <% end %>
+      if img && !(img =~ /http:\/\/|https:\/\//)
+        img = "<%=raw @domain%>/" + img
+      end
+      imgs << img
     end
-    imgs << img
-  end
+  <% end %>
 
   dp_imgs = []
   <% if @spider.dp_img && @spider.dp_img != "" %> 

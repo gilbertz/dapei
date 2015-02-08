@@ -161,6 +161,8 @@ class DapeisController < ApplicationController
     @order = "follow"
     @order = params[:order] if params[:order]
 
+    @busers = User.where( 'brand_id > 1' ).where( 'apply_type>1' )
+
     if true
       if params[:all]
         @dapeis=Dapei.joins(:dapei_info).where("`items`.category_id = 1001").order("created_at desc").page(params[:page]).per(@limit)
