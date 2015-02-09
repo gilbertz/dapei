@@ -73,21 +73,22 @@
                 %span.icon-love
                 %span.data
                   %a{:href => "#{favorite_dapeis_path(@user)}"}收藏中心
-          -if nav_class=="followings"
-            %li.active
-              %span.icon-look
-              %span.data
-                %a{:href => "#{followings_path(@user)}"} 关注的人( #{user.following_count})
-          -else
-            %li
-              %span.icon-look
-              %span.data
-                %a{:href => "#{followings_path(@user)}"} 关注的人( #{user.following_count})
-          -if nav_class=="followers"
-            %li.active
-              %span.icon-user
-              %span.data 
-                %a{:href => "#{followers_path(@user)}"} TA的粉丝( #{user.followers_count})
+          - unless @user.is_shop
+            - if nav_class=="followings"
+              %li.active
+                %span.icon-look
+                %span.data
+                  %a{:href => "#{followings_path(@user)}"} 关注的人( #{user.following_count})
+            - else
+              %li
+                %span.icon-look
+                %span.data
+                  %a{:href => "#{followings_path(@user)}"} 关注的人( #{user.following_count})
+            - if nav_class=="followers"
+              %li.active
+                %span.icon-user
+                %span.data 
+                  %a{:href => "#{followers_path(@user)}"} TA的粉丝( #{user.followers_count})
           -else
             %li
               %span.icon-user
