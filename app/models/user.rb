@@ -828,7 +828,7 @@ class User < ActiveRecord::Base
   end
 
   def can_be_admin
-    true
+    self.id == 1
     #self.has_role? :admin and not self.has_role? :shop_owner
   end
 
