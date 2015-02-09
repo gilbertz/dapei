@@ -10,7 +10,6 @@ class Brand < ActiveRecord::Base
   has_many :tshow_spiders, :dependent => :destroy
   has_many :shops
   has_many :photos, :as => :target #, :dependent=>:destroy
-  has_many :discounts, :as => :discountable, :dependent => :destroy
   has_many :crawler_templates
   has_many :spiders
   has_many :items
@@ -97,7 +96,6 @@ class Brand < ActiveRecord::Base
     t.add :new_skus_count
     t.add :like_id_s, :as => :like_id
     t.add lambda { |brand| brand.img_urls(:wide_medium) }, :as => :brand_imgs
-    t.add :current_discount_title, :as => :discount_title
     #t.add :lookbooks
     #t.add :campaigns
     t.add lambda { |brand| brand.wide_campaign_imgs(:wide_small) }, :as => :wide_campaign_imgs
@@ -465,21 +463,6 @@ class Brand < ActiveRecord::Base
     end
   end
 
-  def get_last_discount
-    unless self.discounts.blank?
-      self.discounts.sort_by { |discount| discount.created_at }
-      self.discounts.last
-    end
-  end
-
-  def current_discount_title
-    discount = self.get_last_discount
-    if discount and discount.end_date > Date.today
-      discount.title
-    else
-      ""
-    end
-  end
 
   def incr_dispose
     key = "brand_#{self.url}"

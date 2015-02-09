@@ -106,71 +106,27 @@ class WeixinController < ApplicationController
   end
 
 
-  def cities
-    @limit = 20
-    @page = 1
-    cond = "1=1"
-    if params[:limit]
-      @limit = params[:limit].to_i
+  def matter
+    @matter = Matter.find_by_id(params[:id])
+    if @matter and @matter.brand_id 
+      @brand = Brand.find_by_id @matter.brand_id
     end
 
-    if params[:page]
-      @page = params[:page].to_i
-    end
-
-    cond = "1=1"
-    if params[:prefix]
-      cond = "pinyin LIKE '#{params[:prefix]}%'"
-      @cities = Area.city_prefix( params[:prefix] )
-    else
-      @cities = Area.where( :t=>'city', :on=>true ).where("#{cond}").order("city_id asc").paginate(:page=>params[:page], :per_page=>@limit)
-    end
-    @objs = @cities
-    
-    @next_page = "/weixin/cities?page=#{@page+1}&#{@lbs_params}"
-    respond_to do |format|
-      format.html{
-        render "cities", :layout => "weixin"
-      }
-    end
-  end
-
-
-  def item
-    @item = Item.find_by_url(params[:id])
-    if @item and @item.brand_id 
-      get_brand_shops(@item.brand_id)
-    end
-
-    if @item
-      @shop_path =  "/weixin/shop?id=#{@item.shop.url}&#{@lbs_params}"
+    if @matter
+      @brand_path =  "/weixin/brand?id=#{@matter.brand_id}"
     end
     respond_to do |format|
       format.html{
-        if not @item
-          redirect_to "/weixin/sku?id=#{params[:id]}"
+        if not @matter
+          redirect_to "/weixin/matter?id=#{params[:id]}"
         else
-          render "item", :layout => "weixin"
+          render "matter", :layout => "weixin"
         end
       }
     end
   end
 
  
-  def sku
-    @sku = Sku.includes().find_by_id(params[:id])
-    if true
-      get_brand_shops(@sku.brand_id)
-    end
-
-    @brand_path =  "/weixin/brand?id=#{@sku.brand.id}&#{@lbs_params}"
-    respond_to do |format|
-      format.html{
-        render "sku", :layout => "weixin"
-      }
-    end
-  end
-
 
   def post
     @post = Post.includes().find_by_id(params[:id])

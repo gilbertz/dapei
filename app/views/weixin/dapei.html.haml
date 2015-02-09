@@ -30,12 +30,12 @@
       .item_wrapper
         .avatar
           - item_url = "#"
-          - item_url = "/weixin/sku?id=#{item.sku.id}&#{@lbs_params}" if item.sku
+          - item_url = "/weixin/matter?id=#{item.id}" if item
           %a{:href => "#{item_url}"}
-            %img{:src => "#{item.first_photo.url(:normal_medium)}"}/
+            %img{:src => "#{item.img_url}"}/
         .title
           .brand_name
             #{item.brand_name}
           .price
-            #{item.get_show_price}
+            #{item.get_item_price}
   =render :partial=>"/shared/report", :locals=>{:type=>"item", :id=>@dapei.url }

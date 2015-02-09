@@ -515,20 +515,16 @@ Shangjieba::Application.routes.draw do
   get 'api/dianping/test' => 'dianping#test', :as => "dianping_test"
   get 'api/redirect' => 'home#redirect', :as => "redirect"
 
-  get 'weixin/shop' => 'weixin#shop', :as => "weixin_shop"
-  get 'weixin/item' => 'weixin#item', :as => "weixin_item"
-  get 'weixin/sku' => 'weixin#sku', :as => "weixin_sku"
+  get 'weixin/matter' => 'weixin#matter', :as => "weixin_matter"
 
   get 'weixin/brand' => 'weixin#brand', :as => "weixin_brand"
   get 'weixin/brands' => 'weixin#brands', :as => "weixin_brands"
 
   get 'weixin/posts' => 'weixin#posts', :as => "weixin_posts"
   get 'weixin/posts/:id' => 'weixin#post', :as => "weixin_post"
-  get 'weixin/cities' => 'weixin#cities', :as => "weixin_cities"
 
   get 'weixin/games' => 'weixin#games', :as => "weixin_games"
 
-  get 'weixin/discount' => 'weixin#discount', :as => "weixin_discount"
   get 'weixin/dapeis' => 'weixin#dapeis', :as => "weixin_dapeis"
   get 'weixin/dapei' => 'weixin#dapei', :as => "weixin_dapei"
 
