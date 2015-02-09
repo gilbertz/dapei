@@ -51,7 +51,7 @@
             <% end %>
         </td>
         <td>
-          <%= link_to '编辑', [:edit,:manage,spider] %> |
+          <%= link_to '编辑', [:edit,:manage,spider] %> |<%= link_to '编辑品牌', [:edit,:manage,spider.brand] %> |
           <%= link_to '删除', [:manage,spider], method: :delete, class: 'ajaxd', 
           remote: true, confirm: 'Are you sure' %> |
           <%= link_to '立即启动爬取', [:start_crawl,:manage,spider],  remote: true, confirm: '确定吗立即启动爬取？' %> |

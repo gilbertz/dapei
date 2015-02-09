@@ -427,7 +427,7 @@ class CollocationsController < ApplicationController
           #for specified shop user
           if cat.user
             r["sub_category_id"] = r["category_id"]  
-            r["category_id"] = nil
+            r.delete "category_id"
           elsif @su.is_shop 
             r['exclude_user_id'] = @su.id
           end
@@ -448,11 +448,7 @@ class CollocationsController < ApplicationController
         s.set_brand(r["brand_id"]) if r["brand_id"]
         s.set_sub_category_id(r["sub_category_id"]) if r["sub_category_id"] and  r["sub_category_id"].to_i != 0
         s.set_exclude_user_id(r['exclude_user_id']) if r['exclude_user_id']
-        s.set_user(@su) if not @su.is_shop and r["category_id"].to_i < 1000
-
-        #s.remove_level(1)
-        #s.set_level(0)
-
+        s.set_user(@su) if not @su.is_shop and not cat.user
         unless price.blank?
           s.set_price(price[0], price[1])
         end
