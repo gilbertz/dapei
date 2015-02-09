@@ -4,9 +4,9 @@
   %ul.nav.nav-float.dapei-nav
     %li.new-person-dapei-link
       -if user_signed_in?
-        %a{:href => "/collocations"} +发布搭配
+        %a{:href => "/collocations?suid=#{@user.url}", :style=>"background:red;"} >>去搭配
       -else
-        %a{:href => "#{layer_sign_in_path}", :rel => "facebox[.about]"} +发布搭配
+        %a{:href => "#{layer_sign_in_path}", :rel => "facebox[.about]"} >>去搭配
 
 .wrapper
   .dapei-body

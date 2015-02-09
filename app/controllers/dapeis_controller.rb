@@ -161,7 +161,14 @@ class DapeisController < ApplicationController
     @order = "follow"
     @order = params[:order] if params[:order]
 
-    @busers = User.where( 'brand_id > 1' ).where( 'apply_type>1' )
+    @brand_users = User.where( 'brand_id > 1' ).where( 'apply_type>1' )
+    if current_user
+      @fusers = [current_user]
+      @fusers += current_user.following_by_type('User') 
+      @fusers = @fusers.uniq
+    end
+    
+    @guide_word = '>>去搭配'
 
     if true
       if params[:all]
@@ -183,12 +190,15 @@ class DapeisController < ApplicationController
         cond = "items.level >= 0 or items.level is null" if @order == 'new'
         if @su and @order == "follow"
           user_ids = []
+          @following_users = @su.following_by_type('User')
           unless @su.is_shop
-            @following_users = @su.following_by_type('User')
             user_ids = @following_users.map { |u| u.id }
           end
           user_ids << @su.id
           cond = {:user_id => user_ids}
+          if @su.is_shop
+            @guide_word = ">>用#{@su.display_name}去搭配" 
+          end
         end
 
         @dapeis=Dapei.joins(:dapei_info).where(cond).where("`items`.category_id = 1001").order("level desc,created_at desc").page(params[:page]).per(@limit)

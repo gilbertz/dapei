@@ -1,0 +1,33 @@
+=render :partial=>"/users/top_bar", :locals=>{:user=>@user, :nav_class=>"main"}
+
+.wrapper
+  .dapei-body
+    %ul.nav.nav-float.stream
+      - @matters.each  do |d|
+        = render :partial=>"/matters/list_item", :locals=>{:matter=>d, :dis_class=>"holder"}
+    #page_nav
+      = paginate @matters
+
+-#=render :partial=>"/users/top_bar", :locals=>{:user=>@user, :nav_class=>"favorite"}
+/ 菜单
+-#.menu01
+  .bd
+    %ul
+      %li
+        %a{:href => "#{favorite_shops_path(@user)}"} 店铺
+      %li.vertical
+      %li.Current
+        %a{:href => "#{favorite_items_path(@user)}"} 宝贝
+-#-if @items.blank?
+  .clearfix.gjb_friends
+    .friends_bd
+      %h2 还没有进行任何喜欢，赶快行动起来吧
+-#.clearfix.gjb_product
+  .gjb_product_bd.stream{:style=>"width:1010px;"}
+    %ul{:style=>"width:1010px;"}
+      - @items.each do |item|
+        =render :partial=>"/users/favorite_baobei_item", :locals=>{:item=>item, :shop=>item.shop}
+  #page_nav
+    = paginate @items
+
+

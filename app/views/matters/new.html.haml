@@ -1,4 +1,7 @@
-%h3{:style=>'margin-top:30px;'}
+%h3tters.each  do |d|
+        =render :partial=>"/matters/list_item", :locals=>{:matter=>d, :dis_class=>"holder"}
+    #page_nav
+      = paginate @matters{:style=>'margin-top:30px;'}
   上传@素材
 %hr{:style=>'margin-top:0px;'}
 

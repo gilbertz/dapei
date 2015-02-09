@@ -8,23 +8,29 @@
         %ul.nav.user-info
           %li.username
             = @user.display_name
-          %li.user-address
-            -if @user.city and @user.city!=""
-              %span 来自：
-              %span.address #{@user.city}
-            -else
-              %span 来自：
-              %span.address 还不知道。
-          %li.user-desc
-            -if user.desc!=""
-              %span 自我介绍：
-              %span.desc #{@user.desc}
-            -else
-              %span 自我介绍：
-              %span.desc 恭喜发财,万事如意
-          %li.user-desc
-            %span 上街记录：
-            %span.desc 已发布 #{@user.dapei_count} 搭配, &nbsp; &nbsp; 共获得#{@user.dapei_likes_count}赞
+          - unless @user.is_shop
+            %li.user-address
+              -if @user.city and @user.city!=""
+                %span 来自：
+                %span.address #{@user.city}
+              -else
+                %span 来自：
+                %span.address 还不知道。
+            %li.user-desc
+              -if user.desc!=""
+                %span 自我介绍：
+                %span.desc #{@user.desc}
+              -else
+                %span 自我介绍：
+                %span.desc 恭喜发财,万事如意
+            %li.user-desc
+              %span 上街记录：
+              %span.desc 已发布 #{@user.dapei_count} 搭配, &nbsp; &nbsp; 共获得#{@user.dapei_likes_count}赞
+          - else
+            %li.user-desc
+              - if user.desc!=""
+                %span.desc #{@user.get_desc}
+
           -if user_signed_in?
             %li.follow-this
               -if user_signed_in? and user==current_user
@@ -41,7 +47,11 @@
               %span.icon-plus
               %span.data
                 %a{:href => "/matters/new_matter"}上传素材
-
+          - else
+            %li.active
+              %span.icon-plus
+              %span.data
+                %a{:href => "#{upload_matters_path(@user)}"}TA的素材
           -if nav_class=="main"
             %li.active
               %span.icon-plus
@@ -52,16 +62,17 @@
               %span.icon-plus
               %span.data 
                 %a{:href => "#{user_path(@user)}"}发布的搭配
-          -if nav_class=="likes"
-            %li.active
-              %span.icon-love
-              %span.data 
-                %a{:href => "#{favorite_dapeis_path(@user)}"}收藏中心
-          -else
-            %li
-              %span.icon-love
-              %span.data
-                %a{:href => "#{favorite_dapeis_path(@user)}"}收藏中心
+          - unless @user.is_shop
+            -if nav_class=="likes"
+              %li.active
+                %span.icon-love
+                %span.data 
+                  %a{:href => "#{favorite_dapeis_path(@user)}"}收藏中心
+            -else
+              %li
+                %span.icon-love
+                %span.data
+                  %a{:href => "#{favorite_dapeis_path(@user)}"}收藏中心
           -if nav_class=="followings"
             %li.active
               %span.icon-look

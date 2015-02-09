@@ -1166,7 +1166,8 @@ class CollocationsController < ApplicationController
     @types = {0 => "风格", 1 => "场合", 2 => "款式", 3 => "色系", 4=>"元素", 5 => "身材"}
 
     @dapei_tag_group =[]
-    [1, 5, 0].each do |i|
+    # [1, 5, 0].each do |i| 
+    [0, 5].each do |i|
        doc = {}
        doc['tid'] = i
        doc['name'] = @types[i]

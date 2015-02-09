@@ -64,6 +64,12 @@ class User < ActiveRecord::Base
     url
   end
 
+  def get_brand
+    if self.brand_id
+      Brand.find_by_id(self.brand_id)
+    end
+  end
+
 
   api_accessible :public, :cache => 60.minutes do |t|
     t.add :url, :as => :user_id
@@ -739,19 +745,7 @@ class User < ActiveRecord::Base
   end
 
   def display_img_small
-    img_url= User.default_head_img
-    if self.photos and self.photos.length>0
-      self.photos.sort_by { |photo| photo.created_at }
-      img_url=self.photos.last.url(:thumb_small)
-    elsif self.profile_img_url
-      img_url=self.profile_img_url
-    end
-    if img_url
-      unless img_url.include? "http:"
-        img_url = AppConfig[:remote_image_domain] + img_url
-      end
-    end
-    img_url
+    self.display_img_medium
   end
 
   def display_img_medium
@@ -762,6 +756,12 @@ class User < ActiveRecord::Base
     elsif self.profile_img_url
       img_url=self.profile_img_url
     end
+   
+    if self.is_shop and self.get_brand
+      img_url = self.get_brand.avatar_url
+    end
+
+
     if img_url
       unless img_url.include? "http:"
         img_url = AppConfig[:remote_image_domain] + img_url
