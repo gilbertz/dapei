@@ -416,6 +416,10 @@ class CollocationsController < ApplicationController
         @sub_categories = []
         if true
           cat  = Category.find_by_id(r["category_id"])
+          if r["category_id"].to_i > 1000
+            filter_user = false
+          end
+
           if true 
             @current_category_name = cat.name
             if Category.is_sub(cat.id)
@@ -429,10 +433,10 @@ class CollocationsController < ApplicationController
           if cat.user
             r["sub_category_id"] = r["category_id"]  
             r.delete "category_id"
-            filter_user = false
           elsif @su.is_shop 
             r['exclude_user_id'] = @su.id
           end
+
         end
       end
 
