@@ -12,9 +12,9 @@
   .hot-dapei-tag
     .hot-dapei-tag-head
       %h2{:style => "float:left;"}
-        关注的
+        关注用户
     .hot-dapei-tags
-      - if @fusers.length > 0
+      - if @fusers and @fusers.length > 0
         %ul.nav.nav-float
           - @fusers.each do |bu|
             %li
@@ -28,11 +28,11 @@
   .hot-dapei-tag
     .hot-dapei-tag-head
       %h2{:style => "float:left;"}
-        推荐品牌
+        推荐用户
     .hot-dapei-tags
       %ul.nav.nav-float
         - @brand_users.each do |bu|
-          - unless current_user.following?(bu)
+          - unless current_user and current_user.following?(bu)
             %li
               %h4
                 %a{:href=>"/users/#{bu.url}"}
