@@ -406,6 +406,7 @@ class CollocationsController < ApplicationController
     r = JSON.parse(params["request"])
     @cache_key = r.to_s
     @sub_categories = []
+    filter_user = false
 
     #res_dict = Rails.cache.fetch "k_#{@cache_key}", :expires_in => 15.minutes do 
       result_dict = {}
@@ -428,6 +429,7 @@ class CollocationsController < ApplicationController
           if cat.user
             r["sub_category_id"] = r["category_id"]  
             r.delete "category_id"
+            filter_user = true
           elsif @su.is_shop 
             r['exclude_user_id'] = @su.id
           end
@@ -448,7 +450,7 @@ class CollocationsController < ApplicationController
         s.set_brand(r["brand_id"]) if r["brand_id"]
         s.set_sub_category_id(r["sub_category_id"]) if r["sub_category_id"] and  r["sub_category_id"].to_i != 0
         s.set_exclude_user_id(r['exclude_user_id']) if r['exclude_user_id']
-        s.set_user(@su) if not @su.is_shop and not cat.user
+        s.set_user(@su) if filter_user and not @su.is_shop 
         unless price.blank?
           s.set_price(price[0], price[1])
         end
