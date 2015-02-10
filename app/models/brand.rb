@@ -671,6 +671,15 @@ class Brand < ActiveRecord::Base
     $redis.rpush('all_brands', self.display_name)
   end
 
+  def update_img_attribute
+    ['wide_banner_url', 'white_avatar_url', 'black_avatar_url', 'wide_avatar_url'].each do |attr|
+      eval "self.#{attr} = self.#{attr}.gsub('img.shangjieba.com', 'dpms.qiniudn.com') if self.#{attr}" 
+      eval "self.#{attr} = self.#{attr}.gsub('qingchao1.qiniudn.com', 'dpms.qiniudn.com') if self.#{attr}"
+    end
+    self.save
+  end
+
+
   private
   def get_pod_url
     pod_url = AppConfig[:pod_url].dup
