@@ -46,17 +46,23 @@ class DapeiInfo < ActiveRecord::Base
     end
   end
 
-  def get_matters(page=1, limit=12)
-    dis = self.dapei_item_infos.page(page).per(limit)
+  def get_matters
+    dis = self.dapei_item_infos
     matters = []
     dis.each do |i|
       matters << i.get_matter
     end
-    matters
+    matters.uniq
   end
 
-  def get_dapei_items(page=1, limit=12)
-    self.get_matters
+  def get_items
+    dis = self.dapei_item_infos
+    items = []
+    dis.each do |i|
+      m = i.get_matter
+      items << m if m.brand_id or m.user_id
+    end
+    items.uniq
   end
 
   

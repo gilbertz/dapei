@@ -407,27 +407,6 @@ class DapeisController < ApplicationController
   end
 
 
-  #def recommend_dapei
-  #unless Recommend.find_by_recommended_type_and_recommended_id("Item", params[:id] )
-  #@recommend = Recommend.new
-  #@recommend.recommended_type="Item"
-  #@recommend.recommended_id=params[:id]
-  #@recommend.save
-  #end
-  #redirect_to :back
-  #end
-
-  #def show
-  #@dapei = Dapei.find( params[:id] )
-  #if @dapei
-  #@items = @dapei.get_items
-  #end
-  #respond_to do |format|
-  #format.html # show.html.erb
-  #format.json { render json: @dapei }
-  #end
-  #end
-
   def view
     @index = "dapei"
     @item = Item.by_url(params[:url])

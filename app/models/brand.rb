@@ -165,7 +165,7 @@ class Brand < ActiveRecord::Base
     if self.wide_avatar_url and self.wide_avatar_url != ""
       self.wide_avatar_url
     else
-      "http://www.shangjieba.com/assets/img.png"
+      "http://dpms.qiniudn.com/assets/img.png"
     end
   end
 
@@ -206,26 +206,20 @@ class Brand < ActiveRecord::Base
   end
 
   def lookbooks
-    self.skus.where('category_id = ?', 103).order('level desc, created_at DESC')
   end
 
   def campaigns
-    self.skus.where('category_id = ? or category_id = ?', 101, 102).order('level DESC, created_at DESC')
   end
 
   def w_campaigns
-    self.skus.where('category_id = ?', 101).order('level DESC, created_at DESC')
   end
 
   def h_campaigns
-    self.skus.where('category_id = ?', 102).order('level DESC, created_at DESC')
   end
 
   def wide_campaign_img(size)
     if self.campaign_img_url
       self.campaign_img_url
-    elsif self.w_campaigns.length > 0
-      self.w_campaigns.first.img_url(size)
     else
       get_pod_url+"/assets/img.jpg"
     end
@@ -233,21 +227,11 @@ class Brand < ActiveRecord::Base
 
   def wide_campaign_imgs(size)
     imgs = []
-    self.w_campaigns.each do |wc|
-      imgs << wc.img_url(size)
-    end
-    (imgs.length..4).each do
-      imgs << get_pod_url+"/assets/img.jpg"
-    end
     imgs
   end
 
   def high_campaign_img(size)
-    if  self.h_campaigns.length > 0
-      self.h_campaigns.first.img_url(size)
-    else
-      get_pod_url+"/assets/img.jpg"
-    end
+    get_pod_url+"/assets/img.jpg"
   end
 
   def has_liked?
@@ -320,14 +304,6 @@ class Brand < ActiveRecord::Base
 
   def get_likes_count
     self.likes_count.to_i * 10 + rand(10)
-  end
-
-
-  def get_rand_skus(cid=nil)
-    cond = "1=1"
-    cond = "skus.category_id=#{cid}" if cid !=nil and cid != ""
-    top20 = self.skus.where("#{cond}").where("level >=?", self.level).where("deleted is null or deleted=false").order("created_at desc").limit(20)
-    top20.sort_by { rand }
   end
 
 
@@ -657,7 +633,7 @@ class Brand < ActiveRecord::Base
   end
 
   def get_dapeis(limit=8, page=1)
-    searcher = Searcher.new(nil, "dapei", self.name, "new", limit, page)
+    searcher = Searcher.new("dapei", self.name, "new", limit, page)
     @dapeis = searcher.search()
   end
 

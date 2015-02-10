@@ -1,5 +1,5 @@
 .head_wrapper
-  %a{:href => "#"}
+  -#%a{:href => "#"}
     %img{:src => "#{@brand.wide_campaign_img(:wide_medium)}"}/
   .intro
     %h4
@@ -9,7 +9,7 @@
         %font{:face => "微软雅黑"} #{@brand.likes_count}人喜欢
         \ 
         %font{:face => "icon", :size => "2"}
-        %font{:face => "微软雅黑"} #{@brand.get_dispose_count}人在逛
+        %font{:face => "微软雅黑"} #{@brand.get_dispose_count}人气
   %p
     .discount
       .status
@@ -25,9 +25,6 @@
         - unless brand_intro.blank? 
           %p
             = @brand.brand_intro
-        - if @brand
-          %p
-            %a{:href=>"/weixin/search?q=#{@brand.name}&#{@lbs_params}"}查看#{@brand.get_display_name}在#{@city}的店铺>>
             
             /(点击图片查看大图)
             /\----上街小编
@@ -39,22 +36,22 @@
 / end of wrapper
 /%hr/
 .wrapper
-  新品
+  搭配
 
-- @skus.each do |sku|
+- @dapeis.each do |dp|
   .wrapper
     %p{:style => "text-align:center"}
-      %a{:href => "/weixin/sku?id=#{sku.id}"}
-        %img{:src => "#{sku.first_photo.url(:scaled_large)}"}/
+      %a{:href => "/weixin/dapei?id=#{dp.url}"}
+        %img{:src => "#{dp.img_url}"}/
     .title
-      %p{:style => "color:#000"} #{sku.title}
+      %p{:style => "color:#000"} #{dp.title}
     .grid-7
       %p{:align => "right", :style => "color:#ccccc"}
         %font{:face => "icon", :size => "2"} 1
-        %font{:face => "微软雅黑"} #{sku.likes_count}人喜欢
+        %font{:face => "微软雅黑"} #{dp.likes_count}人喜欢
         \ 
         %font{:face => "icon", :size => "2"} 2
-        %font{:face => "微软雅黑"} #{sku.get_dispose_count}人瞄过
+        %font{:face => "微软雅黑"} #{dp.get_dispose_count}人气
 / end of grids
 / end of wrapperrapper
 

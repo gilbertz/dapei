@@ -54,11 +54,10 @@ end
 
 def dapei_page_seo(inst)
   meta_info = {}
-  name = "上街吧"
+  name = "搭配蜜书"
   name = inst.user.name if inst.user
-  meta_info['title'] = "#{name}DIY作品, #{inst.title}搭配 - 上街吧搭配DIY"
-  meta_info['desc'] = "#{inst.title},#{inst.desc}-上街吧"
-  #meta_info['keywords'] = ""
+  meta_info['title'] = "#{name}DIY作品, #{inst.title}搭配 - 搭配蜜书"
+  meta_info['desc'] = "#{inst.title},#{inst.desc}-搭配蜜书"
   meta_info
 end  
 
@@ -86,14 +85,14 @@ def page_seo(inst)
   if inst.instance_of?(Brand)
     meta_info = {}
     brand_name = inst.get_name
-    meta_info['title'] = "【#{brand_name}】#{@city}#{brand_name}新品|#{brand_name}分店|#{brand_name}活动优惠 - #{@city}上街吧"
-    meta_info['desc'] =  "上街吧品牌汇,收集了最全的上海#{brand_name}新品、分店、折扣信息. #{inst.brand_intro}"
+    meta_info['title'] = "【#{brand_name}】#{@city}#{brand_name}新品|#{brand_name}分店|#{brand_name}活动优惠 - #{@city}搭配蜜书"
+    meta_info['desc'] =  "搭配蜜书品牌汇,收集了最全的上海#{brand_name}新品、分店、折扣信息. #{inst.brand_intro}"
     meta_info['keywords'] =  "#{brand_name},#{@city}#{brand_name},#{brand_name}新品,#{brand_name}分店,#{brand_name}折扣"
   elsif inst.instance_of?(Sku)
     meta_info = {}
     brand_name = inst.brand_name
-    meta_info['title'] = "#{inst.title}, #{@city}#{brand_name} - #{@city}上街吧"
-    meta_info['desc'] =  "#{inst.title}, 上街吧品牌汇,收集了最全的上海#{brand_name}新品、分店、折扣信息"
+    meta_info['title'] = "#{inst.title}, #{@city}#{brand_name} - #{@city}搭配蜜书"
+    meta_info['desc'] =  "#{inst.title}, 搭配蜜书品牌汇,收集了最全的上海#{brand_name}新品、分店、折扣信息"
     meta_info['keywords'] =  "#{inst.title}, #{inst.category_name}, #{brand_name},#{@city}#{brand_name}, #{brand_name}新品,#{brand_name}分店,#{brand_name}折扣"
   else
     shop_name = inst.shop_display_name
@@ -111,16 +110,16 @@ def page_seo(inst)
 
     #case part  
     #when "title"
-    #     "【图】#{title} - 上街吧"
+    #     "【图】#{title} - 搭配蜜书"
     #when "desc"
     #     desc       
     #when "keywords"
     #    "#{info},#{inst.name},#{inst.shop_name},#{inst.brand_name},#{inst.shop_city},#{inst.shop_street},图,搭配,价格,标价,女装,女鞋,女包,饰品,新品"
     #else
-    #   "上街吧"
+    #   "搭配蜜书"
     #end
     meta_info = {}
-    meta_info['title'] = "【图】#{title} #{@city}上街吧"
+    meta_info['title'] = "【图】#{title} #{@city}搭配蜜书"
     meta_info['desc'] =  desc
     meta_info['keywords'] =  "#{info},#{inst.shop_city}#{inst.brand_name},#{inst.name},#{inst.shop_name},#{inst.brand_name},#{inst.shop_city},#{inst.shop_street},图,搭配,价格,标价,女装,女鞋,女包,饰品,新品"  
   end
@@ -133,13 +132,13 @@ def user_page_seo(part, user, where="")
   name = user.display_name if user
   case part  
   when "title"
-       "#{where}, #{name}个人主页-#{user.desc}-#{@city}上街吧"
+       "#{where}, #{name}个人主页-#{user.desc}-#{@city}搭配蜜书"
   when "desc" 
-       "#{where}, #{name}的上街吧是#{name}分享漂亮搭配和精彩逛街心得的社区,特色商铺,逛街足迹的个人主页,快来分享吧."
+       "#{where}, #{name}的搭配蜜书是#{name}分享漂亮搭配和精彩逛街心得的社区,特色商铺,逛街足迹的个人主页,快来分享吧."
   when "keywords" 
-       "#{name},个人主页,搭配,上街吧,逛街,介绍,喜欢,评论,日志,好友,粉丝,女装"
+       "#{name},个人主页,搭配,搭配蜜书,逛街,介绍,喜欢,评论,日志,好友,粉丝,女装"
   else
-     "上街吧" 
+     "搭配蜜书" 
   end
 end
 
@@ -206,8 +205,8 @@ def index_page_seo(results, index="")
     title_info = "#{abc_info}品牌汇-最新最全的时尚服饰品牌大全，网罗各大卖场知名品牌"
   end
  
-  desc_info = "上街吧#{@city}站,时尚女性首选购物分享平台,方便快捷获取可靠有效的最新款时尚服装、包包、鞋子、配饰及其周边热门品牌、产品信息、优惠信息，轻松制作搭配,分享消费心得和美丽经验,尽享购物乐趣与实惠。" 
-  desc_info += "上街吧在#{city_info+area_info+street_info},为你找到了#{@total_found}个#{sort_info+index_info+cat_info}。" 
+  desc_info = "搭配蜜书#{@city}站,时尚女性首选购物分享平台,方便快捷获取可靠有效的最新款时尚服装、包包、鞋子、配饰及其周边热门品牌、产品信息、优惠信息，轻松制作搭配,分享消费心得和美丽经验,尽享购物乐趣与实惠。" 
+  desc_info += "搭配蜜书在#{city_info+area_info+street_info},为你找到了#{@total_found}个#{sort_info+index_info+cat_info}。" 
   keywords_info = "#{query_info},#{@city}#{brand_info},#{sort_info},#{@city}#{street_info},#{area_info},#{city_info},#{index_info},#{cat_info},搭配,图,价格,标价,#{@city}女装,#{@city}女包,#{@city}女鞋,#{@city}品牌"
   if @cid and @cid != ""
      keywords_info = ""
@@ -242,20 +241,20 @@ def index_page_seo(results, index="")
   end
 
   meta_info = {}
-  meta_info['title'] =  "#{title_info}-上街吧"
+  meta_info['title'] =  "#{title_info}-搭配蜜书"
   meta_info['desc'] = "#{desc_info}"
   meta_info['keywords'] = "#{keywords_info}"
   meta_info
 
   #case part
   #when "title"
-  #    "#{title_info}-上街吧"
+  #    "#{title_info}-搭配蜜书"
   #when "desc"
   #    "#{desc_info}"
   #when "keywords"
   #    "#{keywords_info}"
   #else
-  #   "上街吧"
+  #   "搭配蜜书"
   #end
 
 end
