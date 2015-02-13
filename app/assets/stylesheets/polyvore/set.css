@@ -3320,7 +3320,8 @@ table.pagination_compact .disabled {
     content: '';
     display: block;
     background-color: #ccc;
-    height: 1px margin-bottom : 20 px;
+    height: 1px;
+    margin-bottom: 20px;
 }
 
 .mod_inline_save .layout_n>li.last {
@@ -6718,7 +6719,8 @@ span.t2_icon, span.large_icon {
     content: '';
     display: block;
     background-color: #ccc;
-    height: 1px margin-bottom : 20 px;
+    height: 1px;
+    margin-bottom: 20px;
 }
 
 .mod_inline_save .layout_n>li.last {

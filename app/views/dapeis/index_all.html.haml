@@ -9,21 +9,22 @@
       - if user_signed_in?
         %a{:href=>"/users/#{@su.url}", :style=>'background:red;'} >>查看#{@su.name}主页
 
-  .hot-dapei-tag
-    .hot-dapei-tag-head
-      %h2{:style => "float:left;"}
-        关注用户
-    .hot-dapei-tags
-      - if @fusers and @fusers.length > 0
-        %ul.nav.nav-float
-          - @fusers.each do |bu|
-            %li
-              %h5
-                %a{:href=>"/?suid=#{bu.url}"}
-                  = bu.name
-      - else
-        %p
-          请先关注一些品牌  
+  - if @su and not @su.is_shop
+    .hot-dapei-tag
+      .hot-dapei-tag-head
+        %h2{:style => "float:left;"}
+          关注用户
+      .hot-dapei-tags
+        - if @fusers and @fusers.length > 0
+          %ul.nav.nav-float
+            - @fusers.each do |bu|
+              %li
+                %h5
+                  %a{:href=>"/?suid=#{bu.url}"}
+                    = bu.name
+        - else
+          %p
+            请先关注一些品牌  
 
   .hot-dapei-tag
     .hot-dapei-tag-head

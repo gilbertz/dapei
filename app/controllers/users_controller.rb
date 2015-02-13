@@ -196,11 +196,12 @@ class UsersController < ApplicationController
       format.html 
       if @user
         unless @user.is_shop
-          @dapeis=Dapei.dapeis_by(@user, @page, @limit)
+          @dapeis=Dapei.dapeis_by(@user).page(@page).per(@limit)
         else
           @dapeis=Dapei.by_user_biz(@user, @page, @limit)
         end
-        @number = @dapeis.length
+        #@number = @dapeis.length
+        @number = 100
         @dapeis = WillPaginate::Collection.create(@page, @limit, @number) do |pager|
           pager.replace @dapeis
         end

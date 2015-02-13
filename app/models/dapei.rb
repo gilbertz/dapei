@@ -7,11 +7,11 @@ class Dapei < Item
 
   def self.by_user_biz(uids, page=1, limit=10)
     dinfos = DapeiInfo.by_user(uids).page(page).per(limit).uniq
-    return dinfos.map{|di|di.dapei if di.dapei}
+    return dinfos.map{|di|di.dapei if di.dapei and di.dapei.level.to_i >=0 }
   end
 
 
-  def get_items
+  delf get_items
     if self.dapei_info
       self.dapei_info.get_items
     else

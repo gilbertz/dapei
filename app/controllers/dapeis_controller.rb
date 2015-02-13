@@ -125,6 +125,7 @@ class DapeisController < ApplicationController
   def get_max_id(dapeis)
     max_id = 0
     dapeis.each do |dp|
+      next unless dp
       max_id = dp.id if dp.id > max_id
     end
     max_id
