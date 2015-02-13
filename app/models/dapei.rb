@@ -11,7 +11,7 @@ class Dapei < Item
   end
 
 
-  delf get_items
+  def get_items
     if self.dapei_info
       self.dapei_info.get_items
     else

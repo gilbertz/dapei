@@ -19,7 +19,7 @@
               #{@discount.title} ... 点击查看>>
 
   - if @page == 1
-    .grids
+    -#.grids
       .grid-12.grid
         - brand_intro=@brand.brand_intro
         - unless brand_intro.blank? 
@@ -36,7 +36,7 @@
 / end of wrapper
 /%hr/
 .wrapper
-  搭配
+  搭配秀
 
 - @dapeis.each do |dp|
   - next unless dp
