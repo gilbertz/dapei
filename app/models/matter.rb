@@ -155,7 +155,7 @@ class Matter < ActiveRecord::Base
 
   def get_dapeis(limit=8, page=1)
     dapeis = []
-    dapei_item_infos = DapeiItemInfo.where(:matter_id => self.id).page(page).per(limit)
+    dapei_item_infos = DapeiItemInfo.where(:matter_id => self.id).order('created_at desc').page(page).per(limit)
     dapei_item_infos.each do |di|
       dinfo = di.dapei_info
       if dinfo
@@ -164,6 +164,11 @@ class Matter < ActiveRecord::Base
     end
     dapeis.uniq 
   end
+
+  def get_dapeis_count
+    self.get_dapeis(1000, 1).length
+  end
+
 
   def is_owned
     return 0 if not User.current_user
