@@ -14,13 +14,9 @@
       .resort
         %h2 还没有发布过任何搭配，赶快行动起来!
     %ul.nav.nav-float.stream
-      -#-i=1
-      -@dapeis.each do |d|
-        -#-if i%3==0
-          =render :partial=>"/dapeis/dapei_list_item", :locals=>{:dapei=>d, :dis_class=>"ul-last-li"}
-        -#-else
-        =render :partial=>"/dapeis/dapei_list_item", :locals=>{:dapei=>d, :dis_class=>"holder"}
-        -#-i=i+1
+      - @dapeis.each do |d|
+        - next unless d
+        = render :partial=>"/dapeis/dapei_list_item", :locals=>{:dapei=>d, :dis_class=>"holder"}
     #page_nav
-      = paginate @dapeis
+      = will_paginate @dapeis
 

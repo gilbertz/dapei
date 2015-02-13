@@ -14,7 +14,7 @@
         =render :partial=>"/dapeis/dapei_list_item", :locals=>{:dapei=>d, :dis_class=>"holder"}
         -#-i=i+1
     #page_nav
-      = paginate @dapeis
+      = will_paginate @dapeis
 
 -#=render :partial=>"/users/top_bar", :locals=>{:user=>@user, :nav_class=>"favorite"}
 / 菜单

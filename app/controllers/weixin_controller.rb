@@ -22,7 +22,7 @@ class WeixinController < ApplicationController
     end
     @brand = Brand.find(params[:id])
     if @brand
-      @dapeis = @brand.get_dapeis(@limit, @page)
+      @dapeis = @brand.get_dapeis(@page, @limit)
       @first_page = "/weixin/brand?id=#{params[:id]}"
       @next_page = "/weixin/brand?id=#{params[:id]}&page=#{@page+1}"
     end

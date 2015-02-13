@@ -632,9 +632,12 @@ class Brand < ActiveRecord::Base
     return self.likes.map(&:user)
   end
 
-  def get_dapeis(limit=8, page=1)
-    searcher = Searcher.new("dapei", self.name, "new", limit, page)
-    @dapeis = searcher.search()
+  def get_dapeis(page=1, limit=8)
+    #searcher = Searcher.new("dapei", self.name, "new", limit, page)
+    #@dapeis = searcher.search()
+    
+    u = User.where(:brand_id => self.id).first
+    @dapeis = Dapei.by_user_biz(u, page, limit)
   end
 
   def self.cache_brands_level_bigger_than(level)

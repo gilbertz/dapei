@@ -22,7 +22,7 @@ class MattersController < ApplicationController
     @limit = params[:limit].to_i if params[:limit]
     @page = params[:page].to_i if params[:page]
     if matter
-      @dapeis = matter.get_dapeis(@limit, @page=1)
+      @dapeis = matter.get_dapeis(@page, @limit)
     end
     @count = @dapeis.length
     @dapeis = WillPaginate::Collection.create(@page, @limit, @count) do |pager|

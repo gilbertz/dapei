@@ -95,13 +95,13 @@ class DapeisController < ApplicationController
     @dapeis = []
     if params[:matter_id]
       matter = Matter.find_by_id(params[:matter_id])
-      @dapeis = matter.get_dapeis(@limit, @page) if matter
+      @dapeis = matter.get_dapeis(@page, @limit) if matter
     elsif params[:brand_id]
       brand = Brand.find_by_id(params[:brand_id])
-      @dapeis = brand.get_dapeis(@limit, @page) if brand
+      @dapeis = brand.get_dapeis(@page, @limit) if brand
     elsif params[:dapei_id]
       dp = Dapei.find_by_url(params[:dapei_id])
-      @dapeis = dp.get_dapeis(@limit, @page) if dp
+      @dapeis = dp.get_dapeis(@page, @limit) if dp
     end
     @count = @dapeis.length
     respond_to do |format|
@@ -386,7 +386,10 @@ class DapeisController < ApplicationController
     if @dapei.save
       Photo.build_photo(current_user, params[:photos], params[:item_image], params[:item_image_type], @dapei.id, "Item")
 
-      if params[:items]
+    peis = WillPaginate::Collection.create(@page, @limit, @count) do |pager|
+      pager.replace @dapeis
+    end
+  if params[:items]
         params[:items].each do |url|
           if url.strip != ""
             item = Item.find_by_url(url)

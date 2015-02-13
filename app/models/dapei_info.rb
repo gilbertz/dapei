@@ -11,6 +11,12 @@ class DapeiInfo < ActiveRecord::Base
 
   attr_accessible :did, :basedon_tid, :title, :description, :comment, :checksum, :tags, :tagged, :by, :category_id, :post_share, :user_id, :dapei_id, :spec_uuid, :is_show, :color_one_id, :color_two_id, :color_three_id, :start_date, :end_date, :start_date_hour,  :is_star, :original_id
 
+
+  scope :by_user, lambda { |user|
+    joins("INNER JOIN ( dapei_item_infos INNER JOIN matters ON dapei_item_infos.matter_id = matters.id ) ON dapei_infos.id = dapei_item_infos.dapei_info_id ").where("matters.user_id = #{user.id}").order('dapei_infos.created_at desc')
+  
+  }
+
   
   def add_brand_tag(matter, x, y)
     unless tag_info = TagInfo.find_by_dapei_id_and_matter_id(self.id, matter)

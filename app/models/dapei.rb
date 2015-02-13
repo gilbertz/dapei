@@ -4,6 +4,13 @@ class Dapei < Item
   
   belongs_to :user, :counter_cache => :dapeis_count
 
+
+  def self.by_user_biz(user, page=1, limit=10)
+    dinfos = DapeiInfo.by_user(user).page(page).per(limit).uniq
+    return dinfos.map{|di|di.dapei if di.dapei}
+  end
+
+
   def get_items
     if self.dapei_info
       self.dapei_info.get_items
@@ -232,7 +239,7 @@ class Dapei < Item
     dps
   end
 
-  def get_dapeis(limit, page)
+  def get_dapeis(page, limit)
     Dapei.v_dapeis_by(self.get_user).page(page).per(limit)
   end
 
