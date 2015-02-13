@@ -5,8 +5,8 @@ class Dapei < Item
   belongs_to :user, :counter_cache => :dapeis_count
 
 
-  def self.by_user_biz(user, page=1, limit=10)
-    dinfos = DapeiInfo.by_user(user).page(page).per(limit).uniq
+  def self.by_user_biz(uids, page=1, limit=10)
+    dinfos = DapeiInfo.by_user(uids).page(page).per(limit).uniq
     return dinfos.map{|di|di.dapei if di.dapei}
   end
 

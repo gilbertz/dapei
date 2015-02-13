@@ -195,14 +195,16 @@ class DapeisController < ApplicationController
             user_ids = @following_users.map { |u| u.id }
           end
           user_ids << @su.id
-          cond = {:user_id => user_ids}
+          #cond = {:user_id => user_ids}
           if @su.is_shop
             @guide_word = ">>用#{@su.display_name}去搭配" 
           end
         end
 
-        @dapeis=Dapei.joins(:dapei_info).where(cond).where("`items`.category_id = 1001").order("level desc,created_at desc").page(params[:page]).per(@limit)
-        @count = Dapei.joins(:dapei_info).where(cond).count
+        #@dapeis=Dapei.joins(:dapei_info).where(cond).where("`items`.category_id = 1001").order("level desc,created_at desc").page(params[:page]).per(@limit)
+        @dapeis = Dapei.by_user_biz(user_ids, @page, @limit)
+        #@count = Dapei.joins(:dapei_info).where(cond).count
+        @count = 100
         get_updated_count(get_max_id(@dapeis)) if @page == 1
         dup
       end
