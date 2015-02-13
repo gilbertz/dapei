@@ -39,6 +39,7 @@
   搭配
 
 - @dapeis.each do |dp|
+  - next unless dp
   .wrapper
     %p{:style => "text-align:center"}
       %a{:href => "/weixin/dapei?id=#{dp.url}"}
