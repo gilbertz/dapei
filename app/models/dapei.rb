@@ -2,23 +2,30 @@
 class Dapei < Item
   has_many :items
   
-  #has_many :rel_items
-  # has_one :dapei_info
-
   belongs_to :user, :counter_cache => :dapeis_count
 
-  scope :showing, lambda {
-    joins("INNER JOIN dapei_infos ON dapei_infos.dapei_id = items.id").where("items.category_id = 1001 and items.level >= 5").where("dapei_infos.start_date <= DATE('#{Date.today}') and dapei_infos.end_date >= DATE('#{Date.today}')").order("items.created_at desc").limit(10)
-  }
 
-  def get_items(page=1, limit=12)
+  def self.by_user_biz(uids, page=1, limit=10)
+    dinfos = DapeiInfo.by_user(uids).page(page).per(limit).uniq
+    return dinfos.map{|di|di.dapei if di.dapei and di.dapei.level.to_i >=0 }
+  end
+
+
+  def get_items
     if self.dapei_info
-      self.dapei_info.get_dapei_items(page, limit)
+      self.dapei_info.get_items
     else
       []
     end
   end
 
+  def get_matters
+    if self.dapei_info
+      self.dapei_info.get_matters
+    else
+      []
+    end
+  end
 
   def get_img_path
     dir = ""
@@ -41,8 +48,8 @@ class Dapei < Item
 
   def find_brands
     brands = Array.new 
-    self.get_matters.each do ||
-      brands << m.brand.display_name
+    self.get_items.each do |m|
+      brands << m.brand.display_name if m and m.brand
     end
     self.btag_list = brands
     if self.dapei_info
@@ -63,7 +70,7 @@ class Dapei < Item
 
   def get_items_count
     if self.category_id == 1001 and self.dapei_info
-      self.dapei_info.dapei_item_infos.length
+      self.dapei_info.get_items.length
     else
       "0"
     end
@@ -232,7 +239,7 @@ class Dapei < Item
     dps
   end
 
-  def get_dapeis(limit, page)
+  def get_dapeis(page, limit)
     Dapei.v_dapeis_by(self.get_user).page(page).per(limit)
   end
 

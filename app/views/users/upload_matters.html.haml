@@ -2,19 +2,11 @@
 
 .wrapper
   .dapei-body
-    -if @dapeis.blank?
-      .resort
-        %h2 还没有发布过任何搭配，赶快行动起来， 秀出你的上街范儿吧!
     %ul.nav.nav-float.stream
-      -#-i=1
-      -@dapeis.each  do |d|
-        -#-if i%3==0
-          =render :partial=>"/dapeis/dapei_list_item", :locals=>{:dapei=>d, :dis_class=>"ul-last-li"}
-        -#-else
-        =render :partial=>"/dapeis/dapei_list_item", :locals=>{:dapei=>d, :dis_class=>"holder"}
-        -#-i=i+1
+      - @matters.each  do |d|
+        = render :partial=>"/matters/list_item", :locals=>{:matter=>d, :dis_class=>"holder"}
     #page_nav
-      = will_paginate @dapeis
+      = paginate @matters
 
 -#=render :partial=>"/users/top_bar", :locals=>{:user=>@user, :nav_class=>"favorite"}
 / 菜单

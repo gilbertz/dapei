@@ -250,9 +250,9 @@ class Searcher
     #  @sphinx.SetFilter('cut', [1])
     #end
 
-    if @index == "dapei"
-      @sphinx.SetFilterRange('level', 2,  10)
-    end
+    #if @index == "dapei"
+    #  @sphinx.SetFilterRange('level', 2,  10)
+    #end
 
   end
   

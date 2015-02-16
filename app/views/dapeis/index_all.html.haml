@@ -1,22 +1,44 @@
 .wrapper
-  .dapei-top
-    %ul.nav.nav-float
-      %li
-        %img{:src => "/assets/900x300.jpg"}
-      %li
-        .new-dapei
-          %ul.nav
-            %li.new-dapei-link.link-w
-              -if user_signed_in?
-                %a{:href => "/collocations"} +发布搭配
-              -else
-                %a{:href => "#{layer_sign_in_path}", :rel => "facebox[.about]"} +发布搭配
-  
+  .hot-dapei-tag
+    %h2
+      - if user_signed_in?
+        %a{:href => "/collocations", :style=>'background:red;'} #{@guide_word}
+      - else
+        %a{:href => "#{layer_sign_in_path}", :rel => "facebox[.about]", :style=>'background:red;'} >>去搭配
+    %h2
+      - if user_signed_in?
+        %a{:href=>"/users/#{@su.url}", :style=>'background:red;'} >>查看#{@su.name}主页
+
+  - if @su and not @su.is_shop
+    .hot-dapei-tag
+      .hot-dapei-tag-head
+        %h2{:style => "float:left;"}
+          关注用户
+      .hot-dapei-tags
+        - if @fusers and @fusers.length > 0
+          %ul.nav.nav-float
+            - @fusers.each do |bu|
+              %li
+                %h5
+                  %a{:href=>"/?suid=#{bu.url}"}
+                    = bu.name
+        - else
+          %p
+            请先关注一些品牌  
 
   .hot-dapei-tag
     .hot-dapei-tag-head
-      %h2{:style => "float:left;"} 
-        热门搭配
+      %h2{:style => "float:left;"}
+        推荐用户
+    .hot-dapei-tags
+      %ul.nav.nav-float
+        - @brand_users.each do |bu|
+          - unless current_user and current_user.following?(bu)
+            %li
+              %h4
+                %a{:href=>"/users/#{bu.url}"}
+                  = bu.name
+
   .dapei-body
     - if @dapeis
       %ul.nav.nav-float.stream
@@ -29,3 +51,6 @@
           -#-i=i+1
       #page_nav
         = will_paginate @dapeis
+    - else
+      %p 
+        请先关注一些品牌 

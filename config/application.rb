@@ -73,7 +73,7 @@ module Shangjieba
     # Version of your assets, change this if you want to expire all your assets
     config.assets.version = '1.0'
 
-    config.weixin_token = "shangjieba"
+    config.weixin_token = "dpms"
 
     config.dianping_key = "447030241"
 

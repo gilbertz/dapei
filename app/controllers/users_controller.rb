@@ -188,10 +188,23 @@ class UsersController < ApplicationController
 
   def show
     @where = "个人主页"
+    @page = 1
+    @limit = 10
+    @page = params[:page].to_i if params[:page]
+    @limit =  params[:limit].to_i if params[:limit]
     respond_to do |format|
       format.html 
       if @user
-        @dapeis=Dapei.dapeis_by(@user).page(params[:page]).per(10)
+        unless @user.is_shop
+          @dapeis=Dapei.dapeis_by(@user).page(@page).per(@limit)
+        else
+          @dapeis=Dapei.by_user_biz(@user, @page, @limit)
+        end
+        #@number = @dapeis.length
+        @number = 100
+        @dapeis = WillPaginate::Collection.create(@page, @limit, @number) do |pager|
+          pager.replace @dapeis
+        end
         format.json{ render_user_json }
       else
         format.json{render :json=>{:result=>"1"}}
@@ -233,14 +246,26 @@ class UsersController < ApplicationController
 
   def created_dapeis
     @where = "创建的搭配"
+    @limit = 10
+    @page = 1
+    @page = params[:page].to_i if params[:page]
+    @limit = params[:limit].to_i if params[:limit]
     if(@user)
-      @dapeis=Dapei.dapeis_by(@user).page(params[:page]).per(10)
-      unless @user.is_real
-        @dapeis.each do |dp|
-          dp.user_id = @user.id
+      unless @user.is_shop
+        @dapeis=Dapei.dapeis_by(@user).page(@page).per(10)
+        unless @user.is_real
+          @dapeis.each do |dp|
+            dp.user_id = @user.id
+          end
         end
+      else
+        @dapeis = Dapei.by_user_biz(@user, @page, @limit)
       end
       @number=@dapeis.count
+      @dapeis = WillPaginate::Collection.create(@page, @limit, @number) do |pager|
+        pager.replace @dapeis
+      end
+
       respond_to do |format|
         format.html
         format.json{render_for_api :dapei_list, :json=>@dapeis, :api_cache => 30.minutes, :meta=>{:result=>"0", :total_count=>@number.to_s}}

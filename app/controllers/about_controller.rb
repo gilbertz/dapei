@@ -29,9 +29,7 @@ class AboutController < ApplicationController
     end
 
     respond_to do |format|
-      formpond_to do |format|
       format.json { render_for_api :public, :json => datas, :meta=>{:result=>"0"} }
-    endt.json { render_for_api :public, :json => datas, :meta=>{:result=>"0"} }
     end
   end
 
@@ -277,19 +275,19 @@ class AboutController < ApplicationController
   end
   
   def set_title
-    @abouts = About.all
+    #@abouts = About.all
     # about_hash = {contact:"联系我们",about_me:"上街吧介绍",cover:"覆盖城市"} 
     # @title = about_hash[params[:action].to_sym]
     # unless params[:i]
-      @abouts.each do |about|
-        about.childs.each do |item|
-          if item.action == action_name
-            @title = item.name 
-            @i = item.i #unless params[:i]
-            break 
-          end
-        end
-      end
+    #  @abouts.each do |about|
+    #    about.childs.each do |item|
+    #      if item.action == action_name
+    #        @title = item.name 
+    #        @i = item.i #unless params[:i]
+    #        break 
+    #      end
+    #    end
+    #  end
     # end
   end
 end

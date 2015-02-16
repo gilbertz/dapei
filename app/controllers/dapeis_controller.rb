@@ -95,13 +95,13 @@ class DapeisController < ApplicationController
     @dapeis = []
     if params[:matter_id]
       matter = Matter.find_by_id(params[:matter_id])
-      @dapeis = matter.get_dapeis(@limit, @page) if matter
+      @dapeis = matter.get_dapeis(@page, @limit) if matter
     elsif params[:brand_id]
       brand = Brand.find_by_id(params[:brand_id])
-      @dapeis = brand.get_dapeis(@limit, @page) if brand
+      @dapeis = brand.get_dapeis(@page, @limit) if brand
     elsif params[:dapei_id]
       dp = Dapei.find_by_url(params[:dapei_id])
-      @dapeis = dp.get_dapeis(@limit, @page) if dp
+      @dapeis = dp.get_dapeis(@page, @limit) if dp
     end
     @count = @dapeis.length
     respond_to do |format|
@@ -125,6 +125,7 @@ class DapeisController < ApplicationController
   def get_max_id(dapeis)
     max_id = 0
     dapeis.each do |dp|
+      next unless dp
       max_id = dp.id if dp.id > max_id
     end
     max_id
@@ -161,6 +162,15 @@ class DapeisController < ApplicationController
     @order = "follow"
     @order = params[:order] if params[:order]
 
+    @brand_users = User.where( 'brand_id > 1' ).where( 'apply_type>1' )
+    if current_user
+      @fusers = [current_user]
+      @fusers += current_user.following_by_type('User') 
+      @fusers = @fusers.uniq
+    end
+    
+    @guide_word = '>>去搭配'
+
     if true
       if params[:all]
         @dapeis=Dapei.joins(:dapei_info).where("`items`.category_id = 1001").order("created_at desc").page(params[:page]).per(@limit)
@@ -181,16 +191,21 @@ class DapeisController < ApplicationController
         cond = "items.level >= 0 or items.level is null" if @order == 'new'
         if @su and @order == "follow"
           user_ids = []
+          @following_users = @su.following_by_type('User')
           unless @su.is_shop
-            @following_users = @su.following_by_type('User')
             user_ids = @following_users.map { |u| u.id }
           end
           user_ids << @su.id
-          cond = {:user_id => user_ids}
+          #cond = {:user_id => user_ids}
+          if @su.is_shop
+            @guide_word = ">>用#{@su.display_name}去搭配" 
+          end
         end
 
-        @dapeis=Dapei.joins(:dapei_info).where(cond).where("`items`.category_id = 1001").order("level desc,created_at desc").page(params[:page]).per(@limit)
-        @count = Dapei.joins(:dapei_info).where(cond).count
+        #@dapeis=Dapei.joins(:dapei_info).where(cond).where("`items`.category_id = 1001").order("level desc,created_at desc").page(params[:page]).per(@limit)
+        @dapeis = Dapei.by_user_biz(user_ids, @page, @limit)
+        #@count = Dapei.joins(:dapei_info).where(cond).count
+        @count = 100
         get_updated_count(get_max_id(@dapeis)) if @page == 1
         dup
       end
@@ -374,7 +389,10 @@ class DapeisController < ApplicationController
     if @dapei.save
       Photo.build_photo(current_user, params[:photos], params[:item_image], params[:item_image_type], @dapei.id, "Item")
 
-      if params[:items]
+    peis = WillPaginate::Collection.create(@page, @limit, @count) do |pager|
+      pager.replace @dapeis
+    end
+  if params[:items]
         params[:items].each do |url|
           if url.strip != ""
             item = Item.find_by_url(url)
@@ -394,27 +412,6 @@ class DapeisController < ApplicationController
     end
   end
 
-
-  #def recommend_dapei
-  #unless Recommend.find_by_recommended_type_and_recommended_id("Item", params[:id] )
-  #@recommend = Recommend.new
-  #@recommend.recommended_type="Item"
-  #@recommend.recommended_id=params[:id]
-  #@recommend.save
-  #end
-  #redirect_to :back
-  #end
-
-  #def show
-  #@dapei = Dapei.find( params[:id] )
-  #if @dapei
-  #@items = @dapei.get_items
-  #end
-  #respond_to do |format|
-  #format.html # show.html.erb
-  #format.json { render json: @dapei }
-  #end
-  #end
 
   def view
     @index = "dapei"

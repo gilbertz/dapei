@@ -1,0 +1,55 @@
+.wrapper
+  %h4 #{@matter.title}
+  .info
+    %p{:style=>"float:left;"}
+      #{@matter.created_at}
+    %p{:style => "margin-top:5px; color:#999; float:right;"}
+      %font{:face => "icon", :size => "1"} 1
+      %font{:face => "微软雅黑"} #{@matter.likes_count}人喜欢  
+      \ 
+      %font{:face => "icon", :size => "1"} 2
+      %font{:face => "微软雅黑"} #{@matter.get_dispose_count}人瞄过  
+  .grids
+    .grid-12.grid
+      %a{:href => "#{@matter.link}"}
+        %img{:src => "#{@matter.img_url}", :alt=>"#{@matter.title}"}/     
+      %p{:style=>"padding-top:5px; margin-top:10px;"} 
+        = @matter.desc
+
+-if @dapeis and @dapeis.length > 0
+  .wrapper
+    相关搭配
+
+  - @dapeis.each do |item|
+    -if item
+      .wrapper
+        .grid-7.grid
+          %a{:href => "/weixin/dapei?id=#{item.url}&#{@lbs_params}"}
+            %p{:align => "center"}
+              %img{:src => "#{item.img_url(:scaled_large)}"}/
+        .title
+          .avatar
+            %img{ :src => "#{item.get_user.display_img_medium}"}/
+          .name
+            =item.get_user.name
+          .like
+            %p
+              %font{:face => "icon", :size => "2"} 1
+              %font{:face => "微软雅黑"} #{item.likes_count.blank?  ? 0 : item.likes_count}
+  
+/ end of wrapper
+
+- if @brand
+  .wrapper
+    #footer
+      .grids
+        .grid-16.grid.text-center
+          %p{:style => "font-size:14px;"}
+            %a{:href => "#{@brand_path}", :style => "color:#FFF"} 其他#{@brand.display_name}搭配
+      / end of grids
+    / end of footer
+  / end of wrapper
+
+
+
+=render :partial=>"/shared/report", :locals=>{:type=>"matter", :id=>@matter.id }

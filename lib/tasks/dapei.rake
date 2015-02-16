@@ -51,11 +51,12 @@ namespace :dapei do
           #next if s.dapei_info.tagged
           p s
           s.dapei_info.dapei_item_infos.each do |i|
-              if i.sku
+              if i
                 matter = i.get_matter
                 next unless matter
+                next unless matter.category_id <= 100
                 matter.level = 10
-                matter.dapeis_count = i.sku.get_dapeis(100, 1).length 
+                matter.dapeis_count = matter.get_dapeis_count 
                 matter.save
                 p matter
               end

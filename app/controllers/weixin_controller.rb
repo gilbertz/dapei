@@ -8,44 +8,10 @@ class WeixinController < ApplicationController
   skip_before_filter :verify_authenticity_token
   before_filter :check_weixin_legality, :only => [:show, :create]
   before_filter :initialize 
-  before_filter :set_city_by_lnglat
  
   def show
     render :text => params[:echostr]
   end
-
-  def shop
-    @page = 1
-    @limit = 10
-    @cid = nil
-
-    if params[:page]
-      @page = params[:page].to_i
-    end
-    if params[:cid]
-      @cid = params[:cid].to_i
-    end
-
-    @shop = Shop.includes().find_by_url(params[:id])
-    if @shop
-      @discount = @shop.get_current_discount
-      @comments = @shop.comments.order('updated_at DESC')
-      @brand = @shop.brand
-      @skus = @brand.skus.where("skus.level >= #{@brand.level}").where("skus.deleted=false or skus.deleted is null ").paginate(:page=>params[:page], :per_page=>10, :order=>'created_at DESC')
-      @items = @skus.map{|sku| sku.wrap_item(@shop.id) }
-      
- 
-      @first_page = "/weixin/shop?id=#{params[:id]}&#{@lbs_params}"
-      @next_page = "/weixin/shop?id=#{params[:id]}&page=#{@page+1}&#{@lbs_params}"
-    end
-
-    respond_to do |format|
-      format.html{
-        render "shop", :layout => "weixin"
-      } 
-    end
-  end
-
 
   def brand
     @page = 1
@@ -56,14 +22,9 @@ class WeixinController < ApplicationController
     end
     @brand = Brand.find(params[:id])
     if @brand
-      @skus = @brand.skus.paginate(:page=>@page, :per_page=>@limit, :order=>'created_at DESC')
-      @objs = @skus
-      @discount = @brand.get_last_discount
-   
-      @first_page = "/weixin/brand?id=#{params[:id]}&#{@lbs_params}"
-      @next_page = "/weixin/brand?id=#{params[:id]}&page=#{@page+1}&#{@lbs_params}"
-      
-      get_brand_shops(@brand.id)
+      @dapeis = @brand.get_dapeis(@page, @limit)
+      @first_page = "/weixin/brand?id=#{params[:id]}"
+      @next_page = "/weixin/brand?id=#{params[:id]}&page=#{@page+1}"
     end
 
 
@@ -91,7 +52,10 @@ class WeixinController < ApplicationController
       @page = params[:page].to_i
     end
 
-    @objs=Brand.where("#{cond}").where("level >= 4").order("updated_at desc").paginate(:page=>params[:page], :per_page=>@limit)
+    #@objs=Brand.where("#{cond}").where("level >= 4").order("updated_at desc").paginate(:page=>params[:page], :per_page=>@limit)
+    @brand_users = User.where( 'brand_id > 1' ).where( 'apply_type > 1' )
+    @objs = @brand_users.map{|u|u.get_brand}
+
     @next_page = "/weixin/brands?page=#{@page+1}&#{@lbs_params}"
 
     respond_to do |format|
@@ -106,71 +70,27 @@ class WeixinController < ApplicationController
   end
 
 
-  def cities
-    @limit = 20
-    @page = 1
-    cond = "1=1"
-    if params[:limit]
-      @limit = params[:limit].to_i
-    end
-
-    if params[:page]
-      @page = params[:page].to_i
-    end
-
-    cond = "1=1"
-    if params[:prefix]
-      cond = "pinyin LIKE '#{params[:prefix]}%'"
-      @cities = Area.city_prefix( params[:prefix] )
-    else
-      @cities = Area.where( :t=>'city', :on=>true ).where("#{cond}").order("city_id asc").paginate(:page=>params[:page], :per_page=>@limit)
-    end
-    @objs = @cities
-    
-    @next_page = "/weixin/cities?page=#{@page+1}&#{@lbs_params}"
-    respond_to do |format|
-      format.html{
-        render "cities", :layout => "weixin"
-      }
-    end
-  end
-
-
-  def item
-    @item = Item.find_by_url(params[:id])
-    if @item and @item.brand_id 
-      get_brand_shops(@item.brand_id)
-    end
-
-    if @item
-      @shop_path =  "/weixin/shop?id=#{@item.shop.url}&#{@lbs_params}"
+  def matter
+    @matter = Matter.find_by_id(params[:id])
+    if @matter
+      if @matter.brand_id 
+        @brand = Brand.find_by_id @matter.brand_id
+        @brand_path =  "/weixin/brand?id=#{@matter.brand_id}"
+      end
+      @dapeis = @matter.get_dapeis
     end
     respond_to do |format|
       format.html{
-        if not @item
-          redirect_to "/weixin/sku?id=#{params[:id]}"
+        if not @matter
+          redirect_to "/weixin/matter?id=#{params[:id]}"
         else
-          render "item", :layout => "weixin"
+          render "matter", :layout => "weixin"
         end
       }
     end
   end
 
  
-  def sku
-    @sku = Sku.includes().find_by_id(params[:id])
-    if true
-      get_brand_shops(@sku.brand_id)
-    end
-
-    @brand_path =  "/weixin/brand?id=#{@sku.brand.id}&#{@lbs_params}"
-    respond_to do |format|
-      format.html{
-        render "sku", :layout => "weixin"
-      }
-    end
-  end
-
 
   def post
     @post = Post.includes().find_by_id(params[:id])
@@ -222,29 +142,6 @@ class WeixinController < ApplicationController
     respond_to do |format|
       format.html{
         render "posts", :layout => "weixin"
-      }
-    end
-  end
-
-
-
-  def discount
-    @discount = Discount.includes().find_by_id(params[:id])
-    @discounts=[]
-    @inst = @discount.discountable
-    @inst.discounts.order('created_at DESC').each do |d|
-      if not d.deleted
-        @discounts << d
-      end
-    end
-    if @discount.discountable_type=="Shop"
-      @inst_path =  "/weixin/shop?id=#{@inst.url}&#{@lbs_params}"
-    elsif @discount.discountable_type=="Brand"
-      @inst_path =  "/weixin/brand?id=#{@inst.id}&#{@lbs_params}"
-    end
-    respond_to do |format|
-      format.html{
-        render "discount", :layout => "weixin"
       }
     end
   end
@@ -302,25 +199,13 @@ class WeixinController < ApplicationController
   end
 
   def pre
-      domain = "http://www.shangjieba.com"
+      domain = "http://www.dapeimishu.com"
  
       @objs = []
-      url = format_link("discount", @lng, @lat, @q)
-      @objs << {"title" => "查看附近优惠活动【实时】", "img"=>"#{domain}/assets/weixin_face.png", "url"=>"#{url}" }
-      url = format_link("item", @lng, @lat, @q)
-      @objs << {"title" => "查看附近漂亮宝贝【专柜同步】", "img"=>"#{domain}/assets/weixin_baobei.jpg", "url"=>"#{url}"  }
-      url = format_link("shop", @lng, @lat, @q)
-      @objs << {"title" => "查看附近精品服装店【...】", "img"=>"#{domain}/assets/weixin_dianpu.jpg", "url"=>"#{url}" }
-
       @pos_img = "#{domain}/assets/weixin_pos.png" 
       @help_txt = '''
+
 1.点击下面的 + 然后发送位置, 查看周边新品和优惠 
-
-2.发送 关键字 ,查看相关新品
-
-3.发送 关键字+dp ,查看相关服装店
-
-4.发送 关键字+yh ,查看相关优惠
 
 5.发送 h , 查看帮助
 '''
@@ -430,24 +315,12 @@ class WeixinController < ApplicationController
     end
 
     params_dict =  {:index => @index, :q => @q, :sort => @sort, :limit=>@limit, :city_id => @city_id, :page => @page, :from=>"weixin"}
-    geo=""
-    if params[:lng] and params[:lat] and params[:lng] != "" and params[:lat] != ""
-      params_dict = params_dict.merge({ :lng=>params[:lng], :lat=>params[:lat] })
-      geo = "&lng=#{params[:lng]}&lat=#{params[:lat]}"
-    end
    
     res = RestClient.get "http://www.shangjieba.com:8080/info/search.json", {:params => params_dict}
     @res = JSON.parse(res)
     @next_page = "/weixin/search?#{@lbs_params}&index=#{@index}&q=#{@q}&page=#{@page+1}#{geo}"  
 
     @objs = [] 
-    if @index == "shop" 
-      @objs = @res['shops'] if @res['shops']
-      if @objs.length <= 3
-        @shops=Shop.recommended(@city_id)
-      end
-      render "shops", :layout => "weixin"
-    end
 
     if @index == "dapei"
       @objs = @res['dapeis'] if @res['dapeis']
@@ -464,13 +337,6 @@ class WeixinController < ApplicationController
       render "items", :layout => "weixin"
     end
  
-    if @index == "discount"
-      @objs = @res['discounts'] if @res['discounts']
-      if @objs.length <= 3
-        @discounts = Discount.recommended(@city_id)
-      end 
-      render "discounts", :layout => "weixin"
-    end  
   end
 
   def download
@@ -503,7 +369,6 @@ class WeixinController < ApplicationController
   def app
     @appstore_path = "https://itunes.apple.com/us/app/shang-jie-ba/id657031277?ls=1&mt=8"
     @android_app = "http://fusion.qq.com/cgi-bin/qzapps/unified_jump?appid=10261569&from=wx&isTimeline=false&actionFlag=0&params=pname%3Dcom.shangjieba.client.android%26versioncode%3D14%26actionflag%3D0%26channelid%3D";
-    #@android_app = "http://share.weiyun.com/148d2da8b7e4e1d59aeacc198e651065"
     render :layout => false
   end
 
@@ -528,49 +393,8 @@ class WeixinController < ApplicationController
   end
   
   def initialize
-     @get_started = "亲，欢迎关注上街吧。点击[+]然后发送[位置]就看看附近的漂亮衣服和实时优惠哦。发送h可查看具体使用说明。"
-     @options = {"搭配"=>"dapei", "店铺"=>"shop", "宝贝"=>"item", "资讯"=>"discount" }
+     @get_started = "亲，欢迎关注搭配蜜书。发送h可查看具体使用说明。"
+     @options = {"搭配"=>"dapei", "宝贝"=>"item" }
   end
 
-  def get_brand_shops(brand_id)
-    searcher = Searcher.new(@city_id, "shop", "", "near", 10, @page, nil, nil, @lng, @lat, brand_id )
-    @shops = searcher.search()
-    if @shops.length == 0
-      searcher = Searcher.new(0, "shop", "", "near", 10, @page, nil, nil, @lng, @lat, brand_id )
-      @shops = searcher.search()
-    end
-  end
-
-  def set_city_by_lnglat
-     $sphinx.ResetFilters
-     if  params[:city_id]
-       session[:city_id] =  params[:city_id]
-     end
-     if params[:lng] and params[:lat]
-       session[:lng] = params[:lng]
-       session[:lat] = params[:lat]
-       @lng = params[:lng]
-       @lat = params[:lat]
-     end
-     if not params[:city_id] and params[:lng] and params[:lat]
-       @lng = params[:lng]
-       @lat = params[:lat]
-       lat = to_anchor( @lat.to_f )
-       lng = to_anchor( @lng.to_f )
-       $sphinx.SetGeoAnchor('lat_radians', 'long_radians', lat, lng)
-       $sphinx.SetSortMode(Sphinx::Client::SPH_SORT_EXTENDED, '@geodist ASC, @relevance DESC')
-       
-       results =  $sphinx.Query("", "shop")
-       if results and results['matches']
-         results['matches'].each do |doc|
-           @area = Area.city( doc['attrs']['city_id'] ).first
-           @city = @area.city
-           @city_id =  @area.city_id
-           session[:city_id] = @city_id
-           break
-         end
-       end
-     end
-     @lbs_params = "city_id=#{@city_id}&lng=#{@lng.to_s}&lat=#{@lat.to_s}"
-  end
 end
