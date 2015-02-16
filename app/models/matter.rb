@@ -398,6 +398,8 @@ class Matter < ActiveRecord::Base
     m.sub_category_id = doc['sub_category_id']
     m.link = doc['link']
     m.docid = doc['docid']
+    m.price = doc['price'].to_i
+    m.origin_price = doc['origin_price'].to_i if doc['origin_price']
     m.save
   end
  
