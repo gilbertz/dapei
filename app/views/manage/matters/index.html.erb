@@ -19,7 +19,9 @@
       <th>用户</th> 
       <th>分类</th>
       <th>二级分类</th>
-      <th>level</th>  
+      <th>level</th> 
+      <th>价格</th>
+      <th>原价</th> 
       <th>标题</th>
       <th>SJB ID</th>
       <th>原图</th>
@@ -62,6 +64,10 @@
         <td width="16%">
           <%= link_to matter.try(:level), "/manage/matters?level=#{matter.try(:level)}" %>
         </td>
+
+        <td><%= matter.try(:price) %></td>
+
+        <td><%= matter.try(:origin_price) %></td>
 
         <td><%= matter.try(:title) %></td>
         

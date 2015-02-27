@@ -8,6 +8,17 @@
       </div>
     </div>
   </div>
+
+
+  <div class="form-group" style='margin-left:0px; margin-right:0px;'>
+    <label for="inputEmail3" class="col-sm-2 control-label">状态</label>
+    <div class="col-sm-9">
+      <div class="checkbox">
+        <%= f.check_box :use_product_page %> 是否抓取产品页 ?
+      </div>
+    </div>
+  </div>
+
   
   <div class="form-group" style='margin-left:0px; margin-right:0px;'>
     <label for="inputEmail3" class="col-sm-2 control-label">导购</label>
@@ -101,6 +112,21 @@
       <%= f.text_area :product_page, class: 'form-control', rows: 2 %>
     </div>
   </div>
+
+  <div class="form-group" style='margin-left:0px; margin-right:0px;'>
+    <label for="inputEmail3" class="col-sm-2 control-label">产品标题</label>
+    <div class="col-sm-10">
+      <%= f.text_area :product_title, class: 'form-control', rows: 2 %>
+    </div>
+  </div>
+
+  <div class="form-group" style='margin-left:0px; margin-right:0px;'>
+    <label for="inputEmail3" class="col-sm-2 control-label">产品图片</label>
+    <div class="col-sm-10">
+      <%= f.text_area :product_img, class: 'form-control', rows: 2 %>
+    </div>
+  </div>
+
 
   
   <div class="form-group" style='margin-left:0px; margin-right:0px;'>

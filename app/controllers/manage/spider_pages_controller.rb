@@ -7,9 +7,6 @@ class Manage::SpiderPagesController < Manage::BaseController
   end
 
   def new
-    @user = User.find( 1 )
-    @message = Message.new(:accept_id => @user.id)
-
     @spider = Spider.find params[:spider_id] 
     @spider_page = SpiderPages.new(:spider_id => @spider.id)
     render partial: 'form'

@@ -388,6 +388,7 @@ class Matter < ActiveRecord::Base
   def self.by_img(img, doc)
     p 'by_img'
     p = Photo.attach(img)
+    p p
     return unless p
     m = Matter.find_by_sjb_photo_id(p.id)
     unless m

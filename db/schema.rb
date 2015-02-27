@@ -11,7 +11,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20150205152248) do
+ActiveRecord::Schema.define(:version => 20150227095237) do
 
   create_table "all_tags", :force => true do |t|
     t.string   "name"
@@ -1152,6 +1152,9 @@ ActiveRecord::Schema.define(:version => 20150205152248) do
     t.text     "now_price"
     t.string   "matter_rule"
     t.string   "category_page"
+    t.boolean  "use_product_page"
+    t.string   "product_img"
+    t.string   "product_title"
   end
 
   add_index "spiders", ["brand_id"], :name => "index_spiders_on_brand_id"
