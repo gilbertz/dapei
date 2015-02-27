@@ -312,12 +312,14 @@ class Photo < ActiveRecord::Base
   end
 
   def self.attach(img_url, obj=nil, dp=false)
+      img_url = img_url.gsub(/.jpg\?(.*?)$/, '.jpg')
       img_url = "http://" + img_url unless img_url =~ /http:\/\/|https:\/\//
 
       return if not img_url or img_url == ""
       pid = Digest::MD5.hexdigest( img_url )
       p = Photo.find_by_digest(pid)
       return p if p
+      p img_url
 
       photo_params={:image_url=>img_url }
       user = User.find_by_id(1)
