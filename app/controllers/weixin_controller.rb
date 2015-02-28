@@ -13,6 +13,12 @@ class WeixinController < ApplicationController
     render :text => params[:echostr]
   end
 
+  def ibeacon
+    redirect_to '/weixin/dapeis'
+  end
+
+
+
   def brand
     @page = 1
     @limit = 10

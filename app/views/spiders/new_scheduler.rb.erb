@@ -88,15 +88,17 @@ end
   $redis.del pkey
   lks = $redis.lrange(pkey, 0, -1)
 
-  page = "<%= p.link %>"
-  p page
-
-  begin
-    driver.navigate.to page
-  rescue => e
-    p e.to_s
-  end
-  for i in (1..6) do
+  pages = "<%= p.link %>"
+  p pages
+  pages.split('|').each do |page|
+    begin
+      driver.navigate.to page
+    rescue => e
+      p e.to_s
+    end
+    pages = []
+    pages << page
+    for i in (1..6) do
     <% if @spider.product_page and @spider.product_page !=""  %>
       elements = driver.find_elements(:xpath, "<%=raw @spider.product_page %>")
       elements.each do |e|
@@ -122,8 +124,17 @@ end
     <% end %>
     <% if @spider.next_page and  @spider.next_page != "" %>
     begin
-      next_page = driver.find_element(:xpath, "<%=raw @spider.next_page %>").attribute("href")
-      driver.get(next_page)
+      next_page = ''
+      elements = driver.find_elements(:xpath, "<%=raw @spider.next_page %>")
+      elements.each do |e|
+        next_page = e.attribute("href")
+        break unless pages.include?(next_page)
+      end
+      p 'np=', next_page
+      if next_page.index('http')
+        driver.get(next_page)
+      end
+      pages << next_page
     rescue=>e
       p e.to_s
       break
@@ -136,6 +147,7 @@ end
   links = []
   titles = []
   imgs = []
+ end
 <% end %>
 driver.quit
 

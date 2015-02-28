@@ -236,7 +236,9 @@ defaults: &defaults
   NEW_RELIC_LICENSE_KEY: ''
   new_relic_app_name: ''
 
-  remote_image_domain: 'http://img.dapeimishu.com:9000'
+  #remote_image_domain: 'http://img.dapeimishu.com:9000'
+  
+  remote_image_domain: 'http://dpms.qiniudn.com'
 
   qiniu_image_domain: 'http://dpms.qiniudn.com'
 
