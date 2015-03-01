@@ -17,7 +17,9 @@ class WeixinController < ApplicationController
     redirect_to '/weixin/dapeis'
   end
 
-
+  def coupons
+    redirect_to 'http://wx.51self.com/img/daijinquan.png'
+  end
 
   def brand
     @page = 1
@@ -72,7 +74,8 @@ class WeixinController < ApplicationController
   end
 
   def games
-    render "games", :layout => "weixin"
+    redirect_to 'http://51self.com/weitest/1163734149'
+    #render "games", :layout => "weixin"
   end
 
 
