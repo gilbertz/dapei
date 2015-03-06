@@ -2,11 +2,15 @@ common: &common
   weibo:
     api_key: "1485201157"
     api_secret: "1e080c6a5465838dc5bb54d710d7992a"
-    redirect_uri: "http://www.shangjieba.com/accounts/users/auth/weibo/callback"
+    redirect_uri: "http://www.dapeimishu.com/accounts/users/auth/weibo/callback"
   qq_connect:
     api_key: "100407222"
     api_secret: "77c62095ab684fcc0cde4c619d2a949c"
-    redirect_uri: "http://www.shangjieba.com/accounts/users/auth/qq_connect/callback"
+    redirect_uri: "http://www.dapeimishu.com/accounts/users/auth/qq_connect/callback"
+  weixin:
+    api_key: "wx629a5ad4f3fc5f63"
+    api_secret: "843d5cb0b87561e54c644327bd297f10"
+    redirect_uri: "http://www.dapeimishu.com/accounts/users/auth/weixin/callback"
 
 production:
   <<: *common

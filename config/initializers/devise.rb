@@ -233,5 +233,6 @@ Devise.setup do |config|
   # so you need to do it manually. For the users scope, it would be:
   # config.omniauth_path_prefix = "/my_engine/users/auth"
   config.omniauth :weibo, SERVICES['weibo']['api_key'], SERVICES['weibo']['api_secret']
+  config.omniauth :weixin, SERVICES['weixin']['api_key'], SERVICES['weixin']['api_secret']
   config.omniauth :qq_connect, SERVICES['qq_connect']['api_key'], SERVICES['qq_connect']['api_secret']
 end

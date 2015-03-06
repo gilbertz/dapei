@@ -1,3 +1,18 @@
+
+
+
+%script{:src => "http://res.wx.qq.com/connect/zh_CN/htmledition/js/wxLogin.js"}
+:javascript
+  var obj = new WxLogin({
+                            id:"login_container", 
+                            appid: "wx9d0f1c5f64702271", 
+                            scope: "snsapi_login", 
+                            redirect_uri: "http://dapeimishu.com",
+                            state: "",
+                            style: "",
+                            href: ""
+                          });
+
 .login
   .wrapper.login-wrapper
     %h2.login-h1 登录搭配蜜书
@@ -22,4 +37,6 @@
                   -#%span.no-account
                     没账号？
                     %a{:href => "#{new_user_registration_path}"} 快注册
+          %li
+            #login_container
 

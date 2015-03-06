@@ -48,7 +48,7 @@ class Authentication < ActiveRecord::Base
     end
     print "+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++"
     #if hash['provider']=="weibo"
-    post_to_weibo(hash["credentials"]["token"], hash["credentials"]["expires_at"])
+    #post_to_weibo(hash["credentials"]["token"], hash["credentials"]["expires_at"])
     #else
       #post_to_qq(hash["credentials"]["token"],  hash['uid'] )
     #end

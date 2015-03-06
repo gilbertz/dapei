@@ -31,7 +31,7 @@ gem "redis", '~> 3.1.0'
 # 1.0.4
 # gem 'redis-namespace' , '~> 1.3.1'
 #email
-gem "roadie"
+#gem "roadie"
 
 #http connect
 gem 'faraday'
@@ -59,7 +59,7 @@ gem 'awesome_print'
 # file uploading
 gem 'carrierwave', '~> 0.10.0'
 #gem 'fog' #cloud interface of rails
-gem 'mini_magick', '3.4'
+gem 'mini_magick', '~> 3.7.0'
 
 
 #social features
@@ -112,6 +112,7 @@ gem 'omniauth'
 gem 'oauth2'
 gem 'omniauth-weibo-oauth2'
 gem 'omniauth-qq-connect', '~> 0.1.0'
+gem 'omniauth-weixin'
 gem 'weibo_2'
 
 gem "simple_form", ">= 2.0.4"
@@ -172,6 +173,9 @@ gem 'jbuilder'
 
 gem 'china_sms'
 gem 'qiniu', '~> 6.2.1'
+gem 'weixin_authorize'
+gem 'multi_json', '~>1.10.1'
+gem 'roadie', '~> 2.4'
 
 #http
 gem 'mechanize'
