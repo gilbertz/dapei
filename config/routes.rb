@@ -536,7 +536,9 @@ Shangjieba::Application.routes.draw do
 
   get 'weixin/download' => 'weixin#download'
   get 'weixin/ibeacon' => 'weixin#ibeacon'
+  get 'weixin/ibeacons/:user_id' => 'weixin#ibeacons'
   get 'weixin/coupons' => 'weixin#coupons'
+  get 'weixin/cards' => 'weixin#cards'
 
   get 'dapeis/view/:url' => 'dapeis#view', :as => "dapei_view"
   get 'dapeis/index_all' => 'dapeis#index'

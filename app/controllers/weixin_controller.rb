@@ -17,6 +17,10 @@ class WeixinController < ApplicationController
     redirect_to '/weixin/dapeis'
   end
 
+  def ibeacons
+    redirect_to '/weixin/dapeis'
+  end
+
   def coupons
     redirect_to 'http://wx.51self.com/img/daijinquan.png'
   end
@@ -43,6 +47,13 @@ class WeixinController < ApplicationController
     end
   end
 
+  def cards
+    respond_to do |format|
+      format.html{
+        render "cards", :layout => "weixin"
+      }
+    end
+  end
  
   def brands
     @limit = 20

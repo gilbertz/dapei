@@ -1,4 +1,5 @@
 # -*- encoding : utf-8 -*-
+#class ApplicationController < ActionController::Base
 class ApplicationController < ActionController::Base
   protect_from_forgery
   before_filter :set_current_user 
@@ -64,6 +65,11 @@ protected
     else
       User.current_user = current_user if current_user
     end
+
+    if not current_user and params[:code]
+      p 'ooooxxx', request.env['omniauth.auth']   
+    end
+
   end
 
   def set_login_status
