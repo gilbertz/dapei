@@ -1,0 +1,25 @@
+%h1 Listing games
+
+%table
+  %tr
+    %th Ibeacon
+    %th Shop
+    %th App
+    %th Game
+    %th
+    %th
+    %th
+
+  - @games.each do |game|
+    %tr
+      %td= game.ibeacon_id
+      %td= game.shop_id
+      %td= game.app_id
+      %td= game.game_id
+      %td= link_to 'Show', game
+      %td= link_to 'Edit', edit_game_path(game)
+      %td= link_to 'Destroy', game, :method => :delete, :data => { :confirm => 'Are you sure?' }
+
+%br
+
+= link_to 'New Game', new_game_path

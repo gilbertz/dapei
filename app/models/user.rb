@@ -1116,6 +1116,11 @@ class User < ActiveRecord::Base
     User.where(:brand_id => brand_id).last
   end
 
+  def get_openid
+    au = Authentication.find_by_user_id(self.id)
+    return au.uid  if au
+  end
+
   private
   def get_pod_url
     pod_url = AppConfig[:pod_url].dup

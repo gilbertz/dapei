@@ -1,0 +1,14 @@
+= simple_form_for(@bshow) do |f|
+  = f.error_notification
+
+  .form-inputs
+    = f.input :ibeacon_id
+    = f.input :url
+    = f.input :title
+    = f.input :pv
+    = f.input :uv
+    = f.input :weight
+    = f.input :on
+
+  .form-actions
+    = f.button :submit

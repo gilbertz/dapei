@@ -1,0 +1,14 @@
+= simple_form_for(@redpack) do |f|
+  = f.error_notification
+
+  .form-inputs
+    = f.input :ibeacon_id
+    = f.input :sender_name
+    = f.input :wishing
+    = f.input :action_title
+    = f.input :action_remark
+    = f.input :min
+    = f.input :max
+
+  .form-actions
+    = f.button :submit

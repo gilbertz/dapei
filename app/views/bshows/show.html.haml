@@ -1,0 +1,27 @@
+%p#notice= notice
+
+%p
+  %b Ibeacon:
+  = @bshow.ibeacon_id
+%p
+  %b Url:
+  = @bshow.url
+%p
+  %b Title:
+  = @bshow.title
+%p
+  %b Pv:
+  = @bshow.pv
+%p
+  %b Uv:
+  = @bshow.uv
+%p
+  %b Weight:
+  = @bshow.weight
+%p
+  %b On:
+  = @bshow.on
+
+= link_to 'Edit', edit_bshow_path(@bshow)
+\|
+= link_to 'Back', bshows_path

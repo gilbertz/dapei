@@ -1,0 +1,27 @@
+%h1 Listing ibeacons
+
+%table
+  %tr
+    %th Beaconid
+    %th Url
+    %th User
+    %th Pv
+    %th Uv
+    %th
+    %th
+    %th
+
+  - @ibeacons.each do |ibeacon|
+    %tr
+      %td= ibeacon.beaconid
+      %td= ibeacon.url
+      %td= ibeacon.user_id
+      %td= ibeacon.pv
+      %td= ibeacon.uv
+      %td= link_to 'Show', ibeacon
+      %td= link_to 'Edit', edit_ibeacon_path(ibeacon)
+      %td= link_to 'Destroy', ibeacon, :method => :delete, :data => { :confirm => 'Are you sure?' }
+
+%br
+
+= link_to 'New Ibeacon', new_ibeacon_path

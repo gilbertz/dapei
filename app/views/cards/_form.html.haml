@@ -1,0 +1,12 @@
+= simple_form_for(@card) do |f|
+  = f.error_notification
+
+  .form-inputs
+    = f.input :ibeacon_id
+    = f.input :app_id
+    = f.input :card_id
+    = f.input :on
+    = f.input :shop_id
+
+  .form-actions
+    = f.button :submit

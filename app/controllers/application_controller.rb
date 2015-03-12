@@ -65,11 +65,6 @@ protected
     else
       User.current_user = current_user if current_user
     end
-
-    if not current_user and params[:code]
-      p 'ooooxxx', request.env['omniauth.auth']   
-    end
-
   end
 
   def set_login_status

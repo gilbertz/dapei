@@ -1,0 +1,88 @@
+- sign_package = $wxclient.get_jssign_package(request.url)
+- array = [ "#{sign_package['timestamp']}", "pRKD0szNhEgvO3q4xaY14vjsJEU4", $wxclient.app_secret ].sort
+- sign = Digest::SHA1.hexdigest( array.join)
+%script{:src => "http://res.wx.qq.com/open/js/jweixin-1.0.0.js", :type => "text/javascript"}
+:javascript
+  wx.config({
+    debug: false,
+    appId: "#{sign_package['appId']}",
+    timestamp: "#{sign_package['timestamp']}",
+    nonceStr: "#{sign_package['nonceStr']}",
+    signature: "#{sign_package['signature']}",
+    jsApiList: [
+      'onMenuShareTimeline',
+      'onMenuShareAppMessage',
+      'onMenuShareQQ',
+      'onMenuShareWeibo',
+      'hideMenuItems',
+      'showMenuItems',
+      'hideAllNonBaseMenuItem',
+      'showAllNonBaseMenuItem',
+      'translateVoice',
+      'startRecord',
+      'stopRecord',
+      'onRecordEnd',
+      'playVoice',
+      'pauseVoice',
+      'stopVoice',
+      'uploadVoice',
+      'downloadVoice',
+      'chooseImage',
+      'previewImage',
+      'uploadImage',
+      'downloadImage',
+      'getNetworkType',
+      'openLocation',
+      'getLocation',
+      'hideOptionMenu',
+      'showOptionMenu',
+      'closeWindow',
+      'scanQRCode',
+      'chooseWXPay',
+      'openProductSpecificView',
+      'addCard',
+      'chooseCard',
+      'openCard'
+    ]
+  });
+  wx.ready(function () {
+    wx.addCard({
+      cardList: [{
+        cardId: 'pRKD0szNhEgvO3q4xaY14vjsJEU4',
+        cardExt: "{\"code\":\"\",\"openid\":\"\",\"timestamp\":\"#{sign_package['timestamp']}\",\"signature\":\"#{sign}\"}"
+      }], // 需要添加的卡券列表
+      success: function (res) {
+        var cardList = res.cardList; // 添加的卡券列表信息
+      }
+    });
+  }); 
+
+%ul
+  %li
+    = request.user_agent
+  %li
+    = array.join
+  %li
+    = request.url
+  %li
+    = $wxclient.get_jsticket
+  %li
+    = sign_package['timestamp']
+  %li
+    = sign_package['signature']
+ 
+-#:javascript
+  var readyFunc = function onBridgeReady() { 
+    WeixinJSBridge.invoke('batchAddCard', { 
+      "card_list": [
+      {
+      "card_id": "pRKD0szNhEgvO3q4xaY14vjsJEU4", 
+      "card_ext": "{\"code\":\"\",\"openid\":\"\",\"timestamp\":\"#{sign_package['timestamp']}\",\"signature\":\"#{sign_package['signature']}\"}"
+      }]}, function(res){} );
+  } 
+  if (typeof WeixinJSBridge === "undefined") {
+    document.addEventListener('WeixinJSBridgeReady', readyFunc, false);
+  }
+  else{
+    readyFunc();
+  }

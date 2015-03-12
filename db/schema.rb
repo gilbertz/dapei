@@ -11,7 +11,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20150227095237) do
+ActiveRecord::Schema.define(:version => 20150311151909) do
 
   create_table "all_tags", :force => true do |t|
     t.string   "name"
@@ -74,6 +74,7 @@ ActiveRecord::Schema.define(:version => 20150227095237) do
     t.integer  "expires_at"
     t.datetime "created_at",   :null => false
     t.datetime "updated_at",   :null => false
+    t.string   "fid"
   end
 
   create_table "brand_tags", :force => true do |t|
@@ -150,6 +151,33 @@ ActiveRecord::Schema.define(:version => 20150227095237) do
   add_index "brands", ["rating"], :name => "index_brands_on_rating"
   add_index "brands", ["type"], :name => "index_brands_on_type"
   add_index "brands", ["url"], :name => "index_brands_on_url"
+
+  create_table "bshows", :force => true do |t|
+    t.integer  "ibeacon_id"
+    t.string   "url"
+    t.string   "title"
+    t.integer  "pv"
+    t.integer  "uv"
+    t.string   "weight"
+    t.boolean  "on"
+    t.datetime "created_at", :null => false
+    t.datetime "updated_at", :null => false
+  end
+
+  create_table "cards", :force => true do |t|
+    t.string   "ibeacon_id"
+    t.string   "app_id"
+    t.string   "card_id"
+    t.boolean  "on"
+    t.integer  "shop_id"
+    t.datetime "created_at", :null => false
+    t.datetime "updated_at", :null => false
+  end
+
+  add_index "cards", ["card_id"], :name => "index_cards_on_card_id"
+  add_index "cards", ["ibeacon_id", "on"], :name => "index_cards_on_ibeacon_id_and_on"
+  add_index "cards", ["ibeacon_id"], :name => "index_cards_on_ibeacon_id"
+  add_index "cards", ["shop_id"], :name => "index_cards_on_shop_id"
 
   create_table "carts", :force => true do |t|
     t.integer  "user_id"
@@ -556,6 +584,32 @@ ActiveRecord::Schema.define(:version => 20150227095237) do
     t.datetime "created_at",  :null => false
     t.datetime "updated_at",  :null => false
   end
+
+  create_table "games", :force => true do |t|
+    t.integer  "ibeacon_id"
+    t.integer  "shop_id"
+    t.string   "app_id"
+    t.string   "game_id"
+    t.datetime "created_at", :null => false
+    t.datetime "updated_at", :null => false
+  end
+
+  add_index "games", ["ibeacon_id"], :name => "index_games_on_ibeacon_id"
+  add_index "games", ["shop_id"], :name => "index_games_on_shop_id"
+
+  create_table "ibeacons", :force => true do |t|
+    t.string   "beaconid"
+    t.string   "url"
+    t.integer  "user_id"
+    t.integer  "pv"
+    t.integer  "uv"
+    t.datetime "created_at", :null => false
+    t.datetime "updated_at", :null => false
+  end
+
+  add_index "ibeacons", ["beaconid"], :name => "index_ibeacons_on_beaconid"
+  add_index "ibeacons", ["url"], :name => "index_ibeacons_on_url"
+  add_index "ibeacons", ["user_id"], :name => "index_ibeacons_on_user_id"
 
   create_table "items", :force => true do |t|
     t.string   "title"
@@ -989,6 +1043,23 @@ ActiveRecord::Schema.define(:version => 20150227095237) do
     t.datetime "created_at",                :null => false
     t.datetime "updated_at",                :null => false
   end
+
+  create_table "redpacks", :force => true do |t|
+    t.integer  "ibeacon_id"
+    t.string   "app_id"
+    t.integer  "shop_id"
+    t.string   "sender_name"
+    t.string   "wishing"
+    t.string   "action_title"
+    t.string   "action_remark"
+    t.integer  "min"
+    t.integer  "max"
+    t.datetime "created_at",    :null => false
+    t.datetime "updated_at",    :null => false
+  end
+
+  add_index "redpacks", ["ibeacon_id"], :name => "index_redpacks_on_ibeacon_id"
+  add_index "redpacks", ["shop_id"], :name => "index_redpacks_on_shop_id"
 
   create_table "rel_items", :force => true do |t|
     t.integer  "dapei_id"

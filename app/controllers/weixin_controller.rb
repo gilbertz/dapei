@@ -8,6 +8,7 @@ class WeixinController < ApplicationController
   skip_before_filter :verify_authenticity_token
   before_filter :check_weixin_legality, :only => [:show, :create]
   before_filter :initialize 
+  before_filter :weixin_authorize, :only => [:ibeacons, :redpack]
  
   def show
     render :text => params[:echostr]
@@ -18,8 +19,63 @@ class WeixinController < ApplicationController
   end
 
   def ibeacons
-    redirect_to '/weixin/dapeis'
+    #redirect_to '/weixin/dapeis'
+    ib = Ibeacon.find_by_url(params[:url])
+    redirect_to '/weixin/dapeis' unless ib
+    bshows = Bshow.where(:ibeacon_id => ib.id)  
+    bs = bshows.sample(1)[0]
+    redirect_to bs.url
+
+    #if true    
+    #  @game = Game.find_by_ibeacon_id(ib.id)
+    #  redirect_to "http://51self.com/weitest/#{@game.game_id}"
+    #elsif true
+    #  @card = Card.find_by_ibeacon_id(ib.id)    
+    #  render 'card', :layout => 'weixin' 
+    #else
+    #  rp = Redpack.find_by_ibeacon_id(ib.id)
+    #  ret = `cd #{Rails.root} && php redpack.php #{current_user.get_openid} #{rp.sender_name} #{rp.wishing} #{rp.action_title} #{rp.action_remark} #{rp.min} #{rp.max}`
+    #  p "ret=#{ret}"
+    #  if ret
+    #    render :text => 'suc' 
+    # 
+    #  else
+    #    render :text => 'fail'
+    #  end
+    #end
   end
+
+   
+  def redpack
+    ib = Ibeacon.find_by_url(params[:url])
+    rp =  Redpack.find_by_ibeacon_id(ib.id)
+    key = "redpack_#{params[:url]}_#{current_user.id}"
+
+    unless $redis.get key
+      ret = `cd #{Rails.root} && php redpack.php #{current_user.get_openid} #{rp.sender_name} #{rp.wishing} #{rp.action_title} #{rp.action_remark} #{rp.min} #{rp.max}`
+      p "ret=#{ret}"
+      $redis.set(key, 1)
+      if ret
+        redirect_to 'http://eqxiu.com/s/atV4rM'
+      else
+        redirect_to 'http://eqxiu.com/s/ZF18Hp'
+      end
+    else
+      redirect_to 'http://eqxiu.com/s/ZF18Hp'
+    end
+  end
+
+  def card
+    ib = Ibeacon.find_by_url(params[:url])
+    @card =  Card.find_by_ibeacon_id(ib.id)
+    respond_to do |format|
+      format.html{
+        render "card", :layout => "weixin"
+      }
+    end
+  end
+
+
 
   def coupons
     redirect_to 'http://wx.51self.com/img/daijinquan.png'
@@ -314,49 +370,6 @@ class WeixinController < ApplicationController
   end 
 
   def search
-    parse_option
-    @q = ""
-    @index = "shop"
-    @page = 1
-    @limit = 12
-    @sort = "hot"
-    if params[:q]
-      @q = params[:q]
-    end
-    if params[:page]
-      @page = params[:page].to_i
-    end
-    if params[:index]
-      @index = params[:index]
-    end
-
-    if @index == "discount"
-      @sort = ""
-    end
-
-    params_dict =  {:index => @index, :q => @q, :sort => @sort, :limit=>@limit, :city_id => @city_id, :page => @page, :from=>"weixin"}
-   
-    res = RestClient.get "http://www.shangjieba.com:8080/info/search.json", {:params => params_dict}
-    @res = JSON.parse(res)
-    @next_page = "/weixin/search?#{@lbs_params}&index=#{@index}&q=#{@q}&page=#{@page+1}#{geo}"  
-
-    @objs = [] 
-
-    if @index == "dapei"
-      @objs = @res['dapeis'] if @res['dapeis']
-      @dapeis = @objs.map{|obj| Dapei.find_by_url( obj['dapei_id'] )}
-      @dapeis = Dapei.dup(@dapeis)
-      render "dapeis", :layout => "weixin"
-    end
-    
-    if @index == "item"
-      @objs = @res['items'] if @res['items']
-      if @objs.length <= 3
-        @items = Item.recommended(@city_id)
-      end
-      render "items", :layout => "weixin"
-    end
- 
   end
 
   def download
@@ -387,25 +400,32 @@ class WeixinController < ApplicationController
   end
 
   def app
-    @appstore_path = "https://itunes.apple.com/us/app/shang-jie-ba/id657031277?ls=1&mt=8"
-    @android_app = "http://fusion.qq.com/cgi-bin/qzapps/unified_jump?appid=10261569&from=wx&isTimeline=false&actionFlag=0&params=pname%3Dcom.shangjieba.client.android%26versioncode%3D14%26actionflag%3D0%26channelid%3D";
     render :layout => false
   end
 
 
   def sg_app
-    @android_app = "http://fusion.qq.com/cgi-bin/qzapps/unified_jump?appid=10261569&from=wx&isTimeline=false&actionFlag=0&params=pname%3Dcom.shangjieba.client.android%26versioncode%3D14%26actionflag%3D0%26channelid%3D";
-    @appstore_path = "https://itunes.apple.com/cn/app/you-pin-shan-gou-jing-xuan/id834282059?mt=8"
     render :layout => false
   end
 
   def ad_app
-    @appstore_path = "https://itunes.apple.com/us/app/shang-jie-ba/id657031277?ls=1&mt=8"
-    @android_app = "http://share.weiyun.com/f09d2e6cc70bef0259c4f26181e96618"
     render :layout => false
   end
 
   private
+
+  def authorize_url(url)
+    base_url = "https://open.weixin.qq.com/connect/oauth2/authorize?appid=wx629a5ad4f3fc5f63&response_type=code&scope=snsapi_base&connect_redirect=1&redirect_url=" 
+    base_url += 'http://www.dapeimishu.com/accounts/info/auth/weixin/callback?redirect_url=' + url
+  end
+
+
+  def weixin_authorize
+    unless current_user
+      redirect_to authorize_url(request.url) 
+    end
+  end
+
 
   def check_weixin_legality
     array = [Rails.configuration.weixin_token, params[:timestamp], params[:nonce]].sort
@@ -413,8 +433,6 @@ class WeixinController < ApplicationController
   end
   
   def initialize
-     @get_started = "亲，欢迎关注搭配蜜书。发送h可查看具体使用说明。"
-     @options = {"搭配"=>"dapei", "宝贝"=>"item" }
   end
 
 end

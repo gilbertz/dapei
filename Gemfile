@@ -171,11 +171,11 @@ gem 'grape-jbuilder'
 gem 'jbuilder'
 # gem 'rack-contrib'
 
-gem 'china_sms'
 gem 'qiniu', '~> 6.2.1'
 gem 'weixin_authorize'
 gem 'multi_json', '~>1.10.1'
 gem 'roadie', '~> 2.4'
+gem 'httpclient'
 
 #http
 gem 'mechanize'

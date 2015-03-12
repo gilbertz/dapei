@@ -1,0 +1,12 @@
+= simple_form_for(@ibeacon) do |f|
+  = f.error_notification
+
+  .form-inputs
+    = f.input :beaconid
+    = f.input :url
+    = f.input :user_id
+    = f.input :pv
+    = f.input :uv
+
+  .form-actions
+    = f.button :submit

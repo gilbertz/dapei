@@ -1,0 +1,63 @@
+Class Redpack
+  def time_str
+    Time.now.strftime("%Y%m%d%s")
+  end
+
+  def gen_sign(dict)
+    dict = dict.sort
+    sign_str = ''
+    first = true
+    dict.each do |k, v|
+      sign_str += '&' unless first
+      sign_str =+ "#{k}=#{v}"
+      first = false
+    end
+    Digest::MD5.hexdigest(sign_str).upcase
+  end
+
+
+  def redpack_request(openid)
+    sign_package = $wxclient.get_jssign_package(request.url)
+    url = 'https://api.mch.weixin.qq.com/mmpaymkttransfers/sendredpack'
+    dict = {}
+    dict['mch_billno'] = '1229939902' + time_str
+    dict['mch_id'] = '1229939902'
+    dict['wxappid'] = sign_package['appId']
+    dict['nick_name'] = '大拇哥'
+    dict['send_name'] = '大拇哥'
+    dict['re_openid'] = openid
+    dict['total_amount'] = 1000
+    dict['min_value'] = 0
+    dict['max_value'] = 100
+    dict['total_num'] = 100
+    dict['wishing'] = '愿小朋友健康成长'
+    dict['client_ip'] = '121.42.47.121'
+    dict['act_name'] = '抢红包'
+    #dict['act_id'] = ''
+    dict['remark'] = '够满100元就可抢红包'
+    #dict['logo_imgurl']= 
+    #dict['share_content'] = ''
+    #dict['share_url'] = ''
+    #dict['share_imgurl'] = ''
+    dict['nonce_str'] = sign_package['nonceStr']
+    dict['sign'] = gen_sign(dict)
+
+    r = RestClient::Request.execute(
+      {
+        method: :post,
+        url: url,
+        payload: dict.to_xml,
+        headers: { content_type: 'application/xml' }
+      }.merge({})
+    )
+
+    p r
+
+    if r
+      p r
+    else
+      nil
+    end
+  end
+
+end

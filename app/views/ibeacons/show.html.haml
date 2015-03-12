@@ -1,0 +1,21 @@
+%p#notice= notice
+
+%p
+  %b Beaconid:
+  = @ibeacon.beaconid
+%p
+  %b Url:
+  = @ibeacon.url
+%p
+  %b User:
+  = @ibeacon.user_id
+%p
+  %b Pv:
+  = @ibeacon.pv
+%p
+  %b Uv:
+  = @ibeacon.uv
+
+= link_to 'Edit', edit_ibeacon_path(@ibeacon)
+\|
+= link_to 'Back', ibeacons_path

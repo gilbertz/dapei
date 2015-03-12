@@ -1,0 +1,21 @@
+%p#notice= notice
+
+%p
+  %b Ibeacon:
+  = @card.ibeacon_id
+%p
+  %b App:
+  = @card.app_id
+%p
+  %b Card:
+  = @card.card_id
+%p
+  %b On:
+  = @card.on
+%p
+  %b Shop:
+  = @card.shop_id
+
+= link_to 'Edit', edit_card_path(@card)
+\|
+= link_to 'Back', cards_path

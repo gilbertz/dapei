@@ -37,6 +37,16 @@ class AuthenticationsController < Devise::OmniauthCallbacksController
     end
   end
 
+
+  def sign_in_or_redirect
+    if params[:redirect_url]
+      sign_in @user
+      redirect_to params[:redirect_url]
+    else
+      sign_in_and_redirect @user
+    end
+  end
+
   
   def weixin
     cookies[:l] = { :value => "#{Time.now.to_i}", :expires => 10.year.from_now }
@@ -51,7 +61,7 @@ class AuthenticationsController < Devise::OmniauthCallbacksController
       print "!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!"
       #print @user.authentications
       cookies[:userid] = { :value => "#{@user.url}", :expires => 10.year.from_now }
-      sign_in_and_redirect(:user, @user)
+      sign_in_or_redirect
       #redirect_to "/"
     else
       @username="dpms"+Devise.friendly_token[0,20]
@@ -65,7 +75,7 @@ class AuthenticationsController < Devise::OmniauthCallbacksController
         #print @user
         #print @user.errors.full_messages
         cookies[:userid] = { :value => "#{@user.url}", :expires => 10.year.from_now }
-        sign_in_and_redirect @user
+        sign_in_or_redirect
         #redirect_to "/"
       else
         redirect_to "/"

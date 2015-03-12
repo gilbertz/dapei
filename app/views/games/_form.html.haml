@@ -1,0 +1,11 @@
+= simple_form_for(@game) do |f|
+  = f.error_notification
+
+  .form-inputs
+    = f.input :ibeacon_id
+    = f.input :shop_id
+    = f.input :app_id
+    = f.input :game_id
+
+  .form-actions
+    = f.button :submit

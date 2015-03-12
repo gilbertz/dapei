@@ -1,0 +1,31 @@
+%h1 Listing redpacks
+
+%table
+  %tr
+    %th Ibeacon
+    %th Sender name
+    %th Wishing
+    %th Action title
+    %th Action remark
+    %th Min
+    %th Max
+    %th
+    %th
+    %th
+
+  - @redpacks.each do |redpack|
+    %tr
+      %td= redpack.ibeacon_id
+      %td= redpack.sender_name
+      %td= redpack.wishing
+      %td= redpack.action_title
+      %td= redpack.action_remark
+      %td= redpack.min
+      %td= redpack.max
+      %td= link_to 'Show', redpack
+      %td= link_to 'Edit', edit_redpack_path(redpack)
+      %td= link_to 'Destroy', redpack, :method => :delete, :data => { :confirm => 'Are you sure?' }
+
+%br
+
+= link_to 'New Redpack', new_redpack_path

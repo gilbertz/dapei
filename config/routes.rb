@@ -1,6 +1,21 @@
 # -*- encoding : utf-8 -*-
 require 'sidekiq/web'
 Shangjieba::Application.routes.draw do
+  resources :bshows
+
+
+  resources :games
+
+
+  resources :cards
+
+
+  resources :redpacks
+
+
+  resources :ibeacons
+
+
   mount SjbApi => '/'
   mount Sidekiq::Web => '/sidekiq'
   resources :tracks
@@ -536,7 +551,10 @@ Shangjieba::Application.routes.draw do
 
   get 'weixin/download' => 'weixin#download'
   get 'weixin/ibeacon' => 'weixin#ibeacon'
-  get 'weixin/ibeacons/:user_id' => 'weixin#ibeacons'
+  get 'weixin/ibeacons/:url' => 'weixin#ibeacons'
+  get 'weixin/:url/redpack' => 'weixin#redpack'
+  get 'weixin/:url/card' => 'weixin#card'
+
   get 'weixin/coupons' => 'weixin#coupons'
   get 'weixin/cards' => 'weixin#cards'
 

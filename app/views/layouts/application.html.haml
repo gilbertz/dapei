@@ -22,7 +22,7 @@
   -#= render "layouts/float_app"
 
   .header
-    = render 'shared/header'
+    -#= render 'shared/header'
     -#= render 'layouts/top_nav'
     -#.nav_area_bd
       = render 'home/area_nav'
@@ -46,7 +46,7 @@
         #toTop
           /.codebtn
           /.followbtn{:onclick=>"addBookmark()"}
-        = render 'layouts/footer_old'
+        -#= render 'layouts/footer_old'
         #analysis
           = render 'layouts/analysis'
     -#-unless user_signed_in?

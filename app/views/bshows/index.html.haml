@@ -1,0 +1,31 @@
+%h1 Listing bshows
+
+%table
+  %tr
+    %th Ibeacon
+    %th Url
+    %th Title
+    %th Pv
+    %th Uv
+    %th Weight
+    %th On
+    %th
+    %th
+    %th
+
+  - @bshows.each do |bshow|
+    %tr
+      %td= bshow.ibeacon_id
+      %td= bshow.url
+      %td= bshow.title
+      %td= bshow.pv
+      %td= bshow.uv
+      %td= bshow.weight
+      %td= bshow.on
+      %td= link_to 'Show', bshow
+      %td= link_to 'Edit', edit_bshow_path(bshow)
+      %td= link_to 'Destroy', bshow, :method => :delete, :data => { :confirm => 'Are you sure?' }
+
+%br
+
+= link_to 'New Bshow', new_bshow_path

@@ -1,0 +1,18 @@
+%p#notice= notice
+
+%p
+  %b Ibeacon:
+  = @game.ibeacon_id
+%p
+  %b Shop:
+  = @game.shop_id
+%p
+  %b App:
+  = @game.app_id
+%p
+  %b Game:
+  = @game.game_id
+
+= link_to 'Edit', edit_game_path(@game)
+\|
+= link_to 'Back', games_path

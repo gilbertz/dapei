@@ -1,0 +1,27 @@
+%p#notice= notice
+
+%p
+  %b Ibeacon:
+  = @redpack.ibeacon_id
+%p
+  %b Sender name:
+  = @redpack.sender_name
+%p
+  %b Wishing:
+  = @redpack.wishing
+%p
+  %b Action title:
+  = @redpack.action_title
+%p
+  %b Action remark:
+  = @redpack.action_remark
+%p
+  %b Min:
+  = @redpack.min
+%p
+  %b Max:
+  = @redpack.max
+
+= link_to 'Edit', edit_redpack_path(@redpack)
+\|
+= link_to 'Back', redpacks_path
