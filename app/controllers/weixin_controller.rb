@@ -15,16 +15,19 @@ class WeixinController < ApplicationController
   end
 
   def ibeacon
-    redirect_to '/weixin/dapeis'
+    #redirect_to '/weixin/dapeis'
+    redirect_to 'http://51self.com/weitest/1165374963'
   end
 
   def ibeacons
-    #redirect_to '/weixin/dapeis'
-    ib = Ibeacon.find_by_url(params[:url])
-    redirect_to '/weixin/dapeis' unless ib
-    bshows = Bshow.where(:ibeacon_id => ib.id)  
-    bs = bshows.sample(1)[0]
-    redirect_to bs.url
+    ib = Ibeacon.where(:url => params[:url]).where(:on => true)
+    unless ib
+      redirect_to '/weixin/dapeis'
+    else
+      bshows = Bshow.where(:ibeacon_id => ib.id)  
+      bs = bshows.sample(1)[0]
+      redirect_to bs.url
+    end
 
     #if true    
     #  @game = Game.find_by_ibeacon_id(ib.id)
@@ -416,7 +419,7 @@ class WeixinController < ApplicationController
 
   def authorize_url(url)
     base_url = "https://open.weixin.qq.com/connect/oauth2/authorize?appid=wx629a5ad4f3fc5f63&response_type=code&scope=snsapi_base&connect_redirect=1&redirect_url=" 
-    base_url += 'http://www.dapeimishu.com/accounts/info/auth/weixin/callback?redirect_url=' + url
+    base_url += 'http://www.dapeimishu.com/accounts/info/auth/weixin/callback?rurl=' + url
   end
 
 

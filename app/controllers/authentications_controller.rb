@@ -39,9 +39,9 @@ class AuthenticationsController < Devise::OmniauthCallbacksController
 
 
   def sign_in_or_redirect
-    if params[:redirect_url]
+    if params[:rurl]
       sign_in @user
-      redirect_to params[:redirect_url]
+      redirect_to params[:rurl]
     else
       sign_in_and_redirect @user
     end
