@@ -20,11 +20,11 @@ class WeixinController < ApplicationController
   end
 
   def ibeacons
-    ib = Ibeacon.where(:url => params[:url]).where(:on => true)
+    ib = Ibeacon.where(:url => params[:url])
     unless ib
       redirect_to '/weixin/dapeis'
     else
-      bshows = Bshow.where(:ibeacon_id => ib.id)  
+      bshows = Bshow.where(:ibeacon_id => ib.id).where(:on => true) 
       bs = bshows.sample(1)[0]
       redirect_to bs.url
     end
