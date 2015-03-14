@@ -8,7 +8,7 @@ class WeixinController < ApplicationController
   skip_before_filter :verify_authenticity_token
   before_filter :check_weixin_legality, :only => [:show, :create]
   before_filter :initialize 
-  before_filter :weixin_authorize, :only => [:ibeacons, :redpack]
+  before_filter :weixin_authorize, :only => [:redpack]
  
   def show
     render :text => params[:echostr]
@@ -20,7 +20,7 @@ class WeixinController < ApplicationController
   end
 
   def ibeacons
-    ib = Ibeacon.where(:url => params[:url])
+    ib = Ibeacon.find_by_url( params[:url])
     unless ib
       redirect_to '/weixin/dapeis'
     else
