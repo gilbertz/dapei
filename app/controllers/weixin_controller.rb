@@ -94,6 +94,7 @@ class WeixinController < ApplicationController
     @brand = Brand.find(params[:id])
     if @brand
       @dapeis = @brand.get_dapeis(@page, @limit)
+      @objs = @dapeis
       @first_page = "/weixin/brand?id=#{params[:id]}"
       @next_page = "/weixin/brand?id=#{params[:id]}&page=#{@page+1}"
     end

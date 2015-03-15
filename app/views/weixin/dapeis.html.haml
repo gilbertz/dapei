@@ -16,6 +16,6 @@
         .like
           %p
             %font{:face => "icon", :size => "2"} 1
-            %font{:face => "微软雅黑"} #{item.likes_count.blank?  ? 0 : item.likes_count}
+            %font{:face => "微软雅黑"} #{item.likes_count.blank?  ? 0 : item.get_dispose_count}
 
 = render 'footer'

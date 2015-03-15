@@ -10,29 +10,6 @@
         \ 
         %font{:face => "icon", :size => "2"}
         %font{:face => "微软雅黑"} #{@brand.get_dispose_count}人气
-  %p
-    .discount
-      .status
-        - if @discount
-          %a{:href=>"/weixin/discount?id=#{@discount.id}"}
-            %p{:align => "center", :style => " background-color:#f861b0; background-position:center; color:#fff"}
-              #{@discount.title} ... 点击查看>>
-
-  - if @page == 1
-    -#.grids
-      .grid-12.grid
-        - brand_intro=@brand.brand_intro
-        - unless brand_intro.blank? 
-          %p
-            = @brand.brand_intro
-            
-            /(点击图片查看大图)
-            /\----上街小编
-        %a
-  - elsif @page > 1
-    %a{:href=>"#{@first_page}"}
-      %p{:align => "center", :style => " background-color:#f861b0; max-width:50px; background-position:center; color:#fff"} 回到品牌
-  / end of grids
 / end of wrapper
 /%hr/
 .wrapper
@@ -48,8 +25,8 @@
       %p{:style => "color:#000"} #{dp.title}
     .grid-7
       %p{:align => "right", :style => "color:#ccccc"}
-        %font{:face => "icon", :size => "2"} 1
-        %font{:face => "微软雅黑"} #{dp.likes_count}人喜欢
+        -#%font{:face => "icon", :size => "2"} 1
+        -#%font{:face => "微软雅黑"} #{dp.likes_count}人喜欢
         \ 
         %font{:face => "icon", :size => "2"} 2
         %font{:face => "微软雅黑"} #{dp.get_dispose_count}人气
