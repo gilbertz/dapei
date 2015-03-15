@@ -71,39 +71,27 @@ class Manage::BrandsController < Manage::BaseController
     brand_id = params[:id]
     brand = Brand.find_by_id(brand_id)
 
-    #unless params[:wide_campaign_img].blank?
-    #  sku = Sku.new({:title => brand.name, :brand_id=>brand.id, :category_id => 101})
-    #  sku.save
-
-    #  img_type = params[:wide_campaign_img].original_filename.split(".").last
-
-    #  Photo.build_photo(current_user, [], params[:wide_campaign_img], img_type, sku.id, "Sku")
-
-    #  render json: {"image_url" => brand.wide_campaign_img(:wide_small)}
-    #  return
-    #end
-
     salt = rand(100)
 
     if params[:logo_file].present?
       tmp = params[:logo_file]
       dir = "logo"
-      brand.wide_avatar_url = "http://qingchao1.qiniudn.com/uploads/#{dir}/#{brand.id}#{salt}.png"
+      brand.wide_avatar_url = "http://dpms.qiniudn.com/uploads/#{dir}/#{brand.id}#{salt}.png"
     elsif params[:logo_white_file].present?
       dir = "logo_white"
-      brand.white_avatar_url = "http://qingchao1.qiniudn.com/uploads/#{dir}/#{brand.id}#{salt}.png"
+      brand.white_avatar_url = "http://dpms.qiniudn.com/uploads/#{dir}/#{brand.id}#{salt}.png"
       tmp = params[:logo_white_file]
     elsif params[:logo_black_file].present?
       dir = "logo_black"
-      brand.black_avatar_url = "http://qingchao1.qiniudn.com/uploads/#{dir}/#{brand.id}#{salt}.png"
+      brand.black_avatar_url = "http://dpms.qiniudn.com/uploads/#{dir}/#{brand.id}#{salt}.png"
       tmp = params[:logo_black_file]
     elsif params[:wide_banner_file].present?
       dir = "wide_banner"
-      brand.wide_banner_url = "http://qingchao1.qiniudn.com/uploads/#{dir}/#{brand.id}#{salt}.png"
+      brand.wide_banner_url = "http://dpms.qiniudn.com/uploads/#{dir}/#{brand.id}#{salt}.png"
       tmp = params[:wide_banner_file]
     elsif params[:wide_avatar_file].present?
       dir = "wide_avatar"
-      brand.wide_avatar_url = "http://qingchao1.qiniudn.com/uploads/#{dir}/#{brand.id}#{salt}.png"
+      brand.wide_avatar_url = "http://dpms.qiniudn.com/uploads/#{dir}/#{brand.id}#{salt}.png"
       tmp = params[:wide_avatar_file]
     elsif params[:wide_campaign_img]
       dir = "campaign"
@@ -121,7 +109,7 @@ class Manage::BrandsController < Manage::BaseController
       brand.save
     end
 
-    render json: {"image_url" => "http://qingchao1.qiniudn.com/uploads/#{dir}/#{brand.id}#{salt}.png"}
+    render json: {"image_url" => "http://dpms.qiniudn.com/uploads/#{dir}/#{brand.id}#{salt}.png"}
   end
   
   private

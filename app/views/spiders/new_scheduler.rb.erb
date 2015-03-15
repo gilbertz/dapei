@@ -90,7 +90,12 @@ end
 
   pages = "<%= p.link %>"
   p pages
-  pages.split('|').each do |page|
+  <% unless @brand_id == 1553 %>
+    pages.split('|').each do |page|
+  <% else %>
+   if true
+     page = pages    
+  <% end %>
     begin
       driver.navigate.to page
     rescue => e

@@ -181,7 +181,7 @@ class Brand < ActiveRecord::Base
     if self.white_avatar_url and self.white_avatar_url != ""
       self.white_avatar_url
     else
-      "http://www.shangjieba.com/assets/img.png"
+      "http://www.dapeimishu.com/assets/img.png"
     end
   end
 
@@ -189,7 +189,7 @@ class Brand < ActiveRecord::Base
     if self.black_avatar_url and self.black_avatar_url != ""
       self.black_avatar_url
     else
-      "http://www.shangjieba.com/assets/img.png"
+      "http://www.dapeimishu.com/assets/img.png"
     end
   end
 
@@ -410,7 +410,7 @@ class Brand < ActiveRecord::Base
         temp = {}
         if size == :api_big
           temp[:img_url]=photo.url(:scaled_full)
-          temp[:img_url] = temp[:img_url].gsub("img.shangjieba", "www.shangjieba")
+          temp[:img_url] = temp[:img_url].gsub("img.dapeimishu", "www.dapeimishu")
         else
           temp[:img_url]=photo.url(size)
         end
@@ -676,7 +676,7 @@ class Brand < ActiveRecord::Base
 
   def update_img_attribute
     ['wide_banner_url', 'white_avatar_url', 'black_avatar_url', 'wide_avatar_url'].each do |attr|
-      eval "self.#{attr} = self.#{attr}.gsub('img.shangjieba.com', 'dpms.qiniudn.com') if self.#{attr}" 
+      eval "self.#{attr} = self.#{attr}.gsub('img.dapeimishu.com', 'dpms.qiniudn.com') if self.#{attr}" 
       eval "self.#{attr} = self.#{attr}.gsub('qingchao1.qiniudn.com', 'dpms.qiniudn.com') if self.#{attr}"
     end
     self.save
