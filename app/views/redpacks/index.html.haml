@@ -9,6 +9,8 @@
     %th Action remark
     %th Min
     %th Max
+    %th suc_url
+    %th fail_url
     %th
     %th
     %th
@@ -22,6 +24,8 @@
       %td= redpack.action_remark
       %td= redpack.min
       %td= redpack.max
+      %td= redpack.suc_url
+      %td= redpack.fail_url
       %td= link_to 'Show', redpack
       %td= link_to 'Edit', edit_redpack_path(redpack)
       %td= link_to 'Destroy', redpack, :method => :delete, :data => { :confirm => 'Are you sure?' }

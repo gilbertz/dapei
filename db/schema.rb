@@ -11,7 +11,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20150311151909) do
+ActiveRecord::Schema.define(:version => 20150317085752) do
 
   create_table "all_tags", :force => true do |t|
     t.string   "name"
@@ -605,9 +605,12 @@ ActiveRecord::Schema.define(:version => 20150311151909) do
     t.integer  "uv"
     t.datetime "created_at", :null => false
     t.datetime "updated_at", :null => false
+    t.string   "uid"
+    t.string   "remark"
   end
 
   add_index "ibeacons", ["beaconid"], :name => "index_ibeacons_on_beaconid"
+  add_index "ibeacons", ["uid"], :name => "index_ibeacons_on_uid"
   add_index "ibeacons", ["url"], :name => "index_ibeacons_on_url"
   add_index "ibeacons", ["user_id"], :name => "index_ibeacons_on_user_id"
 
@@ -1056,6 +1059,8 @@ ActiveRecord::Schema.define(:version => 20150311151909) do
     t.integer  "max"
     t.datetime "created_at",    :null => false
     t.datetime "updated_at",    :null => false
+    t.string   "suc_url"
+    t.string   "fail_url"
   end
 
   add_index "redpacks", ["ibeacon_id"], :name => "index_redpacks_on_ibeacon_id"

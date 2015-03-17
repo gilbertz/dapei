@@ -59,12 +59,12 @@ class WeixinController < ApplicationController
       p "ret=#{ret}"
       $redis.set(key, 1)
       if ret
-        redirect_to 'http://eqxiu.com/s/atV4rM'
+        redirect_to ib.suc_url
       else
-        redirect_to 'http://eqxiu.com/s/ZF18Hp'
+        redirect_to ib.fail_url
       end
     else
-      redirect_to 'http://eqxiu.com/s/ZF18Hp'
+      redirect_to ib.suc_url
     end
   end
 
@@ -419,8 +419,9 @@ class WeixinController < ApplicationController
   private
 
   def authorize_url(url)
-    base_url = "https://open.weixin.qq.com/connect/oauth2/authorize?appid=wx629a5ad4f3fc5f63&response_type=code&scope=snsapi_base&connect_redirect=1&redirect_url=" 
-    base_url += 'http://www.dapeimishu.com/accounts/info/auth/weixin/callback?rurl=' + url
+    #base_url = "https://open.weixin.qq.com/connect/oauth2/authorize?appid=wx629a5ad4f3fc5f63&response_type=code&scope=snsapi_userinfo&connect_redirect=1&redirect_url=" 
+    rurl = 'http://www.dapeimishu.com/accounts/info/auth/weixin/callback?rurl=' + url
+    "https://open.weixin.qq.com/connect/oauth2/authorize?appid=wx629a5ad4f3fc5f63&redirect_uri=#{rurl}&response_type=code&scope=snsapi_userinfo&connect_redirect=1#wechat_redirect"
   end
 
 
