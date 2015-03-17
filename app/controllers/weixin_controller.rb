@@ -59,12 +59,12 @@ class WeixinController < ApplicationController
       p "ret=#{ret}"
       $redis.set(key, 1)
       if ret
-        redirect_to rb.suc_url
+        redirect_to rp.suc_url
       else
-        redirect_to rb.fail_url
+        redirect_to rp.fail_url
       end
     else
-      redirect_to rb.suc_url
+      redirect_to rp.suc_url
     end
   end
 
