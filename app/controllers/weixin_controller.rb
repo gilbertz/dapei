@@ -64,7 +64,7 @@ class WeixinController < ApplicationController
         redirect_to rp.fail_url
       end
     else
-      redirect_to rp.suc_url
+      redirect_to rp.fail_url
     end
   end
 
@@ -421,7 +421,7 @@ class WeixinController < ApplicationController
   def authorize_url(url)
     #base_url = "https://open.weixin.qq.com/connect/oauth2/authorize?appid=wx629a5ad4f3fc5f63&response_type=code&scope=snsapi_userinfo&connect_redirect=1&redirect_url=" 
     rurl = 'http://www.dapeimishu.com/accounts/info/auth/weixin/callback?rurl=' + url
-    "https://open.weixin.qq.com/connect/oauth2/authorize?appid=wx629a5ad4f3fc5f63&redirect_uri=#{rurl}&response_type=code&scope=snsapi_userinfo&connect_redirect=1#wechat_redirect"
+    "https://open.weixin.qq.com/connect/oauth2/authorize?appid=wx629a5ad4f3fc5f63&redirect_uri=#{rurl}&response_type=code&scope=snsapi_base&connect_redirect=1#wechat_redirect"
   end
 
 
