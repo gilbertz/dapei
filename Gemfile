@@ -156,7 +156,7 @@ gem 'acts-as-taggable-on', '~> 3.4.0'
 #gem "slim_scrooge"
 
 gem 'alipay', :github => 'chloerei/alipay' # 支付宝
-gem 'passenger'
+#gem 'passenger'
 
 # 队列
 gem 'sidekiq', '~> 2.17.8'

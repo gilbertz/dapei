@@ -384,6 +384,11 @@ class Matter < ActiveRecord::Base
 
   end
 
+
+  def format_price(price)
+    price.gsub('¥', '').gsub('￥', '')
+  end
+
   
   def self.by_img(img, doc)
     p 'by_img'
@@ -404,9 +409,13 @@ class Matter < ActiveRecord::Base
     m.sub_category_id = doc['sub_category_id']
     m.link = doc['link']
     m.docid = doc['docid']
-    m.price = doc['price'].to_i
-    m.origin_price = doc['origin_price'].to_i if doc['origin_price']
+    m.price = format_price( doc['price'] )
+    m.origin_price = format_price( doc['origin_price'] ) if doc['origin_price']
+    p '###############################################'
+    p doc['sub_category_id']
     m.save
+    p '========================='
+    p m.sub_category_id
   end
  
 
