@@ -3,7 +3,7 @@
     .grids
       .grid-16.grid.text-center
         %p{:style => "font-size:14px;"}
-        - if @objs and @objs.length > @limit
+        - if @objs and @objs.length >= @limit
           %a{:href => "#{@next_page}", :style => "color:#FFF"} 猛戳查看更多！
         -# else
           %a{:href => "#", :style => "color:#FFF"} 下面就没有了... 

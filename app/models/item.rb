@@ -21,7 +21,6 @@ class Item < ActiveRecord::Base
 
   belongs_to :user #, :counter_cache=>true
   belongs_to :category #, :counter_cache=>true
-  has_many :discounts, :as => :discountable, :dependent => :destroy
   has_many :photos, :as => :target #, :dependent=>:destroy
   has_many :rel_items
   has_many :relations

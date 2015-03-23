@@ -18,7 +18,7 @@ defaults: &defaults
   ## If you do change it you have to start over as it's hardcoded into
   ## the database.
 
-  pod_url: "http://www.shangjieba.com"
+  pod_url: "http://www.dapeimishu.com"
 
   ## Setting the bundle of certificate authorities (CA) certificates.
   ## This is operating system specific.
@@ -238,7 +238,8 @@ defaults: &defaults
 
   spec_image_domain: 'http://img.dapeimishu.com:9000'
   
-  remote_image_domain: 'http://dpms.qiniudn.com'
+  #remote_image_domain: 'http://dpms.qiniudn.com'
+  remote_image_domain: 'http://wx.dapeimishu.com'
 
   qiniu_image_domain: 'http://dpms.qiniudn.com'
 
