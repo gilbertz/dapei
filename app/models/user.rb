@@ -1106,6 +1106,7 @@ class User < ActiveRecord::Base
         u.password = password
         u.brand_id = brand.id
         u.remember_me = 1
+        u.apply_type = 2
         u.save 
       end
       u
