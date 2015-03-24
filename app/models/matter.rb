@@ -385,7 +385,7 @@ class Matter < ActiveRecord::Base
   end
 
 
-  def format_price(price)
+  def self.format_price(price)
     price.gsub('¥', '').gsub('￥', '')
   end
 
@@ -409,8 +409,8 @@ class Matter < ActiveRecord::Base
     m.sub_category_id = doc['sub_category_id']
     m.link = doc['link']
     m.docid = doc['docid']
-    m.price = format_price( doc['price'] )
-    m.origin_price = format_price( doc['origin_price'] ) if doc['origin_price']
+    m.price = Matter.format_price( doc['price'] )
+    m.origin_price = Matter.format_price( doc['origin_price'] ) if doc['origin_price']
     p '###############################################'
     p doc['sub_category_id']
     m.save
