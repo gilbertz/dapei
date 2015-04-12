@@ -244,6 +244,7 @@ class Category < ActiveRecord::Base
 
   def refresh_img
     matter =  Matter.where(:sub_category_id => self.id).where('image_name is not null').order('created_at desc').first
+    matter =  Matter.where(:category_id => self.id).where('image_name is not null').order('created_at desc').first unless matter
     self.image_thing = matter.image_name if matter
     self.save
   end

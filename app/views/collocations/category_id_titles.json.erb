@@ -33,7 +33,7 @@
                         <% end %>
                         <% first = false  %>
                         {
-                            "group_name": "服饰",
+                            "group_name": "女装",
                             "thing_id": "<%= c.image_thing %>",
                             "filters": [{"value": "<%= c.id %>", "name": "category_id"}],
                             "type": "thing",
@@ -43,6 +43,51 @@
                     <% end %>
                 <% end %>
             ],
+
+            
+            "girl": [
+                <% unless @girl_categories.blank? %>
+                    <% first = true %>
+                    <% @girl_categories.each do |c| %>
+                        <% unless [121, 123].include?(c.id) %>
+                        <%if not first %>
+                        ,
+                        <% end %>
+                        <% first = false  %>
+                        {
+                            "group_name": "女童",
+                            "thing_id": "<%= c.image_thing %>",
+                            "filters": [{"value": "<%= c.id %>", "name": "category_id"}],
+                            "type": "thing",
+                            "label": "<%= c.name %>"
+                        }
+                        <% end %>
+                    <% end %>
+                <% end %>
+            ], 
+
+
+
+            
+            "boy": [
+                <% unless @boy_categories.blank? %>
+                    <% first = true %>
+                    <% @boy_categories.each do |c| %>
+                        <%if not first %>
+                        ,
+                        <% end %>
+                        <% first = false  %>
+                        {
+                            "group_name": "男童",
+                            "thing_id": "<%= c.image_thing %>",
+                            "filters": [{"value": "<%= c.id %>", "name": "category_id"}],
+                            "type": "thing",
+                            "label": "<%= c.name %>"
+                        }
+                        <% end %>
+                <% end %>
+            ],
+
 
             "others": [
                 {"group_name": "个性定制", "thing_id": "1391925399486", "weight": "1", "type": "text", "label": "自定义文字"},

@@ -23216,7 +23216,7 @@ App.prototype.init = function () {
         }
     }
     var l = [];
-    l.push(new AppAllItemsTab(this, {title: "选择宝贝", selected: n == "fashion", trackelement: "fashion", trackcontext: "fashion123", pickerCats: Array.prototype.concat( this.categories.user || [], this.categories.fashion || [], this.categories.filler || [], this.categories.brand || []), productPlacement: this.productPlacement, showSponsored: this.showSponsored}));
+    l.push(new AppAllItemsTab(this, {title: "选择宝贝", selected: n == "fashion", trackelement: "fashion", trackcontext: "fashion123", pickerCats: Array.prototype.concat( this.categories.user || [], this.categories.fashion || [], this.categories.girl || [], this.categories.boy || [], this.categories.filler || [], this.categories.brand || []), productPlacement: this.productPlacement, showSponsored: this.showSponsored}));
 //    var o = new AppAllItemsTab(this, {title: "选择宝贝", selected: n == "home", trackelement: "home", trackcontext: "home", pickerCats: Array.prototype.concat(this.categories.home || [], this.categories.filler || []), productPlacement: this.productPlacement, showSponsored: this.showSponsored});
 //    Event.addListener(o, "select", function () {
 //        Beacon.log("view", {name: "home_tab"}, true)

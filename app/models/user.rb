@@ -1122,6 +1122,16 @@ class User < ActiveRecord::Base
     return au.uid  if au
   end
 
+  def get_following_brands
+    users = []
+    fus = self.following_by_type('User')
+    fus.each do |u|
+      users << u if u.apply_type > 1
+    end
+    users
+  end
+
+
   private
   def get_pod_url
     pod_url = AppConfig[:pod_url].dup

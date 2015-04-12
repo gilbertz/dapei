@@ -28,24 +28,6 @@ class WeixinController < ApplicationController
       bs = bshows.sample(1)[0]
       redirect_to bs.url
     end
-
-    #if true    
-    #  @game = Game.find_by_ibeacon_id(ib.id)
-    #  redirect_to "http://51self.com/weitest/#{@game.game_id}"
-    #elsif true
-    #  @card = Card.find_by_ibeacon_id(ib.id)    
-    #  render 'card', :layout => 'weixin' 
-    #else
-    #  rp = Redpack.find_by_ibeacon_id(ib.id)
-    #  ret = `cd #{Rails.root} && php redpack.php #{current_user.get_openid} #{rp.sender_name} #{rp.wishing} #{rp.action_title} #{rp.action_remark} #{rp.min} #{rp.max}`
-    #  p "ret=#{ret}"
-    #  if ret
-    #    render :text => 'suc' 
-    # 
-    #  else
-    #    render :text => 'fail'
-    #  end
-    #end
   end
 
    
@@ -279,40 +261,34 @@ class WeixinController < ApplicationController
   end
 
   def pre
-      domain = "http://www.dapeimishu.com"
- 
-      @objs = []
-      @pos_img = "#{domain}/assets/weixin_pos.png" 
-      @help_txt = '''
-
-1.点击下面的 + 然后发送位置, 查看周边新品和优惠 
-
-5.发送 h , 查看帮助
-'''
-      @help =  {"title" => "使用帮助", "img"=>@pos_img, "url"=>"#{domain}/weixin/help","desc"=>"#{@help_txt}" } 
- end
-
-  def parse_option
-      if params[:option]
-         ops = params[:option].split('_')
-         #p "!!!", ops
-         if ops.length >= 4
-            params[:index] = ops[1]
-            params[:lng] = ops[2].gsub("dot", ".")
-            params[:lat] = ops[3].gsub("dot", ".") 
-            if ops[4]
-              params[:q] = ops[4]
-            end
-         end
-         #p params
-      end
   end
 
+  def parse_option
+  end
+
+  def query_state
+    key = "#{params[:ek]}_scan"
+    if $redis.get(key)
+      uid = $redis.get(key)
+      current_user = User.find uid
+      sign_in_and_redirect @user
+    else
+      render :text =>'nooo'
+    end
+  end
+  
   def create
     if params[:xml][:MsgType] == "event"
-       type =  params[:xml][:Event]
+       type =  params[:xml][:Event].downcase
        if type == "subscribe"
-         render "get_started", :formats => :xml
+         @text = '欢迎关注搭配蜜书'
+         render "text", :formats => :xml
+       end
+       if type == "scan"
+         key = "#{params[:xml][:EventKey]}_scan"
+         $redis.set(key, @uid) if @uid
+         @text ='您已经登录搭配蜜书' 
+         render "text", :formats => :xml 
        end
     end
     if params[:xml][:MsgType] == "text"
@@ -326,29 +302,10 @@ class WeixinController < ApplicationController
        elsif @q == "h"
          render "help", :formats => :xml
        else
-         @index = "item"
          @page = 1
          @limit = 10
-         if @q.index("dp")
-           @index= "shop"
-           @q = @q.gsub("dp", "")
-         end
-         if @q.index("yh")
-           @index= "discount"
-           @q = @q.gsub("yh", "")
-         end
   
-         params_dict =  {:index => @index, :q => @q, :limit=>@limit,  :page => @page, :from=>"weixin"} 
-         res = RestClient.get "http://localhost:8080/#{@index}/info/search.json", { :params => params_dict }
-         #p res
-         @res = JSON.parse(res)
-         key = "#{@index}s"  
-         if not @res[key] or @res[key].length <= 0
-           render "guide", :formats => :xml
-         else
-           render "#{key}", :formats => :xml
-         end
-         #render "search", :formats => :xml
+         render "guide", :formats => :xml
        end
     end
 
@@ -435,6 +392,9 @@ class WeixinController < ApplicationController
   def check_weixin_legality
     array = [Rails.configuration.weixin_token, params[:timestamp], params[:nonce]].sort
     render :text => "Forbidden", :status => 403 if params[:signature] != Digest::SHA1.hexdigest(array.join)
+    openid = params[:xml][:FromUserName]
+    wu = Authentication.find_by_uid( openid )
+    @uid = wu.user_id if wu
   end
   
   def initialize

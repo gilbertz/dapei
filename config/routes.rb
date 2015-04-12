@@ -525,6 +525,7 @@ Shangjieba::Application.routes.draw do
   get 'api/weixin' => 'weixin#show', :as => "weixin"
   get 'api/weixin/test' => 'weixin#test', :as => "weixin_test"
   post 'api/weixin' => 'weixin#create', :as => "weixin_path"
+  get 'weixin/query_state' => 'weixin#query_state', :as => "weixin_query"
 
   get 'api/dianping' => 'dianping#show', :as => "dianping"
   get 'api/dianping/test' => 'dianping#test', :as => "dianping_test"

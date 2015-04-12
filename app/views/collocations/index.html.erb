@@ -223,18 +223,48 @@
             "fashion": [
                 <% unless @rule_categories.blank? %>
                     <% @rule_categories.each do |c| %>
-                        <% unless [121, 123].include?(c.id) %>
                         {
-                            "group_name": "服饰",
-                            "thing_id": "<%= c.thing_img_id %>",
+                            "group_name": "女装",
+                            "thing_id": "<%= c.get_image_thing %>",
                             "filters": [{"value": "<%= c.id %>", "name": "category_id"}],
                             "type": "thing",
                             "label": "<%= c.name %>"
                         },
-                        <% end %>
                     <% end %>
                 <% end %>
             ],
+
+
+            "girl": [
+                <% unless @girl_categories.blank? %>
+                    <% @girl_categories.each do |c| %>
+                        {
+                            "group_name": "女童",
+                            "thing_id": "<%= c.get_image_thing %>",
+                            "filters": [{"value": "<%= c.id %>", "name": "category_id"}],
+                            "type": "thing",
+                            "label": "<%= c.name %>"
+                        },
+                    <% end %>
+                <% end %>
+            ],
+
+
+            "boy": [
+                <% unless @boy_categories.blank? %>
+                    <% @boy_categories.each do |c| %>
+                        {
+                            "group_name": "男童",
+                            "thing_id": "<%= c.get_image_thing %>",
+                            "filters": [{"value": "<%= c.id %>", "name": "category_id"}],
+                            "type": "thing",
+                            "label": "<%= c.name %>"
+                        },
+                    <% end %>
+                <% end %>
+            ],
+             
+
             "filler": [
                 <% @sucai_categories .each do |c|%>
                    {"group_name": "素材", "thing_id": "<%= c.image_thing %>", "weight": "<%= c.weight%>", "filters": [{"value": "<%= c.id %>", "name": "category_id"}], "type": "thing", "label": "<%= c.name%>"},

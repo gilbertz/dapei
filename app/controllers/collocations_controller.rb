@@ -316,14 +316,17 @@ class CollocationsController < ApplicationController
     @rule_categories += Category.where("id > 3 and id <= 10 and thing_img_id is not null").where( :is_active => true )
     @rule_categories += Category.where("id = 3").where( :is_active => true )
 
+    @boy_categories = Category.where(" id < 100 and parent_id = 9").where(:is_active => true).order("weight desc")
+    @girl_categories = Category.where("id < 100 and parent_id = 10").where(:is_active => true).order("weight desc") 
+
     @sucai_categories = Category.where("id > 10 and parent_id = 1140").where(:is_active => true).order("weight desc")
 
     if @su
       @user_categories =  Category.by_user(@su.id)
-    end    
+    end  
+    @brands = current_user.get_following_brands
 
     @user = @su
-    get_brands
   end
 
 
@@ -333,7 +336,7 @@ class CollocationsController < ApplicationController
     @rule_categories += Category.where("id = 3").where( :is_active => true )
 
     @sucai_categories = Category.where("id > 10 and parent_id = 1140").where(:is_active => true).order("weight desc")
-    @home_categories = Category.where("parent_id = 10").where(:is_active => true).order("weight desc")
+    #@home_categories = Category.where("parent_id = 10").where(:is_active => true).order("weight desc")
     #@user_categories =  Category.where(:user_id => @su.id).where(:is_active => true).order("weight desc")   
     if @su
       @user_categories =  Category.by_user(@su.id)
